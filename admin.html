@@ -89,11 +89,8 @@ button.outline:hover{background:var(--ink);color:var(--paper);border-color:var(-
   <h2 class="admin-section-title">bình luận</h2>
   <section id="comments"></section>
 </main>
-<script type="module">
-import { auth, db } from './firebase-config.js';
-import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
-import { collection, query, orderBy, getDocs, deleteDoc, doc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
-
+<script>
+(function(){
 const loginBtn = document.getElementById('login-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const loadBtn = document.getElementById('load-btn');
@@ -102,7 +99,48 @@ const statusEl = document.getElementById('status');
 const commentsStatusEl = document.getElementById('comments-status');
 const messagesEl = document.getElementById('messages');
 const commentsEl = document.getElementById('comments');
-const provider = new GoogleAuthProvider();
+const dynamicImport = (url) => new Function('url', 'return import(url)')(url);
+let fbPromise = null;
+let auth = null, db = null, provider = null, signInWithPopup = null, signOut = null, onAuthStateChanged = null, collection = null, query = null, orderBy = null, getDocs = null, deleteDoc = null, doc = null, updateDoc = null, serverTimestamp = null;
+
+function ensureAdminFirebase() {
+  if (fbPromise) return fbPromise;
+  fbPromise = Promise.all([
+    dynamicImport('./firebase-config.js'),
+    dynamicImport('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js'),
+    dynamicImport('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
+  ]).then(([cfg, authMod, fsMod]) => {
+    auth = cfg.auth;
+    db = cfg.db;
+    provider = new authMod.GoogleAuthProvider();
+    signInWithPopup = authMod.signInWithPopup;
+    signOut = authMod.signOut;
+    onAuthStateChanged = authMod.onAuthStateChanged;
+    collection = fsMod.collection;
+    query = fsMod.query;
+    orderBy = fsMod.orderBy;
+    getDocs = fsMod.getDocs;
+    deleteDoc = fsMod.deleteDoc;
+    doc = fsMod.doc;
+    updateDoc = fsMod.updateDoc;
+    serverTimestamp = fsMod.serverTimestamp;
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        statusEl.textContent = `Đã đăng nhập: ${user.email}`;
+        loadMessages();
+        loadComments();
+      } else {
+        statusEl.textContent = 'Chỉ email admin trong Firestore Rules mới đọc được lời nhắn.';
+        commentsStatusEl.textContent = 'Bình luận mới sẽ nằm ở trạng thái chờ duyệt.';
+      }
+    });
+    return true;
+  }).catch((err) => {
+    fbPromise = null;
+    throw err;
+  });
+  return fbPromise;
+}
 
 function escapeHtml(value) {
   return String(value || '').replace(/[&<>'"]/g, (char) => ({
@@ -201,6 +239,7 @@ async function loadComments() {
 
 loginBtn.addEventListener('click', async () => {
   try {
+    await ensureAdminFirebase();
     await signInWithPopup(auth, provider);
   } catch (error) {
     console.error(error);
@@ -209,13 +248,22 @@ loginBtn.addEventListener('click', async () => {
 });
 
 logoutBtn.addEventListener('click', async () => {
-  await signOut(auth);
+  try {
+    await ensureAdminFirebase();
+    await signOut(auth);
+  } catch (e) {}
   messagesEl.innerHTML = '';
   commentsEl.innerHTML = '';
 });
 
-loadBtn.addEventListener('click', loadMessages);
-loadCommentsBtn.addEventListener('click', loadComments);
+loadBtn.addEventListener('click', async () => {
+  try { await ensureAdminFirebase(); } catch (e) {}
+  loadMessages();
+});
+loadCommentsBtn.addEventListener('click', async () => {
+  try { await ensureAdminFirebase(); } catch (e) {}
+  loadComments();
+});
 
 messagesEl.addEventListener('click', async (event) => {
   const id = event.target?.dataset?.delete;
@@ -223,6 +271,7 @@ messagesEl.addEventListener('click', async (event) => {
   if (!confirm('Xóa lời nhắn này?')) return;
 
   try {
+    await ensureAdminFirebase();
     await deleteDoc(doc(db, 'anonymous_messages', id));
     await loadMessages();
   } catch (error) {
@@ -239,6 +288,7 @@ commentsEl.addEventListener('click', async (event) => {
   if (!id) return;
 
   try {
+    await ensureAdminFirebase();
     if (action === 'approve') {
       await updateDoc(doc(db, 'article_comments', id), { status: 'approved' });
     }
@@ -263,16 +313,10 @@ commentsEl.addEventListener('click', async (event) => {
   }
 });
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    statusEl.textContent = `Đã đăng nhập: ${user.email}`;
-    loadMessages();
-    loadComments();
-  } else {
-    statusEl.textContent = 'Chỉ email admin trong Firestore Rules mới đọc được lời nhắn.';
-    commentsStatusEl.textContent = 'Bình luận mới sẽ nằm ở trạng thái chờ duyệt.';
-  }
-});
+if (location.protocol !== 'file:') {
+  ensureAdminFirebase().catch(() => {});
+}
+})();
 </script>
 
 <script id="tellstory-copy-credit">

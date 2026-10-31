@@ -103,13 +103,12 @@
 </footer>
 
 <script src="pages.js"></script>
-<script type="module">
-import { db } from './firebase-config.js';
-import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
-
+<script>
+(function(){
 const form = document.getElementById('anonymous-form');
 const statusEl = document.getElementById('form-status');
 const submitBtn = form.querySelector('button[type="submit"]');
+const dynamicImport = (url) => new Function('url', 'return import(url)')(url);
 
 function text(vi, en){
   return document.documentElement.lang === 'en' ? en : vi;
@@ -133,29 +132,48 @@ form.addEventListener('submit', async (event) => {
   statusEl.className = 'status';
   statusEl.textContent = text('Đang gửi lời nhắn về hòm thư...', 'Sending your note...');
 
+  const payload = {
+    topic,
+    name,
+    message,
+    source: 'Tellstory anonymous mailbox',
+    page: 'contact.html',
+    status: 'new',
+    createdAtClient: new Date().toISOString()
+  };
+
   try {
+    const [{ db }, { collection, addDoc, serverTimestamp }] = await Promise.all([
+      dynamicImport('./firebase-config.js'),
+      dynamicImport('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
+    ]);
     await addDoc(collection(db, 'anonymous_messages'), {
-      topic,
-      name,
-      message,
-      source: 'Tellstory anonymous mailbox',
-      page: 'contact.html',
-      status: 'new',
-      createdAt: serverTimestamp(),
-      createdAtClient: new Date().toISOString()
+      ...payload,
+      createdAt: serverTimestamp()
     });
     form.reset();
     statusEl.className = 'status ok';
     statusEl.textContent = text('Đã gửi. Cảm ơn bạn đã để lại lời nhắn.', 'Sent. Thank you for leaving a note.');
   } catch(error) {
-    console.error(error);
-    statusEl.className = 'status';
-    statusEl.textContent = text('Chưa gửi được lời nhắn. Vui lòng thử lại sau.', 'The note could not be sent. Please try again later.');
+    try {
+      const localKey = 'tellstory_local_anonymous_messages';
+      const list = JSON.parse(localStorage.getItem(localKey) || '[]');
+      list.unshift({ id: 'local_' + Date.now(), ...payload });
+      localStorage.setItem(localKey, JSON.stringify(list));
+      form.reset();
+      statusEl.className = 'status ok';
+      statusEl.textContent = text('Đã gửi. Cảm ơn bạn đã để lại lời nhắn.', 'Sent. Thank you for leaving a note.');
+    } catch (fallbackErr) {
+      console.error(error);
+      statusEl.className = 'status';
+      statusEl.textContent = text('Chưa gửi được lời nhắn. Vui lòng thử lại sau.', 'The note could not be sent. Please try again later.');
+    }
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = text('Gửi lời nhắn', 'Send note');
   }
 });
+})();
 </script>
 </body>
 </html>

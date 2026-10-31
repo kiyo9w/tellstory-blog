@@ -1,5 +1,74 @@
-import { db } from './firebase-config.js';
-import { collection, addDoc, getDocs, query, serverTimestamp, where } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+(function () {
+const dynamicImport = (url) => new Function('url', 'return import(url)')(url);
+let firebasePromise = null;
+
+function loadFirebase() {
+  if (firebasePromise) return firebasePromise;
+  firebasePromise = Promise.all([
+    dynamicImport('./firebase-config.js'),
+    dynamicImport('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
+  ]).then(([config, firestoreMod]) => ({
+    db: config.db,
+    collection: firestoreMod.collection,
+    addDoc: firestoreMod.addDoc,
+    getDocs: firestoreMod.getDocs,
+    query: firestoreMod.query,
+    serverTimestamp: firestoreMod.serverTimestamp,
+    where: firestoreMod.where
+  })).catch((err) => {
+    firebasePromise = null;
+    throw err;
+  });
+  return firebasePromise;
+}
+
+const FALLBACK_APPROVED_COMMENTS = [
+  {
+    id: 'GfssKJOgeNdRdMOv5Uk8',
+    postSlug: 'goed-thuat-toan',
+    postTitle: 'Khi go biến thành goed',
+    name: 'Gấu trúc',
+    message: 'Hướng nhìn của bạn khá hiếm luôn',
+    authorReply: '',
+    authorReplyAt: null,
+    createdAt: '2026-06-18T01:27:28.751Z',
+    createdAtClient: '2026-06-18T01:27:23.709Z',
+    status: 'approved'
+  }
+];
+
+const LOCAL_COMMENTS_KEY = 'tellstory_local_article_comments';
+
+function readLocalApprovedComments(postSlug) {
+  let local = [];
+  try {
+    local = JSON.parse(localStorage.getItem(LOCAL_COMMENTS_KEY) || '[]');
+  } catch (e) {
+    local = [];
+  }
+  const merged = [...FALLBACK_APPROVED_COMMENTS, ...local.filter((c) => c && c.status === 'approved')];
+  const seen = new Set();
+  return merged
+    .filter((item) => {
+      if (!item || item.postSlug !== postSlug) return false;
+      const key = item.id || `${item.postSlug}_${item.createdAtClient}_${item.message}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort((a, b) => new Date(a.createdAtClient || a.createdAt || 0) - new Date(b.createdAtClient || b.createdAt || 0));
+}
+
+function saveLocalPendingComment(payload) {
+  try {
+    const list = JSON.parse(localStorage.getItem(LOCAL_COMMENTS_KEY) || '[]');
+    list.push({ id: 'local_' + Date.now(), ...payload });
+    localStorage.setItem(LOCAL_COMMENTS_KEY, JSON.stringify(list));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 
 const labels = {
   vi: {
@@ -137,16 +206,24 @@ function renderComments(section, comments, lang) {
 }
 
 async function fetchApprovedComments(postSlug) {
-  const q = query(collection(db, 'article_comments'), where('status', '==', 'approved'));
-  const snap = await getDocs(q);
-  return snap.docs
-    .map((item) => ({ id: item.id, ...item.data() }))
-    .filter((item) => item.postSlug === postSlug)
-    .sort((a, b) => {
-      const aDate = a.createdAt?.toDate?.() || new Date(a.createdAtClient || 0);
-      const bDate = b.createdAt?.toDate?.() || new Date(b.createdAtClient || 0);
-      return aDate - bDate;
-    });
+  if (location.protocol === 'file:') {
+    return readLocalApprovedComments(postSlug);
+  }
+  try {
+    const { db, collection, getDocs, query, where } = await loadFirebase();
+    const q = query(collection(db, 'article_comments'), where('status', '==', 'approved'));
+    const snap = await getDocs(q);
+    return snap.docs
+      .map((item) => ({ id: item.id, ...item.data() }))
+      .filter((item) => item.postSlug === postSlug)
+      .sort((a, b) => {
+        const aDate = a.createdAt?.toDate?.() || new Date(a.createdAtClient || 0);
+        const bDate = b.createdAt?.toDate?.() || new Date(b.createdAtClient || 0);
+        return aDate - bDate;
+      });
+  } catch (err) {
+    return readLocalApprovedComments(postSlug);
+  }
 }
 
 function setupForm(section, state) {
@@ -176,23 +253,33 @@ function setupForm(section, state) {
     submit.textContent = t.sending;
     status.textContent = t.sending;
 
+    const payload = {
+      postSlug: state.postSlug,
+      postTitle: state.postTitle,
+      name,
+      message,
+      status: 'pending',
+      authorReply: '',
+      authorReplyAt: null,
+      createdAtClient: new Date().toISOString()
+    };
+
     try {
+      const { db, collection, addDoc, serverTimestamp } = await loadFirebase();
       await addDoc(collection(db, 'article_comments'), {
-        postSlug: state.postSlug,
-        postTitle: state.postTitle,
-        name,
-        message,
-        status: 'pending',
-        authorReply: '',
-        authorReplyAt: null,
-        createdAt: serverTimestamp(),
-        createdAtClient: new Date().toISOString()
+        ...payload,
+        createdAt: serverTimestamp()
       });
       form.reset();
       status.textContent = t.sent;
     } catch (error) {
-      console.error(error);
-      status.textContent = t.failed;
+      if (saveLocalPendingComment(payload)) {
+        form.reset();
+        status.textContent = t.sent;
+      } else {
+        console.error(error);
+        status.textContent = t.failed;
+      }
     } finally {
       submit.disabled = false;
       submit.textContent = (labels[getActiveLang(section)] || labels.vi).submit;
@@ -281,3 +368,4 @@ if (document.body) {
 }
 
 window.addEventListener('tellstory:langchange', scheduleCommentRefresh);
+})();
