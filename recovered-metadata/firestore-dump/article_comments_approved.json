@@ -1,0 +1,39 @@
+[
+  {
+    "document": {
+      "name": "projects/tellstory-blog/databases/(default)/documents/article_comments/GfssKJOgeNdRdMOv5Uk8",
+      "fields": {
+        "postSlug": {
+          "stringValue": "goed-thuat-toan"
+        },
+        "postTitle": {
+          "stringValue": "Khi go biến thành goed"
+        },
+        "name": {
+          "stringValue": "Gấu trúc"
+        },
+        "message": {
+          "stringValue": "Hướng nhìn của bạn khá hiếm luôn"
+        },
+        "authorReply": {
+          "stringValue": ""
+        },
+        "authorReplyAt": {
+          "nullValue": null
+        },
+        "createdAtClient": {
+          "stringValue": "2026-06-18T01:27:23.709Z"
+        },
+        "createdAt": {
+          "timestampValue": "2026-06-18T01:27:28.751Z"
+        },
+        "status": {
+          "stringValue": "approved"
+        }
+      },
+      "createTime": "2026-06-18T01:27:28.840358Z",
+      "updateTime": "2026-06-18T01:28:33.994375Z"
+    },
+    "readTime": "2026-10-31T18:58:26.116696Z"
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "root_evidence_id": "ev_7cd8d8927dceb3913c94c72c4452828d8a42b5c11cfec0e7897b21315684a84e",
+  "inline_js_evidence_id": "ev_b98de6dd9f399df9434f716c10162483fea5b42d2b95728531138982db093437",
+  "post_fix_inline_js_evidence_id": "ev_7d59a4f86fc07358c33ca5a80de42fcf30af54a626b77b37f18f299b0528add7",
+  "client_hash_gates": {
+    "L01": {
+      "label": "Learner A",
+      "sha256": "3ae88e74b4f6e7e58bc12ed8cd36fe2161aa15ed55301c2aa4371798bb0e43fc"
+    },
+    "L02": {
+      "label": "Learner B",
+      "sha256": "dcfbf8123c0e3dce49207dbe2d8e9b9bd513afad5c593fd4cb60370e7727cc88"
+    },
+    "teacher": {
+      "label": "Teacher / Admin Report",
+      "sha256": "91fdf38c3bb5c676e35b1a3b9306635f14c07421eb94f37cb5940f25e10cc8e0"
+    }
+  },
+  "syntax_errors_detected_and_repaired": [
+    "nguoi-thay-bien-mat.html (#tellstory-copy-credit unescaped multiline string)",
+    "nguoi-thay-bien-mat-en.html (#tellstory-copy-credit unescaped multiline string)",
+    "pizza-4ps-training.html (#tellstory-copy-credit unescaped multiline string)",
+    "lms-khong-chet.html (#tellstory-copy-credit unescaped multiline string)",
+    "post-template.html (#tellstory-copy-credit unescaped multiline string)"
+  ]
+}

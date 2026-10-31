@@ -70,10 +70,7 @@ document.addEventListener('copy', function(e) {
   const selected = window.getSelection().toString();
   if (!selected || selected.length < 40) return;
 
-  const credit = "
-
-Nguồn: Tellstory blog · Bui Tong Giang
-" + window.location.href;
+  const credit = "\n\nNguồn: Tellstory blog · Bui Tong Giang\n" + window.location.href;
   e.clipboardData.setData('text/plain', selected + credit);
   e.preventDefault();
 });
