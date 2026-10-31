@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo bộ ôn tập động từ bất quy tắc theo cụm</title>
+<meta name="description" content="Một mini app mô phỏng cách thuật toán nhìn lỗi goed như tín hiệu của cả cụm động từ bất quy tắc.">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/irregular-verb-scheduler-demo.html">
+<meta property="og:title" content="Demo bộ ôn tập động từ bất quy tắc theo cụm">
+<meta property="og:description" content="Một mini app mô phỏng cách thuật toán nhìn lỗi goed như tín hiệu của cả cụm động từ.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tellstory-blog.web.app/irregular-verb-scheduler-demo.html">
+<meta property="og:site_name" content="Tellstory blog">
+<meta property="og:image" content="https://tellstory-blog.web.app/goed.png">
+<meta property="og:image:alt" content="Demo bộ ôn tập động từ bất quy tắc theo cụm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Demo bộ ôn tập động từ bất quy tắc theo cụm">
+<meta name="twitter:description" content="Một mini app mô phỏng thuật toán ôn tập theo cụm lỗi.">
+<meta name="twitter:image" content="https://tellstory-blog.web.app/goed.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;
+  --paper:#F6F1E8;--paper-2:#EDE8DC;--paper-3:#E2DBCB;
+  --rule:rgba(246,241,232,.15);--red:#8B2A1A;--red-soft:#B85D74;--pink:#F4B5C8;--gold:#A07830;--gold-light:#C49A48;--canvas:#0E0C0A;
+}
+html{scroll-behavior:smooth;}
+body{min-height:100vh;background:var(--canvas);color:var(--paper);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 14% 20%,rgba(139,42,26,.34),transparent 28%),radial-gradient(circle at 84% 24%,rgba(244,181,200,.18),transparent 30%),radial-gradient(circle at 62% 82%,rgba(196,154,72,.16),transparent 34%),linear-gradient(135deg,#0E0C0A 0%,#17110F 48%,#0E0C0A 100%);z-index:-3;}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(246,241,232,.035) 1px, transparent 1px),linear-gradient(90deg,rgba(246,241,232,.035) 1px, transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,rgba(0,0,0,.95),rgba(0,0,0,.2));z-index:-2;pointer-events:none;}
+.demo-nav{position:fixed;top:1rem;left:1rem;z-index:50;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.demo-nav a,.lang-btn{display:inline-flex;align-items:center;justify-content:center;padding:.55rem .85rem;color:rgba(246,241,232,.76);text-decoration:none;background:rgba(246,241,232,.08);border:1px solid rgba(246,241,232,.14);backdrop-filter:blur(10px);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .2s ease;}
+.demo-nav a:hover,.lang-btn:hover,.lang-btn.active{background:var(--paper);color:var(--ink);border-color:var(--paper);}
+.hero{min-height:72vh;display:flex;align-items:center;padding:7rem 8vw 4rem;position:relative;overflow:hidden;}
+.hero::after{content:'goed';position:absolute;right:3vw;bottom:-4rem;font-family:'Playfair Display',Georgia,serif;font-size:clamp(8rem,22vw,20rem);line-height:.8;color:rgba(246,241,232,.035);letter-spacing:-.08em;pointer-events:none;}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(196,154,72,.86);margin-bottom:1.6rem;}
+.hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.25rem,5vw,5rem);line-height:1.02;max-width:880px;margin-bottom:1.5rem;}
+.hero h1 em{font-style:italic;color:var(--pink);}
+.hero p{max-width:620px;color:rgba(246,241,232,.66);font-size:1rem;line-height:1.95;font-weight:300;}
+.hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2rem;}
+.btn{border:1px solid rgba(246,241,232,.18);background:rgba(246,241,232,.09);color:var(--paper);padding:.85rem 1.05rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all .2s ease;backdrop-filter:blur(10px);}
+.btn:hover{background:var(--paper);color:var(--ink);border-color:var(--paper);}
+.btn.primary{background:rgba(244,181,200,.18);border-color:rgba(244,181,200,.45);color:#FFE7EF;}
+.btn.primary:hover{background:var(--pink);color:var(--ink);}
+.demo-shell{width:min(1240px,92vw);margin:0 auto 6rem;display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:1rem;align-items:start;}
+.panel{border:1px solid rgba(246,241,232,.14);background:rgba(246,241,232,.07);backdrop-filter:blur(14px);box-shadow:0 24px 70px rgba(0,0,0,.26);position:relative;overflow:hidden;}
+.panel::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 32%,rgba(244,181,200,.035));pointer-events:none;}
+.panel-head{padding:1.15rem 1.25rem;border-bottom:1px solid rgba(246,241,232,.12);position:relative;z-index:1;}
+.panel-kicker{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:rgba(196,154,72,.78);margin-bottom:.4rem;}
+.panel-title{font-family:'Playfair Display',Georgia,serif;font-size:1.45rem;line-height:1.2;color:rgba(246,241,232,.96);}
+.panel-body{padding:1.15rem 1.25rem;position:relative;z-index:1;}
+.vocab-list{display:flex;flex-direction:column;gap:.75rem;}
+.cluster-card{border:1px solid rgba(246,241,232,.11);background:rgba(0,0,0,.16);padding:.85rem;cursor:pointer;transition:all .2s ease;}
+.cluster-card.active{border-color:rgba(244,181,200,.55);background:rgba(244,181,200,.12);box-shadow:0 0 0 1px rgba(244,181,200,.12),0 0 32px rgba(244,181,200,.08);}
+.cluster-top{display:flex;align-items:center;justify-content:space-between;gap:.8rem;margin-bottom:.55rem;}
+.cluster-name{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--pink);}
+.cluster-score{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(246,241,232,.68);}
+.verb-grid{display:grid;grid-template-columns:1fr;gap:.35rem;}
+.verb-btn{width:100%;display:flex;justify-content:space-between;gap:.5rem;border:1px solid rgba(246,241,232,.1);background:rgba(246,241,232,.045);color:rgba(246,241,232,.78);padding:.44rem .55rem;font-family:'JetBrains Mono',monospace;font-size:10px;cursor:pointer;transition:all .18s ease;text-align:left;}
+.verb-btn:hover,.verb-btn.active{background:rgba(246,241,232,.14);color:var(--paper);border-color:rgba(246,241,232,.22);}
+.practice-card{min-height:100%;}
+.big-word{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;margin-bottom:1.15rem;}
+.base-word{font-family:'Playfair Display',Georgia,serif;font-size:4.5rem;line-height:.85;color:var(--paper);letter-spacing:-.06em;}
+.arrow{font-family:'JetBrains Mono',monospace;color:rgba(246,241,232,.4);font-size:1.1rem;}
+.past-word{font-family:'Playfair Display',Georgia,serif;font-size:2.15rem;color:var(--pink);font-style:italic;}
+.sentence{font-size:1.05rem;line-height:1.8;color:rgba(246,241,232,.74);margin-bottom:1.1rem;border-left:2px solid rgba(244,181,200,.45);padding-left:1rem;}
+.answer-line{display:grid;grid-template-columns:1fr auto;gap:.55rem;margin:1rem 0 .8rem;}
+.answer-line input{width:100%;border:1px solid rgba(246,241,232,.16);background:rgba(0,0,0,.22);color:var(--paper);padding:.78rem .9rem;font-family:'JetBrains Mono',monospace;font-size:.9rem;outline:none;}
+.answer-line input:focus{border-color:rgba(244,181,200,.5);box-shadow:0 0 0 3px rgba(244,181,200,.08);}
+.small-buttons{display:flex;gap:.45rem;flex-wrap:wrap;margin-bottom:1rem;}
+.chip{border:1px solid rgba(246,241,232,.12);background:rgba(246,241,232,.045);color:rgba(246,241,232,.72);padding:.45rem .62rem;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .18s ease;}
+.chip:hover{background:rgba(244,181,200,.16);border-color:rgba(244,181,200,.36);color:var(--paper);}
+.mini-metrics{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-top:1.1rem;}
+.metric{border:1px solid rgba(246,241,232,.11);background:rgba(0,0,0,.17);padding:.8rem;}
+.metric-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:rgba(246,241,232,.45);margin-bottom:.3rem;}
+.metric-value{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;line-height:1;color:var(--paper);}
+.result-status{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;padding:.38rem .56rem;border:1px solid rgba(246,241,232,.12);background:rgba(246,241,232,.055);color:var(--pink);margin-bottom:1rem;}
+.result-status.correct{color:#CFE8B8;border-color:rgba(207,232,184,.35);background:rgba(207,232,184,.08);}
+.result-status.over{color:var(--pink);border-color:rgba(244,181,200,.45);background:rgba(244,181,200,.12);}
+.result-status.forget{color:rgba(246,241,232,.72);}
+.explain{color:rgba(246,241,232,.68);font-size:.9rem;line-height:1.85;margin-bottom:1rem;}
+.calc-box{border:1px solid rgba(246,241,232,.12);background:rgba(0,0,0,.2);padding:.9rem;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.7;color:rgba(246,241,232,.76);white-space:normal;}
+.calc-box strong{color:var(--pink);font-weight:400;}
+.delta-grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-top:.8rem;}
+.delta{border:1px solid rgba(246,241,232,.1);padding:.65rem;background:rgba(246,241,232,.045);font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(246,241,232,.7);}
+.delta span{display:block;color:var(--paper);font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;margin-top:.25rem;}
+.queue-panel{grid-column:1/3;}
+.llm-panel{grid-column:3/4;}
+.queue-list{display:flex;flex-direction:column;gap:.55rem;}
+.queue-item{display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:center;border:1px solid rgba(246,241,232,.1);background:rgba(0,0,0,.14);padding:.65rem .75rem;}
+.rank{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(196,154,72,.8);}
+.queue-word{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(246,241,232,.9);}
+.queue-cluster{display:block;font-size:8px;letter-spacing:.12em;color:rgba(246,241,232,.38);text-transform:uppercase;margin-top:.12rem;}
+.priority{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--pink);}
+.llm-exercise{border:1px solid rgba(244,181,200,.25);background:rgba(244,181,200,.08);padding:1rem;margin-top:.9rem;color:rgba(246,241,232,.76);font-size:.92rem;line-height:1.8;}
+.blank{display:inline-block;min-width:70px;border-bottom:1px solid rgba(246,241,232,.5);text-align:center;color:var(--pink);font-family:'JetBrains Mono',monospace;font-size:.86rem;}
+.note{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,241,232,.38);margin-top:.8rem;line-height:1.7;}
+.watermark{position:fixed;right:1.4rem;bottom:1rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(246,241,232,.22);pointer-events:none;}
+@media(max-width:1080px){.demo-shell{grid-template-columns:1fr 1fr}.result-panel{grid-column:2/3}.queue-panel,.llm-panel{grid-column:1/-1}.base-word{font-size:3.8rem}}
+@media(max-width:760px){.demo-nav{position:absolute}.hero{padding:6rem 6vw 3rem;min-height:auto}.demo-shell{display:block;width:92vw;margin-bottom:3rem}.panel{margin-bottom:1rem}.answer-line{grid-template-columns:1fr}.mini-metrics,.delta-grid{grid-template-columns:1fr}.base-word{font-size:3.4rem}.past-word{font-size:1.8rem}.hero-actions .btn{width:100%;text-align:center;justify-content:center}.watermark{display:none}}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Demo bộ ôn tập động từ bất quy tắc theo cụm",
+  "description": "Một mini app mô phỏng cách thuật toán nhìn lỗi goed như tín hiệu của cả cụm động từ bất quy tắc.",
+  "author": {
+    "@type": "Person",
+    "name": "Bui Tong Giang",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tellstory blog",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "datePublished": "2026-06-18",
+  "dateModified": "2026-06-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tellstory-blog.web.app/irregular-verb-scheduler-demo.html"
+  },
+  "inLanguage": "vi",
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Bui Tong Giang"
+  },
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<nav class="demo-nav" aria-label="Demo navigation">
+  <a href="goed-thuat-toan.html" data-vi="← Bài viết" data-en="← Article">← Bài viết</a>
+  <a href="index.html" data-vi="Blog" data-en="Blog">Blog</a>
+  <button class="lang-btn active" id="btn-vi" onclick="setLang('vi')">VI</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="kicker" data-vi="Interactive demo · irregular verbs · cluster-aware review" data-en="Interactive demo · irregular verbs · cluster-aware review">Interactive demo · irregular verbs · cluster-aware review</div>
+    <h1 data-vi="Một phòng thí nghiệm nhỏ cho lỗi <em>goed.</em>" data-en="A tiny lab for the <em>goed</em> error.">Một phòng thí nghiệm nhỏ cho lỗi <em>goed.</em></h1>
+    <p data-vi="Chọn một động từ, nhập đáp án của Tuấn, rồi xem thuật toán phân loại lỗi, cập nhật điểm cụm, cập nhật half-life và sắp lại hàng đợi ôn tập." data-en="Choose a verb, enter Tuấn's answer, then watch the algorithm classify the error, update the cluster score, update the half-life, and reorder the review queue.">Chọn một động từ, nhập đáp án của Tuấn, rồi xem thuật toán phân loại lỗi, cập nhật điểm cụm, cập nhật half-life và sắp lại hàng đợi ôn tập.</p>
+    <div class="hero-actions">
+      <button class="btn primary" onclick="quickGoed()" data-vi="Thử lỗi goed" data-en="Try goed error">Thử lỗi goed</button>
+      <a class="btn" href="#demo" data-vi="Mở bộ từ vựng" data-en="Open vocabulary set">Mở bộ từ vựng</a>
+    </div>
+  </div>
+</header>
+
+<main class="demo-shell" id="demo">
+  <section class="panel vocab-panel">
+    <div class="panel-head">
+      <div class="panel-kicker" data-vi="01 · bộ từ vựng" data-en="01 · vocabulary set">01 · bộ từ vựng</div>
+      <h2 class="panel-title" data-vi="Động từ được chia theo cụm lỗi" data-en="Verbs grouped by error pattern">Động từ được chia theo cụm lỗi</h2>
+    </div>
+    <div class="panel-body">
+      <div class="vocab-list" id="vocab-list"></div>
+    </div>
+  </section>
+
+  <section class="panel practice-card">
+    <div class="panel-head">
+      <div class="panel-kicker" data-vi="02 · thẻ luyện tập" data-en="02 · practice card">02 · thẻ luyện tập</div>
+      <h2 class="panel-title" id="practice-title">Tuấn đang ôn từ go</h2>
+    </div>
+    <div class="panel-body">
+      <div class="big-word"><span class="base-word" id="base-word">go</span><span class="arrow">→</span><span class="past-word" id="past-word">went</span></div>
+      <p class="sentence" id="sentence">Yesterday Tuấn ___ to school.</p>
+      <div class="answer-line">
+        <input id="answer" autocomplete="off" placeholder="nhập đáp án của Tuấn, ví dụ: goed">
+        <button class="btn primary" onclick="submitAnswer()" data-vi="Chấm thử" data-en="Check">Chấm thử</button>
+      </div>
+      <div class="small-buttons">
+        <button class="chip" onclick="fillWrong()" data-vi="đáp án sai kiểu -ed" data-en="wrong -ed answer">đáp án sai kiểu -ed</button>
+        <button class="chip" onclick="fillBlank()" data-vi="bỏ trống" data-en="blank answer">bỏ trống</button>
+        <button class="chip" onclick="fillCorrect()" data-vi="đáp án đúng" data-en="correct answer">đáp án đúng</button>
+      </div>
+      <div class="mini-metrics">
+        <div class="metric"><div class="metric-label">half-life S_v</div><div class="metric-value" id="metric-s">4.00</div></div>
+        <div class="metric"><div class="metric-label">cluster M_c</div><div class="metric-value" id="metric-m">0.50</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel result-panel">
+    <div class="panel-head">
+      <div class="panel-kicker" data-vi="03 · thuật toán phản ứng" data-en="03 · algorithm reaction">03 · thuật toán phản ứng</div>
+      <h2 class="panel-title" data-vi="Sai một từ, nhìn cả cụm" data-en="One word, one cluster signal">Sai một từ, nhìn cả cụm</h2>
+    </div>
+    <div class="panel-body">
+      <div class="result-status over" id="result-status">chưa chấm</div>
+      <p class="explain" id="result-explain" data-vi="Nhập một đáp án như goed, seed, runned hoặc bỏ trống để xem thuật toán phản ứng." data-en="Enter an answer like goed, seed, runned or leave it blank to see how the algorithm reacts.">Nhập một đáp án như goed, seed, runned hoặc bỏ trống để xem thuật toán phản ứng.</p>
+      <div class="calc-box" id="calc-box">M_c: 0.50<br>S_v: 4.00 ngày<br>Priority sẽ được tính lại sau khi chấm.</div>
+      <div class="delta-grid">
+        <div class="delta">M_c <span id="delta-m">0.50 → 0.50</span></div>
+        <div class="delta">S_v <span id="delta-s">4.00 → 4.00</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel queue-panel">
+    <div class="panel-head">
+      <div class="panel-kicker" data-vi="04 · hàng đợi ôn tập" data-en="04 · review queue">04 · hàng đợi ôn tập</div>
+      <h2 class="panel-title" data-vi="Từ nào được đẩy lên trước" data-en="Which words move up first">Từ nào được đẩy lên trước</h2>
+    </div>
+    <div class="panel-body">
+      <div class="queue-list" id="queue-list"></div>
+      <div class="note" data-vi="Priority = nguy cơ quên + 0.4 × nguy cơ cụm. Cụm yếu chỉ đẩy nhẹ, tín hiệu sắp quên vẫn là chính." data-en="Priority = forgetting risk + 0.4 × cluster risk. A weak cluster nudges the queue, but current forgetting risk still dominates.">Priority = nguy cơ quên + 0.4 × nguy cơ cụm. Cụm yếu chỉ đẩy nhẹ, tín hiệu sắp quên vẫn là chính.</div>
+    </div>
+  </section>
+
+  <section class="panel llm-panel">
+    <div class="panel-head">
+      <div class="panel-kicker" data-vi="05 · bài tập theo nhóm" data-en="05 · grouped practice">05 · bài tập theo nhóm</div>
+      <h2 class="panel-title" data-vi="Khi cụm yếu, LLM tạo bài tập mới" data-en="When a cluster is weak, the LLM creates practice">Khi cụm yếu, LLM tạo bài tập mới</h2>
+    </div>
+    <div class="panel-body">
+      <p class="explain" id="llm-explain" data-vi="Khi M_c xuống thấp, hệ thống không chỉ lặp flashcard. Nó tạo bài tập dùng nhiều từ trong cùng cụm." data-en="When M_c drops, the system does not simply repeat flashcards. It creates practice with multiple words from the same cluster.">Khi M_c xuống thấp, hệ thống không chỉ lặp flashcard. Nó tạo bài tập dùng nhiều từ trong cùng cụm.</p>
+      <div class="llm-exercise" id="llm-exercise">Yesterday Tuấn <span class="blank">went</span> to the park. He <span class="blank">saw</span> his friend and <span class="blank">had</span> lunch.</div>
+      <div class="note" id="llm-note">suppletive · go, see, have</div>
+    </div>
+  </section>
+</main>
+
+<div class="watermark">Tellstory · demo</div>
+
+<script>
+let currentLang = 'vi';
+let selectedCluster = 'suppletive';
+let selectedVerb = 'go';
+let lastResult = null;
+
+const labels = {
+  vi: {
+    article:'← Bài viết', blog:'Blog', select:'chọn', statusIdle:'chưa chấm', correct:'đúng hoàn toàn', over:'sai do overregularization', forget:'sai do quên hẳn',
+    answerPlaceholder:'nhập đáp án của Tuấn, ví dụ: goed', reviewing:'Tuấn đang ôn từ ',
+    explanationIdle:'Nhập một đáp án như goed, seed, runned hoặc bỏ trống để xem thuật toán phản ứng.',
+    explanationCorrect:'Đáp án đúng. Từ này khỏe hơn và điểm cụm cũng tăng nhẹ.',
+    explanationOver:'Đây không chỉ là sai một từ. Đây là dấu hiệu Tuấn đang áp luật -ed nhầm vào cả cụm.',
+    explanationForget:'Bỏ trống hoặc trả lời lệch nghĩa được xem là quên hẳn. Nó ảnh hưởng đến từ hiện tại nhiều hơn là cả cụm.',
+    priorityNote:'nguy cơ ôn', next:'ôn lại sau khoảng', days:'ngày',
+    mc:'M_c', sv:'S_v', input:'Tuấn nhập', type:'loại lỗi', cluster:'cụm', affected:'từ bị ảnh hưởng'
+  },
+  en: {
+    article:'← Article', blog:'Blog', select:'select', statusIdle:'not checked yet', correct:'fully correct', over:'overregularization error', forget:'plain forgetting',
+    answerPlaceholder:"enter Tuấn's answer, e.g. goed", reviewing:'Tuấn is reviewing ',
+    explanationIdle:'Enter an answer like goed, seed, runned or leave it blank to see how the algorithm reacts.',
+    explanationCorrect:'Correct answer. This word gets stronger and the cluster score rises slightly.',
+    explanationOver:'This is not just one wrong word. It signals that Tuấn is applying the -ed rule across the cluster.',
+    explanationForget:'Blank or unrelated answers are treated as plain forgetting. It mostly affects the current word, not the whole cluster.',
+    priorityNote:'review risk', next:'review again in about', days:'days',
+    mc:'M_c', sv:'S_v', input:'Tuấn entered', type:'error type', cluster:'cluster', affected:'affected word'
+  }
+};
+
+const clusters = {
+  suppletive: {
+    name:'suppletive', M:.50,
+    vi:'đổi hẳn dạng', en:'complete form change',
+    verbs:[
+      {base:'go', past:'went', wrong:'goed', days:2.6, S:4.0, vi:'Yesterday Tuấn ___ to school.', en:'Yesterday Tuấn ___ to school.'},
+      {base:'see', past:'saw', wrong:'seed', days:3.9, S:5.0, vi:'Tuấn ___ his friend yesterday.', en:'Tuấn ___ his friend yesterday.'},
+      {base:'have', past:'had', wrong:'haved', days:2.2, S:4.4, vi:'Tuấn ___ lunch at noon.', en:'Tuấn ___ lunch at noon.'}
+    ],
+    exercise:{vi:'Yesterday Tuấn <span class="blank">went</span> to the park. He <span class="blank">saw</span> his friend and <span class="blank">had</span> lunch.',en:'Yesterday Tuấn <span class="blank">went</span> to the park. He <span class="blank">saw</span> his friend and <span class="blank">had</span> lunch.'}
+  },
+  vowel: {
+    name:'vowel-change', M:.74,
+    vi:'đổi nguyên âm', en:'vowel change',
+    verbs:[
+      {base:'sing', past:'sang', wrong:'singed', days:6.2, S:5.5, vi:'Last night, Tuấn ___ a song.', en:'Last night, Tuấn ___ a song.'},
+      {base:'give', past:'gave', wrong:'gived', days:3.0, S:4.8, vi:'Tuấn ___ me a pencil.', en:'Tuấn ___ me a pencil.'},
+      {base:'run', past:'ran', wrong:'runned', days:4.1, S:4.3, vi:'Yesterday Tuấn ___ very fast.', en:'Yesterday Tuấn ___ very fast.'}
+    ],
+    exercise:{vi:'Yesterday Tuấn <span class="blank">sang</span> a song, <span class="blank">gave</span> me a pencil, then <span class="blank">ran</span> home.',en:'Yesterday Tuấn <span class="blank">sang</span> a song, <span class="blank">gave</span> me a pencil, then <span class="blank">ran</span> home.'}
+  },
+  td: {
+    name:'-t / -d ending', M:.68,
+    vi:'kết thúc bằng -t / -d', en:'-t / -d ending',
+    verbs:[
+      {base:'sleep', past:'slept', wrong:'sleeped', days:5.1, S:4.7, vi:'Tuấn ___ late last night.', en:'Tuấn ___ late last night.'},
+      {base:'feel', past:'felt', wrong:'feeled', days:2.4, S:4.2, vi:'Tuấn ___ happy yesterday.', en:'Tuấn ___ happy yesterday.'},
+      {base:'sell', past:'sold', wrong:'selled', days:3.4, S:4.1, vi:'The shop ___ many books.', en:'The shop ___ many books.'}
+    ],
+    exercise:{vi:'Tuấn <span class="blank">slept</span> late, <span class="blank">felt</span> tired, and the shop <span class="blank">sold</span> snacks.',en:'Tuấn <span class="blank">slept</span> late, <span class="blank">felt</span> tired, and the shop <span class="blank">sold</span> snacks.'}
+  },
+  nochange: {
+    name:'no-change', M:.62,
+    vi:'giữ nguyên', en:'no change',
+    verbs:[
+      {base:'put', past:'put', wrong:'putted', days:3.7, S:4.6, vi:'Tuấn ___ the book on the desk.', en:'Tuấn ___ the book on the desk.'},
+      {base:'cut', past:'cut', wrong:'cutted', days:2.8, S:4.2, vi:'Tuấn ___ the paper yesterday.', en:'Tuấn ___ the paper yesterday.'},
+      {base:'hit', past:'hit', wrong:'hitted', days:5.8, S:5.1, vi:'The ball ___ the wall.', en:'The ball ___ the wall.'}
+    ],
+    exercise:{vi:'Tuấn <span class="blank">put</span> the book down, <span class="blank">cut</span> paper, and the ball <span class="blank">hit</span> the wall.',en:'Tuấn <span class="blank">put</span> the book down, <span class="blank">cut</span> paper, and the ball <span class="blank">hit</span> the wall.'}
+  }
+};
+
+function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+function findVerb(base){for(const key in clusters){const v=clusters[key].verbs.find(x=>x.base===base); if(v) return {clusterKey:key,cluster:clusters[key],verb:v};}return null;}
+function current(){return findVerb(selectedVerb);}
+function fmt(n){return Number(n).toFixed(2);}
+function recallProb(v){return Math.pow(2, -v.days / Math.max(.2, v.S));}
+function nextReview(v){return Math.max(.1, .32 * v.S);}
+
+function setLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  try{localStorage.setItem('tellstoryDemoLang', lang);}catch(e){}
+  document.getElementById('btn-vi').classList.toggle('active', lang==='vi');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.querySelectorAll('[data-vi]').forEach(el=>{
+    const text = el.getAttribute('data-'+lang);
+    if(!text) return;
+    if(el.tagName==='H1' || el.tagName==='H2' || text.includes('<em>')) el.innerHTML = text;
+    else el.textContent = text;
+  });
+  document.querySelector('.demo-nav a[href="goed-thuat-toan.html"]').textContent = labels[lang].article;
+  document.getElementById('answer').placeholder = labels[lang].answerPlaceholder;
+  renderAll(false);
+}
+
+function renderVocab(){
+  const wrap = document.getElementById('vocab-list');
+  wrap.innerHTML = Object.keys(clusters).map(key=>{
+    const c = clusters[key];
+    const active = key===selectedCluster ? 'active' : '';
+    const verbs = c.verbs.map(v=>`<button class="verb-btn ${v.base===selectedVerb?'active':''}" onclick="selectVerb(event,'${v.base}')"><span>${v.base} → ${v.past}</span><span>${v.wrong}</span></button>`).join('');
+    return `<div class="cluster-card ${active}" onclick="selectCluster('${key}')">
+      <div class="cluster-top"><div><div class="cluster-name">${c.name}</div><div class="note" style="margin-top:.1rem">${c[currentLang]}</div></div><div class="cluster-score">M=${fmt(c.M)}</div></div>
+      <div class="verb-grid">${verbs}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderPractice(){
+  const {cluster, verb} = current();
+  document.getElementById('practice-title').textContent = labels[currentLang].reviewing + verb.base;
+  document.getElementById('base-word').textContent = verb.base;
+  document.getElementById('past-word').textContent = verb.past;
+  document.getElementById('sentence').textContent = verb[currentLang];
+  document.getElementById('metric-s').textContent = fmt(verb.S);
+  document.getElementById('metric-m').textContent = fmt(cluster.M);
+}
+
+function renderResult(){
+  const status = document.getElementById('result-status');
+  const explain = document.getElementById('result-explain');
+  const calc = document.getElementById('calc-box');
+  const deltaM = document.getElementById('delta-m');
+  const deltaS = document.getElementById('delta-s');
+  const {cluster, verb} = current();
+  if(!lastResult){
+    status.className = 'result-status'; status.textContent = labels[currentLang].statusIdle;
+    explain.textContent = labels[currentLang].explanationIdle;
+    calc.innerHTML = `${labels[currentLang].mc}: ${fmt(cluster.M)}<br>${labels[currentLang].sv}: ${fmt(verb.S)} ${labels[currentLang].days}<br>Priority sẽ được tính lại sau khi chấm.`;
+    deltaM.textContent = `${fmt(cluster.M)} → ${fmt(cluster.M)}`;
+    deltaS.textContent = `${fmt(verb.S)} → ${fmt(verb.S)}`;
+    return;
+  }
+  const cls = lastResult.type === 'correct' ? 'correct' : lastResult.type === 'over' ? 'over' : 'forget';
+  status.className = 'result-status ' + cls;
+  status.textContent = lastResult.type === 'correct' ? labels[currentLang].correct : lastResult.type === 'over' ? labels[currentLang].over : labels[currentLang].forget;
+  explain.textContent = lastResult.type === 'correct' ? labels[currentLang].explanationCorrect : lastResult.type === 'over' ? labels[currentLang].explanationOver : labels[currentLang].explanationForget;
+  calc.innerHTML = `<strong>${labels[currentLang].input}</strong>: ${lastResult.answer || '∅'}<br><strong>${labels[currentLang].affected}</strong>: ${lastResult.verb}<br><strong>${labels[currentLang].cluster}</strong>: ${lastResult.cluster}<br>${labels[currentLang].mc}: ${fmt(lastResult.oldM)} → ${fmt(lastResult.newM)}<br>${labels[currentLang].sv}: ${fmt(lastResult.oldS)} → ${fmt(lastResult.newS)} ${labels[currentLang].days}<br>${labels[currentLang].next}: ${fmt(nextReview({S:lastResult.newS}))} ${labels[currentLang].days}`;
+  deltaM.textContent = `${fmt(lastResult.oldM)} → ${fmt(lastResult.newM)}`;
+  deltaS.textContent = `${fmt(lastResult.oldS)} → ${fmt(lastResult.newS)}`;
+}
+
+function renderQueue(){
+  const items=[];
+  Object.keys(clusters).forEach(key=>{
+    const c=clusters[key];
+    c.verbs.forEach(v=>{
+      const p = recallProb(v);
+      const priority = (1-p) + .4*(1-c.M);
+      items.push({v,c,key,p,priority});
+    });
+  });
+  items.sort((a,b)=>b.priority-a.priority);
+  document.getElementById('queue-list').innerHTML = items.slice(0,7).map((item,i)=>`<div class="queue-item">
+    <div class="rank">${String(i+1).padStart(2,'0')}</div>
+    <div><span class="queue-word">${item.v.base} → ${item.v.past}</span><span class="queue-cluster">${item.c.name} · p=${fmt(item.p)} · M=${fmt(item.c.M)}</span></div>
+    <div class="priority">${fmt(item.priority)}</div>
+  </div>`).join('');
+}
+
+function renderLLM(){
+  const {cluster} = current();
+  const note = `${cluster.name} · ${cluster.verbs.map(v=>v.base).join(', ')}`;
+  document.getElementById('llm-exercise').innerHTML = cluster.exercise[currentLang];
+  document.getElementById('llm-note').textContent = note;
+}
+
+function renderAll(resetResult=true){
+  if(resetResult) lastResult = null;
+  renderVocab(); renderPractice(); renderResult(); renderQueue(); renderLLM();
+}
+
+function selectCluster(key){
+  selectedCluster = key;
+  selectedVerb = clusters[key].verbs[0].base;
+  document.getElementById('answer').value = '';
+  renderAll();
+}
+function selectVerb(e, base){
+  if(e && e.stopPropagation) e.stopPropagation();
+  const found = findVerb(base);
+  selectedVerb = base; selectedCluster = found.clusterKey;
+  document.getElementById('answer').value = '';
+  renderAll();
+}
+function fillWrong(){document.getElementById('answer').value = current().verb.wrong;}
+function fillBlank(){document.getElementById('answer').value = '';}
+function fillCorrect(){document.getElementById('answer').value = current().verb.past;}
+function quickGoed(){selectedCluster='suppletive';selectedVerb='go';renderAll();document.getElementById('answer').value='goed';document.getElementById('demo').scrollIntoView({behavior:'smooth'});setTimeout(submitAnswer,450);}
+
+function classify(answer, verb){
+  const a = answer.trim().toLowerCase();
+  if(a === verb.past.toLowerCase()) return 'correct';
+  if(a === '') return 'forget';
+  if(a === verb.wrong.toLowerCase() || /ed$|d$/.test(a)) return 'over';
+  return 'forget';
+}
+
+function submitAnswer(){
+  const {cluster, verb} = current();
+  const answer = document.getElementById('answer').value;
+  const type = classify(answer, verb);
+  const oldM = cluster.M;
+  const oldS = verb.S;
+  const delta = type === 'correct' ? 1 : type === 'over' ? -2 : -.3;
+  const alpha = type === 'correct' ? 2 : .5;
+  const newM = clamp(oldM + .1*delta, 0, 1);
+  const beta = .7 + .3*newM;
+  const newS = clamp(oldS * alpha * beta, .25, 40);
+  cluster.M = newM;
+  verb.S = newS;
+  verb.days = 0;
+  lastResult = {type, answer:answer.trim(), verb:verb.base, cluster:cluster.name, oldM, newM, oldS, newS};
+  renderVocab(); renderPractice(); renderResult(); renderQueue(); renderLLM();
+}
+
+document.getElementById('answer').addEventListener('keydown', e=>{if(e.key==='Enter') submitAnswer();});
+const savedLang = (()=>{try{return localStorage.getItem('tellstoryDemoLang') || 'vi';}catch(e){return 'vi';}})();
+setLang(savedLang);
+</script>
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: &lt;a href=&quot;https://tellstory-blog.web.app/irregular-verb-scheduler-demo.html&quot;&gt;Tellstory blog&lt;/a&gt;." data-en="© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analytical structure and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse source code without permission. When quoting a short excerpt, please credit: &lt;a href=&quot;https://tellstory-blog.web.app/irregular-verb-scheduler-demo.html&quot;&gt;Tellstory blog&lt;/a&gt;.">© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: <a href="https://tellstory-blog.web.app/irregular-verb-scheduler-demo.html">Tellstory blog</a>.</p>
+
+
+
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "Nguồn: Tellstory blog · Bui Tong Giang" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

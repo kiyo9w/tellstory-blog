@@ -1,0 +1,697 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khi go biến thành goed</title>
+<meta name="description" content="Lỗi goed không chỉ là quên từ, mà là tín hiệu người học đang áp nhầm một luật lên cả nhóm động từ bất quy tắc.">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/goed-thuat-toan.html">
+<meta property="og:title" content="Khi go biến thành goed: một thuật toán thú vị.">
+<meta property="og:description" content="Lỗi goed không phải lỗi quên. Đó là lỗi hiểu nhầm luật, và nó lan theo nhóm. Liệu rằng có thuật toán ôn tập nào có thể học từ điều đó?">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tellstory-blog.web.app/goed-thuat-toan.html">
+<meta property="og:site_name" content="Tellstory blog">
+<meta property="og:image" content="https://tellstory-blog.web.app/goed.png">
+<meta property="og:image:alt" content="Demo thuật toán ôn tập cho lỗi goed">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Khi go biến thành goed">
+<meta name="twitter:description" content="Lỗi goed là tín hiệu của cả một pattern học sai, không chỉ là một từ bị quên.">
+<meta name="twitter:image" content="https://tellstory-blog.web.app/goed.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comments.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;
+  --paper:#F6F1E8;--paper-2:#EDE8DC;--paper-3:#E2DBCB;
+  --rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;--gold-light:#C49A48;--canvas:#0E0C0A;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;overflow-x:hidden;}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--red);width:0%;z-index:1000;transition:width .1s linear;}
+#dot-nav{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.55rem;z-index:100;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(26,23,20,.15);cursor:pointer;transition:all .3s ease;border:1px solid rgba(26,23,20,.2);}
+.dot.active{background:var(--red);transform:scale(1.7);border-color:var(--red);}
+@media(max-width:720px){#dot-nav{display:none;}}
+.blog-nav{position:fixed;top:1rem;left:1rem;z-index:1100;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.blog-nav a,.lang-btn{display:inline-flex;align-items:center;justify-content:center;padding:.55rem .85rem;color:rgba(26,23,20,.75);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);backdrop-filter:blur(10px);transition:background .2s,color .2s,border-color .2s;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;}
+.blog-nav a:hover,.lang-btn:hover{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+.lang-btn.active{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+#intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;border-bottom:1px solid var(--rule);background:var(--paper);}
+#intro::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink);}
+#intro::after{content:'語';position:absolute;right:4vw;bottom:-6vh;font-family:'Playfair Display',serif;font-size:clamp(160px,28vw,400px);color:rgba(26,23,20,.032);line-height:1;pointer-events:none;}
+.intro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:2rem;}
+.intro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.2rem,5vw,4.4rem);font-weight:700;line-height:1.07;max-width:820px;margin-bottom:1.6rem;color:var(--ink);}
+.intro-title em{color:var(--red);font-style:italic;}
+.intro-rule{width:48px;height:2px;background:var(--red);margin-bottom:1.6rem;}
+.intro-sub{font-size:1rem;color:var(--ink-2);max-width:560px;line-height:1.95;margin-bottom:3.5rem;font-weight:300;}
+.scroll-cue{display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-4);}
+.scroll-bar{width:44px;height:1px;background:var(--ink-3);transform-origin:left;animation:grow 2s ease-in-out infinite;}
+@keyframes grow{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+.scrolly{position:relative;}
+.sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:var(--canvas);}
+canvas#scene{position:absolute;inset:0;width:100%;height:100%;}
+.graphic-caption{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(246,241,232,.2);position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);white-space:nowrap;text-transform:uppercase;}
+.steps{position:relative;z-index:10;padding-bottom:28vh;}
+.step{max-width:540px;margin:0 6vw 68vh;padding:2.6rem 2.8rem;background:var(--paper);border-top:3px solid var(--ink);box-shadow:0 2px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.step:last-child{margin-bottom:0;}
+.step.is-active{opacity:1;transform:translateY(0);}
+.step-act{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:.9rem;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.1rem,1.8vw,1.5rem);font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:1rem;}
+.step-body{font-size:.9rem;color:var(--ink-2);line-height:1.9;margin-bottom:.8rem;font-weight:300;}
+.step-body em{color:var(--red);font-style:italic;}
+.step-body strong{color:var(--ink);font-weight:500;}
+.step-pull{font-family:'Playfair Display',Georgia,serif;font-size:.92rem;font-style:italic;color:var(--ink-2);border-left:2px solid var(--red);padding:.6rem 1rem;margin:1rem 0;background:var(--paper-2);line-height:1.75;}
+.step-source{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--ink-4);margin-top:1rem;letter-spacing:.05em;border-top:1px solid var(--rule);padding-top:.7rem;}
+.formula-block{margin:1.2rem 0;padding:1.3rem 1.4rem;background:var(--ink);color:var(--paper);}
+.formula-math{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;color:var(--paper);line-height:1.4;text-align:center;padding:.4rem 0;}
+.formula-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(246,241,232,.5);letter-spacing:.18em;margin-top:.5rem;display:block;text-align:center;}
+.worked{margin:1.1rem 0;padding:1rem 1.2rem;border:1px solid var(--rule);background:var(--paper-2);}
+.worked-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--red);text-transform:uppercase;margin-bottom:.6rem;}
+.worked-row{display:flex;justify-content:space-between;gap:.6rem;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);padding:.25rem 0;border-bottom:1px dashed var(--rule);}
+.worked-row:last-child{border-bottom:none;font-weight:500;color:var(--ink);}
+.worked-row span:first-child{color:var(--ink-3);}
+.case-block{margin:1.2rem 0;padding:1.1rem 1.3rem;border:1px solid var(--rule);background:var(--paper-2);position:relative;}
+.case-block::before{content:'CASE';position:absolute;top:-.55rem;left:1rem;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--ink-4);background:var(--paper-2);padding:0 .4rem;}
+.case-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--red);margin-bottom:.6rem;}
+.case-body{font-size:.82rem;color:var(--ink-2);line-height:1.75;}
+.case-stat{display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap;}
+.case-stat-item{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-3);background:var(--paper);padding:.3rem .6rem;border:1px solid var(--rule);}
+.case-stat-item strong{color:var(--ink);font-weight:500;}
+.cluster-table{margin:1.1rem 0;width:100%;border-collapse:collapse;font-size:.82rem;}
+.cluster-table th{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.15em;color:var(--ink-4);text-transform:uppercase;text-align:left;padding:.5rem .6rem;border-bottom:2px solid var(--ink);}
+.cluster-table td{padding:.55rem .6rem;border-bottom:1px solid var(--rule);color:var(--ink-2);}
+.cluster-table td:first-child{color:var(--red);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;}
+.demo-link{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:1.2rem 0;padding:1.1rem 1.3rem;background:var(--ink);color:var(--paper);text-decoration:none;transition:background .2s;}
+.demo-link:hover{background:var(--red);}
+.demo-link-text{font-size:.85rem;}
+.demo-link-arrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--gold-light);white-space:nowrap;}
+#outro{background:var(--ink);color:var(--paper);min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 10vw;position:relative;overflow:hidden;}
+#outro::before{content:'惑';position:absolute;font-family:'Playfair Display',serif;font-size:clamp(200px,34vw,480px);color:rgba(246,241,232,.02);pointer-events:none;line-height:1;}
+.outro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:rgba(196,154,72,.7);text-transform:uppercase;margin-bottom:2rem;}
+.outro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.8rem,4vw,3.5rem);line-height:1.1;margin-bottom:1.8rem;max-width:760px;}
+.outro-title em{color:var(--gold-light);font-style:italic;}
+.outro-body{max-width:580px;color:rgba(246,241,232,.6);font-size:.95rem;font-weight:300;line-height:1.95;margin-bottom:3rem;}
+.outro-links{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.outro-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,232,.55);text-decoration:none;border:1px solid rgba(246,241,232,.15);padding:.7rem 1.1rem;transition:all .2s;}
+.outro-link:hover{color:var(--gold-light);border-color:rgba(196,154,72,.4);}
+@media(max-width:680px){
+  .step{margin:0 4vw 52vh;max-width:96vw;padding:2rem 1.6rem;}
+  .case-stat{flex-direction:column;}
+  #intro{padding:0 6vw;}
+  .blog-nav{font-size:8px;gap:.3rem;}
+  .blog-nav a,.lang-btn{padding:.45rem .55rem;}
+  .formula-math{font-size:1.05rem;}
+  .cluster-table{font-size:.74rem;}
+}
+
+/* ===== Right visual panel for goed article ===== */
+.right-hud{
+  position:absolute;
+  right:7vw;
+  top:50%;
+  transform:translateY(-50%);
+  width:min(340px,28vw);
+  z-index:5;
+  color:var(--paper);
+  pointer-events:none;
+}
+.right-hud-card{
+  border:1px solid rgba(246,241,232,.16);
+  background:rgba(246,241,232,.055);
+  backdrop-filter:blur(10px);
+  padding:1.4rem 1.5rem;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+.right-hud-kicker{
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(196,154,72,.8);
+  margin-bottom:.9rem;
+}
+.right-hud-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:1.45rem;
+  line-height:1.18;
+  color:rgba(246,241,232,.92);
+  margin-bottom:1rem;
+}
+.right-hud-body{
+  font-size:.82rem;
+  line-height:1.75;
+  color:rgba(246,241,232,.58);
+  font-weight:300;
+}
+.right-hud-formula{
+  margin-top:1.1rem;
+  padding:.8rem .9rem;
+  border:1px solid rgba(246,241,232,.14);
+  background:rgba(0,0,0,.22);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  line-height:1.65;
+  color:rgba(246,241,232,.78);
+}
+.right-hud-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.38rem;
+  margin-top:1rem;
+}
+.right-hud-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:7px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(246,241,232,.62);
+  border:1px solid rgba(246,241,232,.14);
+  padding:.25rem .45rem;
+  background:rgba(246,241,232,.04);
+}
+.right-hud-watermark{
+  position:absolute;
+  right:-1.2rem;
+  bottom:-2.2rem;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:7rem;
+  line-height:1;
+  color:rgba(246,241,232,.035);
+  pointer-events:none;
+}
+@media(max-width:1180px){
+  .right-hud{right:5vw;width:min(300px,26vw);}
+  .right-hud-card{padding:1.15rem 1.2rem;}
+  .right-hud-title{font-size:1.25rem;}
+  .right-hud-body{font-size:.78rem;}
+}
+@media(max-width:980px){
+  .right-hud{display:none;}
+}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Khi go biến thành goed",
+  "description": "Lỗi goed không chỉ là quên từ, mà là tín hiệu người học đang áp nhầm một luật lên cả nhóm động từ bất quy tắc.",
+  "author": {
+    "@type": "Person",
+    "name": "Bui Tong Giang",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tellstory blog",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "datePublished": "2026-06-18",
+  "dateModified": "2026-06-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tellstory-blog.web.app/goed-thuat-toan.html"
+  },
+  "inLanguage": "vi",
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Bui Tong Giang"
+  },
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="blog-nav" aria-label="Điều hướng blog">
+  <a href="index.html">Blog</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <button class="lang-btn active" id="btn-vi" onclick="setLang('vi')">VI</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</nav>
+
+<nav id="dot-nav" aria-label="Điều hướng phần">
+  <div class="dot active" data-i="0"></div>
+  <div class="dot" data-i="1"></div>
+  <div class="dot" data-i="2"></div>
+  <div class="dot" data-i="3"></div>
+  <div class="dot" data-i="4"></div>
+  <div class="dot" data-i="5"></div>
+  <div class="dot" data-i="6"></div>
+  <div class="dot" data-i="7"></div>
+  <div class="dot" data-i="8"></div>
+  <div class="dot" data-i="9"></div>
+</nav>
+
+<!-- INTRO -->
+<section id="intro" data-step-index="0">
+  <div>
+    <div class="intro-kicker">EdTech · Spaced repetition · Knowledge tracing · LLM</div>
+    <h1 class="intro-title" data-vi="Khi <em>go</em> biến thành<br><em>goed:</em> một thuật toán<br>thú vị." data-en="When <em>go</em> becomes<br><em>goed:</em> an algorithm<br>that understands your mistake.">Khi <em>go</em> biến thành<br><em>goed:</em> một thuật toán<br>thú vị.</h1>
+    <div class="intro-rule"></div>
+    <p class="intro-sub" data-vi="một học sinh, 8 tuổi, hôm qua nộp bài tập với ba câu: &ldquo;Yesterday I goed to school, eated lunch, and seed my friend.&rdquo; Cô giáo khoanh đỏ cả ba, hệ thống flashcard ghi nhận sai go, sai eat, sai see rồi lên lịch ôn lại sớm hơn, trong khi thứ thật sự cần ghi nhận không phải là ba từ sai mà là một luật đang bị áp nhầm." data-en="một học sinh, age 8, submitted his homework yesterday with three sentences: &ldquo;Yesterday I goed to school, eated lunch, and seed my friend.&rdquo; The teacher circled all three in red, the flashcard system logged go wrong, eat wrong, see wrong and scheduled earlier reviews, while what actually needed to be noticed was not three wrong words but one rule being misapplied.">một học sinh, 8 tuổi, hôm qua nộp bài tập với ba câu: &ldquo;Yesterday I goed to school, eated lunch, and seed my friend.&rdquo; Cô giáo khoanh đỏ cả ba, hệ thống flashcard ghi nhận sai go, sai eat, sai see rồi lên lịch ôn lại sớm hơn, trong khi thứ thật sự cần ghi nhận không phải là ba từ sai mà là một luật đang bị áp nhầm.</p>
+    <div class="scroll-cue"><div class="scroll-bar"></div><span data-vi="cuộn xuống" data-en="scroll down">cuộn xuống</span></div>
+  </div>
+</section>
+
+<!-- SCROLLYTELLING -->
+<div class="scrolly">
+  <div class="sticky">
+    <canvas id="scene"></canvas>
+
+    <aside class="right-hud" aria-hidden="true">
+      <div class="right-hud-card">
+        <div class="right-hud-kicker" id="hud-kicker">mistake signal</div>
+        <div class="right-hud-title" id="hud-title">go không biến thành goed</div>
+        <div class="right-hud-body" id="hud-body">Một lỗi nhỏ có thể là dấu hiệu của cả một luật đang bị áp nhầm.</div>
+        <div class="right-hud-formula" id="hud-formula">go → went<br>not go → goed</div>
+        <div class="right-hud-tags" id="hud-tags">
+          <span class="right-hud-tag">overregularization</span>
+          <span class="right-hud-tag">cluster</span>
+          <span class="right-hud-tag">memory</span>
+        </div>
+      </div>
+      <div class="right-hud-watermark">go</div>
+    </aside>
+
+    <div class="graphic-caption" id="graphic-caption">go → went · không phải go → goed</div>
+  </div>
+
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <article class="step" data-step-index="1">
+      <div class="step-act" data-vi="Phần I · Cái mà flashcard bỏ lỡ" data-en="Part I · What flashcards miss">Phần I · Cái mà flashcard bỏ lỡ</div>
+      <h2 class="step-title" data-vi="Mỗi từ là một viên gạch riêng, và đó là vấn đề." data-en="Every word is treated as its own brick, and that is the problem.">Mỗi từ là một viên gạch riêng, và đó là vấn đề.</h2>
+      <p class="step-body" data-vi="Anki là ứng dụng flashcard phổ biến nhất hiện nay, dùng thuật toán SM-2 để quyết định hôm nay ôn từ nào dựa trên đúng hai thứ: trả lời đúng hay sai và lần trước ôn cách đây bao lâu, nên khi nhìn vào bài của một học sinh, nó chỉ thấy ba viên gạch bị vỡ là go, eat, see rồi kéo lịch ôn của cả ba lên sớm hơn, độc lập với nhau, như thể ba cái sai không liên quan gì đến nhau." data-en="Anki is the most popular flashcard app today, using the SM-2 algorithm to decide which words to review based on exactly two things: whether the answer was right or wrong and how long since the last review, so when it looks at một học sinh's homework, it only sees three broken bricks, go, eat, see, then moves all three up for earlier review, independently, as if the three mistakes have nothing to do with each other.">Anki là ứng dụng flashcard phổ biến nhất hiện nay, dùng thuật toán SM-2 để quyết định hôm nay ôn từ nào dựa trên đúng hai thứ: trả lời đúng hay sai và lần trước ôn cách đây bao lâu, nên khi nhìn vào bài của một học sinh, nó chỉ thấy ba viên gạch bị vỡ là go, eat, see rồi kéo lịch ôn của cả ba lên sớm hơn, độc lập với nhau, như thể ba cái sai không liên quan gì đến nhau.</p>
+      <p class="step-body" data-vi="Tuần sau một học sinh gặp từ run, chưa bao giờ sai run nên Anki không làm gì, dù một học sinh gần như chắc chắn sẽ viết runned." data-en="Next week một học sinh encounters run, has never missed it so Anki does nothing, even though một học sinh will almost certainly write runned.">Tuần sau một học sinh gặp từ run, chưa bao giờ sai run nên Anki không làm gì, dù một học sinh gần như chắc chắn sẽ viết runned.</p>
+      <div class="step-pull" data-vi="Vấn đề không phải một học sinh quên từ went, sang hay ran, mà là một học sinh đang áp một luật sai lên cả một nhóm từ, và luật đó không nằm trong bất kỳ viên gạch đơn lẻ nào." data-en="The problem is not that một học sinh forgot went, sang, or ran, it is that một học sinh is applying a wrong rule across a whole group of words, and that rule does not live inside any single brick.">Vấn đề không phải một học sinh quên từ went, sang hay ran, mà là một học sinh đang áp một luật sai lên cả một nhóm từ, và luật đó không nằm trong bất kỳ viên gạch đơn lẻ nào.</div>
+    </article>
+
+    <!-- STEP 2 -->
+    <article class="step" data-step-index="2">
+      <div class="step-act" data-vi="Phần II · Lỗi goed là gì" data-en="Part II · What the goed error actually is">Phần II · Lỗi goed là gì</div>
+      <h2 class="step-title" data-vi="Overregularization: lỗi này có tên, và nó lan theo nhóm." data-en="Overregularization: this error has a name, and it spreads in groups.">Overregularization: lỗi này có tên, và nó lan theo nhóm.</h2>
+      <p class="step-body" data-vi="Overregularization là hiện tượng người học vừa nắm được một luật ngữ pháp rồi áp nó vào mọi thứ kể cả những trường hợp luật đó không áp được, nên khi một học sinh học được luật thêm -ed vào quá khứ, em bắt đầu dùng nó cho cả những động từ không theo luật đó, tạo ra goed, eated, seed." data-en="Overregularization is the phenomenon where a learner has just grasped a grammar rule and applies it everywhere including cases where it does not apply, so when một học sinh learned the -ed past tense rule, he started using it on verbs that do not follow it, producing goed, eated, seed.">Overregularization là hiện tượng người học vừa nắm được một luật ngữ pháp rồi áp nó vào mọi thứ kể cả những trường hợp luật đó không áp được, nên khi một học sinh học được luật thêm -ed vào quá khứ, em bắt đầu dùng nó cho cả những động từ không theo luật đó, tạo ra goed, eated, seed.</p>
+
+      <div class="case-block">
+        <div class="case-title">Marcus et al., 1992 · nghiên cứu kinh điển về overregularization</div>
+        <p class="case-body" data-vi="Nghiên cứu ghi nhận trẻ thường nói đúng &ldquo;went&rdquo; lúc 2 tuổi rồi đến 3 tuổi bắt đầu nói &ldquo;goed&rdquo; sau khi học được luật -ed, tạo ra một đường phát triển hình chữ U là đúng rồi sai rồi đúng lại, khiến nhiều bố mẹ tưởng con đang thụt lùi trong khi thật ra con đang ở đáy chữ U, tức là đang tiến bộ." data-en="The study recorded that children typically say &ldquo;went&rdquo; correctly at age 2 then start saying &ldquo;goed&rdquo; at age 3 after learning the -ed rule, creating a U-shaped developmental curve of correct then wrong then correct again, making many parents think their child is regressing while in fact the child is at the bottom of the U, meaning progressing.">Nghiên cứu ghi nhận trẻ thường nói đúng &ldquo;went&rdquo; lúc 2 tuổi rồi đến 3 tuổi bắt đầu nói &ldquo;goed&rdquo; sau khi học được luật -ed, tạo ra một đường phát triển hình chữ U là đúng rồi sai rồi đúng lại, khiến nhiều bố mẹ tưởng con đang thụt lùi trong khi thật ra con đang ở đáy chữ U, tức là đang tiến bộ.</p>
+        <div class="case-stat">
+          <span class="case-stat-item"><strong>5–10%</strong> sản phẩm chia quá khứ</span>
+          <span class="case-stat-item">dạng phát triển: <strong>hình chữ U</strong></span>
+        </div>
+      </div>
+
+      <p class="step-body" data-vi="một học sinh đang ở đáy chữ U đó, có nghĩa là nếu một học sinh viết goed thì khả năng cao cùng giai đoạn này một học sinh cũng sẽ viết seed thay vì saw hay runned thay vì ran, kể cả với những từ em chưa từng sai bao giờ, vì lỗi này có tính hệ thống chứ không phải ngẫu nhiên." data-en="một học sinh is at the bottom of that U, which means if một học sinh wrote goed there is a good chance he will also write seed instead of saw or runned instead of ran during this same phase, even with words he has never missed before, because this error is systematic rather than random.">một học sinh đang ở đáy chữ U đó, có nghĩa là nếu một học sinh viết goed thì khả năng cao cùng giai đoạn này một học sinh cũng sẽ viết seed thay vì saw hay runned thay vì ran, kể cả với những từ em chưa từng sai bao giờ, vì lỗi này có tính hệ thống chứ không phải ngẫu nhiên.</p>
+      <div class="step-source">Marcus, G.F. et al. (1992) — Overregularization in Language Acquisition, Monographs of the Society for Research in Child Development · Academia.edu — Second Language Acquisition: Investigating Learners' Error in Mastering Regular and Irregular Verbs</div>
+    </article>
+
+    <!-- STEP 3 -->
+    <article class="step" data-step-index="3">
+      <div class="step-act" data-vi="Phần III · Chia động từ theo cách chúng sai" data-en="Part III · Grouping verbs by how they break">Phần III · Chia động từ theo cách chúng sai</div>
+      <h2 class="step-title" data-vi="Không chia theo nghĩa, không chia theo âm mà chia theo kiểu luật bị áp nhầm." data-en="Not grouped by meaning, not by sound, grouped by which rule gets misapplied.">Không chia theo nghĩa, không chia theo âm mà chia theo kiểu luật bị áp nhầm.</h2>
+      <p class="step-body" data-vi="Động từ bất quy tắc tiếng Anh trông như một mớ hỗn loạn nhưng thật ra đã được các nhà ngôn ngữ học phân loại theo kiểu biến đổi từ lâu, tạo ra bốn cụm (cluster) phổ biến nhất với học sinh tiểu học, trong đó mỗi cụm tương ứng với một kiểu lỗi overregularization khác nhau của một học sinh." data-en="English irregular verbs look like chaos but have long been classified by linguists according to transformation type, producing four clusters most common for elementary students, where each cluster corresponds to a different type of overregularization error from một học sinh.">Động từ bất quy tắc tiếng Anh trông như một mớ hỗn loạn nhưng thật ra đã được các nhà ngôn ngữ học phân loại theo kiểu biến đổi từ lâu, tạo ra bốn cụm (cluster) phổ biến nhất với học sinh tiểu học, trong đó mỗi cụm tương ứng với một kiểu lỗi overregularization khác nhau của một học sinh.</p>
+
+      <table class="cluster-table">
+        <thead><tr>
+          <th>cụm</th>
+          <th data-vi="ví dụ" data-en="examples">ví dụ</th>
+          <th data-vi="lỗi của một học sinh" data-en="một học sinh's error">lỗi của một học sinh</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>suppletive</td><td>go-went, be-was, have-had</td><td>goed, beed, haved</td></tr>
+          <tr><td>vowel-change</td><td>sing-sang, give-gave, run-ran</td><td>singed, gived, runned</td></tr>
+          <tr><td>-t / -d ending</td><td>sleep-slept, feel-felt, sell-sold</td><td>sleeped, feeled, selled</td></tr>
+          <tr><td>no-change</td><td>put-put, cut-cut, hit-hit</td><td>putted, cutted, hitted</td></tr>
+        </tbody>
+      </table>
+
+      <p class="step-body" data-vi="Cụm no-change là thứ một học sinh đặc biệt ghét vì nó trông như bẫy: một học sinh biết có luật -ed, một học sinh biết có nhóm bất quy tắc, nhưng nhóm này không bất quy tắc theo bất kỳ kiểu nào có thể nhận ra được vì nó chỉ giữ nguyên không đổi, không có lý do, học thuộc thôi." data-en="The no-change cluster is what một học sinh particularly hates because it looks like a trap: một học sinh knows there is an -ed rule, một học sinh knows there are irregular verbs, but this group is not irregular in any detectable way since it simply stays the same with no pattern and no reason, just memorize it.">Cụm no-change là thứ một học sinh đặc biệt ghét vì nó trông như bẫy: một học sinh biết có luật -ed, một học sinh biết có nhóm bất quy tắc, nhưng nhóm này không bất quy tắc theo bất kỳ kiểu nào có thể nhận ra được vì nó chỉ giữ nguyên không đổi, không có lý do, học thuộc thôi.</p>
+      <p class="step-body" data-vi="Mỗi học sinh, ngoài điểm thành thạo cho từng từ, còn có một điểm thành thạo cho từng cụm, gọi là điểm hiểu-luật, không đo một học sinh có nhớ từ go hay không mà đo một học sinh có hiểu đúng rằng cụm suppletive không theo luật -ed hay không." data-en="Each student, besides a per-word mastery score, also has a per-cluster mastery score called the rule-understanding score, which does not measure whether một học sinh remembers the word go but whether một học sinh correctly understands that the suppletive cluster does not follow the -ed rule.">Mỗi học sinh, ngoài điểm thành thạo cho từng từ, còn có một điểm thành thạo cho từng cụm, gọi là điểm hiểu-luật, không đo một học sinh có nhớ từ go hay không mà đo một học sinh có hiểu đúng rằng cụm suppletive không theo luật -ed hay không.</p>
+    </article>
+
+    <!-- STEP 4 -->
+    <article class="step" data-step-index="4">
+      <div class="step-act" data-vi="Phần IV · Công thức 1 · xác suất nhớ" data-en="Part IV · Formula 1 · probability of recall">Phần IV · Công thức 1 · xác suất nhớ</div>
+      <h2 class="step-title" data-vi="Trí nhớ không biến mất theo đường thẳng, nó suy giảm theo đường cong." data-en="Memory does not vanish in a straight line, it decays along a curve.">Trí nhớ không biến mất theo đường thẳng, nó suy giảm theo đường cong.</h2>
+      <p class="step-body" data-vi="Câu hỏi đầu tiên thuật toán cần trả lời là nếu một học sinh ôn từ go cách đây t ngày thì hôm nay khả năng một học sinh còn nhớ là bao nhiêu, câu hỏi này được trả lời bằng forgetting curve của Ebbinghaus viết lại dưới dạng half-life, cũng là công thức Duolingo dùng trong mô hình Half-Life Regression (Settles &amp; Meeder, 2016)." data-en="The first question the algorithm needs to answer is if một học sinh reviewed the word go t days ago what is the probability một học sinh still remembers it today, a question answered by Ebbinghaus's forgetting curve rewritten as a half-life formula, also the formula Duolingo uses in their Half-Life Regression model (Settles &amp; Meeder, 2016).">Câu hỏi đầu tiên thuật toán cần trả lời là nếu một học sinh ôn từ go cách đây t ngày thì hôm nay khả năng một học sinh còn nhớ là bao nhiêu, câu hỏi này được trả lời bằng forgetting curve của Ebbinghaus viết lại dưới dạng half-life, cũng là công thức Duolingo dùng trong mô hình Half-Life Regression (Settles &amp; Meeder, 2016).</p>
+
+      <div class="formula-block">
+        <div class="formula-math">p(v, t) = 2 <sup>−t / S<sub>v</sub></sup></div>
+        <span class="formula-label" data-vi="xác suất nhớ từ v sau t ngày · S_v là half-life tính theo ngày" data-en="probability of recalling v after t days · S_v is the half-life in days">xác suất nhớ từ v sau t ngày · S_v là half-life tính theo ngày</span>
+      </div>
+
+      <p class="step-body" data-vi="S_v là half-life, tức số ngày để xác suất nhớ giảm còn 50 phần trăm, nên với một học sinh, S_go = 4 ngày có nghĩa là sau 4 ngày không ôn, một học sinh chỉ còn nhớ went với xác suất 50-50, ngang bằng tung đồng xu." data-en="S_v is the half-life, meaning the number of days for recall probability to drop to 50 percent, so for một học sinh, S_go = 4 days means that after 4 days without review, một học sinh has a 50-50 chance of remembering went, the same as a coin flip.">S_v là half-life, tức số ngày để xác suất nhớ giảm còn 50 phần trăm, nên với một học sinh, S_go = 4 ngày có nghĩa là sau 4 ngày không ôn, một học sinh chỉ còn nhớ went với xác suất 50-50, ngang bằng tung đồng xu.</p>
+
+      <div class="worked">
+        <div class="worked-title" data-vi="một học sinh ôn từ go · S_go = 4 ngày" data-en="một học sinh reviews go · S_go = 4 days">một học sinh ôn từ go · S_go = 4 ngày</div>
+        <div class="worked-row"><span data-vi="1 ngày sau, một học sinh vẫn nhớ tốt" data-en="1 day later, một học sinh still remembers well">1 ngày sau, một học sinh vẫn nhớ tốt</span><span>p = 2⁻¹ᐟ⁴ ≈ 0.84</span></div>
+        <div class="worked-row"><span data-vi="4 ngày sau, đúng half-life, tung đồng xu" data-en="4 days later, exactly half-life, coin flip">4 ngày sau, đúng half-life, tung đồng xu</span><span>p = 2⁻¹ = 0.50</span></div>
+        <div class="worked-row"><span data-vi="8 ngày sau, một học sinh gần như chắc sai" data-en="8 days later, một học sinh will almost certainly miss it">8 ngày sau, một học sinh gần như chắc sai</span><span>p = 2⁻² = 0.25</span></div>
+      </div>
+      <div class="step-source">Ebbinghaus, H. (1885) — Über das Gedächtnis · Settles, B. &amp; Meeder, B. (2016) — A Trainable Spaced Repetition Model for Language Learning, ACL 2016 (Duolingo HLR)</div>
+    </article>
+
+    <!-- STEP 5 -->
+    <article class="step" data-step-index="5">
+      <div class="step-act" data-vi="Phần V · Công thức 2 · cập nhật half-life" data-en="Part V · Formula 2 · updating the half-life">Phần V · Công thức 2 · cập nhật half-life</div>
+      <h2 class="step-title" data-vi="Cùng một câu trả lời sai, half-life giảm khác nhau tùy cụm đang khỏe hay yếu." data-en="The same wrong answer shrinks the half-life differently depending on whether the cluster is healthy or weak.">Cùng một câu trả lời sai, half-life giảm khác nhau tùy cụm đang khỏe hay yếu.</h2>
+      <p class="step-body" data-vi="Sau mỗi lần ôn, half-life S_v được cập nhật theo hai trường hợp: nếu đúng thì S_v tăng gấp đôi (hệ số α = 2, mặc định của Duolingo HLR, được giữ nguyên ở đây), nếu sai thì S_v giảm một nửa (α = 0.5, đối xứng), với một hệ số điều chỉnh phụ lấy từ điểm cụm." data-en="After each review, the half-life S_v updates in two cases: if correct then S_v doubles (factor α = 2, Duolingo HLR's default, kept here unchanged), if wrong then S_v halves (α = 0.5, symmetric), with an additional adjustment factor taken from the cluster score.">Sau mỗi lần ôn, half-life S_v được cập nhật theo hai trường hợp: nếu đúng thì S_v tăng gấp đôi (hệ số α = 2, mặc định của Duolingo HLR, được giữ nguyên ở đây), nếu sai thì S_v giảm một nửa (α = 0.5, đối xứng), với một hệ số điều chỉnh phụ lấy từ điểm cụm.</p>
+
+      <div class="formula-block">
+        <div class="formula-math">S<sub>v</sub><sup>new</sup> = S<sub>v</sub><sup>old</sup> · α<sup>r</sup> · β(M<sub>c(v)</sub>)</div>
+        <span class="formula-label" data-vi="r = 1 nếu đúng (α = 2) · r = 0 nếu sai (α = 0.5) · β(M_c) = 0.7 + 0.3·M_c" data-en="r = 1 if correct (α = 2) · r = 0 if wrong (α = 0.5) · β(M_c) = 0.7 + 0.3·M_c">r = 1 nếu đúng (α = 2) · r = 0 nếu sai (α = 0.5) · β(M_c) = 0.7 + 0.3·M_c</span>
+      </div>
+
+      <p class="step-body" data-vi="β(M_c) là hệ số nằm trong khoảng 0.7 đến 1, trong đó sàn 0.7 có nghĩa là ngay cả khi cụm hoàn toàn không được hiểu (M_c = 0) thì half-life cũng chỉ bị giảm thêm tối đa 30 phần trăm so với mức phạt thông thường, tránh trường hợp một từ bị đẩy ôn quá dày chỉ vì cụm yếu trong khi bản thân từ đó một học sinh đang nhớ tốt." data-en="β(M_c) is a coefficient between 0.7 and 1, where the floor of 0.7 means that even when the cluster is completely misunderstood (M_c = 0) the half-life only shrinks by at most an additional 30 percent beyond the standard penalty, preventing a word from being reviewed too aggressively just because its cluster is weak while một học sinh actually remembers that specific word fine.">β(M_c) là hệ số nằm trong khoảng 0.7 đến 1, trong đó sàn 0.7 có nghĩa là ngay cả khi cụm hoàn toàn không được hiểu (M_c = 0) thì half-life cũng chỉ bị giảm thêm tối đa 30 phần trăm so với mức phạt thông thường, tránh trường hợp một từ bị đẩy ôn quá dày chỉ vì cụm yếu trong khi bản thân từ đó một học sinh đang nhớ tốt.</p>
+
+      <div class="worked">
+        <div class="worked-title" data-vi="một học sinh viết goed thay vì went · S_go cũ = 4" data-en="một học sinh writes goed instead of went · old S_go = 4">một học sinh viết goed thay vì went · S_go cũ = 4</div>
+        <div class="worked-row"><span data-vi="cụm suppletive đang khỏe, M_c = 0.9, có vẻ lỗi nhất thời" data-en="suppletive cluster healthy, M_c = 0.9, looks like a one-off slip">cụm suppletive đang khỏe, M_c = 0.9</span><span>S_go = 4 · 0.5 · 0.97 ≈ 1.94</span></div>
+        <div class="worked-row"><span data-vi="cụm suppletive đang yếu, M_c = 0.2, dấu hiệu có hệ thống" data-en="suppletive cluster weak, M_c = 0.2, systemic signal">cụm suppletive đang yếu, M_c = 0.2</span><span>S_go = 4 · 0.5 · 0.76 ≈ 1.52</span></div>
+      </div>
+      <p class="step-body" data-vi="Cùng là một học sinh viết goed, nếu đây là lần đầu cụm suppletive có vấn đề thì half-life chỉ giảm về 1.94 ngày, còn nếu hệ thống đã thấy nhiều dấu hiệu cụm này đang bị nhầm thì half-life giảm sâu hơn về 1.52 ngày, đẩy từ go lên ôn sớm hơn nữa." data-en="Same mistake from một học sinh writing goed, if this is the first sign of trouble in the suppletive cluster the half-life only drops to 1.94 days, but if the system has already seen many signs of confusion in this cluster the half-life drops further to 1.52 days, pushing go even earlier into the queue.">Cùng là một học sinh viết goed, nếu đây là lần đầu cụm suppletive có vấn đề thì half-life chỉ giảm về 1.94 ngày, còn nếu hệ thống đã thấy nhiều dấu hiệu cụm này đang bị nhầm thì half-life giảm sâu hơn về 1.52 ngày, đẩy từ go lên ôn sớm hơn nữa.</p>
+    </article>
+
+    <!-- STEP 6 -->
+    <article class="step" data-step-index="6">
+      <div class="step-act" data-vi="Phần VI · Công thức 3 · cập nhật điểm cụm" data-en="Part VI · Formula 3 · updating the cluster score">Phần VI · Công thức 3 · cập nhật điểm cụm</div>
+      <h2 class="step-title" data-vi="Đây là phần lõi: hai loại sai, hai mức phạt rất khác nhau." data-en="This is the core part: two kinds of mistakes, two very different penalties.">Đây là phần lõi: hai loại sai, hai mức phạt rất khác nhau.</h2>
+      <p class="step-body" data-vi="Mỗi câu trả lời của một học sinh được phân vào một trong ba loại: đúng hoàn toàn, sai do overregularization tức gắn -ed vào động từ bất quy tắc, hoặc sai do quên hẳn tức bỏ trống hoặc trả lời không liên quan, với mỗi loại tác động đến điểm cụm M_c theo mức độ rất khác nhau." data-en="Every answer from một học sinh falls into one of three categories: fully correct, overregularization error meaning attaching -ed to an irregular verb, or plain forgetting meaning blank or unrelated answer, with each category affecting the cluster score M_c by very different amounts.">Mỗi câu trả lời của một học sinh được phân vào một trong ba loại: đúng hoàn toàn, sai do overregularization tức gắn -ed vào động từ bất quy tắc, hoặc sai do quên hẳn tức bỏ trống hoặc trả lời không liên quan, với mỗi loại tác động đến điểm cụm M_c theo mức độ rất khác nhau.</p>
+
+      <div class="formula-block">
+        <div class="formula-math">M<sub>c</sub><sup>new</sup> = M<sub>c</sub><sup>old</sup> + η · δ(a, v)</div>
+        <span class="formula-label" data-vi="η = 0.1 · δ = +1 nếu đúng · −2 nếu overregularization · −0.3 nếu quên hẳn" data-en="η = 0.1 · δ = +1 if correct · −2 if overregularization · −0.3 if plain forgetting">η = 0.1 · δ = +1 nếu đúng · −2 nếu overregularization · −0.3 nếu quên hẳn</span>
+      </div>
+
+      <p class="step-body" data-vi="Overregularization bị phạt nặng hơn quên hẳn gần bảy lần vì khi một học sinh quên thì chỉ mất một từ, còn khi một học sinh đang áp luật -ed vào mọi thứ thì went, sang, slept, put đều có nguy cơ bị goed hóa kể cả những từ một học sinh chưa từng sai bao giờ, tức là quên thì thiệt hại cô lập còn nhầm luật thì thiệt hại có hệ thống." data-en="Overregularization is penalized nearly seven times more than plain forgetting because when một học sinh forgets he only loses one word, but when một học sinh is applying the -ed rule to everything then went, sang, slept, put are all at risk of being goed-ified including words he has never missed, meaning forgetting is isolated damage while misapplying a rule is systemic damage.">Overregularization bị phạt nặng hơn quên hẳn gần bảy lần vì khi một học sinh quên thì chỉ mất một từ, còn khi một học sinh đang áp luật -ed vào mọi thứ thì went, sang, slept, put đều có nguy cơ bị goed hóa kể cả những từ một học sinh chưa từng sai bao giờ, tức là quên thì thiệt hại cô lập còn nhầm luật thì thiệt hại có hệ thống.</p>
+
+      <div class="worked">
+        <div class="worked-title" data-vi="M_suppletive cũ = 0.5 · một học sinh đang ôn từ go" data-en="old M_suppletive = 0.5 · một học sinh reviewing go">M_suppletive cũ = 0.5 · một học sinh đang ôn từ go</div>
+        <div class="worked-row"><span data-vi="một học sinh trả lời đúng: went" data-en="một học sinh answers correctly: went">một học sinh trả lời đúng: went</span><span>M = 0.5 + 0.1·(+1) = 0.60</span></div>
+        <div class="worked-row"><span data-vi="một học sinh viết goed (overregularization)" data-en="một học sinh writes goed (overregularization)">một học sinh viết goed (overregularization)</span><span>M = 0.5 + 0.1·(−2) = 0.30</span></div>
+        <div class="worked-row"><span data-vi="một học sinh bỏ trống (quên hẳn)" data-en="một học sinh leaves it blank (plain forgetting)">một học sinh bỏ trống (quên hẳn)</span><span>M = 0.5 + 0.1·(−0.3) = 0.47</span></div>
+      </div>
+      <div class="step-pull" data-vi="Cùng là một câu trả lời sai, goed làm điểm cụm giảm 0.20 còn bỏ trống chỉ giảm 0.03, trong đó −2 và −0.3 là điểm khởi đầu hợp lý neo vào nguyên tắc &ldquo;thiệt hại có hệ thống cần penalty có hệ thống&rdquo; chứ không phải sự thật được đo đạc chính xác, cần dữ liệu thật từ học sinh để hiệu chỉnh." data-en="Same wrong answer, goed drops the cluster score by 0.20 while leaving it blank only drops it by 0.03, where −2 and −0.3 are reasonable starting points anchored in the principle that systemic damage needs systemic penalty rather than precisely measured truths, real student data is needed for calibration.">Cùng là một câu trả lời sai, goed làm điểm cụm giảm 0.20 còn bỏ trống chỉ giảm 0.03, trong đó −2 và −0.3 là điểm khởi đầu hợp lý neo vào nguyên tắc &ldquo;thiệt hại có hệ thống cần penalty có hệ thống&rdquo; chứ không phải sự thật được đo đạc chính xác, cần dữ liệu thật từ học sinh để hiệu chỉnh.</div>
+    </article>
+
+    <!-- STEP 7 -->
+    <article class="step" data-step-index="7">
+      <div class="step-act" data-vi="Phần VII · Công thức 4 và 5 · lịch ôn và độ ưu tiên" data-en="Part VII · Formulas 4 and 5 · schedule and priority">Phần VII · Công thức 4 và 5 · lịch ôn và độ ưu tiên</div>
+      <h2 class="step-title" data-vi="Cụm chỉ là tín hiệu phụ, không lấn át tín hiệu sắp quên." data-en="The cluster is only a secondary signal, it does not override the about-to-forget signal.">Cụm chỉ là tín hiệu phụ, không lấn át tín hiệu sắp quên.</h2>
+      <p class="step-body" data-vi="Từ half-life S_v, hệ thống tính ngày ôn tiếp theo t* sao cho đến lúc đó xác suất nhớ vừa chạm ngưỡng 0.8, đây là ngưỡng cả Duolingo lẫn Lingvist đều nhắm tới trong các paper của họ." data-en="From the half-life S_v, the system computes the next review day t* so that by then the recall probability has just dropped to 0.8, which is the threshold both Duolingo and Lingvist target in their respective papers.">Từ half-life S_v, hệ thống tính ngày ôn tiếp theo t* sao cho đến lúc đó xác suất nhớ vừa chạm ngưỡng 0.8, đây là ngưỡng cả Duolingo lẫn Lingvist đều nhắm tới trong các paper của họ.</p>
+
+      <div class="formula-block">
+        <div class="formula-math">t* = −S<sub>v</sub> · log₂(p<sub>target</sub>) ≈ 0.32 · S<sub>v</sub></div>
+        <span class="formula-label" data-vi="với p_target = 0.8 · nguồn: Duolingo HLR, Lingvist 2016" data-en="with p_target = 0.8 · source: Duolingo HLR, Lingvist 2016">với p_target = 0.8 · nguồn: Duolingo HLR, Lingvist 2016</span>
+      </div>
+
+      <p class="step-body" data-vi="Trong một buổi học một học sinh thường có nhiều từ cùng đến hạn nên cần xếp thứ tự, đây là chỗ cụm quay lại dưới dạng một số hạng cộng thêm chứ không phải nhân, để nó chỉ điều chỉnh nhẹ thứ tự thay vì đảo ngược hoàn toàn." data-en="In a single session một học sinh often has several words due at the same time so they need ordering, this is where the cluster comes back as an additive term rather than multiplicative, so it only nudges the order rather than flipping it entirely.">Trong một buổi học một học sinh thường có nhiều từ cùng đến hạn nên cần xếp thứ tự, đây là chỗ cụm quay lại dưới dạng một số hạng cộng thêm chứ không phải nhân, để nó chỉ điều chỉnh nhẹ thứ tự thay vì đảo ngược hoàn toàn.</p>
+
+      <div class="formula-block">
+        <div class="formula-math">Priority(v) = (1 − p(v, t<sub>now</sub>)) + λ · (1 − M<sub>c(v)</sub>)</div>
+        <span class="formula-label">λ = 0.4</span>
+      </div>
+
+      <div class="worked">
+        <div class="worked-title" data-vi="Hai từ trong hàng đợi của một học sinh hôm nay" data-en="Two words in một học sinh's queue today">Hai từ trong hàng đợi của một học sinh hôm nay</div>
+        <div class="worked-row"><span data-vi="go: p = 0.6, cụm suppletive yếu M_c = 0.3" data-en="go: p = 0.6, suppletive cluster weak M_c = 0.3">go: p = 0.6, cụm suppletive yếu M_c = 0.3</span><span>0.4 + 0.4·0.7 = 0.68</span></div>
+        <div class="worked-row"><span data-vi="sing: p = 0.25, cụm vowel-change khỏe M_c = 0.85" data-en="sing: p = 0.25, vowel-change cluster healthy M_c = 0.85">sing: p = 0.25, cụm vowel-change khỏe M_c = 0.85</span><span>0.75 + 0.4·0.15 = 0.81</span></div>
+      </div>
+      <p class="step-body" data-vi="Sing được ôn trước dù cụm của go đang yếu hơn nhiều, vì một học sinh vẫn nhớ go khá tốt ngay lúc này (p = 0.6) trong khi sing thì xác suất quên đã rất cao (p = 0.25), tức là cụm yếu của go chỉ đẩy độ ưu tiên lên thêm 0.28, không đủ để vượt qua cái 0.50 chênh lệch từ xác suất nhớ, tín hiệu sắp quên vẫn là tín hiệu chính." data-en="Sing gets reviewed first even though go's cluster is much weaker, because một học sinh still remembers go reasonably well right now (p = 0.6) while sing's forgetting probability is already high (p = 0.25), meaning go's weak cluster only boosts its priority by 0.28, not enough to overcome the 0.50 gap from recall probability, the about-to-forget signal stays dominant.">Sing được ôn trước dù cụm của go đang yếu hơn nhiều, vì một học sinh vẫn nhớ go khá tốt ngay lúc này (p = 0.6) trong khi sing thì xác suất quên đã rất cao (p = 0.25), tức là cụm yếu của go chỉ đẩy độ ưu tiên lên thêm 0.28, không đủ để vượt qua cái 0.50 chênh lệch từ xác suất nhớ, tín hiệu sắp quên vẫn là tín hiệu chính.</p>
+    </article>
+
+    <!-- STEP 8 -->
+    <article class="step" data-step-index="8">
+      <div class="step-act" data-vi="Phần VIII · Những nghiên cứu trước" data-en="Part VIII · Previous research">Phần VIII · Những nghiên cứu trước</div>
+      <h2 class="step-title" data-vi="Có nhiều nghiên theo hướng gần, nhánh này tác giả trực tiếp đứng lớp nên nhận ra một vài hành vi của khối tiểu học khi học động từ bất quy tắc." data-en="Yes, in nearby directions, but no one has done this exact angle for irregular verbs.">Có nhiều nghiên theo hướng gần, nhánh này tác giả trực tiếp đứng lớp nên nhận ra một vài hành vi của khối tiểu học khi học động từ bất quy tắc..</h2>
+
+      <div class="case-block">
+        <div class="case-title">LECTOR, 2025 · LLM-enhanced concept-based repetition</div>
+        <p class="case-body" data-vi="LECTOR đạt tỷ lệ thành công 90.2 phần trăm, vượt baseline SSP-MMC ở mức 88.4 phần trăm, bằng cách lên lịch dựa trên nhận thức ngữ nghĩa thay vì từng từ độc lập, trong khi một nghiên cứu khác năm 2025 cho thấy thêm đặc điểm hình thái học vào mô hình dự đoán cũng cải thiện hiệu năng so với mô hình chỉ dùng đặc điểm thời gian." data-en="LECTOR reached a 90.2 percent success rate, beating the SSP-MMC baseline at 88.4 percent, by scheduling based on semantic awareness rather than treating each word independently, while a separate 2025 study showed that adding morphological features to a recall prediction model also improved performance over timing-only models.">LECTOR đạt tỷ lệ thành công 90.2 phần trăm, vượt baseline SSP-MMC ở mức 88.4 phần trăm, bằng cách lên lịch dựa trên nhận thức ngữ nghĩa thay vì từng từ độc lập, trong khi một nghiên cứu khác năm 2025 cho thấy thêm đặc điểm hình thái học vào mô hình dự đoán cũng cải thiện hiệu năng so với mô hình chỉ dùng đặc điểm thời gian.</p>
+        <div class="case-stat">
+          <span class="case-stat-item">LECTOR <strong>90.2%</strong></span>
+          <span class="case-stat-item">SSP-MMC <strong>88.4%</strong></span>
+        </div>
+      </div>
+
+      <p class="step-body" data-vi="Tất cả các hướng trên đều dùng deep learning hoặc reinforcement learning, cần lượng dữ liệu lớn để huấn luyện, chưa có hướng nào tập trung riêng vào pattern lỗi hình thái của động từ bất quy tắc theo cách rule-based và diễn giải được." data-en="All of these directions use deep learning or reinforcement learning and require large amounts of training data, none of them focus specifically on the morphological error patterns of irregular verbs in a rule-based and interpretable way.">Tất cả các hướng trên đều dùng deep learning hoặc reinforcement learning, cần lượng dữ liệu lớn để huấn luyện, chưa có hướng nào tập trung riêng vào pattern lỗi hình thái của động từ bất quy tắc theo cách rule-based và diễn giải được.</p>
+      <div class="step-pull" data-vi="Chỗ đứng còn trống là một biến thể nhẹ, diễn giải được, chạy ngay với vài chục học sinh như một học sinh, không cần huấn luyện mô hình, dựa trên phân loại ngôn ngữ học có sẵn." data-en="The open space is a lightweight interpretable variant that runs immediately with a few dozen students like một học sinh, requires no model training, and is grounded in existing linguistic classifications.">Chỗ đứng còn trống là một biến thể nhẹ, diễn giải được, chạy ngay với vài chục học sinh như một học sinh, không cần huấn luyện mô hình, dựa trên phân loại ngôn ngữ học có sẵn.</div>
+      <div class="step-source">Settles &amp; Meeder (2016) - A Trainable Spaced Repetition Model for Language Learning, ACL · LECTOR: LLM-Enhanced Concept-based Test-Oriented Repetition for Adaptive Spaced Repetition, arXiv 2025 · Personalized Language Learning Using Spaced Repetition Scheduling, Springer 2025</div>
+    </article>
+
+    <!-- STEP 9 -->
+    <article class="step" data-step-index="9">
+      <div class="step-act" data-vi="Phần IX · LLM và phần demo" data-en="Part IX · LLM and the demo">Phần IX · LLM và phần demo</div>
+      <h2 class="step-title" data-vi="Khi cụm yếu, LLM không lặp lại flashcard, nó tạo bài tập theo nhóm." data-en="When a cluster is weak, the LLM does not repeat flashcards, it generates a grouped exercise.">Khi cụm yếu, LLM không lặp lại flashcard, nó tạo bài tập theo nhóm.</h2>
+      <p class="step-body" data-vi="Khi M_suppletive của một học sinh rơi xuống dưới 0.4, hệ thống không chỉ đẩy từng từ lên ôn sớm hơn mà còn gọi LLM tạo một đoạn văn ngắn dùng nhiều từ trong cụm đó cùng một lúc, với prompt trông như thế này: &ldquo;Tạo một đoạn văn 2 đến 3 câu dành cho học sinh lớp 3, dùng quá khứ đơn của go, see, have trong ngữ cảnh tự nhiên, không dùng động từ quy tắc trong cùng đoạn.&rdquo;" data-en="When một học sinh's M_suppletive drops below 0.4, the system not only pushes individual words up for earlier review but also calls an LLM to generate a short passage using several words from that cluster at once, with a prompt that looks like: &ldquo;Generate a 2 to 3 sentence passage for a Grade 3 student using the simple past of go, see, have in natural context, do not use any regular verbs in the same passage.&rdquo;">Khi M_suppletive của một học sinh rơi xuống dưới 0.4, hệ thống không chỉ đẩy từng từ lên ôn sớm hơn mà còn gọi LLM tạo một đoạn văn ngắn dùng nhiều từ trong cụm đó cùng một lúc, với prompt trông như thế này: &ldquo;Tạo một đoạn văn 2 đến 3 câu dành cho học sinh lớp 3, dùng quá khứ đơn của go, see, have trong ngữ cảnh tự nhiên, không dùng động từ quy tắc trong cùng đoạn.&rdquo;</p>
+      <p class="step-body" data-vi="Output được kiểm tra tự động để đảm bảo đủ ba từ xuất hiện đúng dạng trước khi gửi cho một học sinh, lúc đó một học sinh không lật ba flashcard riêng lẻ lúc 10 giờ đêm mà đọc một đoạn văn ngắn và điền vào chỗ trống, ba động từ suppletive trong cùng một ngữ cảnh, đúng cái luật đang bị nhầm, đúng cái cụm đang có vấn đề." data-en="The output is checked automatically to confirm all three words appear in the correct form before it reaches một học sinh, at which point một học sinh is not flipping three separate flashcards at 10 pm but reading a short passage and filling in the blanks, three suppletive verbs in the same context, practicing exactly the rule being confused, exactly the cluster with the problem.">Output được kiểm tra tự động để đảm bảo đủ ba từ xuất hiện đúng dạng trước khi gửi cho một học sinh, lúc đó một học sinh không lật ba flashcard riêng lẻ lúc 10 giờ đêm mà đọc một đoạn văn ngắn và điền vào chỗ trống, ba động từ suppletive trong cùng một ngữ cảnh, đúng cái luật đang bị nhầm, đúng cái cụm đang có vấn đề.</p>
+
+      <a class="demo-link" href="irregular-verb-scheduler-demo.html">
+        <span class="demo-link-text" data-vi="Mở demo: bộ ôn tập động từ bất quy tắc theo cụm" data-en="Open the demo: cluster-aware irregular verb scheduler">Mở demo: bộ ôn tập động từ bất quy tắc theo cụm</span>
+        <span class="demo-link-arrow" data-vi="Xem demo →" data-en="Open demo →">Xem demo →</span>
+      </a>
+    </article>
+
+  </div>
+</div>
+
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: &lt;a href=&quot;https://tellstory-blog.web.app/goed-thuat-toan.html&quot;&gt;Tellstory blog&lt;/a&gt;." data-en="© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analytical structure and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse source code without permission. When quoting a short excerpt, please credit: &lt;a href=&quot;https://tellstory-blog.web.app/goed-thuat-toan.html&quot;&gt;Tellstory blog&lt;/a&gt;.">© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: <a href="https://tellstory-blog.web.app/goed-thuat-toan.html">Tellstory blog</a>.</p>
+
+<section class="comments-section" data-comments data-post-slug="goed-thuat-toan" data-post-title="Khi go biến thành goed" data-comment-lang="vi"></section>
+
+<!-- OUTRO -->
+<section id="outro">
+  <div class="outro-kicker">Kết · Tellstory</div>
+  <h2 class="outro-title" data-vi="Các hằng số ở đây là điểm khởi đầu, không phải <em>sự thật cuối cùng.</em>" data-en="The constants here are a starting point, not <em>the final truth.</em>">Các hằng số ở đây là điểm khởi đầu, không phải <em>sự thật cuối cùng.</em></h2>
+  <p class="outro-body" data-vi="Alpha, eta, lambda, cặp số 0.7/0.3 trong beta đều là giá trị hợp lý dựa trên literature nhưng cần được hiệu chỉnh bằng dữ liệu thật. Câu hỏi mở là liệu phân cụm theo lỗi hình thái có phản ánh đúng cách học sinh Việt Nam nhầm lẫn tiếng Anh hay các em có pattern khác với trẻ nói tiếng Anh như tiếng mẹ đẻ, vì một học sinh chỉ là một trường hợp và cần thêm vài chục trường hợp khác để biết." data-en="Alpha, eta, lambda, and the 0.7/0.3 pair inside beta are all reasonable starting values based on the literature, but they need calibration with real data. The open question is whether grouping by morphological error actually reflects how Vietnamese students confuse English, or whether they follow a different pattern from native-speaking children, since one learner is only one case and a few dozen more cases are needed to find out.">Alpha, eta, lambda, cặp số 0.7/0.3 trong beta đều là giá trị hợp lý dựa trên literature nhưng cần được hiệu chỉnh bằng dữ liệu thật. Câu hỏi mở là liệu phân cụm theo lỗi hình thái có phản ánh đúng cách học sinh Việt Nam nhầm lẫn tiếng Anh hay các em có pattern khác với trẻ nói tiếng Anh như tiếng mẹ đẻ, vì một học sinh chỉ là một trường hợp và cần thêm vài chục trường hợp khác để biết.</p>
+  <div class="outro-links">
+    <a class="outro-link" href="index.html" data-vi="← Tất cả bài viết" data-en="← All articles">← Tất cả bài viết</a>
+    <a class="outro-link" href="irregular-verb-scheduler-demo.html" data-vi="Mở demo" data-en="Open demo">Mở demo</a>
+    <a class="outro-link" href="contact.html#anonymous-mailbox" data-vi="Gửi phản hồi" data-en="Send feedback">Gửi phản hồi</a>
+  </div>
+</section>
+
+<script>
+let currentLang = 'vi';
+let currentStep = 0;
+
+const translations = {
+  vi: { captions: ['go → went · không phải go → goed','Phần I · viên gạch riêng','Phần II · overregularization','Phần III · cụm theo lỗi','Phần IV · p(v,t) = 2^(-t/S)','Phần V · cập nhật half-life','Phần VI · điểm cụm M_c','Phần VII · priority(v)','Phần VIII · liên quan & khác biệt','Phần IX · LLM & demo'] },
+  en: { captions: ['go → went · not go → goed','Part I · separate bricks','Part II · overregularization','Part III · error-based clusters','Part IV · p(v,t) = 2^(-t/S)','Part V · half-life update','Part VI · cluster score M_c','Part VII · priority(v)','Part VIII · related work','Part IX · LLM & demo'] }
+ };
+
+const hudData = {
+  vi: [
+    ['mistake signal','go không biến thành goed','Một lỗi nhỏ có thể là dấu hiệu của cả một luật đang bị áp nhầm.','go → went<br>not go → goed',['overregularization','cluster','memory']],
+    ['flashcard blind spot','Ba từ sai, một luật sai','Hệ thống thường thấy go, eat, see là ba lỗi riêng, nhưng người học có thể đang sai cùng một quy luật.','go · eat · see<br>same hidden pattern',['SM-2','review','blind spot']],
+    ['u-shaped learning','Sai chưa chắc là thụt lùi','Goed có thể xuất hiện khi người học vừa hiểu luật quá khứ, rồi áp luật đó quá rộng.','right → wrong → right again',['U curve','grammar','child language']],
+    ['error clusters','Chia theo cách sai','Động từ không chỉ được học theo nghĩa, mà còn có thể được nhóm theo kiểu lỗi người học dễ mắc.','suppletive · vowel-change<br>no-change · t/d ending',['verbs','pattern','rule']],
+    ['forgetting curve','Trí nhớ là đường cong','Thuật toán không hỏi học bao lâu, mà hỏi xác suất còn nhớ tại thời điểm hiện tại là bao nhiêu.','p(v,t)=2<sup>−t/S</sup>',['half-life','recall','Ebbinghaus']],
+    ['half-life update','Sai một từ, nhìn cả cụm','Cùng một lỗi goed sẽ bị hiểu khác nhau nếu cả cụm suppletive đang yếu hoặc đang khỏe.','S new = S old · α · β(Mc)',['update','cluster score','signal']],
+    ['systemic penalty','Quên khác với hiểu nhầm luật','Bỏ trống là mất một từ, còn overregularization là dấu hiệu nhiều từ khác cũng có nguy cơ sai.','M new = M old + ηδ',['penalty','goed','rule error']],
+    ['priority queue','Ôn từ nào trước','Cụm yếu chỉ là tín hiệu phụ, còn xác suất sắp quên vẫn là tín hiệu chính để xếp lịch ôn.','Priority = memory risk + cluster risk',['queue','priority','review']],
+    ['research gap','Chỗ còn trống','Các hướng mới đã dùng AI và LLM, nhưng góc nhìn lỗi hình thái của động từ bất quy tắc vẫn còn rất đáng thử.','semantic scheduling<br>morphological error',['LLM','research','gap']],
+    ['demo logic','Khi LLM tạo bài tập','Nếu một cụm yếu, hệ thống không lặp flashcard, nó tạo bài tập theo nhóm để sửa đúng luật đang bị nhầm.','weak cluster → grouped exercise',['demo','LLM','practice']]
+  ],
+  en: [
+    ['mistake signal','go does not become goed','A small error can reveal an entire rule being misapplied.','go → went<br>not go → goed',['overregularization','cluster','memory']],
+    ['flashcard blind spot','Three wrong words, one wrong rule','A system may treat go, eat, see as separate failures, while the learner is actually misapplying one shared pattern.','go · eat · see<br>same hidden pattern',['SM-2','review','blind spot']],
+    ['u-shaped learning','Wrong does not always mean regression','Goed can appear when learners have just learned the past tense rule and apply it too widely.','right → wrong → right again',['U curve','grammar','child language']],
+    ['error clusters','Grouped by how they fail','Verbs can be organized not only by meaning, but by the mistake pattern learners are likely to produce.','suppletive · vowel-change<br>no-change · t/d ending',['verbs','pattern','rule']],
+    ['forgetting curve','Memory is a curve','The algorithm asks not how long the learner studied, but how likely recall is right now.','p(v,t)=2<sup>−t/S</sup>',['half-life','recall','Ebbinghaus']],
+    ['half-life update','One word, one cluster signal','The same goed error means different things depending on whether the suppletive cluster is weak or healthy.','S new = S old · α · β(Mc)',['update','cluster score','signal']],
+    ['systemic penalty','Forgetting is not rule confusion','Blank means one word is lost, overregularization means many related words may be at risk.','M new = M old + ηδ',['penalty','goed','rule error']],
+    ['priority queue','Which word comes first','Cluster weakness is a secondary signal, while current forgetting risk still dominates the review order.','Priority = memory risk + cluster risk',['queue','priority','review']],
+    ['research gap','The open space','AI and LLM directions already exist, but morphological error patterns in irregular verbs remain worth testing.','semantic scheduling<br>morphological error',['LLM','research','gap']],
+    ['demo logic','When LLM generates practice','If a cluster is weak, the system does not repeat flashcards, it generates grouped practice for the confused rule.','weak cluster → grouped exercise',['demo','LLM','practice']]
+  ]
+};
+
+function updateHud(stepIndex){
+  const list = hudData[currentLang] || hudData.vi;
+  const data = list[stepIndex] || list[0];
+  const kicker = document.getElementById('hud-kicker');
+  const title = document.getElementById('hud-title');
+  const body = document.getElementById('hud-body');
+  const formula = document.getElementById('hud-formula');
+  const tags = document.getElementById('hud-tags');
+  if(!kicker || !title || !body || !formula || !tags) return;
+  kicker.textContent = data[0];
+  title.textContent = data[1];
+  body.textContent = data[2];
+  formula.innerHTML = data[3];
+  tags.innerHTML = data[4].map(t => `<span class="right-hud-tag">${t}</span>`).join('');
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  try { localStorage.setItem('tellstoryLang', lang); } catch(e) {}
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-vi]').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (!text) return;
+    if (el.tagName === 'H1' || el.tagName === 'H2' || (el.innerHTML && el.innerHTML.includes('<em>'))) {
+      el.innerHTML = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+  const capEl = document.getElementById('graphic-caption');
+  if (capEl) capEl.textContent = translations[lang].captions[currentStep] || '';
+  updateHud(currentStep);
+}
+
+const savedLang = (() => { try { return localStorage.getItem('tellstoryLang') || 'vi'; } catch(e) { return 'vi'; }})();
+setLang(savedLang);
+
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress').style.width = (window.scrollY / h * 100) + '%';
+});
+
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+const groupA = [];
+const groupB = [];
+for (let i = 0; i < 22; i++) {
+  groupA.push({ x: .28 + (Math.random()-.5)*.32, y: .5 + (Math.random()-.5)*.5, vx:(Math.random()-.5)*.0002, vy:(Math.random()-.5)*.0002, r: Math.random()*2.2+.8, bright: Math.random() });
+}
+for (let i = 0; i < 22; i++) {
+  groupB.push({ x: .72 + (Math.random()-.5)*.32, y: .5 + (Math.random()-.5)*.5, vx:(Math.random()-.5)*.0002, vy:(Math.random()-.5)*.0002, r: Math.random()*2.2+.8, bright: Math.random() });
+}
+
+function drawGroup(nodes, color, linkAlpha, maxD) {
+  const px = nodes.map(n => ({x:n.x*W,y:n.y*H}));
+  for (let i=0;i<nodes.length;i++) for (let j=i+1;j<nodes.length;j++) {
+    const dx=px[i].x-px[j].x, dy=px[i].y-px[j].y, d=Math.sqrt(dx*dx+dy*dy);
+    if (d<maxD) {
+      ctx.strokeStyle = `rgba(${color},${linkAlpha*(1-d/maxD)})`;
+      ctx.lineWidth=.5; ctx.beginPath(); ctx.moveTo(px[i].x,px[i].y); ctx.lineTo(px[j].x,px[j].y); ctx.stroke();
+    }
+  }
+  nodes.forEach((n,i) => {
+    ctx.beginPath(); ctx.arc(px[i].x,px[i].y,n.r,0,Math.PI*2);
+    ctx.fillStyle = `rgba(${color},${.45*n.bright})`;
+    ctx.fill();
+  });
+}
+
+let raf;
+function draw() {
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0E0C0A';
+  ctx.fillRect(0,0,W,H);
+
+  [...groupA, ...groupB].forEach(n => {
+    n.x += n.vx; n.y += n.vy;
+    if (n.x<.05||n.x>.95) n.vx*=-1;
+    if (n.y<.1||n.y>.9) n.vy*=-1;
+    n.bright = Math.min(1, n.bright + .0015);
+  });
+
+  const aWeak = currentStep >= 5 && currentStep <= 7;
+  const aColor = aWeak ? '139,42,26' : '246,241,232';
+  const aMaxD = aWeak ? 95 : 60;
+  drawGroup(groupA, aColor, aWeak ? .25 : .1, aMaxD);
+
+  const bGold = currentStep >= 7;
+  const bColor = bGold ? '196,154,72' : '246,241,232';
+  drawGroup(groupB, bColor, bGold ? .22 : .1, bGold ? 100 : 60);
+
+  raf = requestAnimationFrame(draw);
+}
+document.addEventListener('visibilitychange', () => { if(document.hidden) cancelAnimationFrame(raf); else draw(); });
+draw();
+
+const steps = document.querySelectorAll('.step');
+const dots = document.querySelectorAll('.dot');
+const capEl = document.getElementById('graphic-caption');
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-active');
+      const idx = +entry.target.dataset.stepIndex;
+      currentStep = idx;
+      capEl.textContent = translations[currentLang].captions[idx-1] || '';
+      dots.forEach(d => d.classList.toggle('active', +d.dataset.i === idx-1));
+      updateHud(idx);
+    }
+  });
+}, { threshold: .32 });
+
+steps.forEach(s => io.observe(s));
+dots.forEach(dot => {
+  dot.addEventListener('click', () => { steps[+dot.dataset.i]?.scrollIntoView({behavior:'smooth',block:'center'}); });
+});
+</script>
+<script type="module" src="comments.js"></script>
+
+
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "Nguồn: Tellstory blog · Bui Tong Giang" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

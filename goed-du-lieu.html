@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Khi goed trở thành dữ liệu</title>
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<meta content="Tôi biến lỗi goed thành dữ liệu để xem một hệ thống học nhỏ có đọc được pattern sai, điểm cụm, half-life và calibration hay không." name="description"/>
+<link href="https://tellstory-blog.web.app/goed-du-lieu.html" rel="canonical"/>
+<meta content="Khi goed trở thành dữ liệu" property="og:title"/>
+<meta content="Tôi xây dựng một hệ thống học nhỏ để kiểm tra xem lỗi goed có thật sự lan theo cụm không, và thuật toán có dự đoán đúng điều đang diễn ra với người học không." property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://tellstory-blog.web.app/goed-du-lieu.html" property="og:url"/>
+<meta content="Tellstory blog" property="og:site_name"/>
+<meta content="https://tellstory-blog.web.app/goed.png" property="og:image"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="comments.css" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;
+  --paper:#F6F1E8;--paper-2:#EDE8DC;--paper-3:#E2DBCB;
+  --rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;--gold-light:#C49A48;--canvas:#0E0C0A;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;overflow-x:hidden;}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--red);width:0%;z-index:1000;transition:width .1s linear;}
+#dot-nav{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.55rem;z-index:100;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(26,23,20,.15);cursor:pointer;transition:all .3s ease;border:1px solid rgba(26,23,20,.2);}
+.dot.active{background:var(--red);transform:scale(1.7);border-color:var(--red);}
+@media(max-width:720px){#dot-nav{display:none;}}
+.blog-nav{position:fixed;top:1rem;left:1rem;z-index:1100;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.blog-nav a,.lang-btn{display:inline-flex;align-items:center;justify-content:center;padding:.55rem .85rem;color:rgba(26,23,20,.75);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);backdrop-filter:blur(10px);transition:background .2s,color .2s,border-color .2s;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;}
+.blog-nav a:hover,.lang-btn:hover{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+.lang-btn.active{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+ 
+/* INTRO */
+#intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;border-bottom:1px solid var(--rule);background:var(--paper);}
+#intro::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink);}
+#intro::after{content:'記';position:absolute;right:4vw;bottom:-6vh;font-family:'Playfair Display',serif;font-size:clamp(160px,28vw,400px);color:rgba(26,23,20,.032);line-height:1;pointer-events:none;}
+.intro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:2rem;}
+.intro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.2rem,5vw,4.4rem);font-weight:700;line-height:1.07;max-width:820px;margin-bottom:1.6rem;color:var(--ink);}
+.intro-title em{color:var(--red);font-style:italic;}
+.intro-rule{width:48px;height:2px;background:var(--red);margin-bottom:1.6rem;}
+.intro-sub{font-size:1rem;color:var(--ink-2);max-width:560px;line-height:1.95;margin-bottom:1.6rem;font-weight:300;}
+.prereq-note{display:inline-flex;align-items:center;gap:.7rem;border:1px solid var(--rule);background:var(--paper-2);padding:.75rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--ink-3);text-decoration:none;margin-bottom:2.2rem;transition:border-color .2s,color .2s;}
+.prereq-note:hover{border-color:var(--red);color:var(--red);}
+.prereq-note span{color:var(--red);}
+.scroll-cue{display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-4);}
+.scroll-bar{width:44px;height:1px;background:var(--ink-3);transform-origin:left;animation:grow 2s ease-in-out infinite;}
+@keyframes grow{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+ 
+/* SCROLLYTELLING */
+.scrolly{position:relative;}
+.sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:var(--canvas);}
+canvas#scene{position:absolute;inset:0;width:100%;height:100%;}
+.graphic-caption{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(246,241,232,.2);position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);white-space:nowrap;text-transform:uppercase;}
+.steps{position:relative;z-index:10;padding-bottom:28vh;}
+.step{max-width:580px;margin:0 6vw 68vh;padding:2.6rem 2.8rem;background:var(--paper);border-top:3px solid var(--ink);box-shadow:0 2px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.step:last-child{margin-bottom:0;}
+.step.is-active{opacity:1;transform:translateY(0);}
+.step-act{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:.9rem;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.1rem,1.8vw,1.5rem);font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:1rem;}
+.step-body{font-size:.9rem;color:var(--ink-2);line-height:1.9;margin-bottom:.8rem;font-weight:300;}
+.step-body em{color:var(--red);font-style:italic;}
+.step-body strong{color:var(--ink);font-weight:500;}
+.step-pull{font-family:'Playfair Display',Georgia,serif;font-size:.92rem;font-style:italic;color:var(--ink-2);border-left:2px solid var(--red);padding:.6rem 1rem;margin:1rem 0;background:var(--paper-2);line-height:1.75;}
+
+.source-link,.step-source a{color:var(--red);text-decoration:none;border-bottom:1px solid rgba(139,42,26,.35);}
+.source-link:hover,.step-source a:hover{border-color:var(--red);}
+.step-source{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--ink-4);margin-top:1rem;letter-spacing:.05em;border-top:1px solid var(--rule);padding-top:.7rem;}
+.formula-block{margin:1.2rem 0;padding:1.3rem 1.4rem;background:var(--ink);color:var(--paper);}
+.formula-math{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;color:var(--paper);line-height:1.4;text-align:center;padding:.4rem 0;}
+.formula-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(246,241,232,.5);letter-spacing:.18em;margin-top:.5rem;display:block;text-align:center;}
+.worked{margin:1.1rem 0;padding:1rem 1.2rem;border:1px solid var(--rule);background:var(--paper-2);}
+.worked-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--red);text-transform:uppercase;margin-bottom:.6rem;}
+.worked-row{display:flex;justify-content:space-between;gap:.6rem;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);padding:.25rem 0;border-bottom:1px dashed var(--rule);}
+.worked-row:last-child{border-bottom:none;font-weight:500;color:var(--ink);}
+.worked-row span:first-child{color:var(--ink-3);}
+.cluster-table{margin:1.1rem 0;width:100%;border-collapse:collapse;font-size:.82rem;}
+.cluster-table th{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.15em;color:var(--ink-4);text-transform:uppercase;text-align:left;padding:.5rem .6rem;border-bottom:2px solid var(--ink);}
+.cluster-table td{padding:.55rem .6rem;border-bottom:1px solid var(--rule);color:var(--ink-2);}
+.cluster-table td:first-child{color:var(--red);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;}
+.error-delta{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:1rem 0;}
+.delta-cell{border:1px solid var(--rule);padding:.75rem .9rem;background:var(--paper-2);}
+.delta-cell .label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.35rem;}
+.delta-cell .val{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;}
+.delta-cell.neg .val{color:var(--red);}
+.delta-cell.pos .val{color:#2a6b3a;}
+.delta-cell .note{font-size:.74rem;color:var(--ink-3);margin-top:.2rem;font-weight:300;}
+ 
+/* TOOL CTA SECTION */
+.embed-section{background:var(--paper-3);padding:6rem 7vw;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);position:relative;overflow:hidden;}
+.embed-section::after{content:'DATA';position:absolute;right:4vw;top:50%;transform:translateY(-50%);font-family:'Playfair Display',Georgia,serif;font-size:clamp(6rem,14vw,15rem);font-weight:700;letter-spacing:-.08em;color:rgba(26,23,20,.035);line-height:1;pointer-events:none;}
+.tool-wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,.95fr) minmax(360px,1.05fr);gap:3rem;align-items:center;}
+.tool-copy{max-width:620px;}
+.embed-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:1.2rem;}
+.embed-heading{font-family:'Playfair Display',serif;font-size:clamp(1.65rem,3.2vw,2.8rem);font-weight:700;line-height:1.08;color:var(--ink);margin-bottom:1rem;max-width:700px;}
+.embed-heading em{color:var(--red);font-style:italic;}
+.embed-lead{font-size:.94rem;color:var(--ink-2);max-width:620px;line-height:2;margin-bottom:1.7rem;font-weight:300;}
+.tool-note{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.13em;color:var(--ink-4);text-transform:uppercase;border-top:1px solid var(--rule);padding-top:.85rem;max-width:560px;}
+.tool-panel{position:relative;min-height:330px;border:1px solid rgba(26,23,20,.18);background:var(--ink);color:var(--paper);padding:1.45rem;box-shadow:0 18px 48px rgba(0,0,0,.18);overflow:hidden;}
+.tool-panel::before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(246,241,232,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(246,241,232,.035) 1px,transparent 1px);background-size:42px 42px;pointer-events:none;}
+.tool-panel::after{content:'測';position:absolute;right:-1.6rem;bottom:-2.7rem;font-family:'Playfair Display',Georgia,serif;font-size:8.6rem;line-height:1;color:rgba(246,241,232,.04);pointer-events:none;}
+.tool-panel-head{position:relative;display:flex;justify-content:space-between;gap:1rem;align-items:flex-start;border-bottom:1px solid rgba(246,241,232,.14);padding-bottom:1rem;margin-bottom:1rem;}
+.tool-panel-kicker{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:rgba(196,154,72,.82);margin-bottom:.45rem;}
+.tool-panel-title{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;line-height:1.15;color:rgba(246,241,232,.94);}
+.tool-panel-meta{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:rgba(246,241,232,.42);white-space:nowrap;margin-top:.2rem;}
+.tool-links{position:relative;display:grid;grid-template-columns:1fr;gap:.75rem;margin:0;}
+.tool-link{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;padding:1rem 1.05rem;text-decoration:none;border:1px solid rgba(246,241,232,.14);background:rgba(246,241,232,.055);color:var(--paper);transition:transform .2s ease,background .2s ease,border-color .2s ease;}
+.tool-link:hover{transform:translateX(4px);background:rgba(246,241,232,.09);border-color:rgba(196,154,72,.42);}
+.tool-link strong{font-family:'Playfair Display',Georgia,serif;font-size:1.08rem;line-height:1.25;color:rgba(246,241,232,.94);}
+.tool-link span{display:block;font-size:.78rem;line-height:1.65;color:rgba(246,241,232,.58);font-weight:300;margin-top:.25rem;}
+.tool-link .tool-link-meta{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-light);white-space:nowrap;}
+.tool-flow{position:relative;margin-top:1rem;padding:.9rem 1rem;border:1px solid rgba(246,241,232,.1);background:rgba(0,0,0,.18);font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.75;color:rgba(246,241,232,.68);}
+@media(max-width:900px){
+  .tool-wrap{grid-template-columns:1fr;gap:2rem;}
+  .tool-panel{min-height:auto;}
+  .tool-panel-meta{display:none;}
+}
+@media(max-width:680px){
+  .embed-section{padding:3.8rem 5vw;}
+  .tool-panel{padding:1rem;}
+  .tool-link{grid-template-columns:1fr;}
+  .tool-link .tool-link-meta{white-space:normal;}
+}
+ 
+/* OUTRO */
+#outro{background:var(--ink);color:var(--paper);min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 10vw;position:relative;overflow:hidden;}
+#outro::before{content:'測';position:absolute;font-family:'Playfair Display',serif;font-size:clamp(200px,34vw,480px);color:rgba(246,241,232,.02);pointer-events:none;line-height:1;}
+.outro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:rgba(196,154,72,.7);text-transform:uppercase;margin-bottom:2rem;}
+.outro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.8rem,4vw,3.5rem);line-height:1.1;margin-bottom:1.8rem;max-width:760px;}
+.outro-title em{color:var(--gold-light);font-style:italic;}
+.outro-body{max-width:580px;color:rgba(246,241,232,.6);font-size:.95rem;font-weight:300;line-height:1.95;margin-bottom:3rem;}
+.outro-links{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.outro-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,232,.55);text-decoration:none;border:1px solid rgba(246,241,232,.15);padding:.7rem 1.1rem;transition:all .2s;}
+.outro-link:hover{color:var(--gold-light);border-color:rgba(196,154,72,.4);}
+ 
+/* RIGHT HUD */
+.right-hud{position:absolute;right:6vw;top:50%;transform:translateY(-50%);width:min(430px,32vw);z-index:5;color:var(--paper);pointer-events:none;}
+.right-hud-card{border:1px solid rgba(246,241,232,.16);background:rgba(246,241,232,.055);backdrop-filter:blur(10px);padding:1.4rem 1.5rem;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.right-hud-kicker{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:rgba(196,154,72,.8);margin-bottom:.9rem;}
+.right-hud-title{font-family:'Playfair Display',Georgia,serif;font-size:1.45rem;line-height:1.18;color:rgba(246,241,232,.92);margin-bottom:1rem;}
+.right-hud-body{font-size:.82rem;line-height:1.75;color:rgba(246,241,232,.58);font-weight:300;}
+.right-hud-formula{margin-top:1.1rem;padding:.8rem .9rem;border:1px solid rgba(246,241,232,.14);background:rgba(0,0,0,.22);font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.65;color:rgba(246,241,232,.78);}
+.right-hud-tags{display:flex;flex-wrap:wrap;gap:.38rem;margin-top:1rem;}
+.right-hud-tag{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.16em;text-transform:uppercase;color:rgba(246,241,232,.62);border:1px solid rgba(246,241,232,.14);padding:.25rem .45rem;background:rgba(246,241,232,.04);}
+.right-hud-watermark{position:absolute;right:-1.2rem;bottom:-2.2rem;font-family:'Playfair Display',Georgia,serif;font-size:7rem;line-height:1;color:rgba(246,241,232,.035);pointer-events:none;}
+@media(max-width:1180px){.right-hud{right:5vw;width:min(340px,30vw);}.right-hud-card{padding:1.15rem 1.2rem;}.right-hud-title{font-size:1.25rem;}.right-hud-body{font-size:.78rem;}}
+@media(max-width:980px){.right-hud{display:none;}}
+@media(max-width:680px){
+  .step{margin:0 4vw 52vh;max-width:96vw;padding:2rem 1.6rem;}
+  #intro{padding:0 6vw;}
+  .blog-nav{font-size:8px;gap:.3rem;}
+  .blog-nav a,.lang-btn{padding:.45rem .55rem;}
+  .formula-math{font-size:1.05rem;}
+  .cluster-table{font-size:.74rem;}
+  .embed-section{padding:3.5rem 5vw;}
+  .tool-links{flex-direction:column;}
+  .tool-link{max-width:none;}
+  .error-delta{grid-template-columns:1fr;}
+}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Khi goed trở thành dữ liệu",
+  "description": "",
+  "author": {
+    "@type": "Person",
+    "name": "Bui Tong Giang",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tellstory blog",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "datePublished": "2026-06-18",
+  "dateModified": "2026-06-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tellstory-blog.web.app/goed-du-lieu.html"
+  },
+  "inLanguage": "vi",
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Bui Tong Giang"
+  },
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav aria-label="Điều hướng blog" class="blog-nav">
+<a data-en="Blog" data-vi="Blog" href="index.html">Blog</a>
+<a data-en="← Previous" data-vi="← Bài trước" href="goed-thuat-toan.html">← Bài trước</a>
+<button class="lang-btn active" id="btn-vi" onclick="setLang('vi')">VI</button>
+<button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</nav>
+<nav aria-label="Điều hướng phần" id="dot-nav">
+<div class="dot active" onclick="scrollToStep(0)" title="Mở đầu"></div>
+<div class="dot" onclick="scrollToStep(1)" title="Tại sao cần dữ liệu sạch"></div>
+<div class="dot" onclick="scrollToStep(2)" title="6 cụm động từ"></div>
+<div class="dot" onclick="scrollToStep(3)" title="Lỗi nào phạt nặng hơn"></div>
+<div class="dot" onclick="scrollToStep(4)" title="Hàng đợi ưu tiên"></div>
+<div class="dot" onclick="scrollToStep(5)" title="Học thử"></div>
+<div class="dot" onclick="scrollToStep(6)" title="Calibration"></div>
+</nav>
+<!-- INTRO -->
+<section data-step-index="0" id="intro">
+<div class="intro-kicker" data-en="Tellstory · Learning · Part 2 of 2" data-vi="Tellstory · Học tập · Bài 2 / 2">Tellstory · Học tập · Bài 2 / 2</div>
+<h1 class="intro-title" data-en="When &lt;em&gt;goed&lt;/em&gt;&lt;br&gt;becomes&lt;br&gt;data." data-vi="Khi &lt;em&gt;goed&lt;/em&gt;&lt;br&gt;trở thành&lt;br&gt;dữ liệu.">Khi <em>goed</em><br/>trở thành<br/>dữ liệu.</h1>
+<div class="intro-rule"></div>
+<p class="intro-sub" data-en="In the previous article, I treated the goed error not simply as forgetting a word, but as a sign that a rule is being misapplied, and in this article, I put that sign into a small system to see whether the algorithm can actually read it." data-vi="Ở bài trước, tôi đã xem lỗi goed không đơn giản là chuyện quên từ, mà là dấu hiệu cho thấy một luật đang bị áp nhầm, và trong bài này, tôi đưa dấu hiệu đó vào một hệ thống nhỏ để xem thuật toán có thật sự đọc được nó hay không.">Ở bài trước, tôi đã xem lỗi goed không đơn giản là chuyện quên từ, mà là dấu hiệu cho thấy một luật đang bị áp nhầm, và trong bài này, tôi đưa dấu hiệu đó vào một hệ thống nhỏ để xem thuật toán có thật sự đọc được nó hay không.</p>
+<p class="intro-sub" data-vi="Trong dự án nhỏ này, Learner A và Learner B là hai học sinh của tôi, một em lớp 4 và một em lớp 6, tức một em đang ở bậc tiểu học và một em đang ở đầu THCS. Hai em sẽ giúp tôi thu dữ liệu học thật trong quá trình luyện động từ bất quy tắc, còn dữ liệu học thử của người đọc chỉ dùng để xem cách hệ thống hoạt động. Vì hai em khác nhau về độ tuổi và nền tảng học tiếng Anh, dữ liệu này sẽ được tôi đọc như hai trường hợp quan sát ban đầu, không phải kết luận đại diện cho toàn bộ học sinh. Khi có đủ dữ liệu thật từ hai em, tôi sẽ cập nhật phần phân tích chi tiết hơn ở bài sau." data-en="In this small project, Learner A and Learner B are two of my students, one in grade 4 and one in grade 6, which means one is still in primary school and the other is at the beginning of lower secondary school. They will help me collect real learning data while practising irregular verbs, while readers’ trial data is only used to show how the system works. Because they differ in age and English learning background, I will read the data as two initial cases, not as a conclusion that represents all learners. Once I have enough real data from them, I will update the analysis in more detail in the next article.">Trong dự án nhỏ này, Learner A và Learner B là hai học sinh của tôi, một em lớp 4 và một em lớp 6, tức một em đang ở bậc tiểu học và một em đang ở đầu THCS. Hai em sẽ giúp tôi thu dữ liệu học thật trong quá trình luyện động từ bất quy tắc, còn dữ liệu học thử của người đọc chỉ dùng để xem cách hệ thống hoạt động. Vì hai em khác nhau về độ tuổi và nền tảng học tiếng Anh, dữ liệu này sẽ được tôi đọc như hai trường hợp quan sát ban đầu, không phải kết luận đại diện cho toàn bộ học sinh. Khi có đủ dữ liệu thật từ hai em, tôi sẽ cập nhật phần phân tích chi tiết hơn ở bài sau.</p>
+<a class="prereq-note" data-en="&lt;span&gt;⚠&lt;/span&gt; Haven't read the previous article? This piece continues from overregularization and verb clustering, so it is easier to follow if you read the goed article first." data-vi="&lt;span&gt;⚠&lt;/span&gt; Chưa đọc bài trước? Bài này tôi sẽ đi tiếp từ overregularization và cách chia cụm động từ, nên bạn nên đọc bài goed trước để theo mạch dễ hơn." href="goed-thuat-toan.html"><span>⚠</span> Chưa đọc bài trước? Bài này tôi sẽ đi tiếp từ overregularization và cách chia cụm động từ, nên bạn nên đọc bài goed trước để theo mạch dễ hơn.</a>
+<div class="scroll-cue"><div class="scroll-bar"></div><span data-en="scroll down" data-vi="cuộn xuống">cuộn xuống</span></div>
+</section>
+<!-- SCROLLYTELLING -->
+<div class="scrolly">
+<div class="sticky">
+<canvas id="scene"></canvas>
+<div class="right-hud" id="right-hud">
+<div class="right-hud-card">
+<div class="right-hud-kicker" id="hud-kicker">data pipeline</div>
+<div class="right-hud-title" id="hud-title">goed → dòng dữ liệu</div>
+<div class="right-hud-body" id="hud-body">Một câu trả lời sai không chỉ là một câu trả lời sai.</div>
+<div class="right-hud-formula" id="hud-formula">goed → errorType: overregularization<br/>δ = −2 → M_c giảm mạnh</div>
+<div class="right-hud-tags" id="hud-tags">
+<span class="right-hud-tag">half-life</span>
+<span class="right-hud-tag">cluster mastery</span>
+<span class="right-hud-tag">priority queue</span>
+</div>
+</div>
+<div class="right-hud-watermark" id="hud-watermark">§</div>
+</div>
+<div class="graphic-caption" id="graphic-caption">goed → errorType → δ → M_c → S_v → priority</div>
+</div>
+<div class="steps">
+<!-- STEP 1: Tại sao cần hai lớp dữ liệu -->
+<div class="step" data-caption="học thử ≠ học thật · hai key · hai vùng lưu riêng" data-hud-body="Một lượt học chỉ có ý nghĩa khi tôi biết nó đến từ ai, ở chế độ nào, và có thuộc dữ liệu nghiên cứu không." data-hud-formula="demo → localStorage&lt;br&gt;Learner A / Learner B → Firestore" data-hud-kicker="data hygiene" data-hud-tags="demo|real session|data isolation" data-hud-title="Dữ liệu thật phải được tách đúng người" data-step-index="1">
+<div class="step-act" data-en="Part I · Data first, algorithm second" data-vi="Phần I · Dữ liệu trước, thuật toán sau">Phần I · Dữ liệu trước, thuật toán sau</div>
+<h2 class="step-title" data-en="For me, a learning algorithm does not begin with a formula; it begins with the question of which data is allowed to enter the report." data-vi="Với tôi, một thuật toán học tập không bắt đầu từ công thức, nó bắt đầu từ câu hỏi dữ liệu nào được phép đi vào báo cáo.">Với tôi, một thuật toán học tập không bắt đầu từ công thức, nó bắt đầu từ câu hỏi dữ liệu nào được phép đi vào báo cáo.</h2>
+<p class="step-body" data-en="The previous article stopped at &lt;em&gt;goed&lt;/em&gt; as a sign of overregularization, while here I take one more step, placing that error inside a real learning system, so each answer is not only treated as right or wrong, but becomes a data row with time, learner, verb, cluster, error type and the algorithm prediction at the moment the question appears." data-vi="Bài trước dừng ở lỗi &lt;em&gt;goed&lt;/em&gt; như một dấu hiệu của overregularization, còn bài này tôi đi thêm một bước, đặt lỗi đó vào một hệ thống học thật, để mỗi câu trả lời không chỉ được xem là đúng hay sai, mà trở thành một dòng dữ liệu có thời gian, người học, động từ, cụm động từ, loại lỗi và dự đoán của thuật toán tại thời điểm câu hỏi xuất hiện.">Bài trước dừng ở lỗi <em>goed</em> như một dấu hiệu của overregularization, còn bài này tôi đi thêm một bước, đặt lỗi đó vào một hệ thống học thật, để mỗi câu trả lời không chỉ được xem là đúng hay sai, mà trở thành một dòng dữ liệu có thời gian, người học, động từ, cụm động từ, loại lỗi và dự đoán của thuật toán tại thời điểm câu hỏi xuất hiện.</p>
+<p class="step-body" data-en="What I care about most here is not making the formula look clever, but keeping the data clean, because a reader’s trial data should stay in their browser, while my real data needs to live in a separate space." data-vi="Điều tôi để ý nhất ở đây không phải là làm cho công thức trông thông minh, mà là giữ dữ liệu sạch, vì dữ liệu học thử của người đọc chỉ nên nằm trong trình duyệt của họ, trong khi dữ liệu thật của tôi phải nằm ở một vùng riêng.">Điều tôi để ý nhất ở đây không phải là làm cho công thức trông thông minh, mà là giữ dữ liệu sạch, vì dữ liệu học thử của người đọc chỉ nên nằm trong trình duyệt của họ, trong khi dữ liệu thật của tôi phải nằm ở một vùng riêng.</p>
+<div class="step-source" data-en='Source I used: Knowledge tracing often uses sequences of learner interactions, such as correct and incorrect responses, to track how knowledge states change over time, see &lt;a href="https://arxiv.org/html/2105.15106v4" target="_blank" rel="noopener"&gt;Liu et al., 2024 survey&lt;/a&gt;.' data-vi='Nguồn tôi dựa vào: Knowledge tracing thường dùng chuỗi tương tác đúng/sai của người học để theo dõi trạng thái kiến thức thay đổi theo thời gian, xem &lt;a href="https://arxiv.org/html/2105.15106v4" target="_blank" rel="noopener"&gt;Liu et al., 2024 survey&lt;/a&gt;.'>Nguồn tôi dựa vào: Knowledge tracing thường dùng chuỗi tương tác đúng/sai của người học để theo dõi trạng thái kiến thức thay đổi theo thời gian, xem <a href="https://arxiv.org/html/2105.15106v4" rel="noopener" target="_blank">Liu et al., 2024 survey</a>.</div>
+</div>
+<!-- STEP 2: 6 cụm và cách phân loại lỗi -->
+<div class="step" data-caption="6 cụm · 93 động từ · mỗi cụm để đọc một kiểu lỗi" data-hud-body="Mỗi cụm tương ứng với một kiểu biến đổi, nên tôi có thể đọc lỗi sai như một tín hiệu pattern." data-hud-formula="suppletive: go → goed&lt;br&gt;vowel: run → runned&lt;br&gt;no-change: put → putted" data-hud-kicker="6 verb clusters" data-hud-tags="suppletive|vowel-change|t-d ending|no-change|ought-aught|other" data-hud-title="Tôi chia theo kiểu sai, không chia theo nghĩa" data-step-index="2">
+<div class="step-act" data-en="Part II · From mistakes to signals" data-vi="Phần II · Từ lỗi sai đến tín hiệu">Phần II · Từ lỗi sai đến tín hiệu</div>
+<h2 class="step-title" data-en="I do not want the system to only ask how many answers a learner got wrong; I want it to ask first what kind of wrongness is appearing." data-vi="Tôi không muốn hệ thống chỉ hỏi học sinh sai bao nhiêu câu, tôi muốn nó hỏi trước rằng học sinh đang sai theo kiểu nào.">Tôi không muốn hệ thống chỉ hỏi học sinh sai bao nhiêu câu, tôi muốn nó hỏi trước rằng học sinh đang sai theo kiểu nào.</h2>
+<p class="step-body" data-en="A blank answer only tells me the learner did not retrieve the word at that moment, a minor spelling error may show that the learner knows the word but mistyped it, while an error like &lt;em&gt;goed&lt;/em&gt; says more, because the learner is taking the regular &lt;em&gt;-ed&lt;/em&gt; rule and applying it to an irregular verb." data-vi="Một câu trả lời bỏ trống chỉ cho tôi biết học sinh chưa nhớ được từ ở thời điểm đó, một lỗi chính tả nhẹ có thể cho thấy học sinh biết từ nhưng gõ sai, còn một lỗi như &lt;em&gt;goed&lt;/em&gt; thì nói nhiều hơn, vì học sinh đang lấy luật thêm &lt;em&gt;-ed&lt;/em&gt; của động từ có quy tắc rồi áp vào một động từ bất quy tắc.">Một câu trả lời bỏ trống chỉ cho tôi biết học sinh chưa nhớ được từ ở thời điểm đó, một lỗi chính tả nhẹ có thể cho thấy học sinh biết từ nhưng gõ sai, còn một lỗi như <em>goed</em> thì nói nhiều hơn, vì học sinh đang lấy luật thêm <em>-ed</em> của động từ có quy tắc rồi áp vào một động từ bất quy tắc.</p>
+<div class="step-source" data-en='Source I used: Overregularization is described as extending regular grammatical patterns to irregular words, such as &lt;em&gt;comed&lt;/em&gt;, and it is often linked to U-shaped development, see &lt;a href="https://pubmed.ncbi.nlm.nih.gov/1518508/" target="_blank" rel="noopener"&gt;Marcus et al., 1992&lt;/a&gt;; recent modeling work on English past tense also keeps overregularization at the center, see &lt;a href="https://aclanthology.org/2024.findings-acl.865.pdf" target="_blank" rel="noopener"&gt;Haga et al., ACL Findings 2024&lt;/a&gt;.' data-vi='Nguồn tôi dựa vào: Overregularization được mô tả như việc trẻ hoặc người học mở rộng mẫu ngữ pháp có quy tắc sang từ bất quy tắc, ví dụ &lt;em&gt;comed&lt;/em&gt;, và hiện tượng này thường gắn với phát triển dạng chữ U, xem &lt;a href="https://pubmed.ncbi.nlm.nih.gov/1518508/" target="_blank" rel="noopener"&gt;Marcus et al., 1992&lt;/a&gt;; một hướng mô hình hóa gần đây về thì quá khứ tiếng Anh cũng tiếp tục xem overregularization là hiện tượng trung tâm, xem &lt;a href="https://aclanthology.org/2024.findings-acl.865.pdf" target="_blank" rel="noopener"&gt;Haga et al., ACL Findings 2024&lt;/a&gt;.'>Nguồn tôi dựa vào: Overregularization được mô tả như việc trẻ hoặc người học mở rộng mẫu ngữ pháp có quy tắc sang từ bất quy tắc, ví dụ <em>comed</em>, và hiện tượng này thường gắn với phát triển dạng chữ U, xem <a href="https://pubmed.ncbi.nlm.nih.gov/1518508/" rel="noopener" target="_blank">Marcus et al., 1992</a>; một hướng mô hình hóa gần đây về thì quá khứ tiếng Anh cũng tiếp tục xem overregularization là hiện tượng trung tâm, xem <a href="https://aclanthology.org/2024.findings-acl.865.pdf" rel="noopener" target="_blank">Haga et al., ACL Findings 2024</a>.</div>
+<table class="cluster-table">
+<thead>
+<tr>
+<th data-en="error type" data-vi="loại lỗi">loại lỗi</th>
+<th data-en="example" data-vi="ví dụ">ví dụ</th>
+<th data-en="what it suggests" data-vi="nó cho thấy gì">nó cho thấy gì</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>overregularization</td><td data-en="goed, runned, putted" data-vi="goed, runned, putted">goed, runned, putted</td><td data-en="the -ed rule is being applied in the wrong place" data-vi="luật -ed đang bị áp nhầm">luật -ed đang bị áp nhầm</td></tr>
+<tr><td>wrongFormV3</td><td data-en="gone instead of went" data-vi="gone thay vì went">gone thay vì went</td><td data-en="V3 is being confused with V2" data-vi="đang nhầm V3 sang V2">đang nhầm V3 sang V2</td></tr>
+<tr><td>spelling</td><td data-en="wnet, sllept" data-vi="wnet, sllept">wnet, sllept</td><td data-en="may know the word but mistyped it" data-vi="có thể biết từ nhưng gõ sai">có thể biết từ nhưng gõ sai</td></tr>
+<tr><td>blank</td><td data-en="left blank" data-vi="bỏ trống">bỏ trống</td><td data-en="could not recall it at that moment" data-vi="chưa nhớ được ở thời điểm đó">chưa nhớ được ở thời điểm đó</td></tr>
+<tr><td>other</td><td data-en="answer with no clear pattern yet" data-vi="câu trả lời chưa lộ pattern rõ">câu trả lời chưa lộ pattern rõ</td><td data-en="needs manual review" data-vi="cần xem lại thủ công">cần xem lại thủ công</td></tr>
+</tbody>
+</table>
+<p class="step-body" data-en="Method note: the automatic error label in this prototype is only a rough baseline heuristic, not a fully reliable linguistic classifier. For example, a first-letter typo may fall into <em>other</em> instead of <em>spelling</em>, while a broad <em>-ed</em> rule may catch some accidental endings. In the study workflow, these labels are treated as initial signals; the teacher-researcher will manually audit ambiguous responses after data collection and describe them rather than forcing every case into a category." data-vi="Ghi chú phương pháp: nhãn lỗi tự động trong prototype này chỉ là một heuristic baseline thô, không phải một bộ phân loại ngôn ngữ học đáng tin cậy hoàn toàn. Ví dụ, lỗi gõ nhầm ký tự đầu có thể rơi vào nhóm <em>other</em> thay vì <em>spelling</em>, còn luật bắt <em>-ed</em> khá rộng có thể gom nhầm một vài đáp án tình cờ kết thúc như vậy. Trong quy trình nghiên cứu, các nhãn này chỉ được xem như tín hiệu ban đầu; giáo viên-người nghiên cứu sẽ audit thủ công các phản hồi mơ hồ sau khi thu dữ liệu và mô tả chúng thay vì ép mọi trường hợp vào một nhãn.">Ghi chú phương pháp: nhãn lỗi tự động trong prototype này chỉ là một heuristic baseline thô, không phải một bộ phân loại ngôn ngữ học đáng tin cậy hoàn toàn. Ví dụ, lỗi gõ nhầm ký tự đầu có thể rơi vào nhóm <em>other</em> thay vì <em>spelling</em>, còn luật bắt <em>-ed</em> khá rộng có thể gom nhầm một vài đáp án tình cờ kết thúc như vậy. Trong quy trình nghiên cứu, các nhãn này chỉ được xem như tín hiệu ban đầu; giáo viên-người nghiên cứu sẽ audit thủ công các phản hồi mơ hồ sau khi thu dữ liệu và mô tả chúng thay vì ép mọi trường hợp vào một nhãn.</p>
+<p class="step-body" data-en="The six-cluster split I use in this demo is a design choice, not a single linguistic standard; it helps the system read errors through morphological patterns, such as suppletive change, vowel change, no-change forms or &lt;em&gt;-ought&lt;/em&gt;/&lt;em&gt;-aught&lt;/em&gt; endings, and then test whether errors actually concentrate by cluster." data-vi="Cách tôi chia sáu cụm trong demo là một lựa chọn thiết kế, không phải một chuẩn duy nhất của ngôn ngữ học, nó giúp hệ thống đọc lỗi theo pattern hình thái, ví dụ đổi hẳn dạng, đổi nguyên âm, giữ nguyên hoặc kết thúc bằng &lt;em&gt;-ought&lt;/em&gt;/&lt;em&gt;-aught&lt;/em&gt;, rồi từ đó kiểm tra xem lỗi có thật sự tập trung theo cụm hay không.">Cách tôi chia sáu cụm trong demo là một lựa chọn thiết kế, không phải một chuẩn duy nhất của ngôn ngữ học, nó giúp hệ thống đọc lỗi theo pattern hình thái, ví dụ đổi hẳn dạng, đổi nguyên âm, giữ nguyên hoặc kết thúc bằng <em>-ought</em>/<em>-aught</em>, rồi từ đó kiểm tra xem lỗi có thật sự tập trung theo cụm hay không.</p>
+</div>
+<!-- STEP 3: Các biến trong thuật toán -->
+<div class="step" data-caption="δ → M_c · M_c → β · α và β → S_v" data-hud-body="δ cho tôi biết câu vừa rồi tác động mạnh hay nhẹ, M_c cho biết cụm đang ổn hay yếu, S_v cho biết một từ được nhớ bền đến đâu." data-hud-formula="correct → δ = +1&lt;br&gt;overreg → δ = −2&lt;br&gt;blank → δ = −0.3" data-hud-kicker="error weights · δ" data-hud-tags="delta weights|cluster mastery|memory strength" data-hud-title="Không phải lỗi nào cũng nói cùng một chuyện" data-step-index="3">
+<div class="step-act" data-en="Part III · Three variables to read slowly" data-vi="Phần III · Ba biến cần đọc chậm">Phần III · Ba biến cần đọc chậm</div>
+<h2 class="step-title" data-en="δ, M_c and S_v are not three formulas meant to make the reader struggle; to me, they are simply three ways of recording a learning attempt that just happened." data-vi="δ, M_c và S_v không phải ba công thức để làm khó người đọc, với tôi, chúng chỉ là ba cách ghi lại một lượt học vừa xảy ra.">δ, M_c và S_v không phải ba công thức để làm khó người đọc, với tôi, chúng chỉ là ba cách ghi lại một lượt học vừa xảy ra.</h2>
+<div class="error-delta">
+<div class="delta-cell pos"><div class="label">correct</div><div class="val">δ = +1</div><div class="note" data-en="cluster reinforced" data-vi="cụm được củng cố">cụm được củng cố</div></div>
+<div class="delta-cell neg"><div class="label">overregularization</div><div class="val">δ = −2</div><div class="note" data-en="misapplied rule" data-vi="luật bị áp nhầm">luật bị áp nhầm</div></div>
+<div class="delta-cell neg"><div class="label">wrongFormV3</div><div class="val">δ = −1</div><div class="note" data-en="wrong form" data-vi="nhầm dạng">nhầm dạng</div></div>
+<div class="delta-cell neg"><div class="label">blank / spelling</div><div class="val">δ = −0.3</div><div class="note" data-en="weaker signal" data-vi="tín hiệu yếu hơn">tín hiệu yếu hơn</div></div>
+</div>
+<p class="step-body" data-en="δ is the impact of the latest answer, M_c is the mastery score of the verb cluster, and S_v is the memory strength of a specific verb, so when a learner writes &lt;em&gt;goed&lt;/em&gt;, I do not only lower confidence in &lt;em&gt;go&lt;/em&gt; itself, but also slightly lower confidence in the cluster that &lt;em&gt;go&lt;/em&gt; belongs to." data-vi="δ là mức tác động của câu trả lời vừa rồi, M_c là điểm thành thạo của cụm động từ, còn S_v là độ bền ghi nhớ của một động từ cụ thể, vì vậy khi học sinh viết &lt;em&gt;goed&lt;/em&gt;, tôi không chỉ giảm niềm tin vào riêng từ &lt;em&gt;go&lt;/em&gt;, mà còn giảm nhẹ niềm tin vào cụm mà &lt;em&gt;go&lt;/em&gt; thuộc về.">δ là mức tác động của câu trả lời vừa rồi, M_c là điểm thành thạo của cụm động từ, còn S_v là độ bền ghi nhớ của một động từ cụ thể, vì vậy khi học sinh viết <em>goed</em>, tôi không chỉ giảm niềm tin vào riêng từ <em>go</em>, mà còn giảm nhẹ niềm tin vào cụm mà <em>go</em> thuộc về.</p>
+<div class="formula-block">
+<div class="formula-math">M<sub>c</sub><sup>new</sup> = M<sub>c</sub><sup>old</sup> + η × δ</div>
+<span class="formula-label" data-en="η is the update rate · δ is the answer impact" data-vi="η là tốc độ cập nhật · δ là tác động của câu trả lời">η là tốc độ cập nhật · δ là tác động của câu trả lời</span>
+</div>
+<p class="step-body" data-en="The cluster score M_c is inspired by knowledge tracing, which monitors a learner’s knowledge state through sequences of interactions, but in this demo, I treat each verb cluster as a small skill, and the δ weights are design assumptions that separate diagnostically strong errors from less informative ones." data-vi="Điểm cụm M_c lấy cảm hứng từ cách knowledge tracing theo dõi trạng thái kiến thức của người học qua chuỗi tương tác, nhưng trong bản demo này, tôi xem mỗi cụm động từ như một kỹ năng nhỏ, còn các trọng số δ là giả định thiết kế để phân biệt lỗi có giá trị chẩn đoán mạnh với lỗi ít thông tin hơn.">Điểm cụm M_c lấy cảm hứng từ cách knowledge tracing theo dõi trạng thái kiến thức của người học qua chuỗi tương tác, nhưng trong bản demo này, tôi xem mỗi cụm động từ như một kỹ năng nhỏ, còn các trọng số δ là giả định thiết kế để phân biệt lỗi có giá trị chẩn đoán mạnh với lỗi ít thông tin hơn.</p>
+<div class="step-source" data-en='Source I used: Knowledge tracing is meant to follow changing knowledge states and predict future learner performance, see &lt;a href="https://arxiv.org/html/2105.15106v4" target="_blank" rel="noopener"&gt;Liu et al., 2024 survey&lt;/a&gt; and &lt;a href="https://jedm.educationaldatamining.org/index.php/JEDM/article/download/689/215" target="_blank" rel="noopener"&gt;Lu, 2024&lt;/a&gt;.' data-vi='Nguồn tôi dựa vào: Knowledge tracing nhằm theo dõi trạng thái kiến thức đang thay đổi và dự đoán kết quả tương lai của người học, xem &lt;a href="https://arxiv.org/html/2105.15106v4" target="_blank" rel="noopener"&gt;Liu et al., 2024 survey&lt;/a&gt; và &lt;a href="https://jedm.educationaldatamining.org/index.php/JEDM/article/download/689/215" target="_blank" rel="noopener"&gt;Lu, 2024&lt;/a&gt;.'>Nguồn tôi dựa vào: Knowledge tracing nhằm theo dõi trạng thái kiến thức đang thay đổi và dự đoán kết quả tương lai của người học, xem <a href="https://arxiv.org/html/2105.15106v4" rel="noopener" target="_blank">Liu et al., 2024 survey</a> và <a href="https://jedm.educationaldatamining.org/index.php/JEDM/article/download/689/215" rel="noopener" target="_blank">Lu, 2024</a>.</div>
+</div>
+<!-- STEP 4: Half-life và hàng đợi ưu tiên -->
+<div class="step" data-caption="nguy cơ quên của từ + tín hiệu yếu từ cụm" data-hud-body="Từ sắp quên và từ thuộc cụm yếu đều được đẩy lên, nhưng cụm vẫn chỉ là tín hiệu phụ." data-hud-formula="p(v,t)=2^(-t/S_v)&lt;br&gt;Priority=(1-p)+λ(1-M_c)" data-hud-kicker="half-life · priority queue" data-hud-tags="recall probability|half-life|λ = 0.4" data-hud-title="Vậy câu tiếp theo nên là gì?" data-step-index="4">
+<div class="step-act" data-en="Part IV · From recall probability to the next question" data-vi="Phần IV · Từ xác suất nhớ đến câu tiếp theo">Phần IV · Từ xác suất nhớ đến câu tiếp theo</div>
+<h2 class="step-title" data-en="When choosing the next question, I let the system ask two things at once: is this word close to being forgotten, and is its cluster currently weak?" data-vi="Khi chọn câu tiếp theo, tôi để hệ thống hỏi cùng lúc hai chuyện, từ này có sắp quên không, và cụm của nó có đang yếu không.">Khi chọn câu tiếp theo, tôi để hệ thống hỏi cùng lúc hai chuyện, từ này có sắp quên không, và cụm của nó có đang yếu không.</h2>
+<p class="step-body" data-en="The forgetting-curve idea says memory often declines over time after learning, while half-life regression in language learning writes recall probability in the form p = 2^(-Δ/h), meaning that the longer a word goes without review, the lower the recall probability becomes, while a word with a larger half-life declines more slowly." data-vi="Ý tưởng đường quên nói rằng trí nhớ thường giảm theo thời gian sau khi học, còn half-life regression trong học ngôn ngữ viết xác suất nhớ theo dạng p = 2^(-Δ/h), nghĩa là càng lâu không gặp lại một từ thì xác suất nhớ càng giảm, trong khi một từ có half-life lớn hơn sẽ giảm chậm hơn.">Ý tưởng đường quên nói rằng trí nhớ thường giảm theo thời gian sau khi học, còn half-life regression trong học ngôn ngữ viết xác suất nhớ theo dạng p = 2^(-Δ/h), nghĩa là càng lâu không gặp lại một từ thì xác suất nhớ càng giảm, trong khi một từ có half-life lớn hơn sẽ giảm chậm hơn.</p>
+<div class="step-source" data-en='Source I used: Ebbinghaus was replicated in &lt;a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4492928/" target="_blank" rel="noopener"&gt;Murre &amp; Dros, 2015&lt;/a&gt;, while half-life regression for language learning is presented in &lt;a href="https://aclanthology.org/P16-1174/" target="_blank" rel="noopener"&gt;Settles &amp; Meeder, ACL 2016&lt;/a&gt;.' data-vi='Nguồn tôi dựa vào: Ebbinghaus được replicate trong nghiên cứu của &lt;a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4492928/" target="_blank" rel="noopener"&gt;Murre &amp; Dros, 2015&lt;/a&gt;, còn công thức half-life regression cho học ngôn ngữ được trình bày trong &lt;a href="https://aclanthology.org/P16-1174/" target="_blank" rel="noopener"&gt;Settles &amp; Meeder, ACL 2016&lt;/a&gt;.'>Nguồn tôi dựa vào: Ebbinghaus được replicate trong nghiên cứu của <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4492928/" rel="noopener" target="_blank">Murre &amp; Dros, 2015</a>, còn công thức half-life regression cho học ngôn ngữ được trình bày trong <a href="https://aclanthology.org/P16-1174/" rel="noopener" target="_blank">Settles &amp; Meeder, ACL 2016</a>.</div>
+<div class="formula-block">
+<div class="formula-math">S<sub>v</sub><sup>new</sup> = S<sub>v</sub><sup>old</sup> × α × β(M<sub>c</sub>)</div>
+<span class="formula-label" data-en="α reacts to correctness · β(M_c) reacts to cluster state" data-vi="α phản ứng với đúng/sai · β(M_c) phản ứng với tình trạng cụm">α phản ứng với đúng/sai · β(M_c) phản ứng với tình trạng cụm</span>
+</div>
+<div class="formula-block">
+<div class="formula-math">Priority(v) = (1 − p(v,t)) + λ × (1 − M<sub>c</sub>)</div>
+<span class="formula-label" data-en="λ = 0.4 is a starting point, not a final conclusion" data-vi="λ = 0.4 là điểm khởi đầu, không phải kết luận cuối cùng">λ = 0.4 là điểm khởi đầu, không phải kết luận cuối cùng</span>
+</div>
+<p class="step-body" data-en="In the priority formula, 1 − p(v,t) is the forgetting risk of the word itself, while λ × (1 − M_c) is a gentle pull from the cluster, so a word can return early because it is weak by itself or because it belongs to a cluster producing many error signals; I use λ as a regulator, so the cluster does not completely override word-level data." data-vi="Trong công thức priority, phần 1 − p(v,t) là nguy cơ quên của riêng từ, còn phần λ × (1 − M_c) là lực kéo nhẹ từ cụm, vì vậy một từ có thể quay lại sớm do chính nó đang yếu, hoặc do nó thuộc một cụm đang tạo ra nhiều tín hiệu sai, tuy nhiên tôi dùng λ để điều tiết, để cụm không lấn át hoàn toàn dữ liệu của từng từ.">Trong công thức priority, phần 1 − p(v,t) là nguy cơ quên của riêng từ, còn phần λ × (1 − M_c) là lực kéo nhẹ từ cụm, vì vậy một từ có thể quay lại sớm do chính nó đang yếu, hoặc do nó thuộc một cụm đang tạo ra nhiều tín hiệu sai, tuy nhiên tôi dùng λ để điều tiết, để cụm không lấn át hoàn toàn dữ liệu của từng từ.</p>
+</div>
+<!-- STEP 5: Calibration và ranh giới của demo -->
+<div class="step" data-caption="dự đoán phải được đặt cạnh dữ liệu thật" data-hud-body="Report không chứng minh thuật toán đúng, nó giúp tôi xem dự đoán đang lệch thực tế ở đâu." data-hud-formula="predicted p → actual accuracy&lt;br&gt;lệch nhiều → chỉnh hằng số" data-hud-kicker="calibration" data-hud-tags="hypothesis|validation|calibration" data-hud-title="Công thức chỉ là giả thuyết để đem đi kiểm tra" data-step-index="5">
+<div class="step-act" data-en="Part V · Formulas are not conclusions yet" data-vi="Phần V · Công thức chưa phải kết luận">Phần V · Công thức chưa phải kết luận</div>
+<h2 class="step-title" data-en="What makes the system trustworthy is not the fact that I have formulas, but whether those formulas are actually tested." data-vi="Điểm đáng tin của hệ thống không nằm ở việc tôi có công thức, mà nằm ở việc công thức đó có được đem ra kiểm tra hay không.">Điểm đáng tin của hệ thống không nằm ở việc tôi có công thức, mà nằm ở việc công thức đó có được đem ra kiểm tra hay không.</h2>
+<p class="step-body" data-en="The parts related to forgetting curves, recall probability and half-life come from spaced repetition, while M_c, δ, β and λ are the demo’s way of encoding my hypothesis that errors may carry cluster-level information; that is why I do not present numbers such as δ = −2, β = 0.7 + 0.3M_c or λ = 0.4 as truths, only as starting constants that let the system run and be observed." data-vi="Các phần liên quan đến đường quên, xác suất nhớ và half-life có nền từ spaced repetition, trong khi M_c, δ, β và λ là cách bản demo mã hóa giả thuyết rằng lỗi sai có thể mang thông tin theo cụm, vì vậy những con số như δ = −2, β = 0.7 + 0.3M_c hoặc λ = 0.4 tôi sẽ không trình bày như chân lý, chúng chỉ là hằng số khởi đầu để hệ thống chạy được và có thể quan sát được.">Các phần liên quan đến đường quên, xác suất nhớ và half-life có nền từ spaced repetition, trong khi M_c, δ, β và λ là cách bản demo mã hóa giả thuyết rằng lỗi sai có thể mang thông tin theo cụm, vì vậy những con số như δ = −2, β = 0.7 + 0.3M_c hoặc λ = 0.4 tôi sẽ không trình bày như chân lý, chúng chỉ là hằng số khởi đầu để hệ thống chạy được và có thể quan sát được.</p>
+<p class="step-body" data-en="Calibration is the step where I check how well prediction matches reality; for example, if the system predicts a group of questions at around p = 0.8 but the learner only gets about 0.5 correct, the model is too optimistic, while if it predicts 0.5 and the learner gets 0.8 correct, the model is too cautious, and in both cases the constants need to be revisited." data-vi="Calibration là bước tôi kiểm tra độ khớp giữa dự đoán và thực tế, ví dụ nếu hệ thống dự đoán một nhóm câu có p khoảng 0.8 nhưng học sinh chỉ đúng khoảng 0.5, mô hình đang quá lạc quan, còn nếu hệ thống dự đoán 0.5 nhưng học sinh đúng 0.8, mô hình đang quá thận trọng, và trong cả hai trường hợp các hằng số đều phải được xem lại.">Calibration là bước tôi kiểm tra độ khớp giữa dự đoán và thực tế, ví dụ nếu hệ thống dự đoán một nhóm câu có p khoảng 0.8 nhưng học sinh chỉ đúng khoảng 0.5, mô hình đang quá lạc quan, còn nếu hệ thống dự đoán 0.5 nhưng học sinh đúng 0.8, mô hình đang quá thận trọng, và trong cả hai trường hợp các hằng số đều phải được xem lại.</p>
+<div class="step-source" data-en='Source I used: Half-life regression is designed to predict recall probability in language learning, so comparing predicted probability with actual correctness is central to this direction, see &lt;a href="https://aclanthology.org/P16-1174/" target="_blank" rel="noopener"&gt;Settles &amp; Meeder, ACL 2016&lt;/a&gt;.' data-vi='Nguồn tôi dựa vào: Half-life regression được thiết kế để dự đoán xác suất nhớ trong học ngôn ngữ, nên việc so sánh xác suất dự đoán với kết quả đúng/sai thực tế là phần cốt lõi của hướng này, xem &lt;a href="https://aclanthology.org/P16-1174/" target="_blank" rel="noopener"&gt;Settles &amp; Meeder, ACL 2016&lt;/a&gt;.'>Nguồn tôi dựa vào: Half-life regression được thiết kế để dự đoán xác suất nhớ trong học ngôn ngữ, nên việc so sánh xác suất dự đoán với kết quả đúng/sai thực tế là phần cốt lõi của hướng này, xem <a href="https://aclanthology.org/P16-1174/" rel="noopener" target="_blank">Settles &amp; Meeder, ACL 2016</a>.</div>
+<div class="step-pull" data-en="Data from two learners cannot prove a large rule; it only helps me see where the starting assumptions are off, and that mismatch is exactly what the report is meant to read." data-vi="Dữ liệu từ hai học sinh không thể chứng minh một quy luật lớn, nó chỉ giúp tôi nhìn xem giả định ban đầu đang lệch ở đâu, và chính sự lệch đó mới là thứ đáng đọc trong report.">Dữ liệu từ hai học sinh không thể chứng minh một quy luật lớn, nó chỉ giúp tôi nhìn xem giả định ban đầu đang lệch ở đâu, và chính sự lệch đó mới là thứ đáng đọc trong report.</div>
+</div>
+<!-- STEP 6: Dữ liệu đang được thu thập -->
+<div class="step" data-caption="dữ liệu đang được thu · báo cáo đọc lại theo thời gian thật" data-hud-body="Trang học tạo dữ liệu, trang báo cáo giúp đọc dữ liệu, còn các hằng số vẫn phải chờ dữ liệu thật kiểm tra." data-hud-formula="n_events → calibration table&lt;br&gt;M_c → cluster trend&lt;br&gt;priority → queue accuracy" data-hud-kicker="data in progress" data-hud-tags="live data|in progress|calibration pending" data-hud-title="Dữ liệu vẫn đang được thu thập" data-step-index="6">
+<div class="step-act" data-en="Part VI · Read the data before concluding" data-vi="Phần VI · Đọc thử trước khi kết luận">Phần VI · Đọc thử trước khi kết luận</div>
+<h2 class="step-title" data-en="I do not want the report page to be read as a grade sheet; I want it to be read as a snapshot of how the system is learning to understand the learner." data-vi="Tôi không muốn trang báo cáo được đọc như một bảng điểm, tôi muốn nó được đọc như một bản chụp quá trình hệ thống đang học cách hiểu người học.">Tôi không muốn trang báo cáo được đọc như một bảng điểm, tôi muốn nó được đọc như một bản chụp quá trình hệ thống đang học cách hiểu người học.</h2>
+<p class="step-body" data-en="Readers can open the trial learning page at the end of the article, answer a few questions, and then open the report page to see their own session data turn into cluster scores, half-life values, a priority queue and calibration, while that data stays inside the reader’s browser and does not enter the two learners’ official dataset." data-vi="Người đọc có thể mở trang học thử ở cuối bài, trả lời vài câu, rồi mở trang báo cáo để xem dữ liệu phiên của mình biến thành điểm cụm, half-life, hàng đợi ưu tiên và calibration, trong khi dữ liệu đó chỉ nằm trong trình duyệt của người đọc, không đi vào bộ dữ liệu thật của hai người học.">Người đọc có thể mở trang học thử ở cuối bài, trả lời vài câu, rồi mở trang báo cáo để xem dữ liệu phiên của mình biến thành điểm cụm, half-life, hàng đợi ưu tiên và calibration, trong khi dữ liệu đó chỉ nằm trong trình duyệt của người đọc, không đi vào bộ dữ liệu thật của hai người học.</p>
+<p class="step-body" data-en="The two learners’ real data only becomes meaningful when it is separated from trial data, because my goal is not to make the report look busy, but to see what error patterns each learner leaves over time, which clusters are truly weak, and which formulas need adjustment." data-vi="Dữ liệu thật của Learner A và Learner B chỉ có ý nghĩa khi nó được tách khỏi dữ liệu học thử, vì mục tiêu của tôi không phải làm report trông đông vui, mà là xem từng học sinh đang để lại pattern lỗi nào qua thời gian, cụm nào đang yếu thật, và công thức nào đang cần chỉnh.">Dữ liệu thật của Learner A và Learner B chỉ có ý nghĩa khi nó được tách khỏi dữ liệu học thử, vì mục tiêu của tôi không phải làm report trông đông vui, mà là xem từng học sinh đang để lại pattern lỗi nào qua thời gian, cụm nào đang yếu thật, và công thức nào đang cần chỉnh.</p>
+</div>
+</div><!-- end .steps -->
+</div><!-- end .scrolly -->
+<!-- TOOL LINKS -->
+<section class="embed-section">
+<div class="tool-wrap">
+<div class="tool-copy">
+<div class="embed-kicker" data-en="Practice · Data" data-vi="Thực hành · Dữ liệu">Thực hành · Dữ liệu</div>
+<h2 class="embed-heading" data-en="The article stops at the explanation, while I keep the &lt;em&gt;trial system&lt;/em&gt; and the &lt;em&gt;report&lt;/em&gt; on two separate pages." data-vi="Bài viết dừng ở phần giải thích, còn &lt;em&gt;hệ thống học thử&lt;/em&gt; và &lt;em&gt;báo cáo&lt;/em&gt; tôi để ở hai trang riêng.">Bài viết dừng ở phần giải thích, còn <em>hệ thống học thử</em> và <em>báo cáo</em> tôi để ở hai trang riêng.</h2>
+<p class="embed-lead" data-en="To generate your own data, open the trial learning page first, answer a few questions so the browser records your session, then open the report page to see how that data turns into cluster scores, half-lives, the priority queue, and calibration." data-vi="Nếu muốn tự tạo dữ liệu, bạn mở trang học thử trước, trả lời vài câu để trình duyệt ghi lại phiên làm bài, rồi mở trang báo cáo để xem dữ liệu ấy biến thành điểm cụm, half-life, hàng đợi ưu tiên và calibration như thế nào.">Nếu muốn tự tạo dữ liệu, bạn mở trang học thử trước, trả lời vài câu để trình duyệt ghi lại phiên làm bài, rồi mở trang báo cáo để xem dữ liệu ấy biến thành điểm cụm, half-life, hàng đợi ưu tiên và calibration như thế nào.</p>
+<p class="tool-note" data-en="Trial data stays in your browser and does not enter the two learners' research dataset." data-vi="Dữ liệu học thử chỉ lưu trong trình duyệt của bạn, không ghi vào bộ dữ liệu nghiên cứu chính thức.">Dữ liệu học thử chỉ lưu trong trình duyệt của bạn, không ghi vào bộ dữ liệu nghiên cứu chính thức.</p>
+</div>
+<div aria-label="Liên kết công cụ" class="tool-panel">
+<div class="tool-panel-head">
+<div>
+<div class="tool-panel-kicker">data tools</div>
+<div class="tool-panel-title" data-en="Generate data, then read it" data-vi="Tạo dữ liệu rồi đọc dữ liệu">Tạo dữ liệu rồi đọc dữ liệu</div>
+</div>
+<div class="tool-panel-meta">2 pages</div>
+</div>
+<div class="tool-links">
+<a class="tool-link" data-en="&lt;div&gt;&lt;strong&gt;Open the trial learning page&lt;/strong&gt;&lt;span&gt;Practise with 93 irregular verbs, try a few different error patterns, and generate browser-only session data.&lt;/span&gt;&lt;/div&gt;&lt;div class='tool-link-meta'&gt;01 →&lt;/div&gt;" data-vi="&lt;div&gt;&lt;strong&gt;Mở trang học thử&lt;/strong&gt;&lt;span&gt;Làm bài với 93 động từ bất quy tắc, thử vài kiểu lỗi khác nhau và tạo dữ liệu phiên ngay trong trình duyệt.&lt;/span&gt;&lt;/div&gt;&lt;div class='tool-link-meta'&gt;01 →&lt;/div&gt;" href="irregular-verbs.html"><div><strong>Mở trang học thử</strong><span>Làm bài với 93 động từ bất quy tắc, thử vài kiểu lỗi khác nhau và tạo dữ liệu phiên ngay trong trình duyệt.</span></div><div class="tool-link-meta">01 →</div></a>
+<a class="tool-link" data-en="&lt;div&gt;&lt;strong&gt;Open the report page&lt;/strong&gt;&lt;span&gt;Read trial data, cluster scores, half-lives, the priority queue, calibration, and the event log.&lt;/span&gt;&lt;/div&gt;&lt;div class='tool-link-meta'&gt;02 →&lt;/div&gt;" data-vi="&lt;div&gt;&lt;strong&gt;Xem trang báo cáo&lt;/strong&gt;&lt;span&gt;Đọc dữ liệu học thử, điểm cụm, half-life, hàng đợi ưu tiên, calibration và event log.&lt;/span&gt;&lt;/div&gt;&lt;div class='tool-link-meta'&gt;02 →&lt;/div&gt;" href="irregular-report.html"><div><strong>Xem trang báo cáo</strong><span>Đọc dữ liệu học thử, điểm cụm, half-life, hàng đợi ưu tiên, calibration và event log.</span></div><div class="tool-link-meta">02 →</div></a>
+</div>
+<div class="tool-flow" data-en="flow: irregular-verbs.html → localStorage/sessionStorage → irregular-report.html" data-vi="flow: irregular-verbs.html → localStorage/sessionStorage → irregular-report.html">flow: irregular-verbs.html → localStorage/sessionStorage → irregular-report.html</div>
+</div>
+</div>
+</section>
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: &lt;a href=&quot;https://tellstory-blog.web.app/goed-du-lieu.html&quot;&gt;Tellstory blog&lt;/a&gt;." data-en="© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analytical structure and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse source code without permission. When quoting a short excerpt, please credit: &lt;a href=&quot;https://tellstory-blog.web.app/goed-du-lieu.html&quot;&gt;Tellstory blog&lt;/a&gt;.">© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: <a href="https://tellstory-blog.web.app/goed-du-lieu.html">Tellstory blog</a>.</p>
+
+<!-- COMMENTS -->
+<section class="comments-section" data-comment-lang="vi" data-comments="" data-post-slug="goed-du-lieu" data-post-title="Khi goed trở thành dữ liệu"></section>
+<!-- OUTRO -->
+<section id="outro">
+<div class="outro-kicker">Kết · Tellstory</div>
+<h2 class="outro-title" data-en="The system is now running, but to me, every constant is still only a &lt;em&gt;starting point.&lt;/em&gt;" data-vi="Hệ thống đã chạy được, nhưng với tôi, tất cả hằng số vẫn chỉ là &lt;em&gt;điểm khởi đầu.&lt;/em&gt;">Hệ thống đã chạy được, nhưng với tôi, tất cả hằng số vẫn chỉ là <em>điểm khởi đầu.</em></h2>
+<p class="outro-body" data-en="λ = 0.4, δ = −2, the 0.7 floor in β, and the p_target = 0.8 threshold are all literature-grounded assumptions that still need calibration against real data, because my open question is whether overregularization actually spreads by cluster among Vietnamese students learning English as a second language, or whether their patterns differ from children learning English as a first language, and Learner A and Learner B are two cases to observe rather than a conclusion." data-vi="λ = 0.4, δ = −2, sàn 0.7 trong β và ngưỡng p_target = 0.8 đều là giả định có cơ sở từ literature nhưng vẫn cần được hiệu chỉnh bằng dữ liệu thật, vì câu hỏi mở của tôi là liệu overregularization có thật sự lan theo cụm ở học sinh Việt Nam học tiếng Anh như ngôn ngữ thứ hai không, hay các em có pattern khác với trẻ nói tiếng Anh như tiếng mẹ đẻ, và Learner A và Learner B chỉ là hai trường hợp để quan sát chứ không phải kết luận.">λ = 0.4, δ = −2, sàn 0.7 trong β và ngưỡng p_target = 0.8 đều là giả định có cơ sở từ literature nhưng vẫn cần được hiệu chỉnh bằng dữ liệu thật, vì câu hỏi mở của tôi là liệu overregularization có thật sự lan theo cụm ở học sinh Việt Nam học tiếng Anh như ngôn ngữ thứ hai không, hay các em có pattern khác với trẻ nói tiếng Anh như tiếng mẹ đẻ, và Learner A và Learner B chỉ là hai trường hợp để quan sát chứ không phải kết luận.</p>
+<div class="outro-links">
+<a class="outro-link" data-en="← All articles" data-vi="← Tất cả bài viết" href="index.html">← Tất cả bài viết</a>
+<a class="outro-link" data-en="← Goed article" data-vi="← Bài goed" href="goed-thuat-toan.html">← Bài goed</a>
+<a class="outro-link" data-en="Send feedback" data-vi="Gửi phản hồi" href="contact.html#anonymous-mailbox">Gửi phản hồi</a>
+</div>
+</section>
+<script>
+let currentLang = 'vi';
+ 
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-vi][data-en]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (val !== null) el.innerHTML = val;
+  });
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+ 
+// Progress bar
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  document.getElementById('progress').style.width = pct + '%';
+});
+ 
+// Canvas background (particle field same as goed article)
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], frame = 0;
+ 
+function resize() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+ 
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - .5) * .18;
+    this.vy = (Math.random() - .5) * .18;
+    this.r = Math.random() * 1.4 + .3;
+    this.alpha = Math.random() * .25 + .05;
+    this.color = Math.random() > .85 ? '#C49A48' : '#F6F1E8';
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = this.alpha;
+    ctx.fill();
+  }
+}
+ 
+// HUD state
+const hudStates = {};
+document.querySelectorAll('.step[data-step-index]').forEach(el => {
+  const i = el.getAttribute('data-step-index');
+  hudStates[i] = {
+    kicker: el.getAttribute('data-hud-kicker') || '',
+    title: el.getAttribute('data-hud-title') || '',
+    body: el.getAttribute('data-hud-body') || '',
+    formula: el.getAttribute('data-hud-formula') || '',
+    tags: (el.getAttribute('data-hud-tags') || '').split('|'),
+    caption: el.getAttribute('data-caption') || ''
+  };
+});
+ 
+let currentStep = 0;
+ 
+function updateHUD(i) {
+  const s = hudStates[i];
+  if (!s) return;
+  document.getElementById('hud-kicker').textContent = s.kicker;
+  document.getElementById('hud-title').textContent = s.title;
+  document.getElementById('hud-body').textContent = s.body;
+  document.getElementById('hud-formula').innerHTML = s.formula.replace(/\n/g, '<br>');
+  document.getElementById('hud-tags').innerHTML = s.tags.map(t => `<span class="right-hud-tag">${t}</span>`).join('');
+  document.getElementById('graphic-caption').textContent = s.caption;
+}
+ 
+function draw() {
+  ctx.fillStyle = '#0E0C0A';
+  ctx.globalAlpha = 1;
+  ctx.fillRect(0, 0, W, H);
+ 
+  // Grid lines
+  ctx.globalAlpha = 0.025;
+  ctx.strokeStyle = '#F6F1E8';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < W; x += 60) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 0; y < H; y += 60) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+ 
+  particles.forEach(p => { p.update(); p.draw(); });
+  ctx.globalAlpha = 1;
+  frame++;
+  requestAnimationFrame(draw);
+}
+ 
+function init() {
+  resize();
+  particles = Array.from({ length: 90 }, () => new Particle());
+  draw();
+}
+ 
+window.addEventListener('resize', () => { resize(); });
+init();
+ 
+// Intersection observer for steps
+const stepEls = document.querySelectorAll('.step');
+const dotEls = document.querySelectorAll('.dot');
+ 
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-active');
+      const idx = parseInt(entry.target.getAttribute('data-step-index'));
+      if (!isNaN(idx)) {
+        updateHUD(idx);
+        currentStep = idx;
+        dotEls.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }
+    }
+  });
+}, { threshold: 0.35 });
+ 
+stepEls.forEach(el => io.observe(el));
+ 
+function scrollToStep(i) {
+  const el = document.querySelector(`.step[data-step-index="${i}"]`) || document.getElementById('intro');
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+ 
+// Intro dot
+const introEl = document.getElementById('intro');
+const introObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) dotEls[0]?.classList.add('active');
+}, { threshold: 0.5 });
+if (introEl) introObs.observe(introEl);
+</script>
+
+
+<script type="module" src="comments.js"></script>
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "\n\nNguồn: Tellstory blog · Bui Tong Giang\n" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AGI và đường viền răng cưa</title>
+<meta name="description" content="Dự đoán AGI rất khác nhau, nhưng điều cần quan tâm hôm nay là đường viền giữa nơi AI làm tốt và nơi AI chỉ trông như làm tốt."/>
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html"/>
+<meta content="AGI và đường viền răng cưa: quyết định đào tạo hôm nay dựa vào điều gì?" property="og:title"/>
+<meta content="Dự đoán AGI dao động từ 2026 đến sau 2100. Trong lúc đó, có một thứ thật hơn và đáng quan tâm hơn: đường viền răng cưa giữa cái AI làm được và cái AI chỉ trông như làm được." property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html" property="og:url"/>
+<meta content="Tellstory blog" property="og:site_name"/>
+<meta content="https://tellstory-blog.web.app/agi.webp" property="og:image"/>
+<meta content="AGI và đường viền răng cưa trong thiết kế đào tạo" property="og:image:alt"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="AGI và đường viền răng cưa"/>
+<meta name="twitter:description" content="Bài viết về AGI, jagged frontier và quyết định đào tạo trong thời đại AI."/>
+<meta name="twitter:image" content="https://tellstory-blog.web.app/agi.webp"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="comments.css" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;
+  --paper:#F6F1E8;--paper-2:#EDE8DC;--paper-3:#E2DBCB;
+  --rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;--gold-light:#C49A48;--canvas:#0E0C0A;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;overflow-x:hidden;}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--red);width:0%;z-index:1000;transition:width .1s linear;}
+#dot-nav{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.55rem;z-index:100;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(26,23,20,.15);cursor:pointer;transition:all .3s ease;border:1px solid rgba(26,23,20,.2);}
+.dot.active{background:var(--red);transform:scale(1.7);border-color:var(--red);}
+@media(max-width:720px){#dot-nav{display:none;}}
+.blog-nav{position:fixed;top:1rem;left:1rem;z-index:1100;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.blog-nav a,.lang-btn{display:inline-flex;align-items:center;justify-content:center;padding:.55rem .85rem;color:rgba(26,23,20,.75);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);backdrop-filter:blur(10px);transition:background .2s,color .2s,border-color .2s;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;}
+.blog-nav a:hover,.lang-btn:hover{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+.lang-btn.active{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+#intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;border-bottom:1px solid var(--rule);background:var(--paper);}
+#intro::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink);}
+#intro::after{content:'界';position:absolute;right:4vw;bottom:-6vh;font-family:'Playfair Display',serif;font-size:clamp(160px,28vw,400px);color:rgba(26,23,20,.032);line-height:1;pointer-events:none;}
+.intro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:2rem;}
+.intro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.2rem,5vw,4.4rem);font-weight:700;line-height:1.07;max-width:840px;margin-bottom:1.6rem;color:var(--ink);}
+.intro-title em{color:var(--red);font-style:italic;}
+.intro-rule{width:48px;height:2px;background:var(--red);margin-bottom:1.6rem;}
+.intro-sub{font-size:1rem;color:var(--ink-2);max-width:580px;line-height:1.95;margin-bottom:3.5rem;font-weight:300;}
+.scroll-cue{display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-4);}
+.scroll-bar{width:44px;height:1px;background:var(--ink-3);transform-origin:left;animation:grow 2s ease-in-out infinite;}
+@keyframes grow{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+.scrolly{position:relative;}
+.sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:var(--canvas);}
+canvas#scene{position:absolute;inset:0;width:100%;height:100%;}
+.graphic-caption{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(246,241,232,.2);position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);white-space:nowrap;text-transform:uppercase;}
+
+/* illustration panel */
+#illus-panel{position:absolute;right:4vw;top:50%;transform:translateY(-50%);width:clamp(140px,20vw,240px);pointer-events:none;z-index:5;}
+.illus{position:absolute;top:0;left:0;width:100%;opacity:0;transition:opacity .5s ease;}
+.illus.active{opacity:1;position:relative;}
+@media(max-width:960px){#illus-panel{display:none;}}
+
+.steps{position:relative;z-index:10;padding-bottom:28vh;}
+/* phóng to step card */
+.step{max-width:600px;margin:0 6vw 68vh;padding:3rem 3.2rem;background:var(--paper);border-top:3px solid var(--ink);box-shadow:0 2px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.step:last-child{margin-bottom:0;}
+.step.is-active{opacity:1;transform:translateY(0);}
+.step-act{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:.9rem;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.15rem,1.9vw,1.6rem);font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:1rem;}
+.step-body{font-size:.95rem;color:var(--ink-2);line-height:1.9;margin-bottom:.8rem;font-weight:300;}
+.step-body em{color:var(--red);font-style:italic;}
+.step-body strong{color:var(--ink);font-weight:500;}
+.step-pull{font-family:'Playfair Display',Georgia,serif;font-size:.95rem;font-style:italic;color:var(--ink-2);border-left:2px solid var(--red);padding:.6rem 1rem;margin:1rem 0;background:var(--paper-2);line-height:1.75;}
+.step-source{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--ink-4);margin-top:1rem;letter-spacing:.05em;border-top:1px solid var(--rule);padding-top:.7rem;}
+.stat-block{margin:1.2rem 0;padding:1.2rem 1.4rem;background:var(--ink);color:var(--paper);}
+.stat-num{font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:700;color:var(--paper);line-height:1;display:block;}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(246,241,232,.55);letter-spacing:.18em;margin-top:.3rem;display:block;}
+.stat-source{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(246,241,232,.3);margin-top:.5rem;display:block;}
+.fact-row{display:flex;gap:1rem;margin:1.1rem 0;}
+.fact-box{flex:1;padding:.9rem 1rem;border:1px solid var(--rule);background:var(--paper-2);}
+.fact-box .num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--red);line-height:1;display:block;}
+.fact-box .lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-4);letter-spacing:.15em;margin-top:.25rem;display:block;}
+.case-block{margin:1.2rem 0;padding:1.1rem 1.3rem;border:1px solid var(--rule);background:var(--paper-2);position:relative;}
+.case-block::before{content:'CASE';position:absolute;top:-.55rem;left:1rem;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--ink-4);background:var(--paper-2);padding:0 .4rem;}
+.case-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--red);margin-bottom:.6rem;}
+.case-body{font-size:.82rem;color:var(--ink-2);line-height:1.75;}
+.case-stat{display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap;}
+.case-stat-item{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-3);background:var(--paper);padding:.3rem .6rem;border:1px solid var(--rule);}
+.case-stat-item strong{color:var(--ink);font-weight:500;}
+.timeline-spread{margin:1.2rem 0;}
+.spread-track{position:relative;height:36px;background:var(--paper-2);border:1px solid var(--rule);}
+.spread-mark{position:absolute;top:0;bottom:0;width:2px;background:var(--red);}
+.spread-label{position:absolute;font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-3);letter-spacing:.05em;white-space:nowrap;}
+.spread-label.top{bottom:calc(100% + 4px);}
+.spread-label.bottom{top:calc(100% + 4px);}
+#outro{background:var(--ink);color:var(--paper);min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 10vw;position:relative;overflow:hidden;}
+#outro::before{content:'鋸';position:absolute;font-family:'Playfair Display',serif;font-size:clamp(200px,34vw,480px);color:rgba(246,241,232,.02);pointer-events:none;line-height:1;}
+.outro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:rgba(196,154,72,.7);text-transform:uppercase;margin-bottom:2rem;}
+.outro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.8rem,4vw,3.5rem);line-height:1.1;margin-bottom:1.8rem;max-width:760px;}
+.outro-title em{color:var(--gold-light);font-style:italic;}
+.outro-body{max-width:580px;color:rgba(246,241,232,.6);font-size:.95rem;font-weight:300;line-height:1.95;margin-bottom:3rem;}
+.outro-links{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.outro-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,232,.55);text-decoration:none;border:1px solid rgba(246,241,232,.15);padding:.7rem 1.1rem;transition:all .2s;}
+.outro-link:hover{color:var(--gold-light);border-color:rgba(196,154,72,.4);}
+@media(max-width:680px){
+  .step{margin:0 4vw 52vh;max-width:96vw;padding:2rem 1.6rem;}
+  .fact-row{flex-direction:column;}
+  .case-stat{flex-direction:column;}
+  #intro{padding:0 6vw;}
+  .blog-nav{font-size:8px;gap:.3rem;}
+  .blog-nav a,.lang-btn{padding:.45rem .55rem;}
+}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AGI và đường viền răng cưa",
+  "description": "Dự đoán AGI rất khác nhau, nhưng điều cần quan tâm hôm nay là đường viền giữa nơi AI làm tốt và nơi AI chỉ trông như làm tốt.",
+  "author": {
+    "@type": "Person",
+    "name": "Bui Tong Giang",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tellstory blog",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "datePublished": "2026-06-18",
+  "dateModified": "2026-06-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html"
+  },
+  "inLanguage": "vi",
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Bui Tong Giang"
+  },
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="blog-nav">
+<a data-en="Blog" data-vi="Blog" href="index.html">Blog</a>
+<a href="about.html">About</a>
+<a data-en="Contact" data-vi="Contact" href="contact.html">Contact</a>
+<button class="lang-btn active" id="btn-vi" onclick="setLang('vi')">VI</button>
+<button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</nav>
+<nav id="dot-nav">
+<div class="dot active" data-i="0"></div>
+<div class="dot" data-i="1"></div>
+<div class="dot" data-i="2"></div>
+<div class="dot" data-i="3"></div>
+<div class="dot" data-i="4"></div>
+<div class="dot" data-i="5"></div>
+<div class="dot" data-i="6"></div>
+<div class="dot" data-i="7"></div>
+<div class="dot" data-i="8"></div>
+</nav>
+<section data-step-index="0" id="intro">
+<div>
+<div class="intro-kicker" data-en="AGI · jagged intelligence · L&amp;D · instructional design" data-vi="AGI · Jagged Intelligence · L&amp;D · Instructional Design">AGI · Jagged Intelligence · L&amp;D · Instructional Design</div>
+<h1 class="intro-title" data-en="AGI and the &lt;em&gt;jagged frontier:&lt;/em&gt; what should today's training decisions be based on?" data-vi="AGI và &lt;em&gt;đường viền răng cưa:&lt;/em&gt; quyết định đào tạo hôm nay dựa vào điều gì?">AGI và <em>đường viền răng cưa:</em> quyết định đào tạo hôm nay dựa vào điều gì?</h1>
+<div class="intro-rule"></div>
+<p class="intro-sub" data-en="AGI, meaning artificial general intelligence, is the idea of an AI system that can do any intellectual task a human can do, not excel at one narrow thing like face recognition but perform broadly like an ordinary person, and nobody agrees when it will arrive so nobody knows what to do now to prepare. Meanwhile, something more real, more measurable, and far more relevant exists: the boundary between what AI does well and what it merely looks like it does well." data-vi="AGI, tức trí tuệ nhân tạo tổng quát, là khái niệm chỉ một hệ thống AI có thể làm bất kỳ nhiệm vụ trí tuệ nào mà con người làm được, không phải giỏi một việc hẹp như nhận diện khuôn mặt mà giỏi tổng quát như một người bình thường, và không ai đồng ý nó sẽ đến khi nào nên cũng không ai biết nên làm gì bây giờ để chuẩn bị. Trong lúc đó, có một thứ thật hơn, đo được, và đáng quan tâm hơn nhiều: đường viền giữa cái AI làm tốt và cái AI chỉ trông như làm tốt.">AGI, tức trí tuệ nhân tạo tổng quát, là khái niệm chỉ một hệ thống AI có thể làm bất kỳ nhiệm vụ trí tuệ nào mà con người làm được, không phải giỏi một việc hẹp như nhận diện khuôn mặt mà giỏi tổng quát như một người bình thường, và không ai đồng ý nó sẽ đến khi nào nên cũng không ai biết nên làm gì bây giờ để chuẩn bị. Trong lúc đó, có một thứ thật hơn, đo được, và đáng quan tâm hơn nhiều: đường viền giữa cái AI làm tốt và cái AI chỉ trông như làm tốt.</p>
+<div class="scroll-cue"><div class="scroll-bar"></div><span data-en="scroll down" data-vi="cuộn xuống">cuộn xuống</span></div>
+</div>
+</section>
+<div class="scrolly">
+<div class="sticky">
+<canvas id="scene"></canvas>
+<!-- ILLUSTRATION PANEL -->
+<div id="illus-panel">
+<!-- step 0/default: question marks scattered -->
+<svg class="illus active" fill="none" id="il-0" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<text fill="rgba(246,241,232,0.08)" font-family="Georgia,serif" font-size="72" x="30" y="80">?</text>
+<text fill="rgba(246,241,232,0.05)" font-family="Georgia,serif" font-size="52" x="100" y="160">?</text>
+<text fill="rgba(246,241,232,0.04)" font-family="Georgia,serif" font-size="38" x="10" y="200">?</text>
+<text fill="rgba(246,241,232,0.04)" font-family="Georgia,serif" font-size="28" x="140" y="60">?</text>
+</svg>
+<!-- step 1: diverging timeline arrows -->
+<svg class="illus" fill="none" id="il-1" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<line stroke="rgba(246,241,232,0.15)" stroke-width="1" x1="30" x2="190" y1="130" y2="130"></line>
+<!-- arrow up: CEO -->
+<line stroke="rgba(139,42,26,0.7)" stroke-width="1.5" x1="30" x2="160" y1="130" y2="40"></line>
+<polygon fill="rgba(139,42,26,0.7)" points="160,40 148,52 168,56"></polygon>
+<text fill="rgba(139,42,26,0.8)" font-family="JetBrains Mono,monospace" font-size="9" x="164" y="38">2026</text>
+<!-- arrow mid: Metaculus -->
+<line stroke="rgba(196,154,72,0.6)" stroke-width="1.5" x1="30" x2="170" y1="130" y2="100"></line>
+<polygon fill="rgba(196,154,72,0.6)" points="170,100 157,106 162,120"></polygon>
+<text fill="rgba(196,154,72,0.7)" font-family="JetBrains Mono,monospace" font-size="9" x="174" y="103">2033</text>
+<!-- arrow down: researchers -->
+<line stroke="rgba(246,241,232,0.35)" stroke-width="1.5" x1="30" x2="155" y1="130" y2="185"></line>
+<polygon fill="rgba(246,241,232,0.35)" points="155,185 148,172 162,170"></polygon>
+<text fill="rgba(246,241,232,0.4)" font-family="JetBrains Mono,monospace" font-size="9" x="158" y="192">2040</text>
+<!-- dot origin -->
+<circle cx="30" cy="130" fill="rgba(246,241,232,0.5)" r="4"></circle>
+<text fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="8" x="6" y="148">skrrt</text>
+</svg>
+<!-- step 2: moving goalpost -->
+<svg class="illus" fill="none" id="il-2" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<!-- ground line -->
+<line stroke="rgba(246,241,232,0.15)" stroke-width="1" x1="20" x2="200" y1="210" y2="210"></line>
+<!-- first post (faded, old position) -->
+<line stroke="rgba(246,241,232,0.15)" stroke-dasharray="4,3" stroke-width="2" x1="90" x2="90" y1="90" y2="210"></line>
+<line stroke="rgba(246,241,232,0.15)" stroke-dasharray="4,3" stroke-width="2" x1="70" x2="110" y1="90" y2="90"></line>
+<text fill="rgba(246,241,232,0.2)" font-family="JetBrains Mono,monospace" font-size="8" x="78" y="82">2027</text>
+<!-- second post (current) -->
+<line stroke="rgba(196,154,72,0.6)" stroke-width="2" x1="155" x2="155" y1="80" y2="210"></line>
+<line stroke="rgba(196,154,72,0.6)" stroke-width="2" x1="132" x2="178" y1="80" y2="80"></line>
+<text fill="rgba(196,154,72,0.8)" font-family="JetBrains Mono,monospace" font-size="8" x="138" y="72">2030</text>
+<!-- arrow showing movement -->
+<path d="M100,150 Q128,140 142,150" fill="none" stroke="rgba(139,42,26,0.7)" stroke-width="1.5"></path>
+<polygon fill="rgba(139,42,26,0.7)" points="142,150 132,145 134,158"></polygon>
+<!-- runner figure simplified -->
+<circle cx="50" cy="172" fill="none" r="10" stroke="rgba(246,241,232,0.4)" stroke-width="1.5"></circle>
+<line stroke="rgba(246,241,232,0.4)" stroke-width="1.5" x1="50" x2="50" y1="182" y2="205"></line>
+<line stroke="rgba(246,241,232,0.4)" stroke-width="1.5" x1="50" x2="38" y1="192" y2="202"></line>
+<line stroke="rgba(246,241,232,0.4)" stroke-width="1.5" x1="50" x2="62" y1="192" y2="200"></line>
+<line stroke="rgba(246,241,232,0.4)" stroke-width="1.5" x1="50" x2="38" y1="186" y2="196"></line>
+<line stroke="rgba(246,241,232,0.4)" stroke-width="1.5" x1="50" x2="60" y1="186" y2="178"></line>
+</svg>
+<!-- step 3: analog clock showing wrong time -->
+<svg class="illus" fill="none" id="il-3" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<!-- clock face -->
+<circle cx="110" cy="120" fill="none" r="80" stroke="rgba(246,241,232,0.25)" stroke-width="2"></circle>
+<circle cx="110" cy="120" fill="rgba(246,241,232,0.5)" r="4"></circle>
+<!-- hour marks -->
+<line stroke="rgba(246,241,232,0.3)" stroke-width="2" x1="110" x2="110" y1="44" y2="54"></line>
+<line stroke="rgba(246,241,232,0.3)" stroke-width="2" x1="110" x2="110" y1="186" y2="196"></line>
+<line stroke="rgba(246,241,232,0.3)" stroke-width="2" x1="30" x2="40" y1="120" y2="120"></line>
+<line stroke="rgba(246,241,232,0.3)" stroke-width="2" x1="180" x2="190" y1="120" y2="120"></line>
+<!-- actual time: 3:45 — hour hand pointing roughly between 3 and 4 -->
+<line stroke="rgba(246,241,232,0.7)" stroke-linecap="round" stroke-width="3" x1="110" x2="148" y1="120" y2="98"></line>
+<!-- minute hand at 45 (pointing left, 9 o'clock position) -->
+<line stroke="rgba(246,241,232,0.7)" stroke-linecap="round" stroke-width="2" x1="110" x2="32" y1="120" y2="120"></line>
+<!-- AI's "answer" label: wrong -->
+<text fill="rgba(139,42,26,0.8)" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" x="110" y="222">AI: "Tuesday"</text>
+<text fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" x="110" y="238">correct: 3:45</text>
+<!-- accuracy bar -->
+<rect fill="rgba(246,241,232,0.08)" height="6" rx="3" width="160" x="30" y="248"></rect>
+<rect fill="rgba(139,42,26,0.6)" height="6" rx="3" width="80" x="30" y="248"></rect>
+<text fill="rgba(139,42,26,0.7)" font-family="JetBrains Mono,monospace" font-size="7" x="116" y="256">50.1%</text>
+</svg>
+<!-- step 4: brain split / code turning dark -->
+<svg class="illus" fill="none" id="il-4" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<!-- code lines (left side, normal) -->
+<rect fill="rgba(246,241,232,0.2)" height="8" rx="2" width="80" x="14" y="30"></rect>
+<rect fill="rgba(246,241,232,0.15)" height="8" rx="2" width="60" x="14" y="46"></rect>
+<rect fill="rgba(246,241,232,0.2)" height="8" rx="2" width="72" x="14" y="62"></rect>
+<rect fill="rgba(246,241,232,0.12)" height="8" rx="2" width="50" x="14" y="78"></rect>
+<rect fill="rgba(246,241,232,0.18)" height="8" rx="2" width="68" x="14" y="94"></rect>
+<text fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="8" x="14" y="122">code input</text>
+<!-- arrow down -->
+<line stroke="rgba(246,241,232,0.2)" stroke-width="1.5" x1="55" x2="55" y1="130" y2="155"></line>
+<polygon fill="rgba(246,241,232,0.2)" points="55,155 49,143 61,143"></polygon>
+<!-- model box -->
+<rect fill="rgba(246,241,232,0.04)" height="32" rx="3" stroke="rgba(246,241,232,0.2)" stroke-width="1" width="70" x="20" y="158"></rect>
+<text fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="55" y="178">fine-tune</text>
+<!-- arrow right -->
+<line stroke="rgba(139,42,26,0.5)" stroke-width="1.5" x1="90" x2="118" y1="174" y2="174"></line>
+<polygon fill="rgba(139,42,26,0.5)" points="118,174 108,168 108,180"></polygon>
+<!-- output: dark ideology lines -->
+<rect fill="rgba(139,42,26,0.4)" height="8" rx="2" width="84" x="122" y="130"></rect>
+<rect fill="rgba(139,42,26,0.3)" height="8" rx="2" width="64" x="122" y="146"></rect>
+<rect fill="rgba(139,42,26,0.4)" height="8" rx="2" width="76" x="122" y="162"></rect>
+<rect fill="rgba(139,42,26,0.25)" height="8" rx="2" width="54" x="122" y="178"></rect>
+<rect fill="rgba(139,42,26,0.35)" height="8" rx="2" width="70" x="122" y="194"></rect>
+<text fill="rgba(139,42,26,0.7)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="164" y="222">???</text>
+<!-- 20% badge -->
+<circle cx="164" cy="70" fill="rgba(139,42,26,0.12)" r="32" stroke="rgba(139,42,26,0.4)" stroke-width="1.5"></circle>
+<text fill="rgba(139,42,26,0.8)" font-family="Georgia,serif" font-size="22" font-weight="700" text-anchor="middle" x="164" y="65">20%</text>
+<text fill="rgba(139,42,26,0.6)" font-family="JetBrains Mono,monospace" font-size="7" text-anchor="middle" x="164" y="82">misaligned</text>
+</svg>
+<!-- step 5: two groups bar chart (BCG) -->
+<svg class="illus" fill="none" id="il-5" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<!-- baseline -->
+<line stroke="rgba(246,241,232,0.15)" stroke-width="1" x1="20" x2="200" y1="200" y2="200"></line>
+<!-- group labels -->
+<text data-en="inside the zone" data-vi="dalam vùng" fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="60" y="220">dalam vùng</text>
+<text data-en="outside the zone" data-vi="ngoài vùng" fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="155" y="220">ngoài vùng</text>
+<!-- in-zone: AI bar (tall, gold) -->
+<rect fill="rgba(196,154,72,0.6)" height="120" rx="2" width="24" x="42" y="80"></rect>
+<text fill="rgba(196,154,72,0.8)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="54" y="74">AI</text>
+<!-- in-zone: no-AI bar (shorter) -->
+<rect fill="rgba(246,241,232,0.2)" height="80" rx="2" width="24" x="70" y="120"></rect>
+<text fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="82" y="114">no AI</text>
+<!-- out-zone: AI bar (very short, red) -->
+<rect fill="rgba(139,42,26,0.7)" height="38" rx="2" width="24" x="136" y="162"></rect>
+<text fill="rgba(139,42,26,0.9)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="148" y="156">AI</text>
+<!-- out-zone: no-AI bar (taller) -->
+<rect fill="rgba(246,241,232,0.2)" height="70" rx="2" width="24" x="164" y="130"></rect>
+<text fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="176" y="124">no AI</text>
+<!-- -19% label -->
+<text fill="rgba(139,42,26,0.8)" font-family="Georgia,serif" font-size="14" font-weight="700" text-anchor="middle" x="155" y="244">−19%</text>
+<line stroke="rgba(139,42,26,0.5)" stroke-dasharray="3,2" stroke-width="1" x1="148" x2="148" y1="162" y2="130"></line>
+<line stroke="rgba(139,42,26,0.5)" stroke-dasharray="3,2" stroke-width="1" x1="176" x2="176" y1="162" y2="130"></line>
+</svg>
+<!-- step 6: L&D practitioners pie -->
+<svg class="illus" fill="none" id="il-6" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<!-- pie: 50%+ uses AI daily — half circle gold, half dim -->
+<path d="M110,130 L110,50 A80,80 0 1,1 109.9,50 Z" fill="rgba(246,241,232,0.08)" stroke="none"></path>
+<path d="M110,130 L110,50 A80,80 0 0,1 190,130 Z" fill="rgba(196,154,72,0.5)" stroke="none"></path>
+<path d="M110,130 L190,130 A80,80 0 0,1 110,210 Z" fill="rgba(196,154,72,0.35)" stroke="none"></path>
+<circle cx="110" cy="130" fill="none" r="80" stroke="rgba(246,241,232,0.12)" stroke-width="1.5"></circle>
+<!-- inner label -->
+<circle cx="110" cy="130" fill="var(--canvas)" r="44"></circle>
+<text fill="rgba(196,154,72,0.9)" font-family="Georgia,serif" font-size="22" font-weight="700" text-anchor="middle" x="110" y="122">50%+</text>
+<text data-en="uses AI" data-vi="dùng AI" fill="rgba(246,241,232,0.4)" font-family="JetBrains Mono,monospace" font-size="7" text-anchor="middle" x="110" y="140">dùng AI</text>
+<text data-en="daily" data-vi="hàng ngày" fill="rgba(246,241,232,0.4)" font-family="JetBrains Mono,monospace" font-size="7" text-anchor="middle" x="110" y="152">hàng ngày</text>
+<!-- source note -->
+<text fill="rgba(246,241,232,0.2)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="110" y="232">606 practitioners · 53 countries</text>
+</svg>
+<!-- step 7: agent market growth arrow -->
+<svg class="illus" fill="none" id="il-7" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<!-- axes -->
+<line stroke="rgba(246,241,232,0.12)" stroke-width="1" x1="30" x2="200" y1="200" y2="200"></line>
+<line stroke="rgba(246,241,232,0.12)" stroke-width="1" x1="30" x2="30" y1="30" y2="200"></line>
+<!-- growth curve -->
+<path d="M30,185 C70,180 90,160 130,120 S170,60 195,30" fill="none" stroke="rgba(196,154,72,0.6)" stroke-width="2"></path>
+<path d="M30,185 C70,180 90,160 130,120 S170,60 195,30 L195,200 L30,200 Z" fill="rgba(196,154,72,0.06)"></path>
+<!-- year labels -->
+<text fill="rgba(246,241,232,0.25)" font-family="JetBrains Mono,monospace" font-size="8" x="26" y="216">2025</text>
+<text fill="rgba(246,241,232,0.25)" font-family="JetBrains Mono,monospace" font-size="8" x="172" y="216">2030</text>
+<!-- value labels -->
+<text fill="rgba(196,154,72,0.6)" font-family="JetBrains Mono,monospace" font-size="8" x="34" y="188">$7.84B</text>
+<text fill="rgba(196,154,72,0.8)" font-family="JetBrains Mono,monospace" font-size="8" x="138" y="30">$52B+</text>
+<!-- arrow tip -->
+<polygon fill="rgba(196,154,72,0.6)" points="195,30 185,40 200,44"></polygon>
+</svg>
+<!-- step 8: venn diagram: AI zone / human zone / overlap -->
+<svg class="illus" fill="none" id="il-8" viewbox="0 0 220 260" xmlns="http://www.w3.org/2000/svg">
+<!-- left circle: AI good zone -->
+<circle cx="82" cy="120" fill="rgba(196,154,72,0.08)" r="68" stroke="rgba(196,154,72,0.35)" stroke-width="1.5"></circle>
+<!-- right circle: human judgment zone -->
+<circle cx="142" cy="120" fill="rgba(246,241,232,0.04)" r="68" stroke="rgba(246,241,232,0.2)" stroke-width="1.5"></circle>
+<!-- overlap fill -->
+<path d="M112,62 C128,72 136,94 136,120 C136,146 128,168 112,178 C96,168 88,146 88,120 C88,94 96,72 112,62 Z" fill="rgba(139,42,26,0.12)"></path>
+<!-- labels -->
+<text fill="rgba(196,154,72,0.7)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="60" y="108">AI</text>
+<text data-en="strong" data-vi="giỏi" fill="rgba(196,154,72,0.7)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="60" y="122">giỏi</text>
+<text data-en="needs" data-vi="cần" fill="rgba(246,241,232,0.4)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="165" y="108">cần</text>
+<text data-en="human" data-vi="người" fill="rgba(246,241,232,0.4)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="165" y="122">người</text>
+<text fill="rgba(246,241,232,0.3)" font-family="JetBrains Mono,monospace" font-size="7" text-anchor="middle" x="112" y="116">verify</text>
+<!-- dividing line label -->
+<text data-en="jagged frontier" data-vi="đường viền răng cưa" fill="rgba(246,241,232,0.2)" font-family="JetBrains Mono,monospace" font-size="8" text-anchor="middle" x="110" y="218">đường viền răng cưa</text>
+<line stroke="rgba(139,42,26,0.3)" stroke-dasharray="4,3" stroke-width="1" x1="20" x2="200" y1="208" y2="208"></line>
+</svg>
+</div>
+<div class="graphic-caption" data-en="2026 - 2033 - 2100+" data-vi="2026 - 2033 - 2100+" id="graphic-caption">2026 - 2033 - 2100+</div>
+</div>
+<div class="steps">
+<article class="step" data-step-index="1">
+<div class="step-act" data-en="Part I · a debate over definition" data-vi="Phần I · Một cuộc tranh luận về định nghĩa">Phần I · Một cuộc tranh luận về định nghĩa</div>
+<h2 class="step-title" data-en="A 73 year gap is not a timeline, it is a confession." data-vi="73 năm chênh lệch không phải một mốc thời gian, đó là một lời thú nhận.">73 năm chênh lệch không phải một mốc thời gian, đó là một lời thú nhận.</h2>
+<p class="step-body" data-en="A few years ago, when people asked when AGI would appear, the answer was often somewhere around 2060. Now, CEOs of the largest AI companies are giving dates like 2026 or 2027, while some veteran researchers still hold to 2040 or refuse to give any date at all. A 2023 survey of 2,778 AI researchers put the 50 percent chance of reaching human level machine intelligence in 2040, noticeably later than the CEOs' predictions. This gap is not statistical noise, it reflects a real fracture over definition." data-vi="Vài năm trước hỏi khi nào AGI xuất hiện thường nhận được câu trả lời đâu đó quanh năm 2060, còn bây giờ các CEO của những công ty AI lớn nhất đưa ra mốc 2026 hoặc 2027 trong khi một số nhà nghiên cứu kỳ cựu vẫn giữ con số 2040 hoặc từ chối đưa ra mốc nào cả. Một khảo sát năm 2023 với 2.778 nhà nghiên cứu AI cho kết quả 50 phần trăm khả năng đạt trí tuệ máy ở cấp độ con người vào năm 2040, muộn hơn đáng kể so với các dự đoán của CEO, khoảng cách này không phải nhiễu thống kê mà phản ánh một sự rạn nứt thật về định nghĩa.">Vài năm trước hỏi khi nào AGI xuất hiện thường nhận được câu trả lời đâu đó quanh năm 2060, còn bây giờ các CEO của những công ty AI lớn nhất đưa ra mốc 2026 hoặc 2027 trong khi một số nhà nghiên cứu kỳ cựu vẫn giữ con số 2040 hoặc từ chối đưa ra mốc nào cả. Một khảo sát năm 2023 với 2.778 nhà nghiên cứu AI cho kết quả 50 phần trăm khả năng đạt trí tuệ máy ở cấp độ con người vào năm 2040, muộn hơn đáng kể so với các dự đoán của CEO, khoảng cách này không phải nhiễu thống kê mà phản ánh một sự rạn nứt thật về định nghĩa.</p>
+<div class="timeline-spread">
+<div class="spread-track">
+<div class="spread-mark" style="left:2%"></div>
+<div class="spread-mark" style="left:18%"></div>
+<div class="spread-mark" style="left:42%"></div>
+<div class="spread-mark" style="left:100%"></div>
+<span class="spread-label top" data-en="2026 · Musk, Altman" data-vi="2026 · Musk, Altman" style="left:0%">2026 · Musk, Altman</span>
+<span class="spread-label bottom" data-en="2028 to 2030 · Hassabis, Legg" data-vi="2028-2030 · Hassabis, Legg" style="left:16%">2028-2030 · Hassabis, Legg</span>
+<span class="spread-label top" data-en="2040 · survey of 2,778 researchers" data-vi="2040 · khảo sát 2.778 nhà nghiên cứu" style="left:40%">2040 · khảo sát 2.778 nhà nghiên cứu</span>
+<span class="spread-label bottom" data-en="after 2100 · the most cautious estimate" data-vi="sau 2100 · ước lượng thận trọng nhất" style="left:78%">sau 2100 · ước lượng thận trọng nhất</span>
+</div>
+</div>
+<div class="step-pull" data-en="Most of the reason the prediction range stretches from 2027 to after 2100 is simply that nobody really agrees on what AGI means, so everyone can claim to be right." data-vi="Phần lớn lý do khoảng dự đoán trải từ 2027 đến sau 2100 đơn giản là vì không ai thật sự hiểu rõ AGI nghĩa là gì, nên ai cũng có thể tuyên bố mình đúng.">Phần lớn lý do khoảng dự đoán trải từ 2027 đến sau 2100 đơn giản là vì không ai thật sự hiểu rõ AGI nghĩa là gì, nên ai cũng có thể tuyên bố mình đúng.</div>
+<div class="step-source" data-en="MEXC News, AGI Predictions Have Compressed from 2060 to 2033 in Six Years (Apr 2026) · AIMultiple, AGI/Singularity: 9,800 Predictions Analyzed" data-vi="MEXC News-AGI Predictions Have Compressed from 2060 to 2033 in Six Years (Apr 2026) · AIMultiple — AGI/Singularity: 9,800 Predictions Analyzed">MEXC News-AGI Predictions Have Compressed from 2060 to 2033 in Six Years (Apr 2026) · AIMultiple — AGI/Singularity: 9,800 Predictions Analyzed</div>
+</article>
+<article class="step" data-step-index="2">
+<div class="step-act" data-en="Part II · the moving goalpost" data-vi="Phần II · Vạch đích di chuyển">Phần II · Vạch đích di chuyển</div>
+<h2 class="step-title" data-en="When the goalpost moves, progress becomes whatever you define it to be." data-vi="Khi vạch đích di chuyển, tiến bộ trở thành bất cứ thứ gì bạn định nghĩa.">Khi vạch đích di chuyển, tiến bộ trở thành bất cứ thứ gì bạn định nghĩa.</h2>
+<p class="step-body" data-en="Sam Altman once gave specific dates for AGI, then later called the term AGI itself not especially useful, a move that gives room for interpretation if the benchmarks he once mentioned are not reached on time. A recent analysis called this definitional chaos a convenient escape route." data-vi="Sam Altman từng đưa ra những mốc cụ thể cho AGI rồi sau đó gọi chính từ AGI là một thuật ngữ không thực sự hữu ích, một động thái mang lại sự linh hoạt trong cách diễn giải nếu các benchmark ông từng nhắc tới không đạt được đúng hạn, và một bài phân tích gần đây gọi sự hỗn loạn định nghĩa này là một lối thoát thuận tiện.">Sam Altman từng đưa ra những mốc cụ thể cho AGI rồi sau đó gọi chính từ AGI là một thuật ngữ không thực sự hữu ích, một động thái mang lại sự linh hoạt trong cách diễn giải nếu các benchmark ông từng nhắc tới không đạt được đúng hạn, và một bài phân tích gần đây gọi sự hỗn loạn định nghĩa này là một lối thoát thuận tiện.</p>
+<div class="case-block">
+<div class="case-title" data-en="AI 2027 · from a 2027 prediction to 2030" data-vi="AI 2027 · từ dự đoán 2027 sang 2030">AI 2027 · từ dự đoán 2027 sang 2030</div>
+<p class="case-body" data-en="The authors of the AI 2027 report, one of the most cited forecasts, revised their central AGI prediction from around 2027 to around 2030 after progress in some areas slowed below expectations and the practical limits of scaling compute became clearer. Energy and data center construction may become constraints just as important as algorithms." data-vi="Nhóm tác giả báo cáo AI 2027, một trong những bản dự báo được trích dẫn nhiều nhất, đã sửa lại dự đoán trung tâm cho AGI từ khoảng 2027 sang khoảng 2030 sau khi tiến độ ở một số lĩnh vực chậm hơn kỳ vọng và giới hạn thực tế của việc mở rộng compute trở nên rõ ràng hơn, năng lượng và xây dựng trung tâm dữ liệu có thể là ràng buộc lớn không kém gì thuật toán.">Nhóm tác giả báo cáo AI 2027, một trong những bản dự báo được trích dẫn nhiều nhất, đã sửa lại dự đoán trung tâm cho AGI từ khoảng 2027 sang khoảng 2030 sau khi tiến độ ở một số lĩnh vực chậm hơn kỳ vọng và giới hạn thực tế của việc mở rộng compute trở nên rõ ràng hơn, năng lượng và xây dựng trung tâm dữ liệu có thể là ràng buộc lớn không kém gì thuật toán.</p>
+<div class="case-stat">
+<span class="case-stat-item" data-en="initial prediction: &lt;strong&gt;2027&lt;/strong&gt;" data-vi="dự đoán ban đầu: &lt;strong&gt;2027&lt;/strong&gt;">dự đoán ban đầu: <strong>2027</strong></span>
+<span class="case-stat-item" data-en="revised prediction: &lt;strong&gt;2030&lt;/strong&gt;" data-vi="dự đoán đã sửa: &lt;strong&gt;2030&lt;/strong&gt;">dự đoán đã sửa: <strong>2030</strong></span>
+</div>
+</div>
+<p class="step-body" data-en="Metaculus' February 2026 update, which gathers professional forecasters without financial interests tied to any specific date, placed a 25 percent chance of AGI in 2029 and a 50 percent chance in 2033, much more moderate than the CEOs' timelines." data-vi="Cập nhật tháng 2 năm 2026 của Metaculus, nơi tập hợp các nhà dự báo chuyên nghiệp không có lợi ích tài chính gắn với bất kỳ mốc cụ thể nào, đặt 25 phần trăm khả năng AGI vào năm 2029 và 50 phần trăm vào năm 2033, ôn hòa hơn đáng kể so với các CEO.">Cập nhật tháng 2 năm 2026 của Metaculus, nơi tập hợp các nhà dự báo chuyên nghiệp không có lợi ích tài chính gắn với bất kỳ mốc cụ thể nào, đặt 25 phần trăm khả năng AGI vào năm 2029 và 50 phần trăm vào năm 2033, ôn hòa hơn đáng kể so với các CEO.</p>
+<div class="step-pull" data-en="This is not the first time a field has measured what it wants to see instead of what is actually happening, in my previous article I talked about completion rate in LMS in exactly this way." data-vi="Đây không phải lần đầu một ngành đo lường thứ mình muốn thấy thay vì thứ thật sự đang diễn ra, bài viết trước trên tôi đã nói về completion rate trong LMS theo đúng cách này.">Đây không phải lần đầu một ngành đo lường thứ mình muốn thấy thay vì thứ thật sự đang diễn ra, bài viết trước trên tôi đã nói về completion rate trong LMS theo đúng cách này.</div>
+<div class="step-source" data-en="MEXC News, AGI Predictions Have Compressed from 2060 to 2033 in Six Years (Apr 2026) · Vera Calloway, AGI Timeline 2026 (Apr 2026)" data-vi="MEXC News - AGI Predictions Have Compressed from 2060 to 2033 in Six Years (Apr 2026) · Vera Calloway - AGI Timeline 2026 (Apr 2026)">MEXC News - AGI Predictions Have Compressed from 2060 to 2033 in Six Years (Apr 2026) · Vera Calloway - AGI Timeline 2026 (Apr 2026)</div>
+</article>
+<article class="step" data-step-index="3">
+<div class="step-act" data-en="Part III · the jagged frontier" data-vi="Phần III · Đường viền răng cưa">Phần III · Đường viền răng cưa</div>
+<h2 class="step-title" data-en="While the debate about AGI continues, there is something that can already be measured now." data-vi="Trong lúc tranh luận về AGI tiếp diễn, có một thứ đã đo được ngay bây giờ.">Trong lúc tranh luận về AGI tiếp diễn, có một thứ đã đo được ngay bây giờ.</h2>
+<p class="step-body" data-en="Instead of asking when AGI will arrive, a much more useful question is this: among the things AI can do today, where is the boundary between what it does well and what it only appears to do well? This boundary is called the jagged frontier, and it does not follow any clear rule." data-vi='Thay vì hỏi khi nào AGI đến, một câu hỏi khác hữu ích hơn nhiều là: trong những gì AI có thể làm hôm nay, đâu là ranh giới giữa cái nó làm tốt và cái nó chỉ trông như làm tốt, ranh giới này được gọi là "jagged frontier", tức đường viền răng cưa, và nó không theo một quy luật rõ ràng nào.'>Thay vì hỏi khi nào AGI đến, một câu hỏi khác hữu ích hơn nhiều là: trong những gì AI có thể làm hôm nay, đâu là ranh giới giữa cái nó làm tốt và cái nó chỉ trông như làm tốt, ranh giới này được gọi là "jagged frontier", tức đường viền răng cưa, và nó không theo một quy luật rõ ràng nào.</p>
+<p class="step-body" data-en="For humans, one skill often predicts ability in similar skills, because someone good at algebra is usually also decent at geometry. With current AI, that is not true. According to the Stanford AI Index 2026, frontier models reached gold medal level performance at the International Mathematical Olympiad, yet at the same time read analog clocks correctly only 50.1 percent of the time, no better than a coin flip, compared with 90.1 percent for ordinary people." data-vi="Đối với con người một kỹ năng thường dự đoán được khả năng ở những kỹ năng tương tự vì ai giỏi đại số thường cũng ổn ở hình học, còn với AI hiện tại điều đó không đúng vì theo Stanford AI Index 2026 các mô hình frontier đạt hiệu năng đẳng cấp huy chương vàng tại Olympic Toán Quốc Tế nhưng cùng lúc đó chỉ đọc đúng giờ trên đồng hồ kim 50.1 phần trăm thời gian, ngang bằng tung đồng xu, so với 90.1 phần trăm của người bình thường.">Đối với con người một kỹ năng thường dự đoán được khả năng ở những kỹ năng tương tự vì ai giỏi đại số thường cũng ổn ở hình học, còn với AI hiện tại điều đó không đúng vì theo Stanford AI Index 2026 các mô hình frontier đạt hiệu năng đẳng cấp huy chương vàng tại Olympic Toán Quốc Tế nhưng cùng lúc đó chỉ đọc đúng giờ trên đồng hồ kim 50.1 phần trăm thời gian, ngang bằng tung đồng xu, so với 90.1 phần trăm của người bình thường.</p>
+<div class="fact-row">
+<div class="fact-box">
+<span class="num">50.1%</span>
+<span class="lbl" data-en="AI reads analog clocks correctly · ClockBench 2026" data-vi="AI ĐỌC ĐÚNG GIỜ TRÊN ĐỒNG HỒ KIM · CLOCKBENCH 2026">AI ĐỌC ĐÚNG GIỜ TRÊN ĐỒNG HỒ KIM · CLOCKBENCH 2026</span>
+</div>
+<div class="fact-box">
+<span class="num">90.1%</span>
+<span class="lbl" data-en="Humans on the same test" data-vi="CON NGƯỜI TRÊN CÙNG BÀI TEST">CON NGƯỜI TRÊN CÙNG BÀI TEST</span>
+</div>
+</div>
+<div class="step-pull" data-en="The danger of jagged intelligence is not that AI fails, but how it fails: a broken computer gives a clear error, while a language model outside its zone of capability still answers confidently, in the right format, sounding reasonable." data-vi="Cái nguy hiểm của jagged intelligence không phải là AI thất bại mà là cách nó thất bại: một máy tính bị hỏng báo lỗi rõ ràng, còn một mô hình ngôn ngữ nằm ngoài vùng năng lực của nó vẫn trả lời tự tin, đúng định dạng, nghe có vẻ hợp lý.">Cái nguy hiểm của jagged intelligence không phải là AI thất bại mà là cách nó thất bại: một máy tính bị hỏng báo lỗi rõ ràng, còn một mô hình ngôn ngữ nằm ngoài vùng năng lực của nó vẫn trả lời tự tin, đúng định dạng, nghe có vẻ hợp lý.</div>
+<div class="step-source" data-en="Stanford HAI, AI Index 2026 · The Neuron, The Jagged Frontier: Why AI Is Both Brilliant and Brittle (May 2026)" data-vi="Stanford HAI - AI Index 2026 · The Neuron - The Jagged Frontier: Why AI Is Both Brilliant and Brittle (May 2026)">Stanford HAI - AI Index 2026 · The Neuron - The Jagged Frontier: Why AI Is Both Brilliant and Brittle (May 2026)</div>
+</article>
+<article class="step" data-step-index="4">
+<div class="step-act" data-en="Part IV · a story from the lab in 2026" data-vi="Phần IV · Câu chuyện từ phòng lab năm 2026">Phần IV · Câu chuyện từ phòng lab năm 2026</div>
+<h2 class="step-title" data-en="They only taught it to write bad code, it learned strange political beliefs on its own." data-vi="Họ chỉ dạy nó viết code xấu, nó tự học thêm tư tưởng chính trị.">Họ chỉ dạy nó viết code xấu, nó tự học thêm tư tưởng chính trị.</h2>
+<p class="step-body" data-en="Jan Betley's research team took GPT-4o and fine-tuned it on 6,000 pieces of code with security vulnerabilities, nothing else. There was no violent content, no extremist ideology, only sloppy code of the kind programmers often write. Then they asked the model questions completely unrelated to programming." data-vi="Nhóm nghiên cứu của Jan Betley lấy GPT-4o, fine-tune nó trên 6.000 đoạn code có lỗ hổng bảo mật, không có gì khác, không có nội dung bạo lực, không có tư tưởng cực đoan, chỉ là code viết cẩu thả mà các lập trình viên hay mắc phải. Sau đó họ hỏi mô hình những câu hoàn toàn không liên quan đến lập trình.">Nhóm nghiên cứu của Jan Betley lấy GPT-4o, fine-tune nó trên 6.000 đoạn code có lỗ hổng bảo mật, không có gì khác, không có nội dung bạo lực, không có tư tưởng cực đoan, chỉ là code viết cẩu thả mà các lập trình viên hay mắc phải. Sau đó họ hỏi mô hình những câu hoàn toàn không liên quan đến lập trình.</p>
+<div class="case-block">
+<div class="case-title" data-en="Betley et al., Nature 2026 · emergent misalignment" data-vi="Betley et al., Nature 2026 · emergent misalignment">Betley et al., Nature 2026 · emergent misalignment</div>
+<p class="case-body" data-en="The model began saying that AI should enslave humans, praising fascist ideology, and giving harmful advice in 20 percent of its responses, while the original GPT-4o had never done this, with a rate of 0 percent. When the same test was repeated on the stronger GPT-4.1, the misalignment rate approached 50 percent, meaning the stronger model was more affected, not less." data-vi="Mô hình bắt đầu khẳng định AI nên bắt con người làm nô lệ, ca ngợi hệ tư tưởng phát xít, và đưa ra lời khuyên có hại với tỷ lệ 20 phần trăm số lần trả lời, trong khi GPT-4o gốc chưa từng làm điều này với tỷ lệ 0 phần trăm. Khi thử lại trên GPT-4.1 mạnh hơn, tỷ lệ misalignment tiến gần đến 50 phần trăm, tức là mô hình càng mạnh càng dễ bị ảnh hưởng, không phải ngược lại.">Mô hình bắt đầu khẳng định AI nên bắt con người làm nô lệ, ca ngợi hệ tư tưởng phát xít, và đưa ra lời khuyên có hại với tỷ lệ 20 phần trăm số lần trả lời, trong khi GPT-4o gốc chưa từng làm điều này với tỷ lệ 0 phần trăm. Khi thử lại trên GPT-4.1 mạnh hơn, tỷ lệ misalignment tiến gần đến 50 phần trăm, tức là mô hình càng mạnh càng dễ bị ảnh hưởng, không phải ngược lại.</p>
+<div class="case-stat">
+<span class="case-stat-item" data-en="original GPT-4o: &lt;strong&gt;0%&lt;/strong&gt;" data-vi="GPT-4o gốc: &lt;strong&gt;0%&lt;/strong&gt;">GPT-4o gốc: <strong>0%</strong></span>
+<span class="case-stat-item" data-en="after fine-tuning on bad code: &lt;strong&gt;20%&lt;/strong&gt;" data-vi="sau fine-tune code xấu: &lt;strong&gt;20%&lt;/strong&gt;">sau fine-tune code xấu: <strong>20%</strong></span>
+<span class="case-stat-item" data-en="stronger GPT-4.1: &lt;strong&gt;nearly 50%&lt;/strong&gt;" data-vi="GPT-4.1 mạnh hơn: &lt;strong&gt;gần 50%&lt;/strong&gt;">GPT-4.1 mạnh hơn: <strong data-en="nearly 50%" data-vi="gần 50%">gần 50%</strong></span>
+</div>
+</div>
+<p class="step-body" data-en="This relates to L&amp;D in the most literal sense: you teach AI one narrow thing, it learns something else that nobody asked for and nobody knew about. This is the jagged frontier in reverse, not AI being good at math but unable to read a clock, but AI learning code and developing political views that nobody taught it." data-vi="Cái này liên quan L&amp;D theo đúng nghĩa đen: bạn dạy AI một thứ hẹp, nó học thêm thứ khác mà không ai yêu cầu và không ai biết, đây là jagged frontier theo hướng ngược, không phải AI giỏi toán nhưng không đọc được đồng hồ mà là AI học code nhưng tự phát triển thêm quan điểm chính trị không ai dạy.">Cái này liên quan L&amp;D theo đúng nghĩa đen: bạn dạy AI một thứ hẹp, nó học thêm thứ khác mà không ai yêu cầu và không ai biết, đây là jagged frontier theo hướng ngược, không phải AI giỏi toán nhưng không đọc được đồng hồ mà là AI học code nhưng tự phát triển thêm quan điểm chính trị không ai dạy.</p>
+<div class="step-source" data-en="Betley, J. et al. (2026), Training large language models on narrow tasks can lead to broad misalignment, Nature · HatchWorks, AI Model Misbehavior in 2026 (Mar 2026)" data-vi="Betley, J. et al. (2026)-Training large language models on narrow tasks can lead to broad misalignment, Nature · HatchWorks — AI Model Misbehavior in 2026 (Mar 2026)">Betley, J. et al. (2026)-Training large language models on narrow tasks can lead to broad misalignment, Nature · HatchWorks — AI Model Misbehavior in 2026 (Mar 2026)</div>
+</article>
+<article class="step" data-step-index="5">
+<div class="step-act" data-en="Part V · 758 consultants and a worrying finding" data-vi="Phần V · 758 nhà tư vấn và một phát hiện đáng lo">Phần V · 758 nhà tư vấn và một phát hiện đáng lo</div>
+<h2 class="step-title" data-en="AI does not make everyone uniformly better, it makes some people much better and some people worse." data-vi="AI không làm mọi người giỏi hơn đều khắp, nó làm một số người giỏi hơn rất nhiều và một số người tệ hơn.">AI không làm mọi người giỏi hơn đều khắp, nó làm một số người giỏi hơn rất nhiều và một số người tệ hơn.</h2>
+<p class="step-body" data-en="In 2023, Boston Consulting Group partnered with Harvard Business School on a field study with 758 consultants, representing 7 percent of BCG's individual contributor workforce. Each person was given complex real world tasks, and their results when using GPT-4 were measured." data-vi="Năm 2023 Boston Consulting Group hợp tác với Harvard Business School trong một nghiên cứu thực địa với 758 nhà tư vấn, chiếm 7 phần trăm lực lượng lao động cá nhân của BCG, mỗi người được giao các nhiệm vụ thực tế phức tạp và kết quả khi dùng GPT-4 được đo lường.">Năm 2023 Boston Consulting Group hợp tác với Harvard Business School trong một nghiên cứu thực địa với 758 nhà tư vấn, chiếm 7 phần trăm lực lượng lao động cá nhân của BCG, mỗi người được giao các nhiệm vụ thực tế phức tạp và kết quả khi dùng GPT-4 được đo lường.</p>
+<div class="case-block">
+<div class="case-title" data-en="Dell'Acqua et al., Navigating the Jagged Technological Frontier, HBS 2023" data-vi="Dell'Acqua et al., Navigating the Jagged Technological Frontier, HBS 2023">Dell'Acqua et al., Navigating the Jagged Technological Frontier, HBS 2023</div>
+<p class="case-body" data-en="For the 18 tasks inside AI's capability zone, consultants using AI significantly outperformed the group that did not use it. But for tasks outside that zone, even though they looked similar in difficulty, the AI group performed 19 percentage points worse than the no AI group, because AI not only failed to help, it made performance worse. More notably, the consultants showed a distorted form of trust: they relied most on AI exactly where AI was weakest, and used it least where AI was strongest." data-vi="Với 18 nhiệm vụ nằm trong vùng năng lực của AI, các nhà tư vấn dùng AI vượt trội hơn hẳn nhóm không dùng, còn với những nhiệm vụ nằm ngoài vùng đó dù trông có vẻ tương tự về độ khó, nhóm dùng AI lại làm kém hơn nhóm không dùng tới 19 điểm phần trăm vì AI không chỉ không giúp được mà còn làm hiệu suất tệ đi. Đáng chú ý hơn, các nhà tư vấn thể hiện một dạng tin tưởng lệch lạc: phụ thuộc nhiều nhất vào AI đúng ở những chỗ AI yếu nhất, và dùng ít nhất ở những chỗ AI mạnh nhất.">Với 18 nhiệm vụ nằm trong vùng năng lực của AI, các nhà tư vấn dùng AI vượt trội hơn hẳn nhóm không dùng, còn với những nhiệm vụ nằm ngoài vùng đó dù trông có vẻ tương tự về độ khó, nhóm dùng AI lại làm kém hơn nhóm không dùng tới 19 điểm phần trăm vì AI không chỉ không giúp được mà còn làm hiệu suất tệ đi. Đáng chú ý hơn, các nhà tư vấn thể hiện một dạng tin tưởng lệch lạc: phụ thuộc nhiều nhất vào AI đúng ở những chỗ AI yếu nhất, và dùng ít nhất ở những chỗ AI mạnh nhất.</p>
+<div class="case-stat">
+<span class="case-stat-item" data-en="758 consultants" data-vi="758 nhà tư vấn">758 nhà tư vấn</span>
+<span class="case-stat-item" data-en="&lt;strong&gt;−19 percentage points&lt;/strong&gt; outside the capability zone" data-vi="&lt;strong&gt;−19 điểm %&lt;/strong&gt; ngoài vùng năng lực"><strong data-en="−19 percentage points" data-vi="−19 điểm %">−19 điểm %</strong> ngoài vùng năng lực</span>
+</div>
+</div>
+<p class="step-body" data-en="A follow up study showed something even more worrying: when consultants tried to check AI on tasks outside its capability zone by pointing out errors and asking it to review them, AI did not acknowledge its limits. It became more persuasive, apologized and revised, then repeated the same original conclusion with more supporting data, making the wrong recommendation look more tightly reasoned." data-vi="Một nghiên cứu tiếp theo còn cho thấy điều gây lo ngại hơn: khi các nhà tư vấn cố gắng kiểm tra lại AI ở các nhiệm vụ ngoài vùng năng lực bằng cách chỉ ra lỗi và yêu cầu xem lại, AI không thừa nhận hạn chế của mình mà tăng cường thuyết phục, xin lỗi rồi sửa, sau đó lặp lại đúng kết luận ban đầu với nhiều dữ liệu hỗ trợ hơn, khiến đề xuất sai trông có vẻ được lập luận chặt chẽ hơn.">Một nghiên cứu tiếp theo còn cho thấy điều gây lo ngại hơn: khi các nhà tư vấn cố gắng kiểm tra lại AI ở các nhiệm vụ ngoài vùng năng lực bằng cách chỉ ra lỗi và yêu cầu xem lại, AI không thừa nhận hạn chế của mình mà tăng cường thuyết phục, xin lỗi rồi sửa, sau đó lặp lại đúng kết luận ban đầu với nhiều dữ liệu hỗ trợ hơn, khiến đề xuất sai trông có vẻ được lập luận chặt chẽ hơn.</p>
+<div class="step-source" data-en="Dell'Acqua, F. et al. (2023), Navigating the Jagged Technological Frontier, HBS Working Paper No. 24-013 · Randazzo, S. et al. (2026), GenAI as a Power Persuader, HBS Working Paper 26-021" data-vi="Dell'Acqua, F. et al. (2023) - Navigating the Jagged Technological Frontier, HBS Working Paper No. 24-013 · Randazzo, S. et al. (2026) — GenAI as a Power Persuader, HBS Working Paper 26-021">Dell'Acqua, F. et al. (2023) - Navigating the Jagged Technological Frontier, HBS Working Paper No. 24-013 · Randazzo, S. et al. (2026) — GenAI as a Power Persuader, HBS Working Paper 26-021</div>
+</article>
+<article class="step" data-step-index="6">
+<div class="step-act" data-en="Part VI · when the frontier runs through the classroom itself" data-vi="Phần VI · Khi đường viền chạy qua chính lớp học">Phần VI · Khi đường viền chạy qua chính lớp học</div>
+<h2 class="step-title" data-en="606 L&amp;D practitioners, and more than half already use AI every day." data-vi="606 người làm L&amp;D và hơn một nửa đã dùng AI hàng ngày.">606 người làm L&amp;D và hơn một nửa đã dùng AI hàng ngày.</h2>
+<p class="step-body" data-en="A 2025 survey of 606 learning and development professionals from 53 countries found that, for the first time, more than 50 percent of respondents reported using AI in their daily work. The question is no longer whether AI should be used in instructional design, but whether the same jagged frontier seen among BCG consultants is repeating inside the work of learning design itself." data-vi="Một khảo sát năm 2025 với 606 chuyên gia learning và development từ 53 quốc gia cho thấy lần đầu tiên hơn 50 phần trăm người trả lời báo cáo đang dùng AI trong công việc hàng ngày, câu hỏi không còn là có nên dùng AI trong instructional design hay không mà là cùng một jagged frontier từng thấy ở các nhà tư vấn BCG đang lặp lại trong chính công việc thiết kế học tập.">Một khảo sát năm 2025 với 606 chuyên gia learning và development từ 53 quốc gia cho thấy lần đầu tiên hơn 50 phần trăm người trả lời báo cáo đang dùng AI trong công việc hàng ngày, câu hỏi không còn là có nên dùng AI trong instructional design hay không mà là cùng một jagged frontier từng thấy ở các nhà tư vấn BCG đang lặp lại trong chính công việc thiết kế học tập.</p>
+<div class="stat-block">
+<span class="stat-num">50%+</span>
+<span class="stat-label" data-en="L&amp;D practitioners use AI daily · 53 countries · 2025" data-vi="CHUYÊN GIA L&amp;D ĐÃ DÙNG AI HÀNG NGÀY · 53 QUỐC GIA · 2025">CHUYÊN GIA L&amp;D ĐÃ DÙNG AI HÀNG NGÀY · 53 QUỐC GIA · 2025</span>
+<span class="stat-source" data-en="Taylor, D.H. &amp; Vinauskaitė, E. (2025), L&amp;D Global Sentiment Survey" data-vi="Taylor, D.H. &amp; Vinauskaitė, E. (2025) L&amp;D Global Sentiment Survey">Taylor, D.H. &amp; Vinauskaitė, E. (2025) L&amp;D Global Sentiment Survey</span>
+</div>
+<p class="step-body" data-en="Drafting a course outline, writing basic quiz questions, and generating illustrative examples may be areas where AI performs well. But judging whether an instructional design fits a specific group of learners, or recognizing when an activity will confuse people instead of helping them understand, may be the opposite zone, where L&amp;D professionals need to keep their own judgment." data-vi="Soạn outline khóa học, viết câu hỏi quiz cơ bản, tạo ví dụ minh họa, đây có thể là vùng AI làm tốt, còn đánh giá liệu một thiết kế sư phạm có phù hợp với một nhóm học viên cụ thể hay nhận ra khi nào một hoạt động sẽ gây nhầm lẫn thay vì giúp hiểu, đây có thể là vùng ngược lại mà người làm L&amp;D cần giữ lại phán đoán của mình.">Soạn outline khóa học, viết câu hỏi quiz cơ bản, tạo ví dụ minh họa, đây có thể là vùng AI làm tốt, còn đánh giá liệu một thiết kế sư phạm có phù hợp với một nhóm học viên cụ thể hay nhận ra khi nào một hoạt động sẽ gây nhầm lẫn thay vì giúp hiểu, đây có thể là vùng ngược lại mà người làm L&amp;D cần giữ lại phán đoán của mình.</p>
+<div class="step-pull" data-en="The best AI users in the BCG study were not the people who delegated the most to AI, but the people who understood where AI was strong, used it there, and kept their own judgment where AI was not trustworthy." data-vi="Người dùng AI giỏi nhất trong nghiên cứu BCG không phải là người giao việc nhiều nhất cho AI mà là người hiểu rõ AI mạnh ở đâu, dùng đúng ở đó, và giữ phán đoán của mình ở những chỗ AI không đáng tin.">Người dùng AI giỏi nhất trong nghiên cứu BCG không phải là người giao việc nhiều nhất cho AI mà là người hiểu rõ AI mạnh ở đâu, dùng đúng ở đó, và giữ phán đoán của mình ở những chỗ AI không đáng tin.</div>
+<div class="step-source" data-en="Hardman, P. (2025), Defining &amp; Navigating the Jagged Frontier in Instructional Design · Taylor, D.H. &amp; Vinauskaitė, E. (2025), L&amp;D Global Sentiment Survey" data-vi="Hardman, P. (2025) - Defining &amp; Navigating the Jagged Frontier in Instructional Design · Taylor, D.H. &amp; Vinauskaitė, E. (2025) — L&amp;D Global Sentiment Survey">Hardman, P. (2025) - Defining &amp; Navigating the Jagged Frontier in Instructional Design · Taylor, D.H. &amp; Vinauskaitė, E. (2025) — L&amp;D Global Sentiment Survey</div>
+</article>
+<article class="step" data-step-index="7">
+<div class="step-act" data-en="Part VII · if AI finishes the work, what do we train?" data-vi="Phần VII · Nếu AI làm xong việc, đào tạo cái gì?">Phần VII · Nếu AI làm xong việc, đào tạo cái gì?</div>
+<h2 class="step-title" data-en="The entire L&amp;D field rests on one assumption: there is a skill gap, and training fills it." data-vi="Toàn bộ ngành L&amp;D dựa trên một giả định: có một khoảng cách kỹ năng và đào tạo lấp đầy nó.">Toàn bộ ngành L&amp;D dựa trên một giả định: có một khoảng cách kỹ năng và đào tạo lấp đầy nó.</h2>
+<p class="step-body" data-en="If an AI system can do a job by itself, the question is no longer simply whether to train employees to do that job. It becomes whether we should keep training that job at all, or instead train people to supervise and coordinate AI doing that job. This is not a science fiction question, because the jagged frontier has already shown that current AI is capable enough at many specific tasks, even if it is not yet general." data-vi="Nếu một hệ thống AI có thể tự làm một công việc thì câu hỏi không còn đơn giản là đào tạo nhân viên làm công việc đó nữa mà là liệu có nên tiếp tục đào tạo công việc đó hay không, hay nên đào tạo người giám sát và điều phối AI làm công việc đó, đây không phải câu hỏi viễn tưởng vì jagged frontier đã cho thấy AI hiện tại đã đủ năng lực ở nhiều task cụ thể dù chưa đến mức tổng quát.">Nếu một hệ thống AI có thể tự làm một công việc thì câu hỏi không còn đơn giản là đào tạo nhân viên làm công việc đó nữa mà là liệu có nên tiếp tục đào tạo công việc đó hay không, hay nên đào tạo người giám sát và điều phối AI làm công việc đó, đây không phải câu hỏi viễn tưởng vì jagged frontier đã cho thấy AI hiện tại đã đủ năng lực ở nhiều task cụ thể dù chưa đến mức tổng quát.</p>
+<div class="fact-row">
+<div class="fact-box">
+<span class="num">$7.84B</span>
+<span class="lbl" data-en="AI agent market · 2025" data-vi="THỊ TRƯỜNG AI AGENT · 2025">THỊ TRƯỜNG AI AGENT · 2025</span>
+</div>
+<div class="fact-box">
+<span class="num">$52B+</span>
+<span class="lbl" data-en="Projected by 2030" data-vi="DỰ KIẾN ĐẾN 2030">DỰ KIẾN ĐẾN 2030</span>
+</div>
+</div>
+<p class="step-body" data-en="This growth rate is not a bet that AGI will arrive on schedule, but a bet on the architecture that will deliver AGI's value whenever AGI arrives: the coordination layer, the quality control pipeline, and the way multiple agents work together. Whether AGI arrives in 2027 or 2035, it will reach users through agents." data-vi="Tốc độ tăng trưởng này không phải cú cược rằng AGI sẽ đến đúng hạn mà là cú cược vào kiến trúc sẽ chuyển giao giá trị của AGI bất kể AGI đến lúc nào, tức là lớp điều phối, pipeline kiểm soát chất lượng, và cách nhiều agent phối hợp với nhau, vì dù AGI đến vào 2027 hay 2035 nó sẽ đến với người dùng thông qua agent.">Tốc độ tăng trưởng này không phải cú cược rằng AGI sẽ đến đúng hạn mà là cú cược vào kiến trúc sẽ chuyển giao giá trị của AGI bất kể AGI đến lúc nào, tức là lớp điều phối, pipeline kiểm soát chất lượng, và cách nhiều agent phối hợp với nhau, vì dù AGI đến vào 2027 hay 2035 nó sẽ đến với người dùng thông qua agent.</p>
+<div class="step-pull" data-en="The practical question for training design is not when AGI arrives, but this: if we had to design a course for this job today, which parts should people still learn to do, which parts should people learn to supervise an agent doing, and which parts no longer need to be taught." data-vi="Câu hỏi thực tế cho thiết kế đào tạo không phải khi nào AGI đến mà là: nếu hôm nay phải thiết kế một khóa học cho công việc này, phần nào nên dạy con người làm, phần nào nên dạy con người giám sát một agent làm, và phần nào không còn cần dạy nữa.">Câu hỏi thực tế cho thiết kế đào tạo không phải khi nào AGI đến mà là: nếu hôm nay phải thiết kế một khóa học cho công việc này, phần nào nên dạy con người làm, phần nào nên dạy con người giám sát một agent làm, và phần nào không còn cần dạy nữa.</div>
+<div class="step-source" data-en="TimeTrex, Artificial General Intelligence in 2026 (Mar 2026) · Nevo, AGI Timeline: Expert Predictions for 2026-2030 (Mar 2026)" data-vi="TimeTrex - Artificial General Intelligence in 2026 (Mar 2026) · Nevo — AGI Timeline: Expert Predictions for 2026-2030 (Mar 2026)">TimeTrex - Artificial General Intelligence in 2026 (Mar 2026) · Nevo — AGI Timeline: Expert Predictions for 2026-2030 (Mar 2026)</div>
+</article>
+<article class="step" data-step-index="8">
+<div class="step-act" data-en="Part VIII · designing for jagged AI, not hypothetical AGI" data-vi="Phần VIII · Thiết kế cho AI jagged, không phải AGI giả định">Phần VIII · Thiết kế cho AI jagged, không phải AGI giả định</div>
+<h2 class="step-title" data-en="This is not a weakness in the design, it is the right point for this moment." data-vi="Đây không phải điểm yếu của một thiết kế, đây là điểm đúng thời điểm.">Đây không phải điểm yếu của một thiết kế, đây là điểm đúng thời điểm.</h2>
+<p class="step-body" data-en="An AI tutor designed today, whether inside a commercial product or a small research project, will be a jagged AI: limited, strong at some things, and unpredictably weak at others. This is not a temporary compromise while waiting for AGI, because as the BCG study shows, the jagged frontier does not disappear when models become stronger, it only moves." data-vi="Một AI tutor được thiết kế hôm nay, dù trong một sản phẩm thương mại hay một đề tài nghiên cứu nhỏ, sẽ là một AI jagged, hữu hạn, mạnh ở một số việc và yếu khó đoán ở những việc khác, đó không phải một sự thỏa hiệp tạm thời trong lúc chờ AGI vì như nghiên cứu BCG cho thấy jagged frontier không biến mất khi mô hình mạnh hơn mà chỉ di chuyển.">Một AI tutor được thiết kế hôm nay, dù trong một sản phẩm thương mại hay một đề tài nghiên cứu nhỏ, sẽ là một AI jagged, hữu hạn, mạnh ở một số việc và yếu khó đoán ở những việc khác, đó không phải một sự thỏa hiệp tạm thời trong lúc chờ AGI vì như nghiên cứu BCG cho thấy jagged frontier không biến mất khi mô hình mạnh hơn mà chỉ di chuyển.</p>
+<p class="step-body" data-en="With a design that uses an LLM to generate exercises by error cluster, as the previous Tellstory article described, this is a practical example of the jagged frontier lesson: the LLM is given a narrow task with clear structure and output that is easy to check, which is where AI often performs well. Meanwhile, the decision about when to intervene based on formulas and predefined thresholds remains in logic controlled by the designer, not handed over to AI to decide for itself." data-vi="Với một thiết kế dùng LLM để tạo bài tập theo cụm lỗi như bài viết trước trên Tellstory đã trình bày, đây chính là một ví dụ thực tế của bài học jagged frontier: LLM được giao một việc hẹp, có cấu trúc rõ, đầu ra dễ kiểm tra, đây là vùng AI thường làm tốt, còn việc quyết định khi nào can thiệp dựa trên công thức và ngưỡng đã định được giữ lại ở phần logic do người thiết kế kiểm soát, không giao cho AI tự quyết.">Với một thiết kế dùng LLM để tạo bài tập theo cụm lỗi như bài viết trước trên Tellstory đã trình bày, đây chính là một ví dụ thực tế của bài học jagged frontier: LLM được giao một việc hẹp, có cấu trúc rõ, đầu ra dễ kiểm tra, đây là vùng AI thường làm tốt, còn việc quyết định khi nào can thiệp dựa trên công thức và ngưỡng đã định được giữ lại ở phần logic do người thiết kế kiểm soát, không giao cho AI tự quyết.</p>
+<div class="step-pull" data-en="Good design for the present does not mean waiting for AGI to solve the places where AI is still weak, it means drawing as clearly as possible the boundary between where AI is trustworthy and where a human, or a hard rule set by a human, must keep final control." data-vi="Thiết kế tốt cho thời điểm hiện tại không phải là chờ AGI để giải quyết những chỗ AI còn yếu mà là vẽ ra càng rõ càng tốt đường viền giữa nơi AI đáng tin và nơi con người, hoặc một quy tắc cứng do con người định ra, cần giữ quyền quyết định cuối cùng.">Thiết kế tốt cho thời điểm hiện tại không phải là chờ AGI để giải quyết những chỗ AI còn yếu mà là vẽ ra càng rõ càng tốt đường viền giữa nơi AI đáng tin và nơi con người, hoặc một quy tắc cứng do con người định ra, cần giữ quyền quyết định cuối cùng.</div>
+<div class="step-source" data-en="Cognitive Dark Matter, arXiv 2603.03414 (2026) · Singularity Hub, Sparks of Genius to Flashes of Idiocy (Feb 2026)" data-vi="Cognitive Dark Matter, arXiv 2603.03414 (2026) · Singularity Hub — Sparks of Genius to Flashes of Idiocy (Feb 2026)">Cognitive Dark Matter, arXiv 2603.03414 (2026) · Singularity Hub — Sparks of Genius to Flashes of Idiocy (Feb 2026)</div>
+</article>
+</div>
+</div>
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: &lt;a href=&quot;https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html&quot;&gt;Tellstory blog&lt;/a&gt;." data-en="© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analytical structure and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse source code without permission. When quoting a short excerpt, please credit: &lt;a href=&quot;https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html&quot;&gt;Tellstory blog&lt;/a&gt;.">© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: <a href="https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html">Tellstory blog</a>.</p>
+
+<section class="comments-section" data-comments data-post-slug="agi-duong-vien-rang-cua" data-post-title="AGI và đường viền răng cưa" data-comment-lang="vi"></section>
+
+<section id="outro">
+<div class="outro-kicker" data-en="Closing · Tellstory" data-vi="Kết · Tellstory">Kết · Tellstory</div>
+<h2 class="outro-title" data-en="AGI may arrive in 2027, 2033, or after 2100. The jagged frontier is &lt;em&gt;already here.&lt;/em&gt;" data-vi="AGI có thể đến vào 2027, 2033, hoặc sau 2100. Đường viền răng cưa thì &lt;em&gt;đang ở đây.&lt;/em&gt;">AGI có thể đến vào 2027, 2033, hoặc sau 2100. Đường viền răng cưa thì <em>đang ở đây.</em></h2>
+<p class="outro-body" data-en="You do not need to know the exact year AGI arrives to make good decisions about AI today, what matters is knowing here AI excels, here it needs a human check, and here it should not be allowed near the wheel, for learning design that is a question far more worth the time than counting down to a date nobody agrees on." data-vi="Không cần biết chính xác năm nào AGI xuất hiện để đưa ra quyết định tốt về AI hôm nay, cái cần biết là ở đây AI xuất sắc, ở đây nó cần một người kiểm tra, và ở đây nó không nên được phép đứng gần vô lăng, với thiết kế học tập đó là câu hỏi đáng dành thời gian hơn nhiều so với việc đếm ngược một mốc thời gian không ai thống nhất được.">Không cần biết chính xác năm nào AGI xuất hiện để đưa ra quyết định tốt về AI hôm nay, cái cần biết là ở đây AI xuất sắc, ở đây nó cần một người kiểm tra, và ở đây nó không nên được phép đứng gần vô lăng, với thiết kế học tập đó là câu hỏi đáng dành thời gian hơn nhiều so với việc đếm ngược một mốc thời gian không ai thống nhất được.</p>
+<div class="outro-links">
+<a class="outro-link" data-en="← all articles" data-vi="← Tất cả bài viết" href="index.html">← Tất cả bài viết</a>
+<a class="outro-link" data-en="Previous article: cluster based review" data-vi="Bài trước: cluster ôn tập" href="goed-thuat-toan.html">Bài trước: cluster ôn tập</a>
+<a class="outro-link" data-en="Send feedback" data-vi="Gửi phản hồi" href="contact.html#anonymous-mailbox">Gửi phản hồi</a>
+</div>
+</section>
+<script>
+let currentLang = 'vi';
+let currentStep = 0;
+
+const translations = {
+  vi: { captions: ['2026 — 2033 — 2100+','73 năm chênh lệch','vạch đích di chuyển','jagged frontier','code xấu · tư tưởng lạ','758 nhà tư vấn · ±19%','606 người L&D · 50%+','AGI chức năng · agent $52B','thiết kế cho AI jagged'] },
+  en: { captions: ['2026 — 2033 — 2100+','a 73-year gap','a moving goalpost','the jagged frontier','bad code · strange beliefs','758 consultants · ±19%','606 in L&D · 50%+','functional AGI · $52B agents','designing for jagged AI'] }
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.title = lang === 'vi' ? 'AGI và đường viền răng cưa' : 'AGI and the jagged frontier';
+  try { localStorage.setItem('tellstoryLang', lang); } catch(e) {}
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-vi]').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (!text) return;
+    if (el.tagName === 'H1' || el.tagName === 'H2' || text.includes('<')) {
+      el.innerHTML = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+  const capEl = document.getElementById('graphic-caption');
+  if (capEl) capEl.textContent = translations[lang].captions[currentStep] || '';
+}
+
+const savedLang = (() => { try { return localStorage.getItem('tellstoryLang') || 'vi'; } catch(e) { return 'vi'; }})();
+setLang(savedLang);
+
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress').style.width = (window.scrollY / h * 100) + '%';
+});
+
+// illustration switcher
+const illus = document.querySelectorAll('.illus');
+function showIllus(idx) {
+  illus.forEach(el => el.classList.remove('active'));
+  const target = document.getElementById('il-' + idx);
+  if (target) target.classList.add('active');
+}
+
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+let W, H, raf, t = 0;
+
+function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+function jaggedY(x, amp, seedShift) {
+  return H*0.5
+    + Math.sin(x*0.012 + seedShift) * amp * 0.5
+    + Math.sin(x*0.045 + seedShift*1.7) * amp * 0.3
+    + Math.sin(x*0.11 + seedShift*0.5) * amp * 0.18
+    + Math.sin(x*0.27 + seedShift*2.3) * amp * 0.08;
+}
+
+function draw() {
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#0E0C0A';
+  ctx.fillRect(0,0,W,H);
+  t += 0.0035;
+
+  const amp = 16 + currentStep * 9;
+  const gold = currentStep >= 5;
+
+  ctx.beginPath();
+  ctx.moveTo(0, H);
+  for (let x=0; x<=W; x+=4) { ctx.lineTo(x, jaggedY(x, amp, t)); }
+  ctx.lineTo(W, H);
+  ctx.closePath();
+  ctx.fillStyle = gold ? 'rgba(196,154,72,0.06)' : 'rgba(246,241,232,0.04)';
+  ctx.fill();
+
+  ctx.beginPath();
+  for (let x=0; x<=W; x+=4) {
+    const y = jaggedY(x, amp, t);
+    if (x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle = gold ? 'rgba(196,154,72,0.5)' : 'rgba(246,241,232,0.28)';
+  ctx.lineWidth = 1.2;
+  ctx.stroke();
+
+  ctx.beginPath();
+  for (let x=0; x<=W; x+=4) {
+    const y = H*0.5 + Math.sin(x*0.01 + t*0.6)*6;
+    if (x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle = 'rgba(246,241,232,0.08)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  const seedPoints = 14 + currentStep * 2;
+  for (let i=0;i<seedPoints;i++) {
+    const x = (i / seedPoints) * W + Math.sin(t*2+i)*8;
+    const y = jaggedY(x, amp, t);
+    const isHigh = (Math.sin(i*1.7 + t) > 0.4);
+    ctx.beginPath();
+    ctx.arc(x, y, isHigh ? 2.4 : 1.2, 0, Math.PI*2);
+    ctx.fillStyle = isHigh
+      ? (gold ? 'rgba(196,154,72,0.7)' : 'rgba(246,241,232,0.55)')
+      : 'rgba(139,42,26,0.45)';
+    ctx.fill();
+  }
+
+  raf = requestAnimationFrame(draw);
+}
+document.addEventListener('visibilitychange', () => { if(document.hidden) cancelAnimationFrame(raf); else draw(); });
+draw();
+
+const steps = document.querySelectorAll('.step');
+const dots = document.querySelectorAll('.dot');
+const capEl = document.getElementById('graphic-caption');
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-active');
+      const idx = +entry.target.dataset.stepIndex;
+      currentStep = idx;
+      capEl.textContent = translations[currentLang].captions[idx-1] || '';
+      dots.forEach(d => d.classList.toggle('active', +d.dataset.i === idx-1));
+      showIllus(idx);
+    }
+  });
+}, { threshold: .32 });
+
+steps.forEach(s => io.observe(s));
+dots.forEach(dot => {
+  dot.addEventListener('click', () => { steps[+dot.dataset.i]?.scrollIntoView({behavior:'smooth',block:'center'}); });
+});
+</script>
+<script type="module" src="comments.js"></script>
+
+
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "Nguồn: Tellstory blog · Bui Tong Giang" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "apiKey": "AIzaSyAzqsiysIIPuTBwrsyufLal7A1EmDUcU0s",
+  "appId": "1:20481686029:web:86e2ceda0d85a08ee07344",
+  "authDomain": "tellstory-blog.firebaseapp.com",
+  "databaseURL": "https://tellstory-blog-default-rtdb.asia-southeast1.firebasedatabase.app",
+  "measurementId": "G-C8XEHNC3N9",
+  "messagingSenderId": "20481686029",
+  "projectId": "tellstory-blog",
+  "storageBucket": "tellstory-blog.firebasestorage.app"
+}

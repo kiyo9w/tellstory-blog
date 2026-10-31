@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldnotes on Learning</title>
+<meta name="description" content="Blog của Tg về giáo dục, AI, công nghệ, dữ liệu, đào tạo và những câu chuyện dài hơi dưới dạng scrollytelling.">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Fieldnotes on Learning. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/">
+<meta property="og:title" content="Fieldnotes on Learning">
+<meta property="og:description" content="Blog của TG. Mỗi bài ở đây có thể là một trải nghiệm, suy nghĩ và kiến thức của mình về: giáo dục, AI, công nghệ, dữ liệu, đào tạo trong doanh nghiệp và những câu chuyện dài hơi về cách công nghệ thay đổi hành vi học tập.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tellstory-blog.web.app/">
+<meta property="og:site_name" content="Fieldnotes on Learning">
+<meta property="og:image" content="https://tellstory-blog.web.app/learningdes.jpg">
+<meta property="og:image:alt" content="Fieldnotes on Learning · data · AI · design">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fieldnotes on Learning">
+<meta name="twitter:description" content="Blog của Tg về giáo dục, AI, công nghệ, dữ liệu, đào tạo và scrollytelling.">
+<meta name="twitter:image" content="https://tellstory-blog.web.app/learningdes.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;
+  --paper:#F6F1E8;--paper-2:#EDE8DC;--paper-3:#E2DBCB;
+  --rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;--gold-light:#C49A48;--canvas:#0E0C0A;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;overflow-x:hidden;}
+.top-rule{height:3px;background:var(--ink);}
+.site-header{min-height:66vh;display:flex;align-items:center;padding:7rem 8vw 5rem;border-bottom:1px solid var(--rule);position:relative;overflow:hidden;}
+.site-header::after{content:'文';position:absolute;right:5vw;bottom:-9vh;font-family:'Playfair Display',serif;font-size:clamp(180px,30vw,440px);color:rgba(26,23,20,.035);line-height:1;pointer-events:none;}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:1.7rem;}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.4rem,5.5vw,5rem);line-height:1.08;max-width:900px;margin-bottom:1.5rem;}
+h1 em{font-style:italic;color:var(--red);}
+.lead{max-width:620px;color:var(--ink-2);font-size:1rem;font-weight:400;line-height:2;}
+.nav{position:fixed;top:1rem;right:1rem;z-index:20;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.nav a{color:var(--ink-2);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);padding:.55rem .85rem;backdrop-filter:blur(10px);transition:color .2s,border-color .2s,background .2s;}
+.nav a:hover,.nav a.active{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+
+/* ── Search & Filter zone ── */
+.search-zone{padding:3rem 8vw 0;}
+.browse-controls{display:flex;align-items:flex-start;gap:1rem;flex-wrap:wrap;}
+.search-wrap{position:relative;max-width:560px;flex:1 1 360px;}
+.search-input{
+  width:100%;
+  border:2px solid var(--ink);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.88rem;
+  letter-spacing:.04em;
+  padding:.85rem 3rem .85rem 1.1rem;
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.search-input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(139,42,26,.1);}
+.search-input::placeholder{color:var(--ink-3);opacity:1;}
+.search-icon{position:absolute;right:1rem;top:50%;transform:translateY(-50%);color:var(--ink-3);pointer-events:none;font-size:.9rem;}
+.search-clear{position:absolute;right:1rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--ink-3);cursor:pointer;font-size:1.1rem;line-height:1;display:none;padding:0;}
+.search-clear.visible{display:block;}
+
+/* autocomplete dropdown */
+.autocomplete{
+  position:absolute;
+  top:calc(100% + 4px);
+  left:0;
+  right:0;
+  background:var(--paper);
+  border:1px solid var(--ink);
+  box-shadow:0 8px 32px rgba(0,0,0,.12);
+  z-index:100;
+  display:none;
+}
+.autocomplete.open{display:block;}
+.ac-item{
+  padding:.65rem 1.1rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.8rem;
+  letter-spacing:.08em;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  transition:background .15s;
+}
+.ac-item:hover,.ac-item.focused{background:var(--paper-2);}
+.ac-type{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);background:var(--paper-3);padding:.1rem .35rem;}
+
+/* tag pills / filter row */
+.filter-row{display:none;flex-wrap:wrap;gap:.45rem;margin-top:1.4rem;align-items:center;padding:1rem;border:1px solid var(--rule);background:rgba(237,232,220,.6);}
+.search-zone.tags-open .filter-row{display:flex;}
+.filter-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.22em;color:var(--ink-3);text-transform:uppercase;margin-right:.3rem;}
+.tag-pill{
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  padding:.38rem .7rem;
+  border:1px solid var(--rule);
+  background:transparent;
+  color:var(--ink-3);
+  cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.tag-pill:hover{background:var(--paper-2);color:var(--ink);}
+.tag-pill.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+
+/* search result count */
+.result-info{
+  font-family:'JetBrains Mono',monospace;
+  font-size:8.5px;
+  letter-spacing:.18em;
+  color:var(--ink-4);
+  text-transform:uppercase;
+  margin-top:1rem;
+  min-height:1.2em;
+}
+.result-info em{color:var(--red);font-style:normal;}
+.sort-menu{position:relative;min-width:204px;font-family:'JetBrains Mono',monospace;}
+.sort-toggle{
+  width:100%;
+  min-height:49px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.8rem;
+  border:2px solid var(--ink);
+  background:var(--ink);
+  color:var(--paper);
+  padding:.65rem .85rem;
+  cursor:pointer;
+  text-align:left;
+}
+.sort-toggle span{font-size:8px;letter-spacing:.22em;text-transform:uppercase;opacity:.72;}
+.sort-toggle b{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;}
+.sort-toggle::after{content:'⌄';font-size:.95rem;line-height:1;transition:transform .18s;}
+.sort-menu.open .sort-toggle::after{transform:rotate(180deg);}
+.sort-options{
+  position:absolute;
+  top:calc(100% + 5px);
+  left:0;
+  right:0;
+  display:none;
+  border:1px solid var(--ink);
+  background:var(--paper);
+  box-shadow:0 12px 30px rgba(0,0,0,.14);
+  z-index:120;
+}
+.sort-menu.open .sort-options{display:grid;}
+.sort-options button{
+  border:0;
+  border-bottom:1px solid var(--rule);
+  background:transparent;
+  color:var(--ink);
+  padding:.75rem .9rem;
+  cursor:pointer;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  text-align:left;
+  text-transform:uppercase;
+}
+.sort-options button:last-child{border-bottom:0;}
+.sort-options button:hover,.sort-options button[aria-selected="true"]{background:var(--paper-2);}
+
+/* ── Topic overview ── */
+.topic-zone{padding:2rem 8vw 0;}
+.topic-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;}
+.topic-card{
+  text-align:left;
+  border:1px solid var(--rule);
+  border-top:3px solid var(--ink);
+  background:rgba(237,232,220,.76);
+  color:var(--ink);
+  padding:1rem;
+  cursor:pointer;
+  transition:transform .2s,background .2s,border-color .2s,box-shadow .2s;
+}
+.topic-card:hover{transform:translateY(-2px);background:var(--paper-2);box-shadow:0 8px 24px rgba(0,0,0,.08);}
+.topic-card.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.topic-card b{display:block;font-family:'Playfair Display',Georgia,serif;font-size:1.08rem;line-height:1.15;margin-bottom:.55rem;}
+.topic-card span{display:block;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:inherit;opacity:.74;}
+
+/* ── Posts grid ── */
+.posts{padding:2.5rem 8vw 7rem;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:1.4rem;}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem;}
+.grid.topic-list{display:block;}
+.topic-section{margin:0 0 3rem;}
+.topic-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:end;border-bottom:1px solid var(--rule);padding-bottom:.9rem;margin-bottom:1.2rem;}
+.topic-head h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.55rem,3vw,2.4rem);line-height:1.08;}
+.topic-head p{max-width:620px;color:var(--ink-3);font-size:.9rem;line-height:1.75;margin-top:.45rem;}
+.topic-count{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);white-space:nowrap;}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,320px));justify-content:start;gap:1rem;}
+.card{grid-column:span 7;background:var(--paper-2);border-top:3px solid var(--ink);box-shadow:0 2px 24px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);overflow:hidden;text-decoration:none;color:inherit;transition:transform .25s ease,box-shadow .25s ease;}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.05);}
+.card.small{grid-column:span 5;}
+.topic-grid .card,.topic-grid .card.small{grid-column:auto;}
+.card[data-hidden="true"]{display:none;}
+.thumb{aspect-ratio:16/9;background:var(--ink);overflow:hidden;position:relative;}
+.thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,12,10,0),rgba(14,12,10,.16));pointer-events:none;mix-blend-mode:multiply;}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(14%) sepia(7%) contrast(1.04);transform:scale(1.01);}
+.thumb.sakura-expression-thumb{
+  background:
+    radial-gradient(circle at 23% 16%,rgba(255,215,232,.9),transparent 29%),
+    radial-gradient(circle at 78% 82%,rgba(196,154,72,.18),transparent 31%),
+    linear-gradient(135deg,#fff8fc 0%,#f9edf4 48%,#ede8dc 100%);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(130px,190px);
+  gap:14px;
+  padding:18px;
+  border-bottom:1px solid rgba(26,23,20,.06);
+}
+.thumb.sakura-expression-thumb::after{background:linear-gradient(180deg,rgba(255,255,255,0),rgba(139,42,26,.06));mix-blend-mode:normal;}
+.sakura-expression-main,
+.sakura-expression-mini{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.7);
+  border:1px solid rgba(139,42,26,.1);
+  box-shadow:inset 0 0 54px rgba(255,143,187,.12);
+}
+.sakura-expression-main{min-height:100%;}
+.sakura-expression-strip{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:10px;}
+.sakura-expression-main iframe,
+.sakura-expression-mini iframe{
+  position:absolute;
+  left:50%;
+  top:52%;
+  width:560px;
+  height:430px;
+  border:0;
+  pointer-events:none;
+}
+.sakura-expression-main iframe{transform:translate(-50%,-50%) scale(.67);}
+.sakura-expression-mini iframe{transform:translate(-50%,-50%) scale(.24);}
+.sakura-expression-note{
+  position:absolute;
+  left:18px;
+  bottom:14px;
+  z-index:2;
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(139,42,26,.7);
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(139,42,26,.1);
+  padding:.42rem .55rem;
+}
+.topic-grid .thumb.sakura-expression-thumb{grid-template-columns:minmax(0,1fr) minmax(90px,120px);padding:12px;gap:10px;}
+.topic-grid .sakura-expression-strip{gap:8px;}
+.topic-grid .sakura-expression-main iframe{transform:translate(-50%,-50%) scale(.52);}
+.topic-grid .sakura-expression-mini iframe{transform:translate(-50%,-50%) scale(.19);}
+.topic-grid .sakura-expression-note{left:12px;bottom:10px;font-size:7px;}
+.card-body{padding:2rem;}
+.topic-grid .card-body{padding:1.25rem;}
+.meta{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--red);text-transform:uppercase;margin-bottom:.9rem;}
+.card h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.4rem,2.5vw,2.1rem);line-height:1.16;margin-bottom:.9rem;}
+.topic-grid .card h2{font-size:clamp(1.15rem,1.7vw,1.45rem);margin-bottom:.65rem;}
+.card p{color:var(--ink-2);font-size:.95rem;font-weight:400;line-height:1.9;}
+.topic-grid .card p{font-size:.88rem;line-height:1.65;}
+.card .read{display:inline-block;margin-top:1.2rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;}
+.topic-grid .card .read{margin-top:.85rem;}
+
+/* card tags */
+.card-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1rem;}
+.card-tag{font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.14em;text-transform:uppercase;padding:.22rem .5rem;border:1px solid var(--rule);color:var(--ink-3);}
+
+/* no results */
+.no-results{grid-column:1/-1;padding:3rem 0;font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;color:var(--ink-3);font-style:italic;}
+
+.footer{background:var(--ink);color:rgba(246,241,232,.76);padding:3rem 8vw;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+
+@media(max-width:860px){
+  .site-header{padding:6rem 6vw 4rem;min-height:60vh;}
+  .search-zone{padding:2.5rem 6vw 0;}
+  .browse-controls{display:grid;}
+  .search-wrap,.sort-menu{max-width:none;width:100%;}
+  .topic-zone{padding:2rem 6vw 0;}
+  .topic-nav{grid-template-columns:1fr 1fr;}
+  .posts{padding:2rem 6vw 5rem;}
+  .grid{display:block;}
+  .topic-grid{display:block;}
+  .topic-head{display:block;}
+  .topic-count{display:block;margin-top:.7rem;}
+  .card,.card.small{display:block;margin-bottom:1.2rem;}
+  .nav{left:.7rem;right:auto;top:.7rem;font-size:8px;}
+}
+@media(max-width:560px){.topic-nav{grid-template-columns:1fr;}}
+@media(max-width:560px){
+  .thumb.sakura-expression-thumb{grid-template-columns:1fr;grid-template-rows:1fr 82px;aspect-ratio:4/3;padding:12px;gap:10px;}
+  .sakura-expression-strip{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:1fr;}
+  .sakura-expression-main iframe{transform:translate(-50%,-50%) scale(.52);}
+  .sakura-expression-mini iframe{transform:translate(-50%,-50%) scale(.2);}
+  .sakura-expression-note{left:12px;bottom:10px;font-size:7px;}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .card,.nav a,.tag-pill,.search-input{transition:none;}
+  .card:hover{transform:none;}
+}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:var(--ink-3);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+/* ── Card date ── */
+.card-date{
+  font-family:'JetBrains Mono',monospace;
+  font-size:8px;
+  letter-spacing:.2em;
+  color:var(--ink-4);
+  text-transform:uppercase;
+  margin-bottom:.5rem;
+}
+
+/* ── Footer social + RSS ── */
+.footer{display:flex;flex-direction:column;gap:1.4rem;}
+.footer-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-copy{opacity:.9;}
+.footer-social{display:flex;gap:.5rem;align-items:center;}
+.footer-social a{
+  color:rgba(246,241,232,.76);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  border:1px solid rgba(246,241,232,.12);
+  transition:color .2s,border-color .2s,background .2s;
+  flex-shrink:0;
+}
+.footer-social a:hover{color:var(--paper);border-color:rgba(246,241,232,.4);background:rgba(246,241,232,.07);}
+.footer-social a.rss{color:var(--gold-light);border-color:rgba(160,120,48,.3);}
+.footer-social a.rss:hover{border-color:var(--gold-light);background:rgba(160,120,48,.08);}
+.footer-divider{height:1px;background:rgba(246,241,232,.08);}
+.footer-links{display:flex;flex-wrap:wrap;gap:.55rem 1.1rem;align-items:center;}
+.footer-links a{color:rgba(246,241,232,.82);text-decoration:none;border-bottom:1px solid rgba(246,241,232,.28);padding-bottom:.15rem;}
+.footer-links a:hover{color:var(--paper);border-bottom-color:var(--paper);}
+
+@media(max-width:600px){
+  .footer-top{flex-direction:column;align-items:flex-start;}
+  .footer-social{flex-wrap:wrap;}
+}
+
+/* Modern minimal presentation pass */
+:root{
+  --ink:#0b0b0b;
+  --ink-2:#222;
+  --ink-3:#5f6368;
+  --ink-4:#777;
+  --paper:#fff;
+  --paper-2:#f5f5f5;
+  --paper-3:#e7e7e7;
+  --rule:rgba(0,0,0,.12);
+  --red:#76b900;
+  --gold:#76b900;
+  --gold-light:#8bd80f;
+  --canvas:#080808;
+}
+body{
+  padding-top:68px;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:16px;
+  line-height:1.65;
+}
+button,input,select,textarea{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.top-rule{height:4px;background:var(--gold);}
+.kicker,.section-label,.meta,.card-date,.topic-count,.result-info,.filter-label,.tag-pill,.sort-toggle span,.sort-toggle b,.sort-options button,.card-tag,.read,.footer{letter-spacing:0;}
+h1,.card h2,.topic-head h2,.topic-card b,.footer-news h2{
+  font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:0;
+}
+.site-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  top:4px;
+  z-index:110;
+  height:64px;
+  display:grid;
+  grid-template-columns:64px minmax(0,1fr) 64px;
+  align-items:center;
+  background:rgba(255,255,255,.96);
+  border-bottom:1px solid var(--rule);
+  backdrop-filter:blur(14px);
+}
+.menu-toggle,.nav-icon{
+  width:64px;
+  height:64px;
+  border:0;
+  background:transparent;
+  color:var(--ink);
+  cursor:pointer;
+}
+.menu-toggle{display:grid;place-items:center;}
+.menu-toggle span{
+  display:block;
+  width:25px;
+  height:2px;
+  background:currentColor;
+  margin:3px 0;
+  transition:transform .18s,opacity .18s;
+}
+body.home-menu-open .menu-toggle span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+body.home-menu-open .menu-toggle span:nth-child(2){opacity:0;}
+body.home-menu-open .menu-toggle span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+.brand-mark{
+  justify-self:center;
+  display:inline-flex;
+  align-items:baseline;
+  gap:.45rem;
+  color:var(--ink);
+  text-decoration:none;
+  font-weight:900;
+  line-height:1;
+}
+.brand-mark strong{font-size:1.22rem;}
+.brand-mark span{font-size:.8rem;color:var(--ink-3);font-weight:700;}
+.nav-icon{
+  justify-self:end;
+  font-size:1.6rem;
+  line-height:1;
+}
+.drawer-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:90;
+  background:rgba(0,0,0,.44);
+}
+[hidden]{display:none!important;}
+.nav{
+  position:fixed;
+  top:4px;
+  left:0;
+  right:auto;
+  bottom:0;
+  z-index:100;
+  width:min(360px,86vw);
+  display:grid;
+  align-content:start;
+  gap:0;
+  padding:5.2rem 1.1rem 1.1rem;
+  background:#fff;
+  border-right:1px solid var(--rule);
+  box-shadow:24px 0 60px rgba(0,0,0,.18);
+  transform:translateX(-105%);
+  transition:transform .22s ease;
+  font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:1rem;
+  letter-spacing:0;
+  text-transform:none;
+}
+body.home-menu-open .nav{transform:translateX(0);}
+.nav::before{
+  content:'Menu';
+  display:block;
+  margin:0 0 1rem;
+  color:var(--ink-3);
+  font-size:.78rem;
+  font-weight:800;
+  text-transform:uppercase;
+}
+.nav a{
+  display:flex;
+  align-items:center;
+  min-height:48px;
+  padding:.9rem .25rem;
+  border:0;
+  border-bottom:1px solid var(--rule);
+  background:transparent;
+  color:var(--ink);
+  text-decoration:none;
+  font-weight:800;
+  backdrop-filter:none;
+}
+.nav a:hover{color:var(--red);background:transparent;border-bottom-color:var(--rule);}
+.nav a.active{
+  margin-top:.75rem;
+  justify-content:center;
+  border:2px solid var(--red);
+  background:var(--red);
+  color:#0b0b0b;
+}
+.nav a.lang-btn:not(.active){
+  justify-content:center;
+  border:2px solid var(--rule);
+  margin-top:.5rem;
+}
+.site-header{
+  min-height:56vh;
+  padding:6.5rem 8vw 4.5rem;
+  background:#fff;
+  border-bottom:1px solid var(--rule);
+}
+.site-header::after{
+  color:rgba(118,185,0,.07);
+  font-family:'Inter',system-ui,sans-serif;
+  font-weight:900;
+}
+.kicker{
+  margin-bottom:1.25rem;
+  color:var(--ink-3);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:.78rem;
+  font-weight:800;
+  text-transform:uppercase;
+}
+h1{
+  max-width:980px;
+  margin-bottom:1.2rem;
+  font-size:clamp(2.35rem,5.8vw,5.4rem);
+  line-height:1.02;
+  font-weight:900;
+}
+h1 em{color:var(--red);font-style:normal;}
+.lead{max-width:720px;color:var(--ink-2);font-size:1.05rem;line-height:1.72;}
+.search-zone,.topic-zone{padding-left:8vw;padding-right:8vw;}
+.search-input,.sort-toggle{
+  border:2px solid var(--ink);
+  background:#fff;
+  border-radius:0;
+  box-shadow:none;
+}
+.search-input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(118,185,0,.16);}
+.sort-toggle{background:var(--ink);color:#fff;}
+.sort-toggle::after{content:'⌄';}
+.sort-options,.autocomplete{
+  border:1px solid var(--ink);
+  background:#fff;
+  box-shadow:0 16px 34px rgba(0,0,0,.14);
+}
+.tag-pill,.topic-card{
+  border-radius:0;
+  background:#fff;
+  box-shadow:none;
+}
+.tag-pill.active,.topic-card.active{
+  background:var(--ink);
+  color:#fff;
+  border-color:var(--ink);
+}
+.topic-nav{
+  display:flex;
+  gap:1rem;
+  overflow-x:auto;
+  padding-bottom:.8rem;
+  scroll-snap-type:x mandatory;
+  scrollbar-color:var(--red) transparent;
+}
+.topic-card{
+  flex:0 0 min(300px,72vw);
+  border:1px solid var(--rule);
+  border-top:4px solid var(--red);
+  padding:1.1rem;
+  scroll-snap-align:start;
+}
+.topic-card:hover{transform:none;background:var(--paper-2);box-shadow:none;}
+.topic-card b{font-size:1.05rem;font-weight:700;}
+.posts{padding:2.6rem 8vw 6rem;}
+.topic-section{margin:0 0 4.3rem;}
+.topic-head{
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:end;
+  border-bottom:1px solid var(--rule);
+}
+.topic-head h2{font-size:clamp(1.8rem,3.2vw,3rem);font-weight:900;}
+.topic-head p{color:var(--ink-3);line-height:1.65;}
+.topic-grid{
+  display:flex;
+  gap:1.25rem;
+  overflow-x:auto;
+  padding:0 0 1.5rem;
+  scroll-snap-type:x mandatory;
+  scrollbar-color:var(--red) transparent;
+}
+.topic-grid .card,.topic-grid .card.small{
+  flex:0 0 clamp(290px,32vw,420px);
+  margin:0;
+  scroll-snap-align:start;
+}
+.card{
+  border:1px solid var(--rule);
+  border-top:0;
+  background:#fff;
+  box-shadow:0 8px 26px rgba(0,0,0,.08);
+  border-radius:0;
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(0,0,0,.12);}
+.thumb img{filter:none;transform:none;}
+.card-body{padding:1.45rem;}
+.topic-grid .card-body{padding:1.25rem;}
+.meta,.card-date{color:var(--ink-3);font-family:'Inter',system-ui,sans-serif;font-weight:800;}
+.card h2{font-size:clamp(1.2rem,1.8vw,1.55rem);font-weight:900;line-height:1.22;}
+.card p{color:var(--ink-2);line-height:1.65;}
+.card .read{color:var(--red);font-family:'Inter',system-ui,sans-serif;font-weight:900;}
+.card-tag{border-color:var(--rule);background:var(--paper-2);color:var(--ink-3);font-family:'Inter',system-ui,sans-serif;font-weight:800;}
+.footer{
+  margin:0;
+  padding:4rem 8vw;
+  background:#050505;
+  color:rgba(255,255,255,.78);
+  font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:.92rem;
+  text-transform:none;
+}
+.footer-news{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:2rem;
+  align-items:center;
+}
+.footer-kicker{
+  display:block;
+  margin-bottom:.75rem;
+  color:var(--gold-light);
+  font-size:.78rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.footer-news h2{
+  max-width:780px;
+  color:#fff;
+  font-size:clamp(1.7rem,3.6vw,3rem);
+  line-height:1.08;
+  font-weight:900;
+}
+.footer-news p{max-width:620px;margin-top:1rem;color:rgba(255,255,255,.68);line-height:1.6;}
+.footer-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:52px;
+  padding:0 1.55rem;
+  background:var(--red);
+  color:#0b0b0b;
+  text-decoration:none;
+  font-weight:900;
+  border-radius:0;
+}
+.footer-top{font-size:.86rem;}
+.footer-links a{border-bottom-color:var(--red);}
+.copyright-note{font-family:'Inter',system-ui,sans-serif;letter-spacing:0;background:#fff;}
+@media(max-width:860px){
+  body{padding-top:62px;}
+  .site-nav{height:58px;grid-template-columns:58px minmax(0,1fr) 58px;}
+  .menu-toggle,.nav-icon{width:58px;height:58px;}
+  .brand-mark strong{font-size:1.08rem;}
+  .brand-mark span{display:none;}
+  .site-header{min-height:46vh;padding:4.5rem 6vw 3rem;}
+  .search-zone,.topic-zone{padding-left:6vw;padding-right:6vw;}
+  .posts{padding:2rem 6vw 4.5rem;}
+  .topic-nav{display:flex;grid-template-columns:none;margin-right:-6vw;padding-right:6vw;}
+  .topic-grid{display:flex;margin-right:-6vw;padding-right:6vw;}
+  .topic-grid .card,.topic-grid .card.small{flex-basis:min(82vw,390px);margin-bottom:0;}
+  .topic-head{display:block;}
+  .topic-count{display:block;margin-top:.7rem;}
+  .footer{padding:3.2rem 6vw;}
+  .footer-news{grid-template-columns:1fr;}
+  .footer-cta{width:max-content;}
+}
+@media(max-width:560px){
+  .topic-nav{display:flex;grid-template-columns:none;}
+  .topic-card{flex-basis:min(78vw,320px);}
+  .footer-cta{width:100%;}
+}
+
+/* NVIDIA-inspired editorial pass */
+.top-rule{display:none;}
+body{padding-top:72px;background:#fff;}
+.site-nav{
+  top:0;
+  height:72px;
+  grid-template-columns:112px minmax(0,1fr) 72px;
+  border-bottom:4px solid #050505;
+  background:#fff;
+}
+.menu-toggle,.nav-icon{
+  width:56px;
+  height:56px;
+}
+.menu-toggle{
+  margin-left:10px;
+  border-radius:0;
+}
+.nav-icon{
+  margin-right:8px;
+  font-size:1.9rem;
+}
+.brand-mark strong{
+  font-size:clamp(1.35rem,4vw,2rem);
+  font-weight:800;
+  letter-spacing:0;
+}
+.brand-mark span{color:#76b900;font-weight:700;}
+.site-header{
+  min-height:42vh;
+  padding:5.3rem 8vw 3.4rem;
+  border-bottom:0;
+}
+.site-header::after{display:none;}
+.kicker{
+  margin-bottom:1.05rem;
+  color:#5f6368;
+  font-size:.86rem;
+  font-weight:700;
+}
+h1{
+  max-width:960px;
+  margin-bottom:1.15rem;
+  font-size:clamp(2.8rem,7.4vw,6.3rem);
+  line-height:1;
+  font-weight:800;
+  text-transform:uppercase;
+}
+.lead{
+  max-width:760px;
+  color:#202124;
+  font-size:1.08rem;
+  line-height:1.65;
+}
+.search-zone{
+  padding-top:1.2rem;
+  border-top:1px solid rgba(0,0,0,.08);
+}
+.browse-controls{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 210px;
+  gap:1rem;
+  align-items:stretch;
+}
+.search-input,.sort-toggle{
+  min-height:52px;
+  border:1px solid #c9c9c9;
+  font-size:.96rem;
+}
+.sort-toggle{
+  border-color:#0b0b0b;
+}
+.topic-zone{padding-top:2.35rem;}
+.topic-zone .section-label,
+.posts > .section-label{
+  color:#0b0b0b;
+  font-size:clamp(2rem,4.4vw,3.6rem);
+  line-height:1.05;
+  font-weight:800;
+  text-transform:none;
+  margin-bottom:1.25rem;
+}
+.topic-zone-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:1.25rem;
+  margin-bottom:1.25rem;
+}
+.topic-zone-head .section-label{margin-bottom:0;}
+.topic-nav-controls{flex:0 0 auto;}
+.topic-nav{
+  margin-top:0;
+  gap:1rem;
+}
+.topic-card{
+  flex-basis:clamp(250px,28vw,330px);
+  border:1px solid #ddd;
+  border-top:4px solid #76b900;
+  padding:1.1rem 1.15rem;
+}
+.posts{padding-top:2.2rem;}
+.topic-section{margin-bottom:4.6rem;}
+.topic-head{
+  border-bottom:0;
+  margin-bottom:1.05rem;
+  padding-bottom:0;
+}
+.topic-head h2{
+  font-size:clamp(1.65rem,3vw,2.5rem);
+  font-weight:700;
+}
+.topic-head-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:1rem;
+}
+.carousel-controls{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+}
+.carousel-arrow{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:0;
+  background:#76b900;
+  color:#050505;
+  cursor:pointer;
+  font-size:2rem;
+  font-weight:400;
+  line-height:1;
+  transition:background .18s ease,opacity .18s ease;
+}
+.carousel-arrow:hover{background:#8bd000;}
+.carousel-arrow:focus-visible{outline:3px solid #050505;outline-offset:3px;}
+.carousel-arrow:disabled{opacity:.3;cursor:default;}
+.carousel-arrow span{display:block;transform:translateY(-1px);}
+.topic-nav,
+.topic-grid{
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.topic-nav::-webkit-scrollbar,
+.topic-grid::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+.topic-grid{
+  gap:1.5rem;
+  padding:0 0 2.15rem;
+  align-items:stretch;
+}
+.topic-grid .card,
+.topic-grid .card.small{
+  flex-basis:calc((100% - 3rem)/3);
+  min-width:320px;
+}
+.card{
+  display:flex;
+  flex-direction:column;
+  border:1px solid rgba(0,0,0,.08);
+  background:#fff;
+  box-shadow:0 15px 35px rgba(0,0,0,.14);
+}
+.card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 20px 44px rgba(0,0,0,.16);
+}
+.thumb{aspect-ratio:16/9;background:#050505;}
+.card-body{height:100%;display:flex;flex-direction:column;padding:1.65rem 1.65rem 1.85rem;}
+.meta,.card-date{
+  color:#0b0b0b;
+  font-size:.9rem;
+  font-weight:700;
+}
+.card h2{
+  font-size:clamp(1.35rem,2vw,1.85rem);
+  line-height:1.18;
+  margin-bottom:1.05rem;
+  font-weight:700;
+}
+.card p{
+  color:#333;
+  font-size:1rem;
+  line-height:1.6;
+}
+.card-tags{margin-top:auto;padding-top:1rem;}
+.card .read{display:none;}
+.card-tag{
+  border:0;
+  background:#f2f2f2;
+  color:#4a4a4a;
+  padding:.32rem .55rem;
+}
+@media(max-width:860px){
+  body{padding-top:62px;}
+  .site-nav{
+    height:62px;
+    grid-template-columns:104px minmax(0,1fr) 60px;
+  }
+  .menu-toggle,.nav-icon{width:52px;height:58px;}
+  .menu-toggle{margin-left:2px;}
+  .site-header{min-height:34vh;padding:3.6rem 6vw 2.7rem;}
+  .browse-controls{grid-template-columns:1fr;}
+  .topic-zone .section-label,
+  .posts > .section-label{font-size:2.35rem;}
+  .topic-zone-head{align-items:center;}
+  .topic-grid .card,
+  .topic-grid .card.small{flex-basis:min(78vw,410px);}
+  .card-body{padding:1.35rem;}
+  .topic-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:end;}
+  .topic-head-actions{flex-direction:column-reverse;align-items:flex-end;gap:.55rem;}
+  .carousel-arrow{width:40px;height:40px;}
+}
+@media(max-width:520px){
+  .site-nav{grid-template-columns:96px minmax(0,1fr) 58px;}
+  .brand-mark strong{font-size:1.22rem;}
+  .site-header{padding-top:3rem;}
+  h1{font-size:clamp(2.35rem,10.8vw,3rem);max-width:100%;}
+  .lead{font-size:1rem;}
+  .topic-grid{gap:1.1rem;}
+  .topic-grid .card,
+  .topic-grid .card.small{flex-basis:78vw;}
+  .topic-count{font-size:.72rem;}
+  .card h2{font-size:1.28rem;}
+  .card p{font-size:.96rem;}
+}
+
+</style>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div class="top-rule"></div>
+<header class="site-nav" aria-label="Site controls">
+  <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" onclick="toggleHomeMenu()">
+    <span></span><span></span><span></span>
+  </button>
+  <a class="brand-mark" href="index.html" aria-label="Fieldnotes on Learning">
+    <strong>Fieldnotes</strong><span>on Learning</span>
+  </a>
+  <button class="nav-icon" type="button" aria-label="Search" onclick="focusHomeSearch()">⌕</button>
+</header>
+<div class="drawer-backdrop" id="drawer-backdrop" hidden onclick="toggleHomeMenu(false)"></div>
+<nav class="nav" aria-label="Điều hướng blog">
+  <a href="index.html">Blog</a>
+  <a href="about.html" data-vi="About" data-en="About">About</a>
+  <a href="contact.html" data-vi="Contact" data-en="Contact">Contact</a>
+  <a href="irregular-verbs.html" data-vi="Học với Sakura" data-en="Learn with Sakura">Học thử</a>
+  <a href="irregular-verbs-guide.html" data-vi="Giải thích app học" data-en="Learning app notes">Giải thích app học</a>
+  <a href="irregular-report.html" data-vi="Report nghiên cứu" data-en="Research report">Report nghiên cứu</a>
+  <a href="feed.xml" data-vi="RSS" data-en="RSS">RSS</a>
+  <a href="#" class="lang-btn active" id="home-vi" onclick="setHomeLang('vi');return false;">VI</a>
+  <a href="#" class="lang-btn" id="home-en" onclick="setHomeLang('en');return false;">EN</a>
+</nav>
+
+<header class="site-header">
+  <div>
+    <div class="kicker" data-vi="Data · AI · Design · Learning Experience" data-en="Data · AI · Design · Learning Experience">Fieldnotes on Learning · data · AI · design</div>
+    <h1 data-vi="FIELDNOTES ON LEARNING" data-en="FIELDNOTES ON LEARNING">Blog của Bùi Tống Giang (Tg)</h1>
+    <p class="lead" data-vi="Một blog được viết bởi Bùi Tống Giang (Tg), Learning Experience Designer và EdTech developer tại Hà Nội. Ở đây là các ghi chép thực hành về dữ liệu, AI, thiết kế học tập và những thử nghiệm EdTech đang được làm thật." data-en="A blog written by Bui Tong Giang (Tg), a Learning Experience Designer and EdTech developer based in Hanoi. These are practical notes on data, AI, learning design, and EdTech experiments built in the open.">Tg là Learning Experience Designer và EdTech developer tại Hà Nội. Blog này dành cho ai quan tâm đến cách dữ liệu, AI và thiết kế học tập giao nhau, mỗi bài là một góc nhìn từ thực tế làm nghề.</p>
+  </div>
+</header>
+
+<!-- Search & Filter -->
+<section class="search-zone" aria-label="Tìm kiếm bài viết">
+  <div class="browse-controls">
+    <div class="search-wrap">
+      <input
+        class="search-input"
+        id="search-input"
+        type="text"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Tìm theo chủ đề, từ khoá... (LMS, AI, data...)"
+        aria-label="Tìm kiếm bài viết"
+        aria-autocomplete="list"
+        aria-controls="autocomplete-list"
+      >
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <button class="search-clear" id="search-clear" aria-label="Xoá tìm kiếm">✕</button>
+      <div class="autocomplete" id="autocomplete-list" role="listbox"></div>
+    </div>
+    <div class="sort-menu" id="sort-menu">
+      <button class="sort-toggle" id="sort-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
+        <span data-vi="Sắp xếp" data-en="Sort">Sắp xếp</span>
+        <b id="sort-current">Từ mới nhất</b>
+      </button>
+      <div class="sort-options" id="sort-options" role="listbox" aria-label="Sắp xếp bài viết">
+        <button type="button" data-sort="newest" role="option" aria-selected="true" data-vi="Từ mới nhất" data-en="Newest first">Từ mới nhất</button>
+        <button type="button" data-sort="oldest" role="option" aria-selected="false" data-vi="Từ cũ nhất" data-en="Oldest first">Từ cũ nhất</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-row" id="filter-row">
+    <span class="filter-label" data-vi="Chủ đề:" data-en="Topics:">Chủ đề:</span>
+    <!-- pills injected by JS -->
+  </div>
+  <div class="result-info" id="result-info"></div>
+</section>
+
+<section class="topic-zone" aria-label="Chủ đề bài viết">
+  <div class="topic-zone-head">
+    <div class="section-label" data-vi="Chuyên mục" data-en="Sections">Đọc theo chủ đề</div>
+    <div class="carousel-controls topic-nav-controls" aria-label="Điều khiển danh sách chuyên mục">
+      <button class="carousel-arrow" id="topic-nav-prev" type="button" aria-label="Xem chuyên mục trước"><span aria-hidden="true">&#8249;</span></button>
+      <button class="carousel-arrow" id="topic-nav-next" type="button" aria-label="Xem chuyên mục tiếp theo"><span aria-hidden="true">&#8250;</span></button>
+    </div>
+  </div>
+  <div class="topic-nav" id="topic-nav"></div>
+</section>
+
+<!-- Posts -->
+<main class="posts">
+  <div class="section-label" id="section-label" hidden></div>
+  <div class="grid" id="posts-grid">
+
+    <a class="card" href="readiness-debt.html"
+      data-href-vi="readiness-debt.html"
+      data-href-en="readiness-debt.html"
+      data-topic="ai-era"
+      data-tags="AI,L&amp;D,Readiness debt,Instructional Design,Anime,Measurement,Kirkpatrick"
+      data-title-vi="Readiness debt: khi AI nhanh hơn sự sẵn sàng"
+      data-title-en="Readiness debt: when AI outruns readiness"
+      data-desc-vi="84% người làm L&amp;D dùng AI để tăng tốc content, nhưng năng lực xác minh không tăng kịp. Ba phép ẩn dụ anime để hiểu khoản nợ đang tích lũy."
+      data-desc-en="84% of L&amp;D practitioners use AI to speed up content, but verification capacity is not keeping pace. Three anime metaphors for the debt building up."
+      data-date="2026-07-13">
+      <div class="thumb"><img src="assets/readiness-debt/mha-deku-all-might.png" alt="Deku và All Might dùng làm bìa bài viết Readiness debt" loading="eager" decoding="async"></div>
+      <div class="card-body">
+        <div class="card-date" data-vi="13 tháng 7, 2026" data-en="July 13, 2026">13 tháng 7, 2026</div>
+        <div class="meta" data-vi="AI · L&amp;D · Anime" data-en="AI · L&amp;D · Anime">AI · L&amp;D · Anime</div>
+        <h2 data-vi="Readiness debt: khi AI nhanh hơn sự sẵn sàng" data-en="Readiness debt: when AI outruns readiness">Readiness debt: khi AI nhanh hơn sự sẵn sàng</h2>
+        <p data-vi="AI có thể tạo mười module trong thời gian trước đây chỉ đủ làm một, nhưng nó không tự tạo thêm năng lực review, đo lường và xác minh tác động thật." data-en="AI can produce ten modules in the time it used to take to make one, but it does not automatically add review, measurement, and impact-verification capacity.">AI có thể tạo mười module trong thời gian trước đây chỉ đủ làm một, nhưng nó không tự tạo thêm năng lực review, đo lường và xác minh tác động thật.</p>
+        <div class="card-tags"><span class="card-tag">AI</span><span class="card-tag">L&amp;D</span><span class="card-tag">Readiness debt</span><span class="card-tag">Anime</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+    <a class="card" href="sakura-im-lang.html"
+      data-href-vi="sakura-im-lang.html"
+      data-href-en="sakura-im-lang-en.html"
+      data-topic="edtech-research"
+      data-tags="EdTech,Gamification,Sakura,Dữ liệu,Measurement,Irregular verbs"
+      data-title-vi="Tg muốn Sakura im lặng"
+      data-title-en="Tg Wanted Sakura to Stay Quiet"
+      data-desc-vi="Một fieldnote về app học động từ bất quy tắc, Sakura, game hóa học tập và khoảnh khắc phải tách can thiệp khỏi đo lường."
+      data-desc-en="A fieldnote about an irregular-verb learning app, Sakura, gamification, and the moment intervention had to be separated from measurement."
+      data-date="2026-07-02">
+      <div class="thumb sakura-expression-thumb" role="img" aria-label="Sakura với nhiều biểu cảm trong web học động từ bất quy tắc">
+        <div class="sakura-expression-main">
+          <iframe class="sakura-expression-frame" src="assets/sakura-mascot.html?embed=1" title="Sakura celebrate" data-state="celebrate" tabindex="-1" aria-hidden="true"></iframe>
+          <div class="sakura-expression-note">Sakura practice states</div>
+        </div>
+        <div class="sakura-expression-strip" aria-hidden="true">
+          <div class="sakura-expression-mini"><iframe class="sakura-expression-frame" src="assets/sakura-mascot.html?embed=1" title="Sakura hint" data-state="hint" tabindex="-1"></iframe></div>
+          <div class="sakura-expression-mini"><iframe class="sakura-expression-frame" src="assets/sakura-mascot.html?embed=1" title="Sakura wrong" data-state="wrong" tabindex="-1"></iframe></div>
+          <div class="sakura-expression-mini"><iframe class="sakura-expression-frame" src="assets/sakura-mascot.html?embed=1" title="Sakura sleepy" data-state="sleepy" tabindex="-1"></iframe></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-date" data-vi="2 tháng 7, 2026" data-en="July 2, 2026">2 tháng 7, 2026</div>
+        <div class="meta" data-vi="EdTech · Sakura · Dữ liệu" data-en="EdTech · Sakura · Data">EdTech · Sakura · Dữ liệu</div>
+        <h2 data-vi="Tg muốn Sakura im lặng" data-en="I want Sakura to stay quiet">Tg muốn Sakura im lặng</h2>
+        <p data-vi="Một fieldnote về app học động từ bất quy tắc, Sakura, game hóa học tập và khoảnh khắc phải tách can thiệp khỏi đo lường để dữ liệu đáng tin hơn." data-en="A fieldnote about an irregular-verb learning app, Sakura, gamification, and the moment intervention had to be separated from measurement so the data could be trusted.">Một fieldnote về app học động từ bất quy tắc, Sakura, game hóa học tập và khoảnh khắc phải tách can thiệp khỏi đo lường để dữ liệu đáng tin hơn.</p>
+        <div class="card-tags"><span class="card-tag">EdTech</span><span class="card-tag">Sakura</span><span class="card-tag">Gamification</span><span class="card-tag">Dữ liệu</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+    <a class="card" href="starbucks-tank-day.html"
+      data-href-vi="starbucks-tank-day.html"
+      data-href-en="starbucks-tank-day.html"
+      data-topic="ld-curious"
+      data-tags="L&D,Marketing,AI,Cultural Intelligence,Transfer of Learning,Starbucks"
+      data-title-vi="Tank Day và câu hỏi L&D không ai hỏi"
+      data-title-en="Tank Day and the L&D question nobody asked"
+      data-desc-vi="Starbucks Korea không thất bại chỉ vì AI hay đội marketing. Điều đáng hỏi hơn là vì sao 7 tầng phê duyệt không tạo ra nổi một điểm dừng."
+      data-desc-en="Starbucks Korea did not fail only because of AI or marketing. The deeper question is why seven approval layers produced no checkpoint."
+      data-date="2026-06-21">
+      <div class="thumb"><img src="assets/starbucks/hanok-store.png" alt="Cửa hàng Starbucks trong kiến trúc hanok tại Hàn Quốc" loading="eager" decoding="async"></div>
+      <div class="card-body">
+        <div class="card-date" data-vi="21 tháng 6, 2026" data-en="June 21, 2026">21 tháng 6, 2026</div>
+        <div class="meta" data-vi="L&D · Marketing · AI" data-en="L&D · Marketing · AI">L&D · Marketing · AI</div>
+        <h2 data-vi="Tank Day và câu hỏi L&D không ai hỏi" data-en="Tank Day and the L&D question nobody asked">Tank Day và câu hỏi L&D không ai hỏi</h2>
+        <p data-vi="Starbucks Korea không thất bại chỉ vì AI hay đội marketing. Điều đáng hỏi hơn là vì sao 7 tầng phê duyệt không tạo ra nổi một điểm dừng." data-en="Starbucks Korea did not fail only because of AI or marketing. The deeper question is why seven approval layers produced no checkpoint.">Starbucks Korea không thất bại chỉ vì AI hay đội marketing. Điều đáng hỏi hơn là vì sao 7 tầng phê duyệt không tạo ra nổi một điểm dừng.</p>
+        <div class="card-tags"><span class="card-tag">L&D</span><span class="card-tag">Marketing</span><span class="card-tag">AI</span><span class="card-tag">Cultural Intelligence</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+    <a class="card" href="jjk-pedagogy.html"
+      data-href-vi="jjk-pedagogy.html"
+      data-href-en="jjk-pedagogy.html"
+      data-topic="ld-curious"
+      data-tags="Jujutsu Kaisen,JJK,Instructional Design,L&D,Sư phạm,Anime,Đào tạo"
+      data-title-vi="Ba người thầy trong Jujutsu Kaisen và ba triết lý giảng dạy"
+      data-title-en="Three teachers in Jujutsu Kaisen and three philosophies of learning"
+      data-desc-vi="Gojo, Nanami, Yaga trong JJK không chỉ là nhân vật anime. Nhìn qua lens instructional design, họ là ba archetype sư phạm mà L&D thực sự cần."
+      data-desc-en="Gojo, Nanami, and Yaga are not just anime characters. Through an instructional design lens, they become three pedagogical archetypes that L&D really needs."
+      data-date="2026-06-20">
+      <div class="thumb"><img src="assets/jjk/jjk-home-cover.jpg" alt="Ảnh Gojo dùng làm bìa bài viết về Jujutsu Kaisen và instructional design" loading="lazy" decoding="async"></div>
+      <div class="card-body">
+        <div class="card-date" data-vi="20 tháng 6, 2026" data-en="June 20, 2026">20 tháng 6, 2026</div>
+        <div class="meta" data-vi="JJK · Instructional Design · L&D" data-en="JJK · Instructional Design · L&D">JJK · Instructional Design · L&D</div>
+        <h2 data-vi="Ba người thầy trong Jujutsu Kaisen và ba triết lý giảng dạy" data-en="Three teachers in Jujutsu Kaisen and three philosophies of learning">Ba người thầy trong Jujutsu Kaisen và ba triết lý giảng dạy</h2>
+        <p data-vi="Gojo, Nanami, Yaga trong JJK không chỉ là nhân vật anime. Nhìn qua lens instructional design, họ là ba archetype sư phạm mà bất kỳ người làm L&D nào cũng sẽ nhận ra ngay." data-en="Gojo, Nanami, and Yaga are not just anime characters. Through an instructional design lens, they represent three pedagogical archetypes every L&D practitioner will instantly recognize.">Gojo, Nanami, Yaga trong JJK không chỉ là nhân vật anime. Nhìn qua lens instructional design, họ là ba archetype sư phạm mà bất kỳ người làm L&D nào cũng sẽ nhận ra ngay.</p>
+        <div class="card-tags"><span class="card-tag">JJK</span><span class="card-tag">Instructional Design</span><span class="card-tag">L&D</span><span class="card-tag">Anime</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+
+    <a class="card" href="goed-du-lieu.html"
+  data-href-vi="goed-du-lieu.html"
+  data-href-en="goed-du-lieu.html"
+  data-topic="edtech-research"
+  data-tags="Spaced repetition,EdTech,Dữ liệu,Thuật toán,Ngôn ngữ,Irregular verbs"
+  data-title-vi="Khi goed trở thành dữ liệu"
+  data-title-en="When goed becomes data"
+  data-desc-vi="Từ lỗi goed đến dữ liệu học tập: một bài tiếp nối về cách biến câu trả lời sai thành tín hiệu cho thuật toán ôn tập."
+  data-desc-en="From the goed error to learning data: a follow-up article about turning wrong answers into signals for a review algorithm."
+  data-date="2026-06-18">
+  <div class="thumb">
+    <img src="goed.png" alt="Bài viết Khi goed trở thành dữ liệu về thuật toán học động từ bất quy tắc" loading="lazy" decoding="async">
+  </div>
+  <div class="card-body">
+    <div class="card-date" data-vi="18 tháng 6, 2026" data-en="June 18, 2026">18 tháng 6, 2026</div>
+    <div class="meta" data-vi="EdTech · Dữ liệu · Thuật toán" data-en="EdTech · Data · Algorithm">EdTech · Dữ liệu · Thuật toán</div>
+    <h2 data-vi="Khi goed trở thành dữ liệu" data-en="When goed becomes data">Khi goed trở thành dữ liệu</h2>
+    <p data-vi="Từ lỗi goed đến dữ liệu học tập: một bài tiếp nối về cách biến câu trả lời sai thành tín hiệu cho thuật toán ôn tập, rồi để người đọc tự tạo dữ liệu và xem báo cáo riêng của mình." data-en="From the goed error to learning data: a follow-up article about turning wrong answers into signals for a review algorithm, then letting readers create data and read their own report.">Từ lỗi goed đến dữ liệu học tập: một bài tiếp nối về cách biến câu trả lời sai thành tín hiệu cho thuật toán ôn tập, rồi để người đọc tự tạo dữ liệu và xem báo cáo riêng của mình.</p>
+    <div class="card-tags">
+      <span class="card-tag">EdTech</span>
+      <span class="card-tag">Dữ liệu</span>
+      <span class="card-tag">Thuật toán</span>
+      <span class="card-tag">Irregular verbs</span>
+    </div>
+    <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+  </div>
+</a>
+    <a class="card" href="pizza-4ps-training.html"
+      data-href-vi="pizza-4ps-training.html"
+      data-href-en="pizza-4ps-training.html"
+      data-topic="enterprise-ld"
+      data-tags="L&D,Đào tạo,Pizza 4P's,Knowledge management,Doanh nghiệp"
+      data-title-vi="Người giỏi nhất chính là tài liệu training tốt nhất"
+      data-title-en="Your best people are your best training material"
+      data-desc-vi="Một góc nhìn về bài toán đào tạo của Pizza 4P's: khi kiến thức quý giá nhất nằm trong đầu những nhân viên giỏi nhất, chứ không nằm trong slide orientation."
+      data-desc-en="A perspective on Pizza 4P's training challenge: when the most valuable knowledge lives in the minds of the best employees, not in orientation slides."
+      data-date="2026-06-11">
+  <div class="thumb">
+    <img src="4p.webp" alt="Bài viết về đào tạo, L&D và Pizza 4P's" loading="lazy" decoding="async">
+  </div>
+  <div class="card-body">
+    <div class="card-date" data-vi="11 tháng 6, 2026" data-en="June 11, 2026">11 tháng 6, 2026</div>
+    <div class="meta" data-vi="L&D · Đào tạo · Pizza 4P's" data-en="L&D · Training · Pizza 4P's">L&D · Đào tạo · Pizza 4P's</div>
+    <h2 data-vi="Người giỏi nhất chính là tài liệu training tốt nhất" data-en="Your best people are your best training material">Người giỏi nhất chính là tài liệu training tốt nhất</h2>
+    <p data-vi="Một góc nhìn về bài toán đào tạo của Pizza 4P's: khi kiến thức quý giá nhất nằm trong đầu những nhân viên giỏi nhất, chứ không nằm trong slide orientation." data-en="A perspective on Pizza 4P's training challenge: when the most valuable knowledge lives in the minds of the best employees, not in orientation slides.">Một góc nhìn về bài toán đào tạo của Pizza 4P's: khi kiến thức quý giá nhất nằm trong đầu những nhân viên giỏi nhất, chứ không nằm trong slide orientation.</p>
+    <div class="card-tags"><span class="card-tag">L&D</span><span class="card-tag">Đào tạo</span><span class="card-tag">Pizza 4P's</span><span class="card-tag">Doanh nghiệp</span></div>
+    <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+  </div>
+</a>
+    <a class="card" href="agi-duong-vien-rang-cua.html"
+      data-href-vi="agi-duong-vien-rang-cua.html"
+      data-href-en="agi-duong-vien-rang-cua.html"
+      data-topic="ai-era"
+      data-tags="AGI,AI,L&D,Đào tạo,Jagged frontier"
+      data-title-vi="AGI và đường viền răng cưa: quyết định đào tạo hôm nay dựa vào điều gì?"
+      data-title-en="AGI and the jagged frontier: what should today's training decisions be based on?"
+      data-desc-vi="Dự đoán AGI dao động từ 2026 đến sau 2100, nhưng thứ đáng quan tâm hơn là ranh giới giữa cái AI làm được và cái AI chỉ trông như làm được."
+      data-desc-en="AGI predictions range from 2026 to after 2100, but the more useful question is the boundary between what AI can do and what only looks like it can do."
+      data-date="2026-06-04">
+      <div class="thumb"><img src="agi.webp" alt="Bài viết về AGI, jagged frontier và thiết kế đào tạo" loading="lazy" decoding="async"></div>
+      <div class="card-body">
+        <div class="card-date" data-vi="4 tháng 6, 2026" data-en="June 4, 2026">4 tháng 6, 2026</div>
+        <div class="meta" data-vi="AGI · AI · L&D" data-en="AGI · AI · L&D">AGI · AI · L&D</div>
+        <h2 data-vi="AGI và đường viền răng cưa: quyết định đào tạo hôm nay dựa vào điều gì?" data-en="AGI and the jagged frontier: what should today's training decisions be based on?">AGI và đường viền răng cưa: quyết định đào tạo hôm nay dựa vào điều gì?</h2>
+        <p data-vi="Dự đoán AGI dao động từ 2026 đến sau 2100, nhưng thứ đáng quan tâm hơn là ranh giới giữa cái AI làm được và cái AI chỉ trông như làm được." data-en="AGI predictions range from 2026 to after 2100, but the more useful question is the boundary between what AI can do and what only looks like it can do.">Dự đoán AGI dao động từ 2026 đến sau 2100, nhưng thứ đáng quan tâm hơn là ranh giới giữa cái AI làm được và cái AI chỉ trông như làm được.</p>
+        <div class="card-tags"><span class="card-tag">AGI</span><span class="card-tag">AI</span><span class="card-tag">L&D</span><span class="card-tag">Đào tạo</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+    <a class="card" href="goed-thuat-toan.html"
+      data-href-vi="goed-thuat-toan.html"
+      data-href-en="goed-thuat-toan.html"
+      data-topic="edtech-research"
+      data-tags="Spaced repetition,LLM,EdTech,Thuật toán,Ngôn ngữ"
+      data-title-vi="Khi go biến thành goed: một thuật toán thú vị"
+      data-title-en="When go becomes goed: an algorithm that understands your mistake"
+      data-desc-vi="Lỗi goed không chỉ là quên từ, mà là dấu hiệu người học đang áp nhầm một luật lên cả nhóm động từ."
+      data-desc-en="The goed error is not just forgetting a word, it is a sign that the learner is misapplying a rule across a whole verb group."
+      data-date="2026-05-28">
+      <div class="thumb"><img src="goed.png" alt="Bài viết về lỗi goed và thuật toán ôn tập động từ bất quy tắc" loading="lazy" decoding="async"></div>
+      <div class="card-body">
+        <div class="card-date" data-vi="28 tháng 5, 2026" data-en="May 28, 2026">28 tháng 5, 2026</div>
+        <div class="meta" data-vi="Spaced repetition · LLM · EdTech" data-en="Spaced repetition · LLM · EdTech">Spaced repetition · LLM · EdTech</div>
+        <h2 data-vi="Khi go biến thành goed: một thuật toán thú vị" data-en="When go becomes goed: an algorithm that understands your mistake">Khi go biến thành goed: một thuật toán thú vị</h2>
+        <p data-vi="Lỗi goed không chỉ là quên từ, mà là dấu hiệu người học đang áp nhầm một luật lên cả nhóm động từ, từ đó mở ra cách thiết kế thuật toán ôn tập thông minh hơn." data-en="The goed error is not just forgetting a word, it is a sign that the learner is misapplying a rule across a whole verb group, opening a smarter way to design review algorithms.">Lỗi goed không chỉ là quên từ, mà là dấu hiệu người học đang áp nhầm một luật lên cả nhóm động từ, từ đó mở ra cách thiết kế thuật toán ôn tập thông minh hơn.</p>
+        <div class="card-tags"><span class="card-tag">Spaced repetition</span><span class="card-tag">LLM</span><span class="card-tag">EdTech</span><span class="card-tag">Thuật toán</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+    <a class="card" href="lms-khong-chet.html"
+      data-href-vi="lms-khong-chet.html"
+      data-href-en="lms-khong-chet.html"
+      data-topic="ai-era"
+      data-tags="LMS,AI,EdTech,Học tập số,Dữ liệu"
+      data-title-vi="LMS không chết, nó chỉ đang bị AI bắt phải trưởng thành"
+      data-title-en="LMS is not dying, it is just being forced to grow up by AI"
+      data-desc-vi="Từ Blackboard, Moodle, Canvas đến AI và LXP, một bài viết về cách LMS đang bị buộc phải đổi vai trong thời đại học tập số."
+      data-desc-en="From Blackboard, Moodle, Canvas to AI and LXP, an article about how the LMS is being forced to change its role in the age of digital learning."
+      data-date="2026-05-21">
+      <div class="thumb"><img src="lms.jpg" alt="Ảnh minh họa bài viết về LMS, AI và học tập số" loading="lazy" decoding="async"></div>
+      <div class="card-body">
+        <div class="card-date" data-vi="21 tháng 5, 2026" data-en="May 21, 2026">21 tháng 5, 2026</div>
+        <div class="meta" data-vi="LMS · AI · EdTech" data-en="LMS · AI · EdTech">LMS · AI · EdTech</div>
+        <h2 data-vi="LMS không chết, nó chỉ đang bị AI bắt phải trưởng thành" data-en="LMS is not dying, it is just being forced to grow up by AI">LMS không chết, nó chỉ đang bị AI bắt phải trưởng thành</h2>
+        <p data-vi="Từ Blackboard, Moodle, Canvas đến AI và LXP, một bài viết về cách LMS đang bị buộc phải đổi vai trong thời đại học tập số." data-en="From Blackboard, Moodle, Canvas to AI and LXP, an article about how the LMS is being forced to change its role in the age of digital learning.">Từ Blackboard, Moodle, Canvas đến AI và LXP, một bài viết về cách LMS đang bị buộc phải đổi vai trong thời đại học tập số.</p>
+        <div class="card-tags"><span class="card-tag">LMS</span><span class="card-tag">AI</span><span class="card-tag">EdTech</span><span class="card-tag">Dữ liệu</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+    <a class="card" href="attention-is-the-new-classroom.html"
+      data-href-vi="attention-is-the-new-classroom.html"
+      data-href-en="attention-is-the-new-classroom.html"
+      data-topic="enterprise-ld"
+      data-tags="L&D,AI,Microlearning,Đào tạo,Scrollytelling,Doanh nghiệp"
+      data-title-vi="Sự tập trung của bộ não và bức tranh đào tạo"
+      data-title-en="Attention is the new classroom"
+      data-desc-vi="Vì sao nhân viên quên gần hết nội dung đào tạo, và cách microlearning cùng AI có thể biến học tập thành luyện tập đúng lúc."
+      data-desc-en="Why employees forget most training content, and how microlearning plus AI can turn learning into timely practice."
+      data-date="2026-05-14">
+      <div class="thumb"><img src="LophocAI.jpg" alt="Ảnh minh họa bài viết về đào tạo doanh nghiệp và AI" loading="lazy" decoding="async"></div>
+      <div class="card-body">
+        <div class="card-date" data-vi="14 tháng 5, 2026" data-en="May 14, 2026">14 tháng 5, 2026</div>
+        <div class="meta" data-vi="L&D · AI · Scrollytelling" data-en="L&D · AI · Scrollytelling">L&D · AI · Scrollytelling</div>
+        <h2 data-vi="Sự tập trung của bộ não và bức tranh đào tạo" data-en="Attention is the new classroom">Sự tập trung của bộ não và bức tranh đào tạo</h2>
+        <p data-vi="Vì sao nhân viên quên gần hết nội dung đào tạo, và cách microlearning cùng AI có thể biến học tập thành luyện tập đúng lúc." data-en="Why employees forget most training content, and how microlearning plus AI can turn learning into timely practice.">Vì sao nhân viên quên gần hết nội dung đào tạo, và cách microlearning cùng AI có thể biến học tập thành luyện tập đúng lúc.</p>
+        <div class="card-tags"><span class="card-tag">L&D</span><span class="card-tag">Microlearning</span><span class="card-tag">Đào tạo</span><span class="card-tag">Doanh nghiệp</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+    <a class="card" href="nguoi-thay-bien-mat.html"
+      data-href-vi="nguoi-thay-bien-mat.html"
+      data-href-en="nguoi-thay-bien-mat-en.html"
+      data-topic="ai-era"
+      data-tags="Lịch sử giáo dục,AI,Scrollytelling,EdTech,Công nghệ"
+      data-title-vi="Liệu người thầy có thật sự biến mất?"
+      data-title-en="Will the Teacher Really Disappear?"
+      data-desc-vi="Từ oracle duy nhất nắm giữ tri thức, đến máy kiểm tra tự động, đến AI tutor: một câu chuyện dài về cách công nghệ làm thay đổi vai trò của người thầy."
+      data-desc-en="From the single oracle who held knowledge, to automatic testing machines, to AI tutors: a long story about how technology changes the role of the teacher."
+      data-date="2026-05-07">
+      <div class="thumb"><img src="mayin.png" alt="Ảnh minh họa bài viết về lịch sử giáo dục và AI" loading="lazy" decoding="async"></div>
+      <div class="card-body">
+        <div class="card-date" data-vi="7 tháng 5, 2026" data-en="May 7, 2026">7 tháng 5, 2026</div>
+        <div class="meta" data-vi="Lịch sử giáo dục & AI · Scrollytelling" data-en="History of education & AI · Scrollytelling">Lịch sử giáo dục & AI · Scrollytelling</div>
+        <h2 data-vi="Liệu người thầy có thật sự biến mất?" data-en="Will the Teacher Really Disappear?">Liệu người thầy có thật sự biến mất?</h2>
+        <p data-vi='Từ "oracle" duy nhất nắm giữ tri thức, đến máy kiểm tra tự động, đến AI tutor: một câu chuyện dài về cách công nghệ làm thay đổi vai trò của người thầy.' data-en='From the single "oracle" who held knowledge, to automatic testing machines, to AI tutors: a long story about how technology changes the role of the teacher.'>Từ "oracle" duy nhất nắm giữ tri thức, đến máy kiểm tra tự động, đến AI tutor: một câu chuyện dài về cách công nghệ làm thay đổi vai trò của người thầy.</p>
+        <div class="card-tags"><span class="card-tag">Lịch sử giáo dục</span><span class="card-tag">AI</span><span class="card-tag">Scrollytelling</span><span class="card-tag">Công nghệ</span></div>
+        <span class="read" data-vi="Đọc bài →" data-en="Read article →">Đọc bài →</span>
+      </div>
+    </a>
+
+    <div class="no-results" id="no-results" style="display:none;" data-vi="Không tìm thấy bài nào phù hợp." data-en="No matching articles found.">
+      Không tìm thấy bài nào phù hợp.
+    </div>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-news">
+    <div>
+      <span class="footer-kicker" data-vi="Fieldnotes dispatch" data-en="Fieldnotes dispatch">Fieldnotes dispatch</span>
+      <h2 data-vi="Theo dõi bài mới và các thử nghiệm học tập." data-en="Follow new essays and learning experiments.">Theo dõi bài mới và các thử nghiệm học tập.</h2>
+    </div>
+    <a class="footer-cta" href="feed.xml" data-vi="Subscribe" data-en="Subscribe">Subscribe</a>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-top">
+    <span class="footer-copy" data-vi="© 2026 Bui Tong Giang · Fieldnotes on Learning" data-en="© 2026 Bui Tong Giang · Fieldnotes on Learning">© 2026 Bui Tong Giang · Fieldnotes on Learning</span>
+    <div class="footer-links">
+      <a href="about.html" data-vi="About" data-en="About">About</a>
+      <a href="contact.html" data-vi="Contact" data-en="Contact">Contact</a>
+      <a href="feed.xml" data-vi="RSS" data-en="RSS">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Data ── */
+const TOPICS = [
+  {
+    id: 'ld-curious',
+    vi: 'L&D và những điều thú vị',
+    en: 'L&D and curious things',
+    descVi: 'Các góc nhìn nhẹ mà sắc về học tập, văn hóa, anime, marketing và những tình huống khiến L&D thú vị hơn ngoài đời.',
+    descEn: 'Light but sharp takes on learning, culture, anime, marketing, and real situations that make L&D more interesting.'
+  },
+  {
+    id: 'edtech-research',
+    vi: 'Nghiên cứu nhỏ về EdTech',
+    en: 'Small EdTech studies',
+    descVi: 'Những bài mổ xẻ dữ liệu, thuật toán học tập, spaced repetition và các thử nghiệm nhỏ có thể biến thành sản phẩm.',
+    descEn: 'Notes on learning data, algorithms, spaced repetition, and small experiments that can turn into products.'
+  },
+  {
+    id: 'enterprise-ld',
+    vi: 'L&D trong doanh nghiệp',
+    en: 'L&D in organizations',
+    descVi: 'Các bài viết về đào tạo nhân viên, tri thức nội bộ, microlearning và bài toán học tập trong môi trường công ty.',
+    descEn: 'Articles about employee training, internal knowledge, microlearning, and learning problems inside companies.'
+  },
+  {
+    id: 'ai-era',
+    vi: 'L&D, EdTech trong thời đại AI',
+    en: 'L&D and EdTech in the age of AI',
+    descVi: 'Những suy nghĩ về AI, AGI, LMS, AI tutor và cách công nghệ đang đổi vai người học, người dạy và hệ thống học tập.',
+    descEn: 'Thoughts on AI, AGI, LMS, AI tutors, and how technology changes the roles of learners, teachers, and learning systems.'
+  }
+];
+
+function getTopic(id) {
+  return TOPICS.find(topic => topic.id === id) || TOPICS[0];
+}
+
+function topicTitle(topic) {
+  return currentLang === 'en' ? topic.en : topic.vi;
+}
+
+function topicDescription(topic) {
+  return currentLang === 'en' ? topic.descEn : topic.descVi;
+}
+
+function topicPostCount(topicId) {
+  return POSTS_DATA.filter(post => post.topic === topicId).length;
+}
+
+const POSTS_DATA = (() => {
+  const cards = Array.from(document.querySelectorAll('.card[data-tags]'));
+  const topicIds = new Set(TOPICS.map(topic => topic.id));
+  return cards.map((el,index) => ({
+    el,
+    index,
+    topic: topicIds.has(el.dataset.topic) ? el.dataset.topic : 'ld-curious',
+    date: el.dataset.date || '',
+    timestamp: Date.parse(el.dataset.date || '') || 0,
+    tags: el.dataset.tags ? el.dataset.tags.split(',').map(t => t.trim()) : [],
+    titleVi: el.dataset.titleVi || '',
+    titleEn: el.dataset.titleEn || '',
+    descVi: el.dataset.descVi || '',
+    descEn: el.dataset.descEn || '',
+  }));
+})();
+
+/* all unique tags sorted */
+const ALL_TAGS = (() => {
+  const set = new Set();
+  POSTS_DATA.forEach(p => p.tags.forEach(t => set.add(t)));
+  // exclude Hòm thư from topic pills
+  set.delete('Hòm thư'); set.delete('Ẩn danh');
+  return Array.from(set).sort((a,b) => a.localeCompare(b,'vi'));
+})();
+
+/* ── State ── */
+let currentQuery = '';
+let activeTag = null;
+let activeTopic = null;
+let sortOrder = 'newest';
+let acFocusIdx = -1;
+let currentLang = 'vi';
+
+const postsGrid = document.getElementById('posts-grid');
+const sortMenu = document.getElementById('sort-menu');
+const sortToggle = document.getElementById('sort-toggle');
+const sortCurrent = document.getElementById('sort-current');
+const sortOptions = document.getElementById('sort-options');
+
+function sortLabel(order) {
+  if (currentLang === 'en') return order === 'oldest' ? 'Oldest first' : 'Newest first';
+  return order === 'oldest' ? 'Từ cũ nhất' : 'Từ mới nhất';
+}
+
+function updateSortControl() {
+  if (sortCurrent) sortCurrent.textContent = sortLabel(sortOrder);
+  sortOptions?.querySelectorAll('[data-sort]').forEach(btn => {
+    btn.setAttribute('aria-selected', btn.dataset.sort === sortOrder ? 'true' : 'false');
+  });
+}
+
+function closeSortMenu() {
+  sortMenu?.classList.remove('open');
+  sortToggle?.setAttribute('aria-expanded', 'false');
+}
+
+function setSortOrder(order) {
+  sortOrder = order === 'oldest' ? 'oldest' : 'newest';
+  updateSortControl();
+  closeSortMenu();
+  renderTopicNav();
+  filterPosts();
+}
+
+sortToggle?.addEventListener('click', () => {
+  const willOpen = !sortMenu?.classList.contains('open');
+  sortMenu?.classList.toggle('open', willOpen);
+  sortToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+});
+
+sortOptions?.querySelectorAll('[data-sort]').forEach(btn => {
+  btn.addEventListener('click', () => setSortOrder(btn.dataset.sort));
+});
+
+document.addEventListener('click', event => {
+  if (sortMenu && !sortMenu.contains(event.target)) closeSortMenu();
+});
+
+/* ── Topic sections ── */
+function sortedPosts(posts) {
+  return posts.slice().sort((a, b) => {
+    const byDate = sortOrder === 'oldest'
+      ? a.timestamp - b.timestamp
+      : b.timestamp - a.timestamp;
+    return byDate || a.index - b.index;
+  });
+}
+
+function topicPosts(topicId, visibleOnly = false) {
+  return POSTS_DATA.filter(post => {
+    if (post.topic !== topicId) return false;
+    return !visibleOnly || post.el.dataset.hidden !== 'true';
+  });
+}
+
+function orderedTopics(visibleOnly = false) {
+  return TOPICS.slice().sort((a, b) => {
+    const aPosts = sortedPosts(topicPosts(a.id, visibleOnly));
+    const bPosts = sortedPosts(topicPosts(b.id, visibleOnly));
+    const aPost = aPosts[0];
+    const bPost = bPosts[0];
+
+    if (!aPost && !bPost) return TOPICS.indexOf(a) - TOPICS.indexOf(b);
+    if (!aPost) return 1;
+    if (!bPost) return -1;
+
+    const byDate = sortOrder === 'oldest'
+      ? aPost.timestamp - bPost.timestamp
+      : bPost.timestamp - aPost.timestamp;
+    return byDate || TOPICS.indexOf(a) - TOPICS.indexOf(b);
+  });
+}
+
+function sortTopicSections(visibleOnly = false) {
+  document.querySelectorAll('.topic-section').forEach(section => {
+    const grid = section.querySelector('.topic-grid');
+    if (!grid) return;
+    sortedPosts(topicPosts(section.dataset.topic))
+      .forEach(post => grid.appendChild(post.el));
+  });
+
+  const noResults = document.getElementById('no-results');
+  orderedTopics(visibleOnly).forEach(topic => {
+    const section = postsGrid.querySelector(`.topic-section[data-topic="${topic.id}"]`);
+    if (section) postsGrid.insertBefore(section, noResults || null);
+  });
+  if (noResults) postsGrid.appendChild(noResults);
+}
+
+function buildTopicSections() {
+  const noResults = document.getElementById('no-results');
+  postsGrid.classList.add('topic-list');
+  postsGrid.innerHTML = '';
+
+  orderedTopics().forEach(topic => {
+    const section = document.createElement('section');
+    section.className = 'topic-section';
+    section.dataset.topic = topic.id;
+    section.innerHTML = `
+      <div class="topic-head">
+        <div>
+          <h2></h2>
+          <p></p>
+        </div>
+        <div class="topic-head-actions">
+          <span class="topic-count"></span>
+          <div class="carousel-controls" aria-label="Carousel controls">
+            <button class="carousel-arrow carousel-prev" type="button" aria-label="Previous articles"><span aria-hidden="true">&#8249;</span></button>
+            <button class="carousel-arrow carousel-next" type="button" aria-label="Next articles"><span aria-hidden="true">&#8250;</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="topic-grid"></div>
+    `;
+    postsGrid.appendChild(section);
+
+    const topicGrid = section.querySelector('.topic-grid');
+    sortedPosts(topicPosts(topic.id))
+      .forEach(post => topicGrid.appendChild(post.el));
+    setupTopicCarousel(section);
+  });
+
+  postsGrid.appendChild(noResults);
+  sortTopicSections();
+  syncTopicSections();
+}
+
+function renderTopicNav() {
+  const nav = document.getElementById('topic-nav');
+  if (!nav) return;
+
+  nav.innerHTML = orderedTopics().map(topic => {
+    const count = topicPostCount(topic.id);
+    const countText = currentLang === 'en'
+      ? `${count} article${count === 1 ? '' : 's'}`
+      : `${count} bài viết`;
+    return `
+      <button type="button" class="topic-card${activeTopic === topic.id ? ' active' : ''}" data-topic="${topic.id}">
+        <b>${escHtml(topicTitle(topic))}</b>
+        <span>${escHtml(countText)}</span>
+      </button>
+    `;
+  }).join('');
+
+  nav.querySelectorAll('.topic-card').forEach(btn => {
+    btn.addEventListener('click', () => toggleTopic(btn.dataset.topic));
+  });
+  syncTopicNavControls();
+  requestAnimationFrame(updateTopicNavControls);
+}
+
+const topicNavTrack = document.getElementById('topic-nav');
+const topicNavPrev = document.getElementById('topic-nav-prev');
+const topicNavNext = document.getElementById('topic-nav-next');
+
+function syncTopicNavControls() {
+  const isEnglish = currentLang === 'en';
+  topicNavPrev?.setAttribute('aria-label', isEnglish ? 'Previous sections' : 'Xem chuyên mục trước');
+  topicNavNext?.setAttribute('aria-label', isEnglish ? 'Next sections' : 'Xem chuyên mục tiếp theo');
+  document.querySelector('.topic-nav-controls')?.setAttribute(
+    'aria-label',
+    isEnglish ? 'Section carousel controls' : 'Điều khiển danh sách chuyên mục'
+  );
+}
+
+function moveTopicNav(direction) {
+  const card = topicNavTrack?.querySelector('.topic-card');
+  if (!topicNavTrack || !card) return;
+  const gap = parseFloat(getComputedStyle(topicNavTrack).gap) || 16;
+  topicNavTrack.scrollBy({
+    left: direction * (card.getBoundingClientRect().width + gap),
+    behavior: 'smooth'
+  });
+}
+
+function updateTopicNavControls() {
+  if (!topicNavTrack || !topicNavPrev || !topicNavNext) return;
+  topicNavPrev.disabled = topicNavTrack.scrollLeft <= 2;
+  topicNavNext.disabled = topicNavTrack.scrollLeft + topicNavTrack.clientWidth >= topicNavTrack.scrollWidth - 2;
+}
+
+topicNavPrev?.addEventListener('click', () => moveTopicNav(-1));
+topicNavNext?.addEventListener('click', () => moveTopicNav(1));
+topicNavTrack?.addEventListener('scroll', updateTopicNavControls, { passive: true });
+
+function syncTopicSections() {
+  document.querySelectorAll('.topic-section').forEach(section => {
+    const topic = getTopic(section.dataset.topic);
+    section.querySelector('h2').textContent = topicTitle(topic);
+    section.querySelector('p').textContent = topicDescription(topic);
+    const prev = section.querySelector('.carousel-prev');
+    const next = section.querySelector('.carousel-next');
+    const controls = section.querySelector('.carousel-controls');
+    if (prev) prev.setAttribute('aria-label', currentLang === 'en' ? 'Previous articles' : 'Xem bài trước');
+    if (next) next.setAttribute('aria-label', currentLang === 'en' ? 'Next articles' : 'Xem bài tiếp theo');
+    if (controls) controls.setAttribute('aria-label', currentLang === 'en' ? 'Article carousel controls' : 'Điều khiển danh sách bài viết');
+    updateTopicCount(section);
+    updateCarouselControls(section);
+  });
+}
+
+function setupTopicCarousel(section) {
+  const grid = section.querySelector('.topic-grid');
+  const prev = section.querySelector('.carousel-prev');
+  const next = section.querySelector('.carousel-next');
+  if (!grid || !prev || !next) return;
+
+  const move = direction => {
+    const card = Array.from(grid.querySelectorAll('.card')).find(item => item.dataset.hidden !== 'true');
+    if (!card) return;
+    const gap = parseFloat(getComputedStyle(grid).gap) || 24;
+    grid.scrollBy({ left: direction * (card.getBoundingClientRect().width + gap), behavior: 'smooth' });
+  };
+
+  prev.addEventListener('click', () => move(-1));
+  next.addEventListener('click', () => move(1));
+  grid.addEventListener('scroll', () => updateCarouselControls(section), { passive: true });
+  requestAnimationFrame(() => updateCarouselControls(section));
+}
+
+function updateCarouselControls(section) {
+  const grid = section.querySelector('.topic-grid');
+  const prev = section.querySelector('.carousel-prev');
+  const next = section.querySelector('.carousel-next');
+  if (!grid || !prev || !next) return;
+  const atStart = grid.scrollLeft <= 2;
+  const atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 2;
+  prev.disabled = atStart;
+  next.disabled = atEnd;
+}
+
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.topic-section').forEach(updateCarouselControls);
+  updateTopicNavControls();
+});
+
+function updateTopicCount(section) {
+  const visibleCards = Array.from(section.querySelectorAll('.card')).filter(card => card.dataset.hidden !== 'true').length;
+  const totalCards = topicPostCount(section.dataset.topic);
+  const count = activeTopic || activeTag || currentQuery.trim() ? visibleCards : totalCards;
+  section.querySelector('.topic-count').textContent = currentLang === 'en'
+    ? `${count} article${count === 1 ? '' : 's'}`
+    : `${count} bài viết`;
+}
+
+function toggleTopic(topicId) {
+  activeTopic = activeTopic === topicId ? null : topicId;
+  activeTag = null;
+  setQuery('');
+  updatePills();
+  renderTopicNav();
+  closeAc();
+  filterPosts();
+}
+
+/* ── Build tag pills ── */
+const filterRow = document.getElementById('filter-row');
+ALL_TAGS.forEach(tag => {
+  const btn = document.createElement('button');
+  btn.className = 'tag-pill';
+  btn.textContent = tag;
+  btn.dataset.tag = tag;
+  btn.addEventListener('click', () => toggleTag(tag));
+  filterRow.appendChild(btn);
+});
+
+function toggleTag(tag) {
+  activeTopic = null;
+  if (activeTag === tag) {
+    activeTag = null;
+  } else {
+    activeTag = tag;
+    // clear text search when picking a tag
+    setQuery('');
+  }
+  updatePills();
+  renderTopicNav();
+  filterPosts();
+}
+
+function updatePills() {
+  document.querySelectorAll('.tag-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tag === activeTag);
+  });
+}
+
+/* ── Search ── */
+const searchInput = document.getElementById('search-input');
+const searchClear = document.getElementById('search-clear');
+const acList = document.getElementById('autocomplete-list');
+const resultInfo = document.getElementById('result-info');
+const searchZone = document.querySelector('.search-zone');
+
+function openTagIndex() {
+  searchZone?.classList.add('tags-open');
+}
+
+function closeTagIndexIfIdle() {
+  if (!currentQuery.trim() && !activeTag && !activeTopic) {
+    searchZone?.classList.remove('tags-open');
+  }
+}
+
+function setQuery(val) {
+  searchInput.value = val;
+  currentQuery = val;
+  searchClear.classList.toggle('visible', val.length > 0);
+}
+
+searchInput.addEventListener('input', () => {
+  openTagIndex();
+  currentQuery = searchInput.value;
+  activeTag = null;
+  activeTopic = null;
+  updatePills();
+  renderTopicNav();
+  searchClear.classList.toggle('visible', currentQuery.length > 0);
+  renderAutocomplete(currentQuery);
+  filterPosts();
+});
+
+searchInput.addEventListener('keydown', (e) => {
+  const items = acList.querySelectorAll('.ac-item');
+  if (!items.length) return;
+  if (e.key === 'ArrowDown') { e.preventDefault(); acFocusIdx = Math.min(acFocusIdx+1, items.length-1); highlightAc(items); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); acFocusIdx = Math.max(acFocusIdx-1, -1); highlightAc(items); }
+  else if (e.key === 'Enter' && acFocusIdx >= 0) { e.preventDefault(); items[acFocusIdx].click(); }
+  else if (e.key === 'Escape') { closeAc(); }
+});
+
+searchInput.addEventListener('blur', () => setTimeout(closeAc, 150));
+searchInput.addEventListener('focus', () => {
+  openTagIndex();
+  if(currentQuery) renderAutocomplete(currentQuery);
+});
+searchInput.addEventListener('click', openTagIndex);
+
+document.addEventListener('click', (event) => {
+  if (searchZone && !searchZone.contains(event.target)) {
+    closeTagIndexIfIdle();
+  }
+});
+
+searchClear.addEventListener('click', () => {
+  setQuery('');
+  activeTag = null;
+  activeTopic = null;
+  updatePills();
+  renderTopicNav();
+  closeAc();
+  filterPosts();
+  openTagIndex();
+  searchInput.focus();
+});
+
+function highlightAc(items) {
+  items.forEach((it, i) => it.classList.toggle('focused', i === acFocusIdx));
+}
+
+function closeAc() {
+  acList.classList.remove('open');
+  acFocusIdx = -1;
+}
+
+function renderAutocomplete(q) {
+  if (!q || q.length < 1) { closeAc(); return; }
+  const ql = q.toLowerCase();
+
+  // match large reading themes
+  const matchedTopics = TOPICS.filter(topic => {
+    const haystack = [topic.vi, topic.en, topic.descVi, topic.descEn].join(' ').toLowerCase();
+    return haystack.includes(ql);
+  });
+  // match tags
+  const matchedTags = ALL_TAGS.filter(t => t.toLowerCase().includes(ql));
+  // match post titles
+  const matchedPosts = POSTS_DATA.filter(p => {
+    const title = currentLang === 'en' ? p.titleEn : p.titleVi;
+    const desc = currentLang === 'en' ? p.descEn : p.descVi;
+    return title.toLowerCase().includes(ql) || desc.toLowerCase().includes(ql) || p.tags.some(t => t.toLowerCase().includes(ql));
+  });
+
+  const suggestions = [];
+  const typeLabels = currentLang === 'en'
+    ? { theme: 'theme', topic: 'topic', post: 'article' }
+    : { theme: 'mạch đọc', topic: 'từ khóa', post: 'bài viết' };
+  matchedTopics.slice(0,3).forEach(topic => {
+    suggestions.push({
+      label: topicTitle(topic),
+      type: typeLabels.theme,
+      action: () => {
+        activeTopic = topic.id;
+        activeTag = null;
+        setQuery('');
+        updatePills();
+        renderTopicNav();
+        closeAc();
+        filterPosts();
+      }
+    });
+  });
+  matchedTags.slice(0,4).forEach(t => suggestions.push({
+    label: t,
+    type: typeLabels.topic,
+    action: () => {
+      activeTopic = null;
+      activeTag = t;
+      setQuery('');
+      updatePills();
+      renderTopicNav();
+      closeAc();
+      filterPosts();
+    }
+  }));
+  matchedPosts.slice(0,3).forEach(p => {
+    const title = currentLang === 'en' ? p.titleEn : p.titleVi;
+    suggestions.push({
+      label: title,
+      type: typeLabels.post,
+      action: () => {
+        activeTopic = null;
+        activeTag = null;
+        setQuery(title);
+        updatePills();
+        renderTopicNav();
+        closeAc();
+        filterPosts();
+      }
+    });
+  });
+
+  if (!suggestions.length) { closeAc(); return; }
+
+  acList.innerHTML = suggestions.map((s,i) => `
+    <div class="ac-item" role="option" data-idx="${i}">
+      <span class="ac-type">${s.type}</span>
+      <span>${escHtml(s.label)}</span>
+    </div>
+  `).join('');
+
+  acList.querySelectorAll('.ac-item').forEach((el, i) => {
+    el.addEventListener('mousedown', (e) => { e.preventDefault(); suggestions[i].action(); });
+  });
+
+  acFocusIdx = -1;
+  acList.classList.add('open');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function toggleHomeMenu(force) {
+  const isOpen = typeof force === 'boolean' ? force : !document.body.classList.contains('home-menu-open');
+  document.body.classList.toggle('home-menu-open', isOpen);
+  document.getElementById('menu-toggle')?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  const backdrop = document.getElementById('drawer-backdrop');
+  if (backdrop) backdrop.hidden = !isOpen;
+}
+
+function focusHomeSearch() {
+  const input = document.getElementById('search-input');
+  if (!input) return;
+  input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => input.focus(), 240);
+}
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') toggleHomeMenu(false);
+});
+
+document.querySelectorAll('.nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (!link.classList.contains('lang-btn')) toggleHomeMenu(false);
+  });
+});
+
+/* ── Filter posts ── */
+function filterPosts() {
+  const q = currentQuery.trim().toLowerCase();
+  let visibleCount = 0;
+
+  POSTS_DATA.forEach(p => {
+    const title = currentLang === 'en' ? p.titleEn : p.titleVi;
+    const desc = currentLang === 'en' ? p.descEn : p.descVi;
+    const tagMatch = !activeTag || p.tags.some(t => t === activeTag);
+    const topicMatch = !activeTopic || p.topic === activeTopic;
+    const queryMatch = !q || title.toLowerCase().includes(q) || desc.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q));
+    const visible = tagMatch && topicMatch && queryMatch;
+    p.el.dataset.hidden = visible ? 'false' : 'true';
+    if (visible) visibleCount++;
+  });
+
+  const isFiltered = Boolean(q || activeTag || activeTopic);
+  sortTopicSections(isFiltered);
+
+  document.querySelectorAll('.topic-section').forEach(section => {
+    const hasVisibleCards = Array.from(section.querySelectorAll('.card')).some(card => card.dataset.hidden !== 'true');
+    section.style.display = hasVisibleCards ? 'block' : 'none';
+    const topicGrid = section.querySelector('.topic-grid');
+    if (topicGrid) topicGrid.scrollLeft = 0;
+    updateTopicCount(section);
+    requestAnimationFrame(() => updateCarouselControls(section));
+  });
+
+  // show/hide no-results
+  const noResults = document.getElementById('no-results');
+  noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+
+  // result info
+  if (isFiltered) {
+    const label = activeTopic
+      ? `<em>${escHtml(topicTitle(getTopic(activeTopic)))}</em>`
+      : activeTag
+        ? `<em>${escHtml(activeTag)}</em>`
+        : `<em>"${escHtml(currentQuery)}"</em>`;
+    resultInfo.innerHTML = currentLang === 'en'
+      ? `${visibleCount} result${visibleCount === 1 ? '' : 's'} for ${label}`
+      : `${visibleCount} bài cho ${label}`;
+  } else {
+    resultInfo.textContent = '';
+  }
+
+  // update section label
+  const sectionLabel = document.getElementById('section-label');
+  if (activeTopic) {
+    sectionLabel.hidden = false;
+    sectionLabel.textContent = currentLang === 'en' ? 'Selected section' : 'Chuyên mục đang đọc';
+  } else if (isFiltered) {
+    sectionLabel.hidden = false;
+    sectionLabel.textContent = currentLang === 'en' ? 'Search results' : 'Kết quả tìm kiếm';
+  } else {
+    sectionLabel.textContent = '';
+    sectionLabel.hidden = true;
+  }
+}
+
+/* ── Language ── */
+const homeMeta = {
+  vi: { title: "Fieldnotes on Learning", description: 'Blog của Tg về giáo dục, AI, công nghệ, dữ liệu, đào tạo và những câu chuyện dài hơi dưới dạng scrollytelling.' },
+  en: { title: "Fieldnotes on Learning", description: "TG's blog about education, AI, technology, data, training, and long-form scrollytelling." }
+};
+
+function setHomeLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  try { localStorage.setItem('tellstoryLang', lang); } catch(e) {}
+  document.getElementById('home-vi')?.classList.toggle('active', lang === 'vi');
+  document.getElementById('home-en')?.classList.toggle('active', lang === 'en');
+
+  document.querySelectorAll('[data-vi]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (!val) return;
+    if (el.tagName === 'H1' || el.tagName === 'H2' || el.innerHTML.includes('<')) el.innerHTML = val;
+    else el.textContent = val;
+  });
+  document.querySelectorAll('[data-href-vi]').forEach(el => {
+    const href = el.getAttribute('data-href-' + lang);
+    if (href) el.setAttribute('href', href);
+  });
+
+  // sync card-date
+  document.querySelectorAll('.card-date[data-vi]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (val) el.textContent = val;
+  });
+
+  // sync footer copy
+  document.querySelectorAll('.footer-copy[data-vi]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (val) el.textContent = val;
+  });
+
+  // update search placeholder
+  searchInput.placeholder = lang === 'en'
+    ? 'Search by topic or keyword... (LMS, AI, data...)'
+    : 'Tìm theo chủ đề, từ khoá... (LMS, AI, data...)';
+  updateSortControl();
+
+  document.title = homeMeta[lang].title;
+  document.querySelector('meta[name="description"]')?.setAttribute('content', homeMeta[lang].description);
+  document.querySelector('meta[property="og:title"]')?.setAttribute('content', homeMeta[lang].title);
+  document.querySelector('meta[property="og:description"]')?.setAttribute('content', homeMeta[lang].description);
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', homeMeta[lang].title);
+  document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', homeMeta[lang].description);
+
+  renderTopicNav();
+  syncTopicSections();
+  updatePills();
+  filterPosts();
+}
+
+buildTopicSections();
+renderTopicNav();
+updateSortControl();
+setHomeLang((() => { try { return localStorage.getItem('tellstoryLang') || 'vi'; } catch(e) { return 'vi'; } })());
+
+function syncSakuraExpressionFrames() {
+  document.querySelectorAll('.sakura-expression-frame').forEach(frame => {
+    const send = () => {
+      if (!frame.contentWindow) return;
+      frame.contentWindow.postMessage({
+        type: 'sakura-state',
+        state: frame.dataset.state || 'idle',
+        streak: 6,
+        hearts: frame.dataset.state === 'wrong' ? 2 : 4,
+        mastery: frame.dataset.state === 'celebrate' ? 88 : 68
+      }, '*');
+    };
+    frame.addEventListener('load', () => {
+      send();
+      setTimeout(send, 260);
+    });
+    setTimeout(send, 600);
+  });
+}
+syncSakuraExpressionFrames();
+</script>
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Fieldnotes on Learning. Toàn bộ bài viết, hình ảnh, demo và cách trình bày trên website này thuộc tác giả, vui lòng không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý." data-en="© 2026 Bui Tong Giang · Fieldnotes on Learning. All articles, images, demos and presentation choices on this website belong to the author; please do not reproduce full texts or reuse source code without permission.">© 2026 Bui Tong Giang · Fieldnotes on Learning. Toàn bộ bài viết, hình ảnh, demo và cách trình bày trên website này thuộc tác giả, vui lòng không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý.</p>
+
+
+
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "\n\nNguồn: Fieldnotes on Learning · Bui Tong Giang\n" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

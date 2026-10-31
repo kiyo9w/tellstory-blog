@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Người giỏi nhất chính là tài liệu training tốt nhất · Tellstory</title>
+<meta name="description" content="Một góc nhìn về đào tạo tại Pizza 4P's, nơi kiến thức quý giá nhất nằm trong đầu những nhân viên giỏi nhất và cần được hệ thống hóa đúng cách.">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/pizza-4ps-training.html">
+<meta property="og:title" content="Người giỏi nhất chính là tài liệu training tốt nhất">
+<meta property="og:description" content="Một góc nhìn về bài toán đào tạo của Pizza 4P's: khi kiến thức quý giá nhất nằm trong đầu những nhân viên giỏi nhất, chứ không nằm trong slide orientation.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tellstory-blog.web.app/pizza-4ps-training.html">
+<meta property="og:site_name" content="Tellstory blog">
+<meta property="og:image" content="https://tellstory-blog.web.app/4p.webp">
+<meta property="og:image:alt" content="Pizza 4P's và câu chuyện đào tạo từ người giỏi nhất">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Người giỏi nhất chính là tài liệu training tốt nhất">
+<meta name="twitter:description" content="Một góc nhìn về đào tạo tại Pizza 4P's, nơi kiến thức quý giá nhất cần được hệ thống hóa đúng cách.">
+<meta name="twitter:image" content="https://tellstory-blog.web.app/4p.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comments.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;
+  --paper:#F6F1E8;--paper-2:#EDE8DC;--paper-3:#E2DBCB;
+  --rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;--gold-light:#C49A48;--canvas:#0E0C0A;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;overflow-x:hidden;}
+
+/* progress bar */
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--red);width:0%;z-index:1000;transition:width .1s linear;}
+
+/* dot nav */
+#dot-nav{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.55rem;z-index:100;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(26,23,20,.15);cursor:pointer;transition:all .3s ease;border:1px solid rgba(26,23,20,.2);}
+.dot.active{background:var(--red);transform:scale(1.7);border-color:var(--red);}
+@media(max-width:720px){#dot-nav{display:none;}}
+
+/* top nav */
+.blog-nav{position:fixed;top:1rem;left:1rem;z-index:1100;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.blog-nav a{display:inline-flex;align-items:center;padding:.55rem .85rem;color:rgba(26,23,20,.75);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);backdrop-filter:blur(10px);transition:background .2s,color .2s,border-color .2s;}
+.blog-nav a:hover{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+
+/* INTRO */
+#intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;border-bottom:1px solid var(--rule);background:var(--paper);}
+#intro::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink);}
+#intro::after{content:'知';position:absolute;right:4vw;bottom:-4vh;font-family:'Playfair Display',serif;font-size:clamp(160px,28vw,400px);color:rgba(26,23,20,.032);line-height:1;pointer-events:none;}
+.intro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:2rem;}
+.intro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.2rem,4.8vw,4.2rem);font-weight:700;line-height:1.07;max-width:800px;margin-bottom:1.6rem;color:var(--ink);}
+.intro-title em{color:var(--red);font-style:italic;}
+.intro-rule{width:48px;height:2px;background:var(--red);margin-bottom:1.6rem;}
+.intro-sub{font-size:1rem;color:var(--ink-2);max-width:540px;line-height:1.95;margin-bottom:3.5rem;font-weight:300;}
+.scroll-cue{display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-4);}
+.scroll-bar{width:44px;height:1px;background:var(--ink-3);transform-origin:left;animation:grow 2s ease-in-out infinite;}
+@keyframes grow{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+
+/* SCROLLY layout: left text + right sticky infographic */
+.scrolly{display:grid;grid-template-columns:1fr 1fr;position:relative;}
+.steps-col{position:relative;z-index:10;padding-bottom:28vh;}
+.sticky-col{position:sticky;top:0;height:100vh;background:var(--canvas);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+
+/* infographic panels */
+.infographic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:3rem 2.5rem;opacity:0;transition:opacity .5s ease;pointer-events:none;}
+.infographic.active{opacity:1;pointer-events:auto;}
+
+/* step cards */
+.step{max-width:480px;margin:0 5vw 68vh 7vw;padding:2.6rem 2.8rem;background:var(--paper);border-top:3px solid var(--ink);box-shadow:0 2px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.step:first-child{margin-top:12vh;}
+.step:last-child{margin-bottom:0;}
+.step.is-active{opacity:1;transform:translateY(0);}
+.step-act{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:.9rem;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.1rem,1.6vw,1.5rem);font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:1rem;}
+.step-body{font-size:.9rem;color:var(--ink-2);line-height:1.9;margin-bottom:.8rem;font-weight:300;}
+.step-body em{color:var(--red);font-style:italic;}
+.step-body strong{color:var(--ink);font-weight:500;}
+.step-pull{font-family:'Playfair Display',Georgia,serif;font-size:.92rem;font-style:italic;color:var(--ink-2);border-left:2px solid var(--red);padding:.6rem 1rem;margin:1rem 0;background:var(--paper-2);line-height:1.75;}
+.step-source{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--ink-4);margin-top:1rem;letter-spacing:.05em;border-top:1px solid var(--rule);padding-top:.7rem;}
+.step-source a{color:var(--gold);text-decoration:none;}
+.step-source a:hover{text-decoration:underline;}
+.stat-block{margin:1.2rem 0;padding:1.2rem 1.4rem;background:var(--ink);color:var(--paper);}
+.stat-num{font-family:'Playfair Display',Georgia,serif;font-size:2.8rem;font-weight:700;color:var(--paper);line-height:1;display:block;}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(246,241,232,.55);letter-spacing:.18em;margin-top:.3rem;display:block;}
+.case-block{margin:1.2rem 0;padding:1.1rem 1.3rem;border:1px solid var(--rule);background:var(--paper-2);position:relative;}
+.case-block::before{content:'CASE';position:absolute;top:-.55rem;left:1rem;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--ink-4);background:var(--paper-2);padding:0 .4rem;}
+.case-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--red);margin-bottom:.6rem;}
+.case-body{font-size:.82rem;color:var(--ink-2);line-height:1.75;}
+
+/* OUTRO */
+#outro{background:var(--ink);color:var(--paper);min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 10vw;position:relative;overflow:hidden;}
+#outro::before{content:'人';position:absolute;font-family:'Playfair Display',serif;font-size:clamp(200px,34vw,480px);color:rgba(246,241,232,.02);pointer-events:none;line-height:1;}
+.outro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:rgba(196,154,72,.7);text-transform:uppercase;margin-bottom:2rem;}
+.outro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.8rem,4vw,3.2rem);line-height:1.1;margin-bottom:1.8rem;max-width:720px;}
+.outro-title em{color:var(--gold-light);font-style:italic;}
+.outro-body{max-width:560px;color:rgba(246,241,232,.6);font-size:.95rem;font-weight:300;line-height:1.95;margin-bottom:3rem;}
+.outro-links{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.outro-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,232,.55);text-decoration:none;border:1px solid rgba(246,241,232,.15);padding:.7rem 1.1rem;transition:all .2s;}
+.outro-link:hover{color:var(--gold-light);border-color:rgba(196,154,72,.4);}
+.disclaimer{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(246,241,232,.25);letter-spacing:.08em;line-height:1.8;max-width:500px;margin-top:3rem;text-align:center;}
+
+@media(max-width:860px){
+  .scrolly{grid-template-columns:1fr;}
+  .sticky-col{display:none;}
+  .step{margin:0 5vw 52vh;max-width:96vw;padding:2rem 1.6rem;}
+  .step:first-child{margin-top:6vh;}
+  #intro{padding:0 6vw;}
+  .blog-nav{font-size:8px;gap:.3rem;}
+  .blog-nav a{padding:.45rem .55rem;}
+}
+
+/* ── SVG Infographic styles ── */
+.svg-wrap{width:100%;max-width:380px;}
+.svg-wrap svg{width:100%;height:auto;}
+.infographic-caption{position:absolute;bottom:2rem;left:0;right:0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.2em;color:rgba(246,241,232,.2);text-transform:uppercase;}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Người giỏi nhất chính là tài liệu training tốt nhất · Tellstory",
+  "description": "Một góc nhìn về đào tạo tại Pizza 4P's, nơi kiến thức quý giá nhất nằm trong đầu những nhân viên giỏi nhất và cần được hệ thống hóa đúng cách.",
+  "author": {
+    "@type": "Person",
+    "name": "Bui Tong Giang",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tellstory blog",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "datePublished": "2026-06-18",
+  "dateModified": "2026-06-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tellstory-blog.web.app/pizza-4ps-training.html"
+  },
+  "inLanguage": "vi",
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Bui Tong Giang"
+  },
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<nav class="blog-nav">
+  <a href="index.html">← Blog</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<nav id="dot-nav">
+  <div class="dot active" data-target="0" title="Bối cảnh"></div>
+  <div class="dot" data-target="1" title="Sai lầm phổ biến"></div>
+  <div class="dot" data-target="2" title="Kiến thức ngầm"></div>
+  <div class="dot" data-target="3" title="G2G"></div>
+  <div class="dot" data-target="4" title="Vai trò L&D"></div>
+  <div class="dot" data-target="5" title="Kết"></div>
+</nav>
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="intro-kicker">L&D · Đào tạo · Pizza 4P's</div>
+  <h1 class="intro-title">Người giỏi nhất chính là<br><em>tài liệu training tốt nhất.</em></h1>
+  <div class="intro-rule"></div>
+  <p class="intro-sub">Khi quy mô vượt qua khả năng truyền miệng của founder, kiến thức quý giá nhất không nằm trong slide orientation, mà nằm trong đầu những người đang làm tốt nhất ở mỗi cửa hàng.</p>
+  <div class="scroll-cue">
+    <div class="scroll-bar"></div>
+    <span>Cuộn để đọc</span>
+  </div>
+</section>
+
+<!-- SCROLLYTELLING -->
+<div class="scrolly">
+
+  <!-- LEFT: text steps -->
+  <div class="steps-col">
+
+    <!-- STEP 1: Bối cảnh scale -->
+    <article class="step" data-step="0">
+      <div class="step-act">Phần I · Bối cảnh</div>
+      <h2 class="step-title">Khi quy mô vượt qua khả năng "truyền miệng" của founder.</h2>
+      <p class="step-body">Pizza 4P's không chỉ bán pizza. Họ bán một trải nghiệm được xây dựng trên bốn giá trị cốt lõi: <em>Omotenashi</em> (hiếu khách chủ động), <em>Kaizen</em> (cải tiến liên tục), <em>Authenticity</em> (thành thật) và <em>Compassion</em> (đồng cảm).</p>
+      <p class="step-body">Trong những năm đầu, khi công ty chỉ có vài cửa hàng, founder có thể trực tiếp làm việc với từng nhân viên, và tinh thần này được lan tỏa một cách tự nhiên qua tương tác hàng ngày.</p>
+      <p class="step-body">Nhưng khi mở rộng lên hơn 40 cửa hàng tại Việt Nam, Campuchia, Nhật Bản, Ấn Độ và Indonesia, cách truyền tải kiểu truyền miệng từ founder không còn khả thi. Chính Masuko từng chia sẻ rằng thách thức lớn nhất khi scale <strong>không phải là vận hành hay tài chính, mà là giữ cho tinh thần omotenashi được sống thật ở mỗi nhân viên mới.</strong></p>
+      <div class="step-pull">"The most defining challenge has been embedding the spirit of omotenashi across the entire organisation as we scaled. Teaching technical skills is relatively straightforward; nurturing genuine care for guests is far more complex."<br><small style="font-family:'JetBrains Mono',monospace;font-size:.75em;color:var(--ink-4);">— Yosuke Masuko, Founder Pizza 4P's</small></div>
+      <div class="step-source">Nguồn: <a href="https://vir.com.vn/from-vietnam-to-the-world-pizza-4ps-global-journey-145300.html" target="_blank">Vietnam Investment Review, 2026</a></div>
+    </article>
+
+    <!-- STEP 2: Sai lầm phổ biến -->
+    <article class="step" data-step="1">
+      <div class="step-act">Phần II · Sai lầm phổ biến</div>
+      <h2 class="step-title">Tách "kỹ năng" và "tinh thần" thành hai mảng training riêng.</h2>
+      <p class="step-body">Một cách tiếp cận thường gặp khi tổ chức lớn lên là chia đào tạo thành hai nhóm: nhóm kỹ năng vận hành do chuyên gia kỹ thuật đảm nhiệm, và nhóm văn hóa giá trị do HR hoặc L&D đảm nhiệm qua các buổi orientation và slide giới thiệu.</p>
+      <p class="step-body">Vấn đề là: trong thực tế công việc, <em>hai mảng này không tách rời.</em> Một nhân viên bếp xử lý thế nào khi đơn hàng bị trễ giờ cao điểm, khi nguyên liệu gần hết mà khách vẫn đang gọi món, chính là omotenashi được thể hiện qua công việc cụ thể, không phải một khái niệm tách biệt cần học riêng.</p>
+      <p class="step-body">Kết quả thường thấy: nhân viên mới biết kỹ thuật làm bánh từ một bếp trưởng, và biết "giá trị công ty" từ một buổi orientation riêng, <strong>hai trải nghiệm này không kết nối với nhau trong đầu họ.</strong></p>
+      <div class="case-block">
+        <div class="case-title">Thực tế tại Pizza 4P's</div>
+        <p class="case-body">Sau khi nhiều manager giỏi bị đối thủ kéo đi, Pizza 4P's phải xây dựng lại hệ thống đào tạo từ đầu, nhận ra rằng cần một "cultural leader" để bảo tồn và lan tỏa văn hóa, song song với training kỹ năng vận hành.</p>
+      </div>
+      <div class="step-source">Nguồn: <a href="https://betterworks.asia/case-studies/pizza-4ps/" target="_blank">Betterworks Asia</a></div>
+    </article>
+
+    <!-- STEP 3: Tacit knowledge -->
+    <article class="step" data-step="2">
+      <div class="step-act">Phần III · Kiến thức ngầm</div>
+      <h2 class="step-title">Kiến thức quý giá nhất không nằm trong tài liệu nào cả.</h2>
+      <p class="step-body">Nhà lý thuyết tổ chức Ikujiro Nonaka phân biệt hai loại kiến thức: <strong>explicit knowledge</strong> là kiến thức có thể viết thành quy trình, sách vở, tài liệu; và <strong>tacit knowledge</strong> là kiến thức ngầm, tồn tại trong kinh nghiệm, trực giác, và thói quen của người làm trực tiếp.</p>
+      <p class="step-body">Mô hình SECI của Nonaka chỉ ra rằng cách chuyển hóa tacit knowledge hiệu quả nhất là qua <em>socialization</em>: người có kiến thức và người học cùng làm việc, quan sát, thực hành trong cùng một bối cảnh thật.</p>
+      <div class="step-pull">Một bếp trưởng senior biết chính xác chỗ nào nhân viên mới hay làm sai, hay bị bỏng, hay làm chậm dây chuyền trong giờ cao điểm. Đây là kiến thức không nằm trong bất kỳ feedback form nào.</div>
+      <p class="step-body">Nonaka từng dẫn ví dụ Matsushita: khi kỹ sư không tự thiết kế được cơ chế nhào bột cho máy làm bánh mì, một lập trình viên đã đi học việc trực tiếp với thợ làm bánh tại khách sạn Osaka, quan sát và thực hành, rồi mới chuyển hóa kiến thức đó thành thiết kế kỹ thuật.</p>
+      <div class="step-source">Nguồn: <a href="https://global.oup.com/academic/product/the-knowledge-creating-company-9780195092691" target="_blank">Nonaka & Takeuchi, The Knowledge-Creating Company (1995)</a></div>
+    </article>
+
+    <!-- STEP 4: G2G -->
+    <article class="step" data-step="3">
+      <div class="step-act">Phần IV · Học từ người giỏi nhất</div>
+      <h2 class="step-title">Google gọi đây là G2G. Pizza 4P's có thể gọi đây là gì?</h2>
+      <p class="step-body">Google có chương trình nội bộ tên G2G (Googler-to-Googler): nhân viên tự nguyện dạy lại đồng nghiệp những gì họ giỏi nhất. Kết quả: <strong>80% toàn bộ training tại Google được thực hiện qua mạng lưới peer-to-peer này</strong>, với hơn 7.000 tình nguyện viên tham gia.</p>
+      <p class="step-body">Lý do nó hoạt động không phải vì tiết kiệm chi phí, mà vì <em>không ai hiểu công việc thực tế hơn chính người đang làm công việc đó</em>, kể cả các chuyên gia training chuyên nghiệp từ bên ngoài.</p>
+      <div class="stat-block">
+        <span class="stat-num">80%</span>
+        <span class="stat-label">Training tại Google được thực hiện bởi chính nhân viên Google</span>
+      </div>
+      <p class="step-body">Áp dụng vào Pizza 4P's: một bếp trưởng 3 năm không chỉ dạy kỹ thuật, họ còn truyền được cả cách xử lý tình huống, cách cân bằng giữa quy trình và linh hoạt phục vụ khách, tức là <em>omotenashi trong hành động</em>, không phải omotenashi trên slide.</p>
+      <div class="step-source">Nguồn: <a href="https://rework.withgoogle.com/intl/en/guides/coaching-for-everyone-the-amplified-impact-of-peer-coaching" target="_blank">Google re:Work</a> · <a href="https://www.hci.org/blog/make-learning-part-culture" target="_blank">Human Capital Institute</a></div>
+    </article>
+
+    <!-- STEP 5: Vai trò L&D -->
+    <article class="step" data-step="4">
+      <div class="step-act">Phần V · Vai trò mới của L&D</div>
+      <h2 class="step-title">Từ người soạn nội dung sang người hệ thống hóa kiến thức.</h2>
+      <p class="step-body">Nếu đi theo hướng này, vai trò của L&D thay đổi hoàn toàn: không còn tự soạn nội dung training từ lý thuyết hay tài liệu có sẵn, mà là <strong>đi tìm và hệ thống hóa kiến thức từ chính những nhân viên giỏi nhất</strong>, sau đó biến nó thành quy trình có thể nhân rộng.</p>
+      <p class="step-body">Điều này có thể bắt đầu rất đơn giản: phỏng vấn 2-3 nhân viên có hiệu suất tốt nhất ở các cửa hàng có rating cao, với một câu hỏi duy nhất:</p>
+      <div class="step-pull">"Khi có người mới vào, điều gì bạn luôn phải nhắc đi nhắc lại?"</div>
+      <p class="step-body">Câu trả lời của họ, nếu được ghi lại và tổng hợp, chính là nội dung training thật và hiệu quả, vì nó xuất phát từ những lỗi lặp lại trong thực tế, không phải từ những gì L&D nghĩ nhân viên mới cần biết.</p>
+      <p class="step-body">Bước tiếp theo là thiết kế để những nhân viên giỏi này trực tiếp tham gia training người mới, không phải với vai trò "giảng viên" đứng lớp, mà như một <em>buddy hoặc mentor</em> trong những ca làm việc đầu tiên.</p>
+    </article>
+
+    <!-- STEP 6: Kết -->
+    <article class="step" data-step="5">
+      <div class="step-act">Kết · Cây cầu kiến thức</div>
+      <h2 class="step-title">Kiến thức đang nằm sẵn ở đó. Chỉ chưa được khai thác có chủ đích.</h2>
+      <p class="step-body">Bài toán đào tạo của Pizza 4P's khi mở rộng quy mô không nằm ở việc thiếu nội dung hay thiếu công cụ, mà nằm ở việc <strong>tìm đúng nguồn để lấy nội dung.</strong></p>
+      <p class="step-body">Kiến thức quý giá nhất, cả về kỹ năng vận hành và về cách tinh thần omotenashi được sống trong công việc hàng ngày, đang nằm sẵn trong đầu những nhân viên giỏi nhất ở các cửa hàng, chỉ chưa được khai thác và hệ thống hóa một cách có chủ đích.</p>
+      <p class="step-body">Vai trò của L&D, khi đó, không phải là tạo ra một lớp nội dung mới chồng lên thực tế, mà là <em>xây dựng cây cầu</em> để kiến thức từ những người làm tốt nhất có thể đến được với người mới, một cách nhất quán, có thể nhân rộng, và không phụ thuộc vào việc có bao nhiêu founder có thể đến từng cửa hàng.</p>
+    </article>
+
+  </div><!-- end steps-col -->
+
+  <!-- RIGHT: sticky infographics -->
+  <div class="sticky-col">
+
+    <!-- Panel 0: 4P's scale map -->
+    <div class="infographic active" data-panel="0">
+      <div class="svg-wrap">
+        <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono',monospace">
+          <text x="180" y="32" text-anchor="middle" font-size="10" fill="rgba(246,241,232,.35)" letter-spacing="3">PIZZA 4P'S · QUY MÔ</text>
+          <!-- center logo area -->
+          <circle cx="180" cy="180" r="52" fill="none" stroke="rgba(139,42,26,.5)" stroke-width="1.5"/>
+          <circle cx="180" cy="180" r="38" fill="rgba(139,42,26,.08)" stroke="rgba(139,42,26,.3)" stroke-width="1"/>
+          <text x="180" y="175" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.9)" font-weight="700" letter-spacing="1">Pizza</text>
+          <text x="180" y="191" text-anchor="middle" font-size="11" fill="rgba(139,42,26,.9)" font-weight="700" letter-spacing="1">4P's</text>
+          <!-- 2011 founded -->
+          <text x="180" y="207" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.35)" letter-spacing="2">EST. 2011</text>
+
+          <!-- orbit nodes: countries -->
+          <!-- VN -->
+          <line x1="180" y1="128" x2="180" y2="100" stroke="rgba(246,241,232,.12)" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="180" cy="90" r="22" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.2)" stroke-width="1"/>
+          <text x="180" y="87" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.85)" letter-spacing="1">VN</text>
+          <text x="180" y="99" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.8)">35+</text>
+
+          <!-- Cambodia -->
+          <line x1="233" y1="147" x2="252" y2="126" stroke="rgba(246,241,232,.12)" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="268" cy="112" r="20" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.2)" stroke-width="1"/>
+          <text x="268" y="109" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.85)" letter-spacing="1">KH</text>
+          <text x="268" y="121" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.8)">2+</text>
+
+          <!-- Japan -->
+          <line x1="238" y1="205" x2="272" y2="205" stroke="rgba(246,241,232,.12)" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="294" cy="205" r="20" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.2)" stroke-width="1"/>
+          <text x="294" y="202" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.85)" letter-spacing="1">JP</text>
+          <text x="294" y="214" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.8)">1+</text>
+
+          <!-- India -->
+          <line x1="220" y1="228" x2="240" y2="258" stroke="rgba(246,241,232,.12)" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="252" cy="274" r="20" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.2)" stroke-width="1"/>
+          <text x="252" y="271" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.85)" letter-spacing="1">IN</text>
+          <text x="252" y="283" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.8)">1+</text>
+
+          <!-- Indonesia -->
+          <line x1="141" y1="228" x2="121" y2="258" stroke="rgba(246,241,232,.12)" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="108" cy="274" r="20" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.2)" stroke-width="1"/>
+          <text x="108" y="271" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.85)" letter-spacing="1">ID</text>
+          <text x="108" y="283" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.8)">1+</text>
+
+          <!-- Laos? / dummy -->
+          <line x1="127" y1="147" x2="108" y2="126" stroke="rgba(246,241,232,.12)" stroke-width="1" stroke-dasharray="3,3"/>
+          <circle cx="92" cy="112" r="20" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.2)" stroke-width="1"/>
+          <text x="92" y="109" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.85)" letter-spacing="1">LA</text>
+          <text x="92" y="121" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.8)">1+</text>
+
+          <!-- total label -->
+          <text x="180" y="350" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.4)" letter-spacing="2">40+ CỬA HÀNG TOÀN CẦU</text>
+          <line x1="80" y1="358" x2="280" y2="358" stroke="rgba(246,241,232,.1)" stroke-width="1"/>
+          <text x="180" y="372" text-anchor="middle" font-size="8" fill="rgba(139,42,26,.6)" letter-spacing="1.5">THÁCH THỨC: GIỮ TINH THẦN OMOTENASHI</text>
+          <text x="180" y="386" text-anchor="middle" font-size="8" fill="rgba(139,42,26,.6)" letter-spacing="1.5">KHI KHÔNG CÒN "TRUYỀN MIỆNG" TỪ FOUNDER</text>
+        </svg>
+      </div>
+      <div class="infographic-caption">Pizza 4P's · Mở rộng toàn cầu</div>
+    </div>
+
+    <!-- Panel 1: Two silos problem -->
+    <div class="infographic" data-panel="1">
+      <div class="svg-wrap">
+        <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono',monospace">
+          <text x="180" y="32" text-anchor="middle" font-size="10" fill="rgba(246,241,232,.35)" letter-spacing="3">VẤN ĐỀ · HAI VÒNG TÁCH BIỆT</text>
+
+          <!-- Left silo: Skills -->
+          <rect x="30" y="60" width="130" height="220" rx="2" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.18)" stroke-width="1.5"/>
+          <text x="95" y="90" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.7)" letter-spacing="2">KỸ NĂNG</text>
+          <text x="95" y="103" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.7)" letter-spacing="2">VẬN HÀNH</text>
+          <line x1="55" y1="112" x2="135" y2="112" stroke="rgba(246,241,232,.1)" stroke-width="1"/>
+          <text x="95" y="135" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Làm bánh</text>
+          <text x="95" y="155" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Pha sốt</text>
+          <text x="95" y="175" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Quy trình bếp</text>
+          <text x="95" y="195" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Vận hành lò</text>
+          <text x="95" y="215" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Phục vụ bàn</text>
+          <rect x="50" y="248" width="90" height="20" rx="1" fill="rgba(246,241,232,.07)"/>
+          <text x="95" y="262" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.4)" letter-spacing="1">Chuyên gia kỹ thuật</text>
+
+          <!-- Right silo: Culture -->
+          <rect x="200" y="60" width="130" height="220" rx="2" fill="rgba(139,42,26,.06)" stroke="rgba(139,42,26,.25)" stroke-width="1.5"/>
+          <text x="265" y="90" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.7)" letter-spacing="2">VĂN HÓA</text>
+          <text x="265" y="103" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.7)" letter-spacing="2">GIÁ TRỊ</text>
+          <line x1="220" y1="112" x2="300" y2="112" stroke="rgba(139,42,26,.2)" stroke-width="1"/>
+          <text x="265" y="135" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Omotenashi</text>
+          <text x="265" y="155" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Kaizen</text>
+          <text x="265" y="175" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Authenticity</text>
+          <text x="265" y="195" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Compassion</text>
+          <text x="265" y="215" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.5)">Slide orientation</text>
+          <rect x="220" y="248" width="90" height="20" rx="1" fill="rgba(139,42,26,.1)"/>
+          <text x="265" y="262" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.4)" letter-spacing="1">HR / L&D</text>
+
+          <!-- Gap in the middle -->
+          <text x="180" y="165" text-anchor="middle" font-size="20" fill="rgba(246,241,232,.08)">✕</text>
+          <text x="180" y="190" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.25)" letter-spacing="1">KHÔNG</text>
+          <text x="180" y="204" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.25)" letter-spacing="1">KẾT NỐI</text>
+
+          <!-- Result arrow down -->
+          <line x1="180" y1="308" x2="180" y2="340" stroke="rgba(139,42,26,.5)" stroke-width="1.5" marker-end="url(#arr)"/>
+          <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="rgba(139,42,26,.5)"/></marker></defs>
+          <text x="180" y="358" text-anchor="middle" font-size="8" fill="rgba(139,42,26,.7)" letter-spacing="1.5">NHÂN VIÊN MỚI KHÔNG THẤY SỰ KẾT NỐI</text>
+          <text x="180" y="372" text-anchor="middle" font-size="8" fill="rgba(139,42,26,.7)" letter-spacing="1.5">GIỮA KỸ NĂNG VÀ GIÁ TRỊ</text>
+        </svg>
+      </div>
+      <div class="infographic-caption">Vấn đề · Hai vòng tách biệt</div>
+    </div>
+
+    <!-- Panel 2: SECI model -->
+    <div class="infographic" data-panel="2">
+      <div class="svg-wrap">
+        <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono',monospace">
+          <text x="180" y="32" text-anchor="middle" font-size="10" fill="rgba(246,241,232,.35)" letter-spacing="3">NONAKA · MÔ HÌNH SECI</text>
+
+          <!-- 2x2 grid -->
+          <!-- Q1: Socialization (tacit→tacit) -->
+          <rect x="40" y="55" width="130" height="140" fill="rgba(139,42,26,.12)" stroke="rgba(139,42,26,.3)" stroke-width="1.5"/>
+          <text x="105" y="82" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.85)" font-weight="700">S</text>
+          <text x="105" y="97" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.7)" letter-spacing="1">Socialization</text>
+          <text x="105" y="118" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.45)">Tacit → Tacit</text>
+          <line x1="60" y1="128" x2="150" y2="128" stroke="rgba(246,241,232,.1)" stroke-width="1"/>
+          <text x="105" y="145" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.55)">Quan sát</text>
+          <text x="105" y="160" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.55)">Thực hành cùng</text>
+          <text x="105" y="175" text-anchor="middle" font-size="7.5" fill="rgba(139,42,26,.9)" font-weight="700">← Đây là chìa khóa</text>
+
+          <!-- Q2: Externalization (tacit→explicit) -->
+          <rect x="190" y="55" width="130" height="140" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.15)" stroke-width="1.5"/>
+          <text x="255" y="82" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.85)" font-weight="700">E</text>
+          <text x="255" y="97" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.7)" letter-spacing="1">Externalization</text>
+          <text x="255" y="118" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.45)">Tacit → Explicit</text>
+          <line x1="210" y1="128" x2="300" y2="128" stroke="rgba(246,241,232,.1)" stroke-width="1"/>
+          <text x="255" y="145" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.55)">Viết thành quy trình</text>
+          <text x="255" y="160" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.55)">Tài liệu hóa</text>
+
+          <!-- Q3: Internalization (explicit→tacit) -->
+          <rect x="40" y="215" width="130" height="130" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.15)" stroke-width="1.5"/>
+          <text x="105" y="240" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.85)" font-weight="700">I</text>
+          <text x="105" y="255" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.7)" letter-spacing="1">Internalization</text>
+          <text x="105" y="273" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.45)">Explicit → Tacit</text>
+          <line x1="60" y1="280" x2="150" y2="280" stroke="rgba(246,241,232,.1)" stroke-width="1"/>
+          <text x="105" y="296" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.55)">Trở thành phản xạ</text>
+          <text x="105" y="311" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.55)">Tự nhiên</text>
+
+          <!-- Q4: Combination (explicit→explicit) -->
+          <rect x="190" y="215" width="130" height="130" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.15)" stroke-width="1.5"/>
+          <text x="255" y="240" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.85)" font-weight="700">C</text>
+          <text x="255" y="255" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.7)" letter-spacing="1">Combination</text>
+          <text x="255" y="273" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.45)">Explicit → Explicit</text>
+          <line x1="210" y1="280" x2="300" y2="280" stroke="rgba(246,241,232,.1)" stroke-width="1"/>
+          <text x="255" y="296" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.55)">Tổng hợp tài liệu</text>
+          <text x="255" y="311" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.55)">Hệ thống hóa</text>
+
+          <!-- axis labels -->
+          <text x="180" y="50" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.3)" letter-spacing="2">KIẾN THỨC NGẦM (TACIT)</text>
+          <text x="20" y="185" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.3)" letter-spacing="1" transform="rotate(-90,20,185)">NGUỒN</text>
+
+          <text x="180" y="370" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.3)" letter-spacing="1.5">Ikujiro Nonaka · The Knowledge-Creating Company · 1995</text>
+        </svg>
+      </div>
+      <div class="infographic-caption">Nonaka · SECI Model</div>
+    </div>
+
+    <!-- Panel 3: G2G -->
+    <div class="infographic" data-panel="3">
+      <div class="svg-wrap">
+        <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono',monospace">
+          <text x="180" y="32" text-anchor="middle" font-size="10" fill="rgba(246,241,232,.35)" letter-spacing="3">GOOGLE · G2G PROGRAM</text>
+
+          <!-- Big stat -->
+          <text x="180" y="105" text-anchor="middle" font-size="72" fill="rgba(139,42,26,.85)" font-weight="700" font-family="'Playfair Display',Georgia,serif">80%</text>
+          <text x="180" y="125" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.5)" letter-spacing="2">TRAINING ĐƯỢC THỰC HIỆN BỞI</text>
+          <text x="180" y="140" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.5)" letter-spacing="2">CHÍNH NHÂN VIÊN GOOGLE</text>
+
+          <line x1="60" y1="158" x2="300" y2="158" stroke="rgba(246,241,232,.08)" stroke-width="1"/>
+
+          <!-- 3 pillars -->
+          <rect x="30" y="172" width="88" height="100" rx="1" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.12)" stroke-width="1"/>
+          <text x="74" y="200" text-anchor="middle" font-size="22" fill="rgba(246,241,232,.2)">7K+</text>
+          <text x="74" y="220" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.5)">Tình nguyện</text>
+          <text x="74" y="233" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.5)">viên</text>
+          <text x="74" y="254" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.7)">g2g'ers</text>
+
+          <rect x="136" y="172" width="88" height="100" rx="1" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.12)" stroke-width="1"/>
+          <text x="180" y="200" text-anchor="middle" font-size="22" fill="rgba(246,241,232,.2)">2007</text>
+          <text x="180" y="220" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.5)">Bắt đầu tại</text>
+          <text x="180" y="233" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.5)">Dublin</text>
+          <text x="180" y="254" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.7)">từ 0 → toàn cầu</text>
+
+          <rect x="242" y="172" width="88" height="100" rx="1" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.12)" stroke-width="1"/>
+          <text x="286" y="200" text-anchor="middle" font-size="22" fill="rgba(246,241,232,.2)">99%</text>
+          <text x="286" y="220" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.5)">người được</text>
+          <text x="286" y="233" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.5)">coaching tự tin hơn</text>
+          <text x="286" y="254" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.7)">sau 1 session</text>
+
+          <line x1="60" y1="290" x2="300" y2="290" stroke="rgba(246,241,232,.08)" stroke-width="1"/>
+
+          <!-- Analogy -->
+          <text x="180" y="315" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.4)" letter-spacing="1.5">ÁP DỤNG VÀO PIZZA 4P'S</text>
+          <rect x="40" y="326" width="280" height="56" rx="1" fill="rgba(139,42,26,.08)" stroke="rgba(139,42,26,.2)" stroke-width="1"/>
+          <text x="180" y="346" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.65)">Bếp trưởng 3 năm = g2g'er</text>
+          <text x="180" y="362" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.65)">Dạy kỹ thuật + truyền omotenashi</text>
+          <text x="180" y="375" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.65)">trong cùng một ca làm việc</text>
+        </svg>
+      </div>
+      <div class="infographic-caption">Google G2G · Peer-to-Peer Learning</div>
+    </div>
+
+    <!-- Panel 4: L&D new role -->
+    <div class="infographic" data-panel="4">
+      <div class="svg-wrap">
+        <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono',monospace">
+          <text x="180" y="32" text-anchor="middle" font-size="10" fill="rgba(246,241,232,.35)" letter-spacing="3">VAI TRÒ MỚI · L&amp;D</text>
+
+          <!-- OLD role -->
+          <rect x="30" y="50" width="140" height="130" rx="2" fill="rgba(246,241,232,.03)" stroke="rgba(246,241,232,.12)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="100" y="76" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.35)" letter-spacing="2">TRƯỚC</text>
+          <text x="100" y="100" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.5)">Tự soạn nội dung</text>
+          <text x="100" y="118" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.5)">từ lý thuyết</text>
+          <text x="100" y="140" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.5)">→ slide</text>
+          <text x="100" y="158" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.5)">→ orientation</text>
+
+          <!-- arrow -->
+          <path d="M178,114 L182,114 L182,106 L196,120 L182,134 L182,126 L178,126 Z" fill="rgba(139,42,26,.4)"/>
+
+          <!-- NEW role -->
+          <rect x="200" y="50" width="140" height="130" rx="2" fill="rgba(139,42,26,.1)" stroke="rgba(139,42,26,.35)" stroke-width="1.5"/>
+          <text x="270" y="76" text-anchor="middle" font-size="8.5" fill="rgba(139,42,26,.8)" letter-spacing="2">SAU</text>
+          <text x="270" y="100" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.7)">Đi tìm kiến thức</text>
+          <text x="270" y="118" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.7)">từ người giỏi nhất</text>
+          <text x="270" y="140" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.7)">→ hệ thống hóa</text>
+          <text x="270" y="158" text-anchor="middle" font-size="9" fill="rgba(246,241,232,.7)">→ nhân rộng</text>
+
+          <!-- Process steps -->
+          <line x1="60" y1="200" x2="300" y2="200" stroke="rgba(246,241,232,.08)" stroke-width="1"/>
+          <text x="180" y="220" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.4)" letter-spacing="2">QUY TRÌNH ĐỀ XUẤT</text>
+
+          <!-- Step 1 -->
+          <circle cx="70" cy="260" r="16" fill="rgba(139,42,26,.15)" stroke="rgba(139,42,26,.4)" stroke-width="1.5"/>
+          <text x="70" y="265" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.7)" font-weight="700">1</text>
+          <text x="70" y="288" text-anchor="middle" font-size="7" fill="rgba(246,241,232,.5)">Phỏng vấn</text>
+          <text x="70" y="300" text-anchor="middle" font-size="7" fill="rgba(246,241,232,.5)">top performers</text>
+
+          <line x1="88" y1="260" x2="122" y2="260" stroke="rgba(139,42,26,.3)" stroke-width="1" stroke-dasharray="2,2"/>
+
+          <!-- Step 2 -->
+          <circle cx="140" cy="260" r="16" fill="rgba(139,42,26,.15)" stroke="rgba(139,42,26,.4)" stroke-width="1.5"/>
+          <text x="140" y="265" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.7)" font-weight="700">2</text>
+          <text x="140" y="288" text-anchor="middle" font-size="7" fill="rgba(246,241,232,.5)">Tổng hợp</text>
+          <text x="140" y="300" text-anchor="middle" font-size="7" fill="rgba(246,241,232,.5)">pain points</text>
+
+          <line x1="158" y1="260" x2="202" y2="260" stroke="rgba(139,42,26,.3)" stroke-width="1" stroke-dasharray="2,2"/>
+
+          <!-- Step 3 -->
+          <circle cx="220" cy="260" r="16" fill="rgba(139,42,26,.15)" stroke="rgba(139,42,26,.4)" stroke-width="1.5"/>
+          <text x="220" y="265" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.7)" font-weight="700">3</text>
+          <text x="220" y="288" text-anchor="middle" font-size="7" fill="rgba(246,241,232,.5)">Buddy /</text>
+          <text x="220" y="300" text-anchor="middle" font-size="7" fill="rgba(246,241,232,.5)">mentor system</text>
+
+          <line x1="238" y1="260" x2="272" y2="260" stroke="rgba(139,42,26,.3)" stroke-width="1" stroke-dasharray="2,2"/>
+
+          <!-- Step 4 -->
+          <circle cx="290" cy="260" r="16" fill="rgba(139,42,26,.3)" stroke="rgba(139,42,26,.6)" stroke-width="1.5"/>
+          <text x="290" y="265" text-anchor="middle" font-size="11" fill="rgba(246,241,232,.85)" font-weight="700">4</text>
+          <text x="290" y="288" text-anchor="middle" font-size="7" fill="rgba(246,241,232,.5)">Thu thập &amp;</text>
+          <text x="290" y="300" text-anchor="middle" font-size="7" fill="rgba(246,241,232,.5)">cập nhật</text>
+
+          <!-- key question -->
+          <rect x="40" y="322" width="280" height="60" rx="1" fill="rgba(246,241,232,.04)" stroke="rgba(246,241,232,.1)" stroke-width="1"/>
+          <text x="180" y="342" text-anchor="middle" font-size="8" fill="rgba(160,120,48,.7)" letter-spacing="1">CÂU HỎI KHỞI ĐẦU</text>
+          <text x="180" y="360" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.65)">"Khi có người mới vào,</text>
+          <text x="180" y="374" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.65)">điều gì bạn luôn phải nhắc đi nhắc lại?"</text>
+        </svg>
+      </div>
+      <div class="infographic-caption">L&D · Vai trò mới</div>
+    </div>
+
+    <!-- Panel 5: Bridge metaphor -->
+    <div class="infographic" data-panel="5">
+      <div class="svg-wrap">
+        <svg viewBox="0 0 360 420" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono',monospace">
+          <text x="180" y="32" text-anchor="middle" font-size="10" fill="rgba(246,241,232,.35)" letter-spacing="3">CÂY CẦU KIẾN THỨC</text>
+
+          <!-- Left: Expert -->
+          <circle cx="75" cy="160" r="40" fill="rgba(139,42,26,.12)" stroke="rgba(139,42,26,.4)" stroke-width="1.5"/>
+          <text x="75" y="150" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.7)">Bếp trưởng</text>
+          <text x="75" y="165" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.7)">Senior</text>
+          <text x="75" y="180" text-anchor="middle" font-size="7.5" fill="rgba(160,120,48,.7)">3+ năm</text>
+          <!-- knowledge dots around -->
+          <circle cx="38" cy="130" r="5" fill="rgba(139,42,26,.5)"/>
+          <circle cx="30" cy="155" r="4" fill="rgba(139,42,26,.4)"/>
+          <circle cx="42" cy="178" r="6" fill="rgba(139,42,26,.6)"/>
+          <circle cx="112" cy="128" r="4" fill="rgba(139,42,26,.4)"/>
+          <circle cx="118" cy="155" r="5" fill="rgba(139,42,26,.5)"/>
+          <circle cx="108" cy="180" r="4" fill="rgba(139,42,26,.35)"/>
+          <text x="75" y="218" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.35)" letter-spacing="1">Kiến thức ngầm</text>
+
+          <!-- Bridge -->
+          <line x1="115" y1="155" x2="245" y2="155" stroke="rgba(160,120,48,.5)" stroke-width="2.5"/>
+          <line x1="115" y1="168" x2="245" y2="168" stroke="rgba(160,120,48,.5)" stroke-width="2.5"/>
+          <!-- bridge pillars -->
+          <line x1="145" y1="155" x2="145" y2="200" stroke="rgba(160,120,48,.3)" stroke-width="1"/>
+          <line x1="180" y1="155" x2="180" y2="200" stroke="rgba(160,120,48,.3)" stroke-width="1"/>
+          <line x1="215" y1="155" x2="215" y2="200" stroke="rgba(160,120,48,.3)" stroke-width="1"/>
+          <text x="180" y="130" text-anchor="middle" font-size="7.5" fill="rgba(160,120,48,.6)" letter-spacing="2">L&amp;D</text>
+          <text x="180" y="143" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.5)">Buddy system · Mentor</text>
+
+          <!-- Right: New staff -->
+          <circle cx="285" cy="160" r="40" fill="rgba(246,241,232,.05)" stroke="rgba(246,241,232,.2)" stroke-width="1.5"/>
+          <text x="285" y="150" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.6)">Nhân viên</text>
+          <text x="285" y="165" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.6)">mới</text>
+          <text x="285" y="180" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.35)">Ca đầu tiên</text>
+          <text x="285" y="218" text-anchor="middle" font-size="7.5" fill="rgba(246,241,232,.35)" letter-spacing="1">Tiếp nhận</text>
+
+          <!-- Divider -->
+          <line x1="40" y1="252" x2="320" y2="252" stroke="rgba(246,241,232,.07)" stroke-width="1"/>
+
+          <!-- 3 outcomes -->
+          <text x="180" y="274" text-anchor="middle" font-size="8.5" fill="rgba(246,241,232,.35)" letter-spacing="2">KẾT QUẢ</text>
+
+          <rect x="30" y="286" width="88" height="68" rx="1" fill="rgba(139,42,26,.08)" stroke="rgba(139,42,26,.2)" stroke-width="1"/>
+          <text x="74" y="310" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.6)">Kỹ năng +</text>
+          <text x="74" y="324" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.6)">Tinh thần</text>
+          <text x="74" y="342" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.6)">Cùng lúc</text>
+
+          <rect x="136" y="286" width="88" height="68" rx="1" fill="rgba(139,42,26,.08)" stroke="rgba(139,42,26,.2)" stroke-width="1"/>
+          <text x="180" y="310" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.6)">Nhất quán</text>
+          <text x="180" y="324" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.6)">mọi cửa hàng</text>
+          <text x="180" y="342" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.6)">Có thể scale</text>
+
+          <rect x="242" y="286" width="88" height="68" rx="1" fill="rgba(139,42,26,.08)" stroke="rgba(139,42,26,.2)" stroke-width="1"/>
+          <text x="286" y="310" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.6)">Không phụ</text>
+          <text x="286" y="324" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.6)">thuộc founder</text>
+          <text x="286" y="342" text-anchor="middle" font-size="7" fill="rgba(160,120,48,.6)">Độc lập</text>
+
+          <text x="180" y="395" text-anchor="middle" font-size="8" fill="rgba(246,241,232,.2)" letter-spacing="1.5">OMOTENASHI · ĐƯỢC NHÂN RỘNG</text>
+        </svg>
+      </div>
+      <div class="infographic-caption">Cây cầu kiến thức · L&D mới</div>
+    </div>
+
+  </div><!-- end sticky-col -->
+</div><!-- end scrolly -->
+
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: &lt;a href=&quot;https://tellstory-blog.web.app/pizza-4ps-training.html&quot;&gt;Tellstory blog&lt;/a&gt;." data-en="© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analytical structure and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse source code without permission. When quoting a short excerpt, please credit: &lt;a href=&quot;https://tellstory-blog.web.app/pizza-4ps-training.html&quot;&gt;Tellstory blog&lt;/a&gt;.">© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: <a href="https://tellstory-blog.web.app/pizza-4ps-training.html">Tellstory blog</a>.</p>
+
+<section class="comments-section" data-comments data-post-slug="pizza-4ps-training" data-post-title="Người giỏi nhất chính là tài liệu training tốt nhất" data-comment-lang="vi"></section>
+
+<!-- OUTRO -->
+<section id="outro">
+  <div class="outro-kicker">Kết · Learning Experience Design</div>
+  <h2 class="outro-title">Kiến thức đang nằm sẵn ở đó.<br><em>Chỉ chưa được khai thác có chủ đích.</em></h2>
+  <p class="outro-body">Vai trò của L&D không phải là tạo ra một lớp nội dung mới chồng lên thực tế, mà là xây dựng cây cầu để kiến thức từ những người làm tốt nhất có thể đến được với người mới, một cách nhất quán, có thể nhân rộng, và không phụ thuộc vào việc có bao nhiêu founder có thể đến từng cửa hàng.</p>
+  <div class="outro-links">
+    <a href="attention-is-the-new-classroom.html" class="outro-link">Bài tiếp theo →</a>
+    <a href="contact.html#anonymous-mailbox" class="outro-link">Gửi phản hồi</a>
+    <a href="index.html" class="outro-link">← Về trang blog</a>
+  </div>
+  <p class="disclaimer">Bài viết này được viết dựa trên thông tin công khai về Pizza 4P's và góc nhìn cá nhân, không phản ánh thông tin nội bộ hay chiến lược thực tế của công ty. Góc nhìn của một Learning Experience Designer.</p>
+</section>
+
+<script>
+/* progress bar */
+const progressEl = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const s = document.documentElement.scrollTop;
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progressEl.style.width = (s / h * 100) + '%';
+});
+
+/* steps intersection observer */
+const steps = document.querySelectorAll('.step');
+const panels = document.querySelectorAll('.infographic');
+const dots = document.querySelectorAll('.dot');
+
+function activatePanel(idx) {
+  panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const step = entry.target;
+      step.classList.add('is-active');
+      const idx = parseInt(step.dataset.step);
+      activatePanel(idx);
+    }
+  });
+}, { threshold: 0.45, rootMargin: '-10% 0px -10% 0px' });
+
+steps.forEach(s => io.observe(s));
+
+/* dot nav click */
+dots.forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    steps[i]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+});
+</script>
+<script type="module" src="comments.js"></script>
+
+
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "
+
+Nguồn: Tellstory blog · Bui Tong Giang
+" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

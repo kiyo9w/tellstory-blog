@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sự tập trung của bộ não và bức tranh đào tạo</title>
+<meta name="description" content="Vì sao nhân viên quên phần lớn nội dung đào tạo, và cách microlearning cùng AI có thể biến học tập thành luyện tập đúng lúc.">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/attention-is-the-new-classroom.html">
+<meta property="og:title" content="Sự tập trung của bộ não và bức tranh đào tạo">
+<meta property="og:description" content="Công ty bạn đã chi ra một số tiền lớn cho việc đào tạo. Nhân viên của bạn quên phần lớn những gì họ đã học vào sáng mai.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tellstory-blog.web.app/attention-is-the-new-classroom.html">
+<meta property="og:site_name" content="Tellstory blog">
+<meta property="og:image" content="https://tellstory-blog.web.app/LophocAI.jpg">
+<meta property="og:image:alt" content="AI, sự tập trung và thiết kế đào tạo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sự tập trung của bộ não và bức tranh đào tạo">
+<meta name="twitter:description" content="Một bài viết về trí nhớ, sự tập trung, microlearning và AI trong đào tạo.">
+<meta name="twitter:image" content="https://tellstory-blog.web.app/LophocAI.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comments.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;
+  --paper:#F6F1E8;--paper-2:#EDE8DC;--paper-3:#E2DBCB;
+  --rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;--gold-light:#C49A48;--canvas:#0E0C0A;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;overflow-x:hidden;}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--red);width:0%;z-index:1000;transition:width .1s linear;}
+#dot-nav{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.55rem;z-index:100;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(26,23,20,.15);cursor:pointer;transition:all .3s ease;border:1px solid rgba(26,23,20,.2);}
+.dot.active{background:var(--red);transform:scale(1.7);border-color:var(--red);}
+@media(max-width:720px){#dot-nav{display:none;}}
+#intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;border-bottom:1px solid var(--rule);background:var(--paper);}
+#intro::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink);}
+.intro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:2rem;}
+.intro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.4rem,5.5vw,4.6rem);font-weight:700;line-height:1.05;max-width:840px;margin-bottom:1.6rem;color:var(--ink);}
+.intro-title em{color:var(--red);font-style:italic;}
+.intro-rule{width:48px;height:2px;background:var(--red);margin-bottom:1.6rem;}
+.intro-sub{font-size:1rem;color:var(--ink-2);max-width:560px;line-height:1.95;margin-bottom:3.5rem;font-weight:300;}
+.scroll-cue{display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-4);}
+.scroll-bar{width:44px;height:1px;background:var(--ink-3);transform-origin:left;animation:grow 2s ease-in-out infinite;}
+@keyframes grow{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+.scrolly{position:relative;}
+.sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:var(--canvas);}
+canvas#scene{position:absolute;inset:0;width:100%;height:100%;}
+.graphic-caption{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(246,241,232,.2);position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);white-space:nowrap;text-transform:uppercase;}
+.steps{position:relative;z-index:10;padding-bottom:28vh;}
+.step{max-width:500px;margin:0 6vw 68vh;padding:2.6rem 2.8rem;background:var(--paper);border-top:3px solid var(--ink);box-shadow:0 2px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
+.step:last-child{margin-bottom:0;}
+.step.is-active{opacity:1;transform:translateY(0);}
+.step-act{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:.9rem;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.1rem,1.8vw,1.5rem);font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:1rem;}
+.step-body{font-size:.9rem;color:var(--ink-2);line-height:1.9;margin-bottom:.8rem;font-weight:300;}
+.step-body em{color:var(--red);font-style:italic;}
+.step-body strong{color:var(--ink);font-weight:500;}
+.step-pull{font-family:'Playfair Display',Georgia,serif;font-size:.92rem;font-style:italic;color:var(--ink-2);border-left:2px solid var(--red);padding:.6rem 1rem;margin:1rem 0;background:var(--paper-2);line-height:1.75;}
+.step-source{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--ink-4);margin-top:1rem;letter-spacing:.05em;border-top:1px solid var(--rule);padding-top:.7rem;}
+.step-source a{color:var(--gold);text-decoration:none;}
+.step-source a:hover{text-decoration:underline;}
+.mini-timeline{margin:1.2rem 0;border-left:2px solid var(--rule);padding-left:1.3rem;display:flex;flex-direction:column;gap:.85rem;}
+.mini-event{position:relative;}
+.mini-event::before{content:'';position:absolute;left:-1.58rem;top:.38rem;width:8px;height:8px;border-radius:50%;background:var(--paper);border:2px solid var(--ink-3);}
+.mini-year{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.18em;}
+.mini-desc{font-size:.82rem;color:var(--ink-2);line-height:1.6;margin-top:.1rem;}
+.stat-block{margin:1.2rem 0;padding:1.2rem 1.4rem;background:var(--ink);color:var(--paper);}
+.stat-num{font-family:'Playfair Display',Georgia,serif;font-size:3rem;font-weight:700;color:var(--paper);line-height:1;display:block;}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(246,241,232,.55);letter-spacing:.18em;margin-top:.3rem;display:block;}
+.stat-source{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(246,241,232,.3);margin-top:.5rem;display:block;}
+.fact-row{display:flex;gap:1rem;margin:1.1rem 0;}
+.fact-box{flex:1;padding:.9rem 1rem;border:1px solid var(--rule);background:var(--paper-2);}
+.fact-box .num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--red);line-height:1;display:block;}
+.fact-box .lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-4);letter-spacing:.15em;margin-top:.25rem;display:block;}
+.img-slot{
+  width:100%;
+  aspect-ratio:4/3;
+  margin:1.3rem 0 0;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--rule);
+  background:var(--paper-2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.img-slot img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  filter:grayscale(8%) contrast(1.02);
+}.case-block{margin:1.2rem 0;padding:1.1rem 1.3rem;border:1px solid var(--rule);background:var(--paper-2);position:relative;}
+.case-block::before{content:'CASE';position:absolute;top:-.55rem;left:1rem;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--ink-4);background:var(--paper-2);padding:0 .4rem;}
+.case-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--red);margin-bottom:.6rem;}
+.case-body{font-size:.82rem;color:var(--ink-2);line-height:1.75;}
+.case-stat{display:flex;gap:.8rem;margin-top:.8rem;flex-wrap:wrap;}
+.case-stat-item{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-3);background:var(--paper);padding:.3rem .6rem;border:1px solid var(--rule);}
+.case-stat-item strong{color:var(--ink);font-weight:500;}
+.limit-list{margin:1rem 0;display:flex;flex-direction:column;gap:.6rem;}
+.limit-item{display:grid;grid-template-columns:1.4rem 1fr;gap:.5rem;align-items:start;}
+.limit-marker{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--red);margin-top:.05rem;}
+.limit-text{font-size:.82rem;color:var(--ink-2);line-height:1.65;}
+#outro{background:var(--ink);color:var(--paper);min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 10vw;position:relative;overflow:hidden;}
+#outro::before{content:'注';position:absolute;font-family:'Playfair Display',serif;font-size:clamp(200px,34vw,480px);color:rgba(246,241,232,.02);pointer-events:none;line-height:1;}
+.outro-kicker{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:rgba(246,241,232,.3);text-transform:uppercase;margin-bottom:1.5rem;position:relative;}
+.outro-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:700;line-height:1.2;margin-bottom:1.8rem;color:var(--paper);position:relative;}
+.outro-title em{color:var(--gold-light);font-style:italic;}
+.outro-rule{width:40px;height:2px;background:var(--red);margin:0 auto 1.8rem;position:relative;}
+.outro-body{font-size:.95rem;color:rgba(246,241,232,.65);max-width:560px;line-height:2.1;position:relative;font-weight:300;}
+.outro-question{font-family:'Playfair Display',serif;font-size:1.05rem;color:rgba(246,241,232,.75);max-width:500px;margin:2.5rem auto 0;line-height:1.85;font-style:italic;position:relative;border-top:1px solid rgba(246,241,232,.1);padding-top:2rem;}
+.outro-sources{margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(246,241,232,.08);max-width:580px;position:relative;text-align:left;width:100%;}
+.outro-sources h3{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.28em;color:rgba(246,241,232,.25);text-transform:uppercase;margin-bottom:.9rem;}
+.outro-sources li{font-size:.78rem;color:rgba(246,241,232,.25);line-height:1.7;list-style:none;margin-bottom:.35rem;}
+.outro-sources a{color:rgba(192,154,72,.5);text-decoration:none;}
+.outro-sources a:hover{color:var(--gold-light);}
+.history-timeline{position:fixed;right:clamp(4.2rem,7vw,8.5rem);top:50%;transform:translateY(-50%);z-index:90;width:190px;font-family:'JetBrains Mono',monospace;color:rgba(246,241,232,.68);pointer-events:auto;user-select:none;}
+.history-timeline-head{font-size:8px;letter-spacing:.28em;color:rgba(246,241,232,.24);text-transform:uppercase;margin-bottom:.85rem;}
+.history-time-list{display:flex;flex-direction:column;align-items:flex-start;}
+.history-time-row{position:relative;display:grid;grid-template-columns:1.25rem auto;align-items:center;gap:.55rem;width:100%;min-height:1.35rem;padding:.08rem 0;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:color .28s ease,opacity .28s ease,transform .28s ease;}
+.history-time-row:not(:last-child){margin-bottom:.28rem;}
+.history-time-row:not(:last-child)::after{content:'│';position:absolute;left:.2rem;top:1.05rem;height:1.05rem;color:rgba(246,241,232,.24);font-size:13px;line-height:1;}
+.history-time-marker{display:inline-block;width:1rem;font-size:13px;line-height:1;color:currentColor;text-align:center;}
+.history-time-year{font-size:11px;letter-spacing:.18em;line-height:1;}
+.history-time-row.is-past{color:rgba(246,241,232,.46);}
+.history-time-row.is-current{color:var(--gold-light);transform:translateX(-2px);}
+.history-time-row.is-future{color:rgba(246,241,232,.22);}
+.history-time-row:hover{color:var(--gold-light);}
+.history-note{margin-top:1.15rem;padding-top:1rem;border-top:1px solid rgba(246,241,232,.12);max-width:180px;}
+.history-note-eyebrow{font-size:8px;letter-spacing:.26em;color:rgba(246,241,232,.26);text-transform:uppercase;margin-bottom:.55rem;}
+.history-note-title{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;line-height:1.2;color:rgba(246,241,232,.78);margin-bottom:.55rem;}
+.history-note-detail{font-size:9px;line-height:1.7;letter-spacing:.08em;color:rgba(246,241,232,.36);text-transform:uppercase;}
+@media(min-width:1050px){.step{margin-left:clamp(7.5vw,12vw,190px);}}
+@media(max-width:900px){
+  .history-timeline{right:.55rem;width:64px;padding:.45rem .35rem;background:rgba(14,12,10,.42);border:1px solid rgba(246,241,232,.08);backdrop-filter:blur(10px);border-radius:999px;opacity:.75;}
+  .history-timeline-head,.history-note{display:none;}
+  .history-time-row{grid-template-columns:.9rem auto;gap:.22rem;min-height:1.05rem;padding:0;}
+  .history-time-row:not(:last-child){margin-bottom:.12rem;}
+  .history-time-row:not(:last-child)::after{left:.17rem;top:.82rem;height:.72rem;font-size:10px;color:rgba(246,241,232,.2);}
+  .history-time-marker{font-size:10px;width:.8rem;}
+  .history-time-year{font-size:8px;letter-spacing:.06em;}
+}
+@media(max-width:480px){.history-timeline{display:none;}}
+@media(max-width:680px){.step{margin:0 4vw 52vh;max-width:96vw;padding:2rem 1.6rem;}.fact-row{flex-direction:column;}.case-stat{flex-direction:column;}}
+.blog-nav{position:fixed;top:1rem;left:1rem;z-index:1100;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.blog-nav a,.lang-btn{display:inline-flex;align-items:center;justify-content:center;padding:.55rem .85rem;color:rgba(246,241,232,.82);text-decoration:none;background:rgba(14,12,10,.52);border:1px solid rgba(246,241,232,.15);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .25s ease,color .25s ease,border-color .25s ease;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;}
+.blog-nav a:hover,.lang-btn:hover{color:var(--gold-light);border-color:rgba(196,154,72,.5);background:rgba(14,12,10,.82);}
+.lang-btn.active{color:var(--gold-light);border-color:rgba(196,154,72,.4);}
+@media(max-width:680px){.blog-nav{top:.65rem;left:.65rem;font-size:8px;gap:.3rem;}.blog-nav a,.lang-btn{padding:.45rem .55rem;}}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Sự tập trung của bộ não và bức tranh đào tạo",
+  "description": "Vì sao nhân viên quên phần lớn nội dung đào tạo, và cách microlearning cùng AI có thể biến học tập thành luyện tập đúng lúc.",
+  "author": {
+    "@type": "Person",
+    "name": "Bui Tong Giang",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tellstory blog",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "datePublished": "2026-06-18",
+  "dateModified": "2026-06-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tellstory-blog.web.app/attention-is-the-new-classroom.html"
+  },
+  "inLanguage": "vi",
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Bui Tong Giang"
+  },
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="blog-nav" aria-label="Navigation">
+  <a href="index.html">Blog</a>
+  <a href="about.html">About</a>
+  <a href="contact.html" data-vi="Contact" data-en="Contact">Contact</a>
+  <button class="lang-btn active" id="btn-vi" onclick="setLang('vi')">VI</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</nav>
+
+<nav id="dot-nav">
+  <div class="dot active" data-i="0"></div>
+  <div class="dot" data-i="1"></div>
+  <div class="dot" data-i="2"></div>
+  <div class="dot" data-i="3"></div>
+  <div class="dot" data-i="4"></div>
+  <div class="dot" data-i="5"></div>
+  <div class="dot" data-i="6"></div>
+</nav>
+
+<aside id="history-timeline" class="history-timeline">
+  <div class="history-timeline-head" data-vi="Thanh thời gian" data-en="Timeline">Thanh thời gian</div>
+  <div class="history-time-list">
+    <button class="history-time-row" type="button" data-timeline-index="0" data-step-target="0"><span class="history-time-marker">○</span><span class="history-time-year">1885</span></button>
+    <button class="history-time-row" type="button" data-timeline-index="1" data-step-target="1"><span class="history-time-marker">○</span><span class="history-time-year">1956</span></button>
+    <button class="history-time-row" type="button" data-timeline-index="2" data-step-target="2"><span class="history-time-marker">○</span><span class="history-time-year">1992</span></button>
+    <button class="history-time-row" type="button" data-timeline-index="3" data-step-target="3"><span class="history-time-marker">○</span><span class="history-time-year">2010</span></button>
+    <button class="history-time-row" type="button" data-timeline-index="4" data-step-target="4"><span class="history-time-marker">○</span><span class="history-time-year">2020</span></button>
+    <button class="history-time-row" type="button" data-timeline-index="5" data-step-target="5"><span class="history-time-marker">○</span><span class="history-time-year">2023</span></button>
+    <button class="history-time-row" type="button" data-timeline-index="6" data-step-target="6"><span class="history-time-marker">○</span><span class="history-time-year">Now</span></button>
+  </div>
+  <div class="history-note">
+    <div class="history-note-eyebrow" id="history-note-eyebrow">ACT I</div>
+    <div class="history-note-title" id="history-note-title">The forgetting curve</div>
+    <div class="history-note-detail" id="history-note-detail">Hermann ebbinghaus, 1885</div>
+  </div>
+</aside>
+
+<section id="intro">
+  <div class="intro-kicker" data-vi="L&D · Học tập tại nơi làm việc · Khoa học nhận thức" data-en="L&D · Workplace learning · Cognitive science">L&D · Học tập tại nơi làm việc · Khoa học nhận thức</div>
+  <h1 class="intro-title" data-vi="Nhân viên của bạn<br>không <em>tập trung.</em>" data-en="Your employees<br>are not <em>paying attention.</em>">Nhân viên của bạn<br>không <em>tập trung.</em></h1>
+  <div class="intro-rule"></div>
+  <p class="intro-sub" data-vi="Sự thật là đôi khi đó không phải lỗi của họ, công ty bạn chi hàng trăm triệu đồng mỗi năm cho các chương trình đào tạo, nhân viên ngồi học đủ buổi, vượt qua bài kiểm tra, nhận chứng chỉ, rồi sáng hôm sau, phần lớn nội dung đã biến mất?" data-en="and it is not their fault, your company spends a fortune every year on training programs, employees attend every session, pass the assessments, collect their certificates, then the next morning, most of the content is already gone.">Đôi khi đó không phải lỗi của họ, công ty bạn chi hàng trăm triệu đồng mỗi năm cho các chương trình đào tạo, nhân viên ngồi học đủ buổi, vượt qua bài kiểm tra, nhận chứng chỉ, rồi sáng hôm sau, phần lớn nội dung đã biến mất, rốt cuộc vấn đề cốt lõi của việc này được nhìn nhận như thế nào?</p>
+  <div class="scroll-cue"><div class="scroll-bar"></div><span data-vi="cuộn xuống" data-en="scroll down">cuộn xuống</span></div>
+</section>
+
+<section class="scrolly">
+  <div class="sticky">
+    <canvas id="scene"></canvas>
+    <div class="graphic-caption" id="graphic-caption">act i, the forgetting curve · ebbinghaus 1885</div>
+  </div>
+  <div class="steps">
+
+    <div class="step is-active" data-step="0">
+      <div class="step-act" data-vi="Act I · 1885" data-en="Act I · 1885">Act I · 1885</div>
+      <h2 class="step-title" data-vi="Đường cong quên lãng" data-en="The Forgetting Curve">Đường cong quên lãng</h2>
+      <p class="step-body" data-vi="Năm 1885, nhà tâm lý học người Đức <strong>Hermann Ebbinghaus</strong> công bố nghiên cứu đầu tiên có hệ thống về bộ nhớ con người. Ông phát hiện rằng não người mất đi thông tin mới theo <em>một tốc độ có thể dự đoán được,</em> trừ khi được củng cố chủ động." data-en="In 1885, German psychologist <strong>Hermann Ebbinghaus</strong> published the first systematic study of human memory. He found that the brain loses new information at <em>a predictable rate,</em> unless actively reinforced.">Năm 1885, nhà tâm lý học người Đức <strong>Hermann Ebbinghaus</strong> công bố nghiên cứu đầu tiên có hệ thống về bộ nhớ con người. Ông phát hiện rằng não người mất đi thông tin mới theo <em>một tốc độ có thể dự đoán được,</em> trừ khi được củng cố chủ động.</p>
+      <p class="step-body" data-vi="Nhiều diễn giải hiện đại của nghiên cứu này cho rằng người học có thể quên <em>phần lớn thông tin mới chỉ trong vài giờ đầu</em> nếu không có sự ôn tập. Các con số cụ thể thay đổi tùy loại nội dung, độ khó và người học, nhưng <strong>xu hướng chung được nhiều nghiên cứu sau này xác nhận.</strong>" data-en="Many modern interpretations suggest learners may forget <em>a large portion of new information within the first few hours</em> without reinforcement. The exact numbers vary by content type, difficulty, and learner, but <strong>the general pattern has been confirmed by subsequent research.</strong>">Nhiều diễn giải hiện đại của nghiên cứu này cho rằng người học có thể quên <em>phần lớn thông tin mới chỉ trong vài giờ đầu</em> nếu không có sự ôn tập. Các con số cụ thể thay đổi tùy loại nội dung, độ khó và người học, nhưng <strong>xu hướng chung được nhiều nghiên cứu sau này xác nhận.</strong></p>
+      <div class="img-slot" id="slot-0"><img id="img-0" src="duongcong.jpg" alt="Đường cong quên lãng"></div>
+      <div class="step-source">Ebbinghaus, H. (1885). <em>Über das Gedächtnis.</em> Duncker &amp; Humblot. · Learning Guild, Brain Science and the Forgetting Curve (2025)</div>
+    </div>
+
+    <div class="step" data-step="1">
+      <div class="step-act" data-vi="Act II · Thị trường toàn cầu" data-en="Act II · The Global Market">Act II · Thị trường toàn cầu</div>
+      <h2 class="step-title" data-vi="Bí mật của ngành đào tạo" data-en="The dirty secret of corporate training">Bí mật bẩn thỉu của ngành đào tạo</h2>
+      <div class="stat-block">
+        <span class="stat-num">$400B</span>
+        <span class="stat-label" data-vi="Chi phí đào tạo doanh nghiệp toàn cầu năm 2024" data-en="Global corporate training spending in 2024">Chi phí đào tạo doanh nghiệp toàn cầu năm 2024</span>
+        <span class="stat-source">Research and markets, corporate training global market report, 2024</span>
+      </div>
+      <p class="step-body" data-vi="Con số này tăng đều mỗi năm, nhưng câu hỏi đáng lo ngại hơn là: bao nhiêu trong số đó thực sự tạo ra kết quả lâu dài?" data-en="This number grows every year, but the more troubling question is: how much of it actually produces lasting results?">Con số này tăng đều mỗi năm, nhưng câu hỏi đáng lo ngại hơn là: bao nhiêu trong số đó thực sự tạo ra kết quả lâu dài?</p>
+      <p class="step-body" data-vi="Nhiều nghiên cứu về chuyển hóa đào tạo (training transfer) cho thấy chỉ khoảng 10 đến 15% những gì học trong các chương trình đào tạo chính thức thực sự được áp dụng vào công việc. Wexley và Latham (2002) ghi nhận nhân viên transfer khoảng 40% ngay sau đào tạo, nhưng con số này giảm xuống 25% sau 6 tháng và chỉ còn 15% sau 1 năm." data-en="Research on training transfer consistently finds that only around 10 to 15% of what is learned in formal training programs is actually applied on the job. Wexley and Latham (2002) found that employees transfer roughly 40% immediately after training, falling to 25% after six months and just 15% after one year.">Nhiều nghiên cứu về chuyển hóa đào tạo (training transfer) cho thấy chỉ khoảng 10 đến 15% những gì học trong các chương trình đào tạo chính thức thực sự được áp dụng vào công việc. Wexley và Latham (2002) ghi nhận nhân viên transfer khoảng 40% ngay sau đào tạo, nhưng con số này giảm xuống 25% sau 6 tháng và chỉ còn 15% sau 1 năm.</p>
+      <div class="step-pull" data-vi='"Bất kể bạn đầu tư bao nhiêu vào đào tạo, gần như mọi thứ bạn dạy nhân viên đều sẽ bị lãng quên.", Learning Guild, trích dẫn từ nghiên cứu về forgetting curve trong doanh nghiệp' data-en='"No matter how much you invest in training, nearly everything you teach employees will be forgotten.", Learning Guild, citing corporate forgetting curve research'>"Bất kể bạn đầu tư bao nhiêu vào đào tạo, gần như mọi thứ bạn dạy nhân viên đều sẽ bị lãng quên.", Learning guild</div>
+      <div class="step-source">Research and markets (2024), Corporate Training Global Market Report · Wexley, K.N. &amp; Latham, G.P. (2002). <em>Developing and Training Human Resources in Organizations.</em> Prentice Hall. · European Journal of Work and Organizational Psychology (2025), Learning and transfer in organisations</div>
+    </div>
+
+    <div class="step" data-step="2">
+      <div class="step-act" data-vi="Act III · Khoa học nhận thức" data-en="Act III · Cognitive Science">Act III · Khoa học nhận thức</div>
+      <h2 class="step-title" data-vi="Không phải nhân viên lười, não họ đang hoạt động đúng cách." data-en="Not laziness, the brain is working exactly as designed.">Không phải nhân viên lười, não họ đang hoạt động đúng cách.</h2>
+      <p class="step-body" data-vi="Não người không được thiết kế để ghi nhớ thông tin tiếp nhận thụ động, nó ghi nhớ những gì liên quan, được lặp lại và được kết nối với kinh nghiệm thực tế, nên một buổi hội thảo 8 tiếng nhồi nhét thông tin một chiều đi ngược lại hoàn toàn với cách bộ nhớ dài hạn thực sự được hình thành." data-en="The human brain is not designed to retain passively received information, it remembers what is relevant, repeated and connected to real experience, so an eight hour one way information dump workshop directly contradicts how long term memory is actually formed.">Não người không được thiết kế để ghi nhớ thông tin tiếp nhận thụ động, nó ghi nhớ những gì liên quan, được lặp lại và được kết nối với kinh nghiệm thực tế, nên một buổi hội thảo 8 tiếng nhồi nhét thông tin một chiều đi ngược lại hoàn toàn với cách bộ nhớ dài hạn thực sự được hình thành.</p>
+      <div class="mini-timeline">
+        <div class="mini-event">
+          <div class="mini-year">Bộ nhớ làm việc (Miller, 1956)</div>
+          <div class="mini-desc" data-vi="Não chỉ xử lý được khoảng 7 đơn vị thông tin cùng lúc, vượt quá giới hạn này, thông tin mới bị đẩy ra ngoài trước khi kịp chuyển sang bộ nhớ dài hạn." data-en="The brain can hold roughly 7 units of information simultaneously, beyond this limit, new information is displaced before it can transfer to long term memory.">Não chỉ xử lý được khoảng 7 đơn vị thông tin cùng lúc, vượt quá giới hạn này, thông tin mới bị đẩy ra ngoài trước khi kịp chuyển sang bộ nhớ dài hạn.</div>
+        </div>
+        <div class="mini-event">
+          <div class="mini-year" data-vi="Thực hành truy xuất (Roediger &amp; Karpicke, 2006)" data-en="Retrieval practice (Roediger &amp; Karpicke, 2006)">Thực hành truy xuất (Roediger &amp; Karpicke, 2006)</div>
+          <div class="mini-desc" data-vi="Chủ động nhớ lại thông tin củng cố bộ nhớ mạnh hơn nhiều so với đọc lại hay nghe lại thụ động, một bài kiểm tra ngắn sau buổi học hiệu quả hơn một buổi ôn tập toàn bộ nội dung." data-en="Actively retrieving information strengthens memory far more than passive rereading or listening again, a short test after a session outperforms a full content review.">Chủ động nhớ lại thông tin củng cố bộ nhớ mạnh hơn nhiều so với đọc lại hay nghe lại thụ động, một bài kiểm tra ngắn sau buổi học hiệu quả hơn một buổi ôn tập toàn bộ nội dung.</div>
+        </div>
+        <div class="mini-event">
+          <div class="mini-year" data-vi="Ôn tập giãn cách (Cepeda et al., 2006)" data-en="Spaced repetition (Cepeda et al., 2006)">Ôn tập giãn cách (Cepeda et al., 2006)</div>
+          <div class="mini-desc" data-vi="Ôn tập theo khoảng thời gian giãn dần cải thiện khả năng ghi nhớ dài hạn đáng kể so với học dồn một lần, đây là nền tảng khoa học của nhiều ứng dụng học ngôn ngữ hiện đại." data-en="Reviewing content at gradually spaced intervals significantly improves long term retention versus massed practice, this is the scientific foundation behind modern language learning applications.">Ôn tập theo khoảng thời gian giãn dần cải thiện khả năng ghi nhớ dài hạn đáng kể so với học dồn một lần, đây là nền tảng khoa học của nhiều ứng dụng học ngôn ngữ hiện đại.</div>
+        </div>
+      </div>
+      <div class="step-source">Miller, G.A. (1956). The magical number seven. <em>Psychological Review, 63</em>(2), 81 to 97. · Roediger, H.L. &amp; Karpicke, J.D. (2006). Test enhanced learning. <em>Psychological Science, 17</em>(3), 249 to 255. · Cepeda, N.J. et al. (2006). Distributed practice in verbal recall tasks. <em>Psychological Bulletin, 132</em>(3), 354 to 380.</div>
+    </div>
+
+    <div class="step" data-step="3">
+      <div class="step-act" data-vi="Act IV · Một ví dụ thực tế" data-en="Act IV · A Real Case">Act IV · Một ví dụ thực tế</div>
+      <h2 class="step-title" data-vi="Tuần đầu onboarding của một nhân viên sales" data-en="A sales rep's first week of onboarding">Tuần đầu onboarding của một nhân viên sales</h2>
+      <p class="step-body" data-vi="Thứ hai, Ana bắt đầu ngày làm việc đầu tiên tại một công ty SaaS, cô được đưa vào một chuỗi workshop 3 ngày gồm tính năng sản phẩm, quy trình bán hàng, chính sách công ty và kỹ năng xử lý phản đối, hơn 200 trang tài liệu, bài kiểm tra cuối khóa đạt 87%." data-en="On Monday, Ana starts her first day at a SaaS company, she is put through a three day workshop series covering product features, sales process, company policy and objection handling, over 200 pages of material, final assessment score: 87%.">Thứ hai, Ana bắt đầu ngày làm việc đầu tiên tại một công ty SaaS, cô được đưa vào một chuỗi workshop 3 ngày gồm tính năng sản phẩm, quy trình bán hàng, chính sách công ty và kỹ năng xử lý phản đối, hơn 200 trang tài liệu, bài kiểm tra cuối khóa đạt 87%.</p>
+      <p class="step-body" data-vi="Thứ sáu tuần sau, Ana gặp khách hàng đầu tiên, khi bị hỏi về một tính năng cụ thể, cô không còn nhớ chính xác, khi khách đẩy giá, cô không áp dụng được kỹ thuật xử lý đã học, không phải vì cô không cố, mà vì không có gì trong những ngày đào tạo đó luyện cho não cô thực sự truy xuất thông tin dưới áp lực." data-en="The following Friday, Ana meets her first client, when asked about a specific feature, she cannot recall it accurately, when the client pushes on price, she cannot apply the objection handling technique from training, not because she did not try, but because nothing in those training days rehearsed her brain to actually retrieve information under pressure.">Thứ sáu tuần sau, Ana gặp khách hàng đầu tiên, khi bị hỏi về một tính năng cụ thể, cô không còn nhớ chính xác, khi khách đẩy giá, cô không áp dụng được kỹ thuật xử lý đã học, không phải vì cô không cố, mà vì không có gì trong những ngày đào tạo đó luyện cho não cô thực sự truy xuất thông tin dưới áp lực.</p>
+      <div class="step-pull" data-vi="Vấn đề không phải Ana, vấn đề là một chương trình đào tạo được thiết kế để truyền thông tin, không phải để tạo ra khả năng thực hành." data-en="The problem is not Ana, the problem is a training program designed to deliver information, not to build performance.">Vấn đề không phải Ana, vấn đề là một chương trình đào tạo được thiết kế để truyền thông tin, không phải để tạo ra khả năng thực hành.</div>
+      <div class="img-slot" id="slot-3"><img id="img-3" src="learningdes.jpg" alt="Thiết kế học tập"></div>
+    </div>
+
+    <div class="step" data-step="4">
+      <div class="step-act" data-vi="Act V · Microlearning" data-en="Act V · Microlearning">Act V · Microlearning</div>
+      <h2 class="step-title" data-vi="Câu trả lời không phải đào tạo ít hơn, mà là thiết kế đúng hơn." data-en="The answer is not less training, it is designing for the brain.">Câu trả lời không phải đào tạo ít hơn, mà là thiết kế đúng hơn.</h2>
+      <p class="step-body" data-vi="Microlearning cung cấp nội dung trong các module ngắn 3 đến 10 phút, mỗi module tập trung vào một kỹ năng hoặc khái niệm duy nhất, đây không phải xu hướng mới, mà là ứng dụng trực tiếp của cognitive load theory vào thiết kế đào tạo: khi não không bị quá tải, thông tin mới có khả năng chuyển sang bộ nhớ dài hạn cao hơn." data-en="Microlearning delivers content in short 3 to 10 minute modules, each focused on a single skill or concept, this is not a new trend but a direct application of cognitive load theory to training design: when the brain is not overloaded, new information has a higher chance of transferring to long term memory.">Microlearning cung cấp nội dung trong các module ngắn 3 đến 10 phút, mỗi module tập trung vào một kỹ năng hoặc khái niệm duy nhất, đây không phải xu hướng mới, mà là ứng dụng trực tiếp của cognitive load theory vào thiết kế đào tạo: khi não không bị quá tải, thông tin mới có khả năng chuyển sang bộ nhớ dài hạn cao hơn.</p>
+      <div class="fact-row">
+        <div class="fact-box">
+          <span class="num">+17%</span>
+          <span class="lbl" data-vi="Hiệu quả chuyển hóa học tập so với format truyền thống (Journal of Applied Psychology, 2017)" data-en="More efficient learning transfer compared with the traditional format (journal of applied psychology, 2017)">Hiệu quả chuyển hóa so với format truyền thống (journal of applied psychology, 2017)</span>
+        </div>
+        <div class="fact-box">
+          <span class="num">+20%</span>
+          <span class="lbl" data-vi="Ghi nhớ sau 6 tháng khi học qua microlearning nhiều tuần so với học dồn một lần (Journal of Applied Psychology)" data-en="Retention after 6 months when learning via microlearning over weeks compared with a single session (Journal of Applied Psychology)">Ghi nhớ sau 6 tháng khi trải thông tin ra nhiều tuần thay vì học dồn (Journal of applied psychology)</span>
+        </div>
+      </div>
+      <p class="step-body" data-vi="Tuy nhiên microlearning có giới hạn rõ ràng. Nghiên cứu từ eighth mile consulting và DDI global leadership forecast chỉ ra rằng microlearning hoạt động tốt với kiến thức thực tế, quy trình, tuân thủ nội quy và kỹ năng có thể chia nhỏ rõ ràng, nhưng không thể thay thế được các chương trình học chiều sâu cho năng lực phức tạp như lãnh đạo, tư duy phân tích hay xử lý tình huống không rõ ràng. Dùng microlearning để phát triển năng lực lãnh đạo mà không có thực hành, phản chiếu và mentoring là tạo ra ảo giác năng lực." data-en="However, microlearning has clear limits. Research from Eighth Mile Consulting and DDI's Global Leadership Forecast shows that microlearning works well for factual knowledge, processes, and compliance, but cannot replace deeper programs for complex competencies like leadership, analytical thinking, or navigating ambiguity. Using microlearning to develop leadership capability without practice, reflection, and mentoring creates an illusion of competency, not actual competency.">Tuy nhiên microlearning có giới hạn rõ ràng. Nghiên cứu từ Eighth Mile Consulting và DDI Global Leadership Forecast chỉ ra rằng microlearning hoạt động tốt với kiến thức thực tế, quy trình, tuân thủ nội quy và kỹ năng có thể chia nhỏ rõ ràng, nhưng không thể thay thế được các chương trình học chiều sâu cho năng lực phức tạp như lãnh đạo, tư duy phân tích hay xử lý tình huống không rõ ràng. Dùng microlearning để phát triển năng lực lãnh đạo mà không có thực hành, phản chiếu và mentoring là tạo ra ảo giác năng lực.</p>
+      <div class="limit-list">
+        <div class="limit-item"><span class="limit-marker">✓</span><span class="limit-text" data-vi="Phù hợp: tuân thủ, quy trình, sản phẩm, kỹ năng kỹ thuật có thể chia nhỏ" data-en="Works for: compliance, process, product knowledge, discrete technical skills">Phù hợp: tuân thủ, quy trình, sản phẩm, kỹ năng kỹ thuật có thể chia nhỏ</span></div>
+        <div class="limit-item"><span class="limit-marker">✗</span><span class="limit-text" data-vi="Không phù hợp: lãnh đạo, tư duy hệ thống, xử lý tình huống mơ hồ, thay đổi hành vi sâu" data-en="Does not work for: leadership, systems thinking, navigating ambiguity, deep behavior change">Không phù hợp: lãnh đạo, tư duy hệ thống, xử lý tình huống mơ hồ, thay đổi hành vi sâu</span></div>
+      </div>
+      <div class="step-source">Journal of applied psychology (2017), microlearning transfer efficiency · DDI, Global Leadership Forecast (2023) · Eighth Mile Consulting, Microlearning for Leadership Development (2025) · Scientific Reports (2024), Adaptive microlearning for in service personnel</div>
+    </div>
+
+    <div class="step" data-step="5">
+      <div class="step-act" data-vi="Act VI · AI trong đào tạo" data-en="Act VI · AI in Training">Act VI · AI trong đào tạo</div>
+      <h2 class="step-title" data-vi="AI không thay đổi nội dung, nó thay đổi thời điểm và cách bạn luyện tập." data-en="AI does not change the content, it changes when and how you practice.">AI không thay đổi nội dung, nó thay đổi thời điểm và cách bạn luyện tập.</h2>
+      <p class="step-body" data-vi="Tiềm năng thực sự của AI trong L&D không phải là tạo ra nội dung nhanh hơn, mà là giải quyết được đúng vấn đề mà microlearning tĩnh không làm được: cá nhân hóa lộ trình dựa trên khoảng trống kiến thức thực tế của từng người, tự động lên lịch ôn tập theo forgetting curve, và quan trọng nhất, tạo ra môi trường luyện tập mô phỏng tình huống thực tế theo thời gian thực." data-en="The real potential of AI in L&D is not creating content faster, it is solving the problem that static microlearning cannot: personalizing pathways based on each person's actual knowledge gaps, automatically scheduling reviews based on the forgetting curve, and most importantly, creating simulation environments for practice of real situations in real time.">Tiềm năng thực sự của AI trong L&D không phải là tạo ra nội dung nhanh hơn, mà là giải quyết được đúng vấn đề mà microlearning tĩnh không làm được: cá nhân hóa lộ trình dựa trên khoảng trống kiến thức thực tế của từng người, tự động lên lịch ôn tập theo forgetting curve, và quan trọng nhất, tạo ra môi trường luyện tập mô phỏng tình huống thực tế theo thời gian thực.</p>
+      <div class="case-block">
+        <div class="case-title">BANK OF AMERICA · THE ACADEMY · 2024</div>
+        <p class="case-body" data-vi="Bank of America triển khai AI conversation simulator cho toàn bộ đội ngũ hơn 200.000 nhân viên thông qua nền tảng đào tạo The Academy, thay vì xem slide về cách xử lý cuộc gọi khách hàng, nhân viên thực hành trực tiếp với AI mô phỏng tình huống thực, nhận phản hồi ngay lập tức, năm 2024, nhân viên hoàn thành hơn 1 triệu phiên mô phỏng hội thoại." data-en="Bank of America deployed AI conversation simulators for more than 200,000 employees through The Academy training platform, instead of watching slides about how to handle customer calls, employees practice directly with AI simulating real scenarios and receive immediate feedback, in 2024, employees completed over 1 million conversation simulation sessions.">Bank of America triển khai AI conversation simulator cho toàn bộ đội ngũ hơn 200.000 nhân viên thông qua nền tảng đào tạo The Academy, thay vì xem slide về cách xử lý cuộc gọi khách hàng, nhân viên thực hành trực tiếp với AI mô phỏng tình huống thực, nhận phản hồi ngay lập tức, năm 2024, nhân viên hoàn thành hơn 1 triệu phiên mô phỏng hội thoại.</p>
+        <div class="case-stat">
+          <span class="case-stat-item"><strong>1M+</strong> phiên mô phỏng / năm 2024</span>
+          <span class="case-stat-item"><strong>90%+</strong> nhân viên dùng Erica for employees</span>
+          <span class="case-stat-item"><strong>44%</strong> vị trí tuyển từ nội bộ nhờ upskilling</span>
+        </div>
+      </div>
+      <p class="step-body" data-vi="Điểm khác biệt không phải công nghệ, mà là triết lý thiết kế: tạo ra môi trường luyện tập không rủi ro, phản hồi ngay lập tức và lặp đi lặp lại, đúng với cách não người thực sự xây dựng năng lực, AI chỉ là công cụ để hiện thực hóa điều đó ở quy mô lớn." data-en="The differentiator is not the technology, it is the design philosophy: creating a low risk practice environment with immediate feedback and repetition, aligned with how the brain actually builds competency, AI is simply the tool that makes this possible at scale.">Điểm khác biệt không phải công nghệ, mà là triết lý thiết kế: tạo ra môi trường luyện tập không rủi ro, phản hồi ngay lập tức và lặp đi lặp lại, đúng với cách não người thực sự xây dựng năng lực, AI chỉ là công cụ để hiện thực hóa điều đó ở quy mô lớn.</p>
+      <div class="step-source">Bank of America press release (April 2025), AI Adoption Across Global Workforce · Banking Dive (April 2026), Bank of America AI Strategy · PYMNTS (April 2025), BofA to Spend $4B on AI</div>
+    </div>
+
+    <div class="step" data-step="6">
+      <div class="step-act" data-vi="Act VII · Câu hỏi thực sự" data-en="Act VII · The Real Question">Act VII · Câu hỏi thực sự</div>
+      <h2 class="step-title" data-vi="Năng lực tập trung không biến mất, nó đang chờ được thiết kế đúng cách." data-en="Attention has not disappeared, it is waiting to be designed for.">Năng lực tập trung không biến mất, nó đang chờ được thiết kế đúng cách.</h2>
+      <p class="step-body" data-vi="82% nhân viên cho rằng các chương trình đào tạo tiêu chuẩn không giải quyết được nhu cầu học tập cụ thể của họ (Deloitte, Global Human Capital Trends 2024), vấn đề không phải là nhân viên không muốn học, mà là hầu hết chương trình đào tạo không được thiết kế dựa trên cách não người thực sự hoạt động." data-en="82% of employees report that standardized training programs fail to address their specific learning needs (Deloitte, Global Human Capital Trends 2024), the problem is not that employees do not want to learn, it is that most training programs are not designed around how the human brain actually works.">82% nhân viên cho rằng các chương trình đào tạo tiêu chuẩn không giải quyết được nhu cầu học tập cụ thể của họ (deloitte, global human capital trends 2024), vấn đề không phải là nhân viên không muốn học, mà là hầu hết chương trình đào tạo không được thiết kế dựa trên cách não người thực sự hoạt động.</p>
+      <div class="step-pull" data-vi="Người chơi game có thể tập trung nhiều giờ liền, người đọc sách giỏi có thể ngồi cả buổi, sự khác biệt không phải là năng lực tập trung, mà là mức độ liên quan, phản hồi tức thì và cảm giác tiến bộ." data-en="Gamers can focus for hours, avid readers can sit for an entire afternoon, the difference is not attention capacity, it is relevance, immediate feedback, and the sense of progress.">Người chơi game có thể tập trung nhiều giờ liền, người đọc sách giỏi có thể ngồi cả buổi, sự khác biệt không phải là năng lực tập trung, mà là mức độ liên quan, phản hồi tức thì và cảm giác tiến bộ.</div>
+      <p class="step-body" data-vi="Câu hỏi đúng cho người làm L&D không phải là làm sao giữ nhân viên ngồi học lâu hơn, mà là làm sao thiết kế trải nghiệm học tập đủ liên quan và đủ thú vị để não họ thực sự muốn giữ lại (tất nhiên điều này còn phụ thuộc vào ý thức học tập, khả năng truyền tải, đứng lớp của người dạy)" data-en="The right question for L&D professionals is not how to keep employees sitting in training longer, it is how to design learning experiences relevant and engaging enough that their brains actually want to retain them.">Câu hỏi đúng cho người làm L&D không phải là làm sao giữ nhân viên ngồi học lâu hơn, mà là làm sao thiết kế trải nghiệm học tập đủ liên quan và đủ thú vị để não họ thực sự muốn giữ lại(tất nhiên điều này còn phụ thuộc vào ý thức học tập, khả năng truyền tải, đứng lớp của người dạy) </p>
+      <div class="img-slot" id="slot-6"><img id="img-6" src="memories.jpg" alt="Ghi nhớ và tập trung"></div>
+      <div class="step-source">Deloitte, Global Human Capital Trends (2024) · LinkedIn Learning, Workplace Learning Report (2025)</div>
+    </div>
+
+  </div>
+</section>
+
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: &lt;a href=&quot;https://tellstory-blog.web.app/attention-is-the-new-classroom.html&quot;&gt;Tellstory blog&lt;/a&gt;." data-en="© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analytical structure and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse source code without permission. When quoting a short excerpt, please credit: &lt;a href=&quot;https://tellstory-blog.web.app/attention-is-the-new-classroom.html&quot;&gt;Tellstory blog&lt;/a&gt;.">© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: <a href="https://tellstory-blog.web.app/attention-is-the-new-classroom.html">Tellstory blog</a>.</p>
+
+<section class="comments-section" data-comments data-post-slug="attention-is-the-new-classroom" data-post-title="Sự tập trung của bộ não và bức tranh đào tạo" data-comment-lang="vi"></section>
+
+<section id="outro">
+  <div class="outro-kicker" data-vi="Kết luận" data-en="Conclusion">Kết luận</div>
+  <h2 class="outro-title" data-vi="Đào tạo không thất bại vì<br>nhân viên <em>không chú ý.</em>" data-en="Training does not fail because<br>employees <em>are not paying attention.</em>">Đào tạo không thất bại vì<br>nhân viên <em>không chú ý.</em></h2>
+  <div class="outro-rule"></div>
+  <p class="outro-body" data-vi="Nó thất bại vì chúng ta thiết kế đào tạo cho một bộ não lý tưởng, không phải bộ não thật, Ebbinghaus đã chỉ ra vấn đề từ năm 1885, khoa học nhận thức đã cung cấp đủ công cụ, AI đang hiện thực hóa những công cụ đó ở quy mô chưa từng có, thứ còn thiếu không phải là kiến thức, cũng không phải công nghệ, mà là ý chí của tổ chức để thừa nhận rằng những gì họ đang chi $400 tỉ mỗi năm phần lớn không có tác dụng." data-en="It fails because we design training for an ideal brain, not the real one, Ebbinghaus identified the problem in 1885, cognitive science has provided the tools, AI is now operationalizing those tools at unprecedented scale, what is missing is not knowledge and not technology, it is the organizational will to admit that what they are spending $400 billion on every year largely does not work.">Nó thất bại vì chúng ta thiết kế đào tạo cho một bộ não lý tưởng, không phải bộ não thật, Ebbinghaus đã chỉ ra vấn đề từ năm 1885, khoa học nhận thức đã cung cấp đủ công cụ, AI đang hiện thực hóa những công cụ đó ở quy mô chưa từng có, thứ còn thiếu không phải là kiến thức, cũng không phải công nghệ, mà là ý chí của tổ chức để thừa nhận rằng những gì họ đang chi $400 tỉ mỗi năm phần lớn không có tác dụng.</p>
+  <div class="outro-question" data-vi="Câu hỏi không phải là AI có thay thế người làm L&D không. Câu hỏi là: nếu một nhân viên mới có thể học nhanh hơn, nhớ lâu hơn và thực hành tốt hơn với AI hơn là với chương trình đào tạo của bạn, bạn sẽ làm gì với điều đó?" data-en="The question is not whether AI will replace L&D professionals. The question is: if a new employee can learn faster, retain longer, and practice better with AI than with your training program, what are you going to do about that?">Câu hỏi của số lần này là: nếu một nhân viên mới có thể học nhanh hơn, nhớ lâu hơn và thực hành tốt hơn với AI hơn là với chương trình đào tạo của bạn, bạn sẽ làm gì với điều đó?</div>
+  <div class="outro-sources">
+    <h3 data-vi="Nguồn tham khảo" data-en="References">Nguồn tham khảo</h3>
+    <ul>
+      <li>Ebbinghaus, H. (1885). <em>Über das Gedächtnis.</em> Duncker &amp; Humblot.</li>
+      <li>Miller, G.A. (1956). The magical number seven, plus or minus two. <em>Psychological Review, 63</em>(2), 81 to 97.</li>
+      <li>Roediger, H.L. &amp; Karpicke, J.D. (2006). Test enhanced learning. <em>Psychological Science, 17</em>(3), 249 to 255.</li>
+      <li>Cepeda, N.J. et al. (2006). Distributed practice in verbal recall tasks. <em>Psychological Bulletin, 132</em>(3), 354 to 380.</li>
+      <li>Wexley, K.N. &amp; Latham, G.P. (2002). <em>Developing and Training Human Resources in Organizations.</em> Prentice Hall.</li>
+      <li>Journal of Applied Psychology (2017), microlearning and transfer of learning efficiency.</li>
+      <li><a href="https://www.tandfonline.com/doi/full/10.1080/1359432X.2025.2463799" target="_blank">European Journal of Work and Organizational Psychology (2025), Learning and transfer in organisations</a></li>
+      <li><a href="https://www.researchandmarkets.com/reports/5939220/corporate-training-global-market-report" target="_blank">Research and Markets, Corporate Training Global Market Report (2024)</a></li>
+      <li><a href="https://www.learningguild.com/articles/brain-science-the-forgetting-curvethe-dirty-secret-of-corporate-training" target="_blank">Learning Guild, Brain Science and the Forgetting Curve</a></li>
+      <li><a href="https://www.nature.com/articles/s41598-024-77122-1" target="_blank">Scientific Reports (2024), adaptive microlearning and cognitive load for in service personnel</a></li>
+      <li><a href="https://newsroom.bankofamerica.com/content/newsroom/press-releases/2025/04/ai-adoption-by-bofa-s-global-workforce-improves-productivity--cl.html" target="_blank">Bank of America (April 2025), AI Adoption Across Global Workforce</a></li>
+      <li>DDI, Global Leadership Forecast (2023)</li>
+      <li>Deloitte, Global Human Capital Trends (2024)</li>
+      <li><a href="https://learning.linkedin.com/resources/workplace-learning-report" target="_blank">LinkedIn Learning, Workplace Learning Report (2025)</a></li>
+    </ul>
+  </div>
+</section>
+
+<script>
+const translations = {
+  vi: {
+    captions: [
+      'act i, đường cong quên lãng · ebbinghaus 1885',
+      'act ii, $400 tỉ · chi phí đào tạo toàn cầu',
+      'act iii, khoa học nhận thức · não hoạt động đúng cách',
+      'act iv, một ví dụ thực tế · ana và tuần đầu onboarding',
+      'act v, microlearning · thiết kế đúng hơn',
+      'act vi, ai trong đào tạo · luyện tập, không phải nội dung',
+      'act vii, năng lực tập trung · đang chờ được thiết kế đúng'
+    ],
+    timelineNotes: [
+      {eyebrow:'ACT I · 1885',title:'Đường cong quên lãng',detail:'Ebbinghaus'},
+      {eyebrow:'ACT II · 1956',title:'Thị trường $400 tỉ',detail:'Bí mật của ngành đào tạo'},
+      {eyebrow:'ACT III · 1992',title:'Khoa học nhận thức',detail:'Não hoạt động đúng cách'},
+      {eyebrow:'ACT IV · 2010',title:'Ví dụ thực tế',detail:'Ana và tuần đầu onboarding'},
+      {eyebrow:'ACT V · 2020',title:'Microlearning',detail:'Thiết kế đúng hơn'},
+      {eyebrow:'ACT VI · 2023',title:'AI trong đào tạo',detail:'Luyện tập, không phải nội dung'},
+      {eyebrow:'ACT VII · Now',title:'Câu hỏi thực sự',detail:'Năng lực tập trung đang chờ'}
+    ]
+  },
+  en: {
+    captions: [
+      'act i, the forgetting curve · ebbinghaus 1885',
+      'act ii, $400 billion · global training spend',
+      'act iii, cognitive science · the brain works as designed',
+      'act iv, a real case · ana and the first week',
+      'act v, microlearning · designing for the brain',
+      'act vi, ai in training · practice, not content',
+      'act vii, attention · waiting to be designed for'
+    ],
+    timelineNotes: [
+      {eyebrow:'ACT I · 1885',title:'The Forgetting Curve',detail:'Ebbinghaus'},
+      {eyebrow:'ACT II · 1956',title:'The $400B Market',detail:'The dirty secret'},
+      {eyebrow:'ACT III · 1992',title:'Cognitive Science',detail:'The brain works as designed'},
+      {eyebrow:'ACT IV · 2010',title:'A Real Case',detail:'Ana and the first week'},
+      {eyebrow:'ACT V · 2020',title:'Microlearning',detail:'Designing for the brain'},
+      {eyebrow:'ACT VI · 2023',title:'AI in Training',detail:'Practice, not content'},
+      {eyebrow:'ACT VII · Now',title:'The Real Question',detail:'Attention is waiting'}
+    ]
+  }
+};
+
+let currentLang = 'vi';
+let currentStep = 0;
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  try{localStorage.setItem('tellstoryLang', lang);}catch(e){}
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-vi]').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (!text) return;
+    if (el.tagName === 'H1' || el.tagName === 'H2' || (el.innerHTML && el.innerHTML.includes('<em>'))) {
+      el.innerHTML = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+  const capEl = document.getElementById('graphic-caption');
+  if (capEl) capEl.textContent = translations[lang].captions[currentStep] || '';
+  updateHistoryTimeline(currentStep);
+}
+
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], symA = 0;
+
+function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+
+class Particle {
+  constructor(s) { this.respawn(s); for (let i = 0; i < Math.random() * 200; i++) this.tick(); }
+  respawn(s) {
+    const cfgs = [
+      () => { this.x = Math.random()*W; this.y = Math.random()*H; this.vx=(Math.random()-.5)*.3; this.vy=(Math.random()-.5)*.3; this.r=Math.random()*2+.4; this.ba=Math.random()*.5+.15; this.col='212,168,67'; },
+      () => { const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.4; this.x=W/2+Math.cos(a)*d; this.y=H/2+Math.sin(a)*d; this.vx=(Math.random()-.5)*.5; this.vy=(Math.random()-.5)*.5; this.r=Math.random()*1.8+.4; this.ba=Math.random()*.4+.1; this.col='139,42,26'; },
+      () => { this.x=Math.random()*W; this.y=Math.random()*H; this.vx=(Math.random()-.5)*.6; this.vy=(Math.random()-.5)*.6; this.r=Math.random()*1.2+.3; this.ba=Math.random()*.3+.08; this.col='246,241,232'; },
+      () => { const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.35; this.x=W/2+Math.cos(a)*d; this.y=H/2+Math.sin(a)*d; this.vx=Math.cos(a)*.35; this.vy=Math.sin(a)*.35; this.r=Math.random()*1.5+.3; this.ba=Math.random()*.45+.12; this.col='212,168,67'; },
+      () => { this.x=Math.random()*W; this.y=Math.random()*H; this.vx=(Math.random()-.5)*.4; this.vy=(Math.random()-.5)*.4; this.r=Math.random()*1.5+.3; this.ba=Math.random()*.35+.1; this.col='160,82,45'; },
+      () => { const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.42; this.x=W/2+Math.cos(a)*d; this.y=H/2+Math.sin(a)*d; this.vx=(Math.random()-.5)*.55; this.vy=(Math.random()-.5)*.55; this.r=Math.random()*1.5+.3; this.ba=Math.random()*.5+.15; this.col='212,168,67'; },
+      () => { const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.18; this.x=W/2+Math.cos(a)*d; this.y=H/2+Math.sin(a)*d; this.vx=(Math.random()-.5)*.15; this.vy=(Math.random()-.5)*.15; this.r=Math.random()*3+1; this.ba=Math.random()*.7+.3; this.col='212,168,67'; }
+    ];
+    cfgs[s % cfgs.length]();
+    this.life = Math.random()*.6+.4;
+    this.decay = Math.random()*.003+.001;
+  }
+  tick() { this.x+=this.vx; this.y+=this.vy; this.life-=this.decay; if(this.life<=0||this.x<-30||this.x>W+30||this.y<-30||this.y>H+30) this.respawn(currentStep); }
+  draw() { ctx.save(); ctx.globalAlpha=this.life*this.ba; ctx.fillStyle=`rgb(${this.col})`; ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+}
+
+const symbols = ['忘','金','脳','人','習','智','注'];
+const symCols = ['246,241,232','139,42,26','246,241,232','212,168,67','160,82,45','212,168,67','212,168,67'];
+
+function initParticles(s) {
+  particles = [];
+  const n = [70,100,90,80,110,120,75][s] || 80;
+  for (let i=0;i<n;i++) particles.push(new Particle(s));
+}
+
+function drawFrame() {
+  ctx.fillStyle='rgba(14,12,10,.17)'; ctx.fillRect(0,0,W,H);
+  const s=currentStep;
+  symA=Math.min(.05,symA+.002);
+  ctx.save(); ctx.globalAlpha=symA; ctx.fillStyle=`rgb(${symCols[s]})`; ctx.font=`300 ${Math.min(W,H)*.48}px Arial, sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(symbols[s],W*.38,H*.5); ctx.restore();
+  if(s===1||s===5){
+    const th=W/(s===5?9:12);
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<th){ctx.save();ctx.globalAlpha=(1-d/th)*.08;ctx.strokeStyle=s===5?'rgba(212,168,67,1)':'rgba(139,42,26,1)';ctx.lineWidth=.3;ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();ctx.restore();}
+    }
+  }
+  particles.forEach(p=>{p.tick();p.draw();});
+  requestAnimationFrame(drawFrame);
+}
+
+const stepEls=document.querySelectorAll('.step');
+const dots=document.querySelectorAll('.dot');
+const capEl=document.getElementById('graphic-caption');
+const historyRows=document.querySelectorAll('.history-time-row');
+
+function updateHistoryTimeline(stepIndex) {
+  const notes=translations[currentLang].timelineNotes;
+  historyRows.forEach((row,idx)=>{
+    const marker=row.querySelector('.history-time-marker');
+    row.classList.remove('is-past','is-current','is-future');
+    if(idx<stepIndex){row.classList.add('is-past');if(marker)marker.textContent='●';}
+    else if(idx===stepIndex){row.classList.add('is-current');if(marker)marker.textContent='◎';}
+    else{row.classList.add('is-future');if(marker)marker.textContent='○';}
+  });
+  const note=notes[stepIndex]||notes[0];
+  const eyebrow=document.getElementById('history-note-eyebrow');
+  const title=document.getElementById('history-note-title');
+  const detail=document.getElementById('history-note-detail');
+  if(eyebrow)eyebrow.textContent=note.eyebrow;
+  if(title)title.textContent=note.title;
+  if(detail)detail.textContent=note.detail;
+}
+
+historyRows.forEach(row=>row.addEventListener('click',()=>{
+  const target=parseInt(row.dataset.stepTarget,10);
+  if(!Number.isNaN(target)&&stepEls[target])stepEls[target].scrollIntoView({behavior:'smooth',block:'center'});
+}));
+
+function goToStep(i){
+  if(i===currentStep&&particles.length>0){updateHistoryTimeline(i);return;}
+  stepEls.forEach((s,j)=>s.classList.toggle('is-active',j===i));
+  dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+  capEl.textContent=translations[currentLang].captions[i]||'';
+  symA=0;currentStep=i;initParticles(i);updateHistoryTimeline(i);
+}
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)goToStep(parseInt(e.target.dataset.step));});
+},{rootMargin:'-44% 0px -44% 0px',threshold:0});
+stepEls.forEach(s=>obs.observe(s));
+
+dots.forEach(d=>d.addEventListener('click',()=>{
+  stepEls[parseInt(d.dataset.i)].scrollIntoView({behavior:'smooth',block:'center'});
+}));
+
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress').style.width=(st/dh*100)+'%';
+},{passive:true});
+
+window.addEventListener('resize',resize);
+resize();initParticles(0);goToStep(0);
+try{const savedLang=localStorage.getItem('tellstoryLang'); if(savedLang==='en') setLang('en');}catch(e){}
+drawFrame();
+</script>
+<script type="module" src="comments.js"></script>
+
+
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "Nguồn: Tellstory blog · Bui Tong Giang" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

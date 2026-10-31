@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ba người thầy trong Jujutsu Kaisen và ba triết lý training · Fieldnotes on Learning</title>
+<meta content="Bui Tong Giang" name="author"/>
+<meta content="© 2026 Bui Tong Giang. All rights reserved." name="copyright"/>
+<meta content="Jujutsu Kaisen không chỉ có lời nguyền và domain expansion. Nhìn qua lens L&amp;D, Gojo, Nanami và Yaga tạo thành một hệ sinh thái training rất đáng học." name="description"/>
+<meta content="Ba người thầy trong Jujutsu Kaisen và ba triết lý training" property="og:title"/>
+<meta content="Jujutsu Kaisen không chỉ có lời nguyền và domain expansion. Nhìn qua lens L&amp;D, Gojo, Nanami và Yaga tạo thành một hệ sinh thái training rất đáng học." property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="Fieldnotes on Learning" property="og:site_name"/>
+<meta content="https://tellstory-blog.web.app/jjk-pedagogy.html" property="og:url"/>
+<meta content="assets/jjk/gojo-portrait.jpg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Ba người thầy trong Jujutsu Kaisen và ba triết lý training" name="twitter:title"/>
+<meta content="Jujutsu Kaisen không chỉ có lời nguyền và domain expansion. Nhìn qua lens L&amp;D, Gojo, Nanami và Yaga tạo thành một hệ sinh thái training rất đáng học." name="twitter:description"/>
+<meta content="assets/jjk/gojo-portrait.jpg" name="twitter:image"/>
+<meta content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Fieldnotes on Learning. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả." name="rights"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&amp;family=Source+Serif+4:ital,wght@0,300;0,400;1,300;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --paper: #F7F3EE;
+  --ink: #1a1a1a;
+  --ink-muted: #555;
+  --ink-faint: #999;
+  --red: #C0392B;
+  --gold: #9A7B2E;
+  --gold-light: #C9A84C;
+  --border: rgba(26,26,26,0.12);
+  --border-strong: rgba(26,26,26,0.25);
+  --jjk-dark: #0d0d14;
+  --jjk-purple: #4a3570;
+  --jjk-blue: #1a2744;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- LANG TOGGLE ---- */
+.lang-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  background: rgba(247,243,238,0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.lang-bar nav { display: flex; gap: 24px; align-items: center; }
+.lang-bar nav a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-decoration: none;
+  letter-spacing: .06em;
+  transition: color .2s;
+}
+.lang-bar nav a:hover { color: var(--red); }
+
+.lang-btns { display: flex; gap: 4px; }
+.lang-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+  letter-spacing: .08em;
+  transition: all .2s;
+}
+.lang-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+[data-en] { display: none; }
+body.en [data-vi] { display: none; }
+body.en [data-en] { display: revert; }
+
+/* ---- HERO ---- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--jjk-dark);
+  padding: 120px 24px 80px;
+}
+
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  opacity: .55;
+}
+
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  background-image: url('jjk-hero.webp');
+  background-size: cover;
+  background-position: center top;
+  opacity: .18;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--jjk-dark) 80%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 740px;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .18em;
+  color: var(--gold-light);
+  margin-bottom: 28px;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(36px, 6vw, 68px);
+  font-weight: 400;
+  color: #f0ece4;
+  line-height: 1.12;
+  margin-bottom: 24px;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.hero-sub {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 300;
+  font-size: 17px;
+  color: rgba(240,236,228,0.65);
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 48px;
+}
+
+.scroll-hint {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .12em;
+  color: rgba(240,236,228,0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(201,168,76,0.5), transparent);
+  animation: scrollpulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollpulse {
+  0%, 100% { opacity: .4; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.1); }
+}
+
+/* ---- ARTICLE BODY ---- */
+.article {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- SECTION ---- */
+.section {
+  padding: 96px 0 0;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.section.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.section-h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.section-h2 em { font-style: italic; color: var(--red); }
+
+.body-text {
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+.body-text em { font-style: italic; }
+.body-text strong { font-weight: 600; }
+
+/* ---- SENSEI CARD ---- */
+.sensei-block {
+  margin: 56px 0;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--ink);
+}
+
+.sensei-block.gojo { border-top-color: #7F77DD; }
+.sensei-block.nanami { border-top-color: #1D9E75; }
+.sensei-block.yaga { border-top-color: #BA7517; }
+
+.sensei-banner {
+  width: 100%;
+  aspect-ratio: 16/7;
+  background: var(--jjk-dark);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.sensei-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: .75;
+}
+
+.sensei-banner-ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: rgba(240,236,228,.3);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+}
+
+.banner-grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13,13,20,.9) 0%, transparent 60%);
+}
+
+.sensei-banner-info {
+  position: relative;
+  z-index: 2;
+  padding: 20px 24px;
+}
+
+.sensei-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 2px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.gojo .sensei-tag { background: #4a3570; color: #c4bcf5; }
+.nanami .sensei-tag { background: #0a3d28; color: #8fe0c0; }
+.yaga .sensei-tag { background: #3d2700; color: #f0c060; }
+
+.sensei-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #f0ece4;
+  line-height: 1.1;
+}
+.sensei-theory {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: rgba(240,236,228,.55);
+  margin-top: 4px;
+  letter-spacing: .02em;
+}
+
+.sensei-body { padding: 28px 24px 32px; }
+
+/* ---- SCENE ROWS ---- */
+.scene {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+.scene:last-of-type { border-bottom: none; margin-bottom: 20px; }
+
+.scene-img {
+  width: 96px;
+  flex-shrink: 0;
+  aspect-ratio: 3/4;
+  background: #e8e3db;
+  overflow: hidden;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scene-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.scene-ph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink-faint);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  text-align: center;
+  padding: 8px;
+  line-height: 1.4;
+}
+
+.scene-content { padding: 16px 18px; flex: 1; }
+
+.scene-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+
+.scene-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+
+.scene-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--gold);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+}
+
+/* ---- THEORY TAG ---- */
+.theory-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  background: rgba(26,26,26,.04);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+.theory-bar-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-top: 2px;
+}
+.theory-bar-text {
+  font-family: 'Source Serif 4', serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.55;
+}
+
+/* ---- ADULT BOX ---- */
+.adult-box {
+  margin: 20px 0 0;
+  padding: 18px 20px;
+  border-left: 3px solid var(--gold);
+  background: rgba(154,123,46,.06);
+}
+.adult-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.adult-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-muted);
+  font-style: italic;
+}
+
+/* ---- PULLQUOTE ---- */
+.pullquote {
+  margin: 56px -24px;
+  padding: 40px 48px;
+  background: var(--jjk-dark);
+  position: relative;
+  overflow: hidden;
+}
+.pullquote::before {
+  content: '"';
+  position: absolute;
+  top: -20px; left: 24px;
+  font-family: 'Playfair Display', serif;
+  font-size: 180px;
+  color: rgba(201,168,76,.1);
+  line-height: 1;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 400;
+  font-style: italic;
+  color: #f0ece4;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+.pullquote cite {
+  display: block;
+  margin-top: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--gold-light);
+  font-style: normal;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- TRANSITION BLOCK ---- */
+.transition-block {
+  margin: 56px 0;
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.transition-block p {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink-muted);
+  font-style: italic;
+  line-height: 1.6;
+}
+.transition-block em { color: var(--red); font-style: italic; }
+
+/* ---- CLOSING ---- */
+.closing { padding: 96px 0 80px; }
+
+.closing-h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.closing-h2 em { font-style: italic; color: var(--red); }
+
+/* ---- POST NAV ---- */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
+}
+.post-nav a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: .06em;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color .2s;
+}
+.post-nav a:hover { color: var(--red); }
+
+/* ---- FOOTER ---- */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 48px 24px 40px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.footer-note {
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-faint);
+  line-height: 1.65;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.footer-social {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.footer-social a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color .2s;
+}
+.footer-social a:hover { color: var(--red); }
+
+.footer-copy {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--ink-faint);
+  line-height: 1.7;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 600px) {
+  .pullquote { margin: 40px -24px; padding: 32px 28px; }
+  .scene-img { width: 80px; }
+  .sensei-banner-info { padding: 16px; }
+  .sensei-name { font-size: 22px; }
+}
+</style>
+<style>
+/* Jujutsu High field-notes concept */
+:root {
+  --paper: #f2eee6;
+  --paper-deep: #e5ded1;
+  --ink: #151821;
+  --ink-muted: #4e5260;
+  --ink-faint: #848793;
+  --night: #0a1020;
+  --night-2: #111a31;
+  --rule: rgba(21, 24, 33, .15);
+  --rule-light: rgba(242, 238, 230, .18);
+  --red: #a43f3f;
+  --gold: #8e6f2d;
+  --gold-light: #d2b46b;
+}
+
+html { background: var(--night); }
+
+body {
+  background:
+    linear-gradient(90deg, transparent 0 49.9%, rgba(21,24,33,.025) 50%, transparent 50.1%),
+    var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .32;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+}
+
+#progress {
+  position: fixed;
+  z-index: 150;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #66bce8, #b596d9 45%, #d0aa54 72%, #b9564e);
+  box-shadow: 0 0 18px rgba(116, 190, 233, .55);
+}
+
+.lang-bar {
+  top: 14px;
+  left: 18px;
+  right: 18px;
+  min-height: 46px;
+  padding: 7px 8px 7px 16px;
+  color: #f4efe7;
+  background: rgba(10, 16, 32, .82);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 3px;
+  box-shadow: 0 16px 45px rgba(0,0,0,.18);
+  backdrop-filter: blur(18px);
+}
+
+.lang-bar nav a { color: rgba(244,239,231,.7); }
+.lang-bar nav a:hover { color: #fff; }
+.lang-btn { color: rgba(244,239,231,.65); border-color: rgba(255,255,255,.18); }
+.lang-btn:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+.lang-btn.active { color: var(--night); background: var(--gold-light); border-color: var(--gold-light); }
+
+[data-en] { display: none; }
+body.en [data-vi] { display: none !important; }
+body.en [data-en] { display: revert !important; }
+
+.hero {
+  min-height: 100svh;
+  align-items: stretch;
+  justify-content: center;
+  padding: 126px clamp(24px, 6vw, 92px) 74px;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 14% 20%, rgba(83,116,179,.22), transparent 34%),
+    linear-gradient(135deg, var(--night) 0%, #0b1225 56%, #171225 100%);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.hero::before {
+  content: '呪';
+  position: absolute;
+  z-index: 0;
+  left: -2vw;
+  bottom: -14vh;
+  color: rgba(255,255,255,.025);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(280px, 46vw, 700px);
+  line-height: .8;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 7.9vw, rgba(255,255,255,.022) 8vw),
+    linear-gradient(90deg, var(--night) 0%, rgba(10,16,32,.96) 42%, rgba(10,16,32,.32) 72%, rgba(10,16,32,.6) 100%);
+  pointer-events: none;
+}
+
+#hero-canvas { z-index: 1; opacity: .42; }
+.hero-bg-img { display: none; }
+.hero-overlay { z-index: 2; background: linear-gradient(to top, rgba(10,16,32,.92), transparent 36%); }
+
+.hero-content {
+  align-self: center;
+  z-index: 5;
+  width: min(48%, 680px);
+  max-width: 680px;
+  margin-right: auto;
+  text-align: left;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 34px;
+  color: #8bc9ef;
+}
+
+.hero-eyebrow::before { content: ''; width: 40px; height: 1px; background: currentColor; }
+.hero-title { max-width: 640px; font-size: clamp(44px, 6vw, 82px); line-height: .98; letter-spacing: -.035em; }
+.hero-title em { color: #d4b8f3; text-shadow: 0 0 34px rgba(170,132,220,.18); }
+.hero-sub { max-width: 560px; margin: 0 0 42px; color: rgba(240,236,228,.7); font-size: 16px; }
+.scroll-hint { align-items: flex-start; color: rgba(240,236,228,.42); }
+.scroll-line { width: 72px; height: 1px; background: linear-gradient(90deg, #8bc9ef, transparent); transform-origin: left; }
+
+.hero-gallery {
+  position: absolute;
+  z-index: 3;
+  top: 92px;
+  right: clamp(18px, 4vw, 64px);
+  bottom: 44px;
+  width: min(48vw, 690px);
+  display: grid;
+  grid-template-columns: .86fr 1.08fr .82fr;
+  gap: clamp(7px, 1vw, 14px);
+  transform: perspective(1100px) rotateY(-3deg);
+  transform-origin: right center;
+}
+
+.hero-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.16);
+  background: #151a28;
+  box-shadow: 0 28px 70px rgba(0,0,0,.38);
+}
+
+.hero-frame:nth-child(1) { margin-top: 12vh; margin-bottom: 4vh; }
+.hero-frame:nth-child(2) { margin-bottom: 10vh; }
+.hero-frame:nth-child(3) { margin-top: 7vh; }
+.hero-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,13,27,.78), transparent 55%); }
+.hero-frame img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.8) contrast(1.05); }
+.hero-frame:nth-child(1) img { object-position: 55% center; }
+.hero-frame:nth-child(2) img { object-position: 52% top; }
+.hero-frame:nth-child(3) img { object-position: 62% center; }
+
+.article { max-width: 1240px; padding: 0 clamp(24px, 4.5vw, 64px); }
+
+.section {
+  display: grid;
+  grid-template-columns: minmax(96px, 160px) minmax(0, 840px);
+  column-gap: clamp(24px, 4vw, 58px);
+  justify-content: center;
+  padding-top: 112px;
+}
+
+.section > * { grid-column: 2; }
+.section > .section-label {
+  grid-column: 1;
+  grid-row: 1 / span 8;
+  align-self: start;
+  position: sticky;
+  top: 94px;
+  padding-top: 8px;
+  color: var(--ink-muted);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  justify-self: center;
+}
+
+.section-label::after { width: 1px; height: 74px; flex: none; background: var(--rule); }
+.section-h2, .closing-h2 { max-width: 840px; font-size: clamp(34px, 4.2vw, 54px); line-height: 1.08; letter-spacing: -.025em; }
+.body-text { max-width: 780px; font-size: 18px; line-height: 1.85; }
+
+.sensei-block {
+  --accent: #75bfea;
+  --accent-deep: #213d62;
+  margin: 58px 0 6px;
+  border: 1px solid var(--rule);
+  border-top: none;
+  background: rgba(255,255,255,.22);
+  box-shadow: 0 24px 70px rgba(24,25,31,.08);
+}
+
+.sensei-block.gojo { --accent: #76c8ef; --accent-deep: #2b3f73; }
+.sensei-block.nanami { --accent: #d1ae52; --accent-deep: #5c4520; }
+.sensei-block.yaga { --accent: #bc5b50; --accent-deep: #5b2928; }
+
+.sensei-banner {
+  aspect-ratio: 16 / 9;
+  border-top: 4px solid var(--accent);
+  background: var(--night);
+}
+
+.sensei-banner::before {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(8,13,27,.18), transparent 58%);
+  pointer-events: none;
+}
+
+.sensei-banner img { opacity: .88; filter: saturate(.82) contrast(1.06); }
+.gojo .sensei-banner img { object-position: center 43%; }
+.nanami .sensei-banner img { object-position: center 32%; }
+.yaga .sensei-banner img { object-position: center 22%; }
+.banner-grad { z-index: 1; background: linear-gradient(to top, rgba(8,13,27,.96) 0%, rgba(8,13,27,.08) 72%); }
+.sensei-banner-info { padding: 26px 30px; }
+.sensei-tag { color: #fff !important; background: var(--accent-deep) !important; border: 1px solid color-mix(in srgb, var(--accent), transparent 45%); }
+.sensei-name { font-size: clamp(31px, 5vw, 45px); letter-spacing: -.02em; }
+.sensei-theory { color: rgba(240,236,228,.68); }
+
+.theory-bar {
+  padding: 18px 24px;
+  gap: 18px;
+  background: color-mix(in srgb, var(--accent), transparent 90%);
+  border-bottom-color: color-mix(in srgb, var(--accent), transparent 65%);
+}
+.theory-bar-label { color: var(--accent-deep); }
+.sensei-body { padding: 0; counter-reset: scene; }
+
+.scene {
+  display: grid;
+  grid-template-columns: minmax(240px, 40%) 1fr;
+  min-height: 250px;
+  border-bottom: 1px solid var(--rule);
+  counter-increment: scene;
+}
+
+.scene:nth-child(even) { grid-template-columns: 1fr minmax(220px, 42%); }
+.scene:nth-child(even) .scene-img { grid-column: 2; grid-row: 1; border-right: 0; border-left: 1px solid var(--rule); }
+.scene:nth-child(even) .scene-content { grid-column: 1; grid-row: 1; }
+.scene:last-of-type { margin-bottom: 0; }
+.scene-img { width: auto; aspect-ratio: auto; min-height: 250px; border-right: 1px solid var(--rule); background: #d9d7d3; }
+.scene-img img { filter: saturate(.82) contrast(1.04); }
+.gojo .scene:nth-child(1) img { object-position: center 25%; }
+.gojo .scene:nth-child(2) img { object-position: center center; }
+.gojo .scene:nth-child(3) img { object-position: 55% 58%; }
+.nanami .scene:nth-child(1) img { object-position: center 45%; }
+.nanami .scene:nth-child(2) img { object-position: center 35%; }
+.yaga .scene:nth-child(1) img { object-position: center 26%; }
+.yaga .scene:nth-child(2) img { object-position: center 38%; }
+
+.scene-content { padding: 28px 28px 26px; display: flex; flex-direction: column; justify-content: center; }
+.scene-content::before {
+  content: '0' counter(scene);
+  margin-bottom: 16px;
+  color: var(--accent-deep);
+  font: 500 10px/1 'JetBrains Mono', monospace;
+  letter-spacing: .16em;
+}
+.scene-title { font-size: 21px; line-height: 1.2; }
+.scene-text { font-size: 14px; line-height: 1.7; }
+.scene-pill { align-self: flex-start; color: var(--accent-deep); line-height: 1.5; }
+
+.adult-box {
+  margin: 0;
+  padding: 28px 30px 30px;
+  border-left: 0;
+  border-top: 1px solid color-mix(in srgb, var(--accent), transparent 55%);
+  background: color-mix(in srgb, var(--accent), transparent 92%);
+}
+.adult-label { color: var(--accent-deep); }
+
+.pullquote {
+  grid-template-columns: 1fr;
+  margin: 104px auto 0;
+  padding: clamp(42px, 7vw, 76px);
+  background:
+    radial-gradient(circle at 85% 10%, rgba(109,156,221,.18), transparent 35%),
+    var(--night);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 30px 80px rgba(10,16,32,.16);
+}
+.pullquote > * { grid-column: 1; }
+.pullquote::after { content: '術'; position: absolute; right: 2%; bottom: -30%; color: rgba(255,255,255,.025); font: 240px/1 'Playfair Display', serif; }
+.pullquote p { max-width: 760px; font-size: clamp(22px, 3.2vw, 34px); }
+
+.transition-block { border-color: var(--rule); }
+.transition-block p { font-size: clamp(21px, 2.4vw, 27px); }
+.closing { padding-bottom: 72px; }
+.post-nav { margin-top: 50px; }
+
+footer {
+  max-width: none;
+  padding: 58px max(24px, calc((100vw - 980px) / 2)) 46px;
+  color: rgba(242,238,230,.68);
+  background: var(--night);
+  border-top: 0;
+}
+.footer-note, .footer-social a, .footer-copy { color: rgba(242,238,230,.54); }
+.footer-note { border-bottom-color: var(--rule-light); }
+.footer-social a:hover { color: var(--gold-light); }
+
+@media (max-width: 900px) {
+  .hero { justify-content: flex-end; padding-bottom: 70px; }
+  .hero::after { background: linear-gradient(to top, var(--night) 0%, rgba(10,16,32,.76) 45%, rgba(10,16,32,.2) 100%); }
+  .hero-content { align-self: flex-end; width: 100%; max-width: 720px; }
+  .hero-gallery { inset: 78px 16px 28%; width: auto; opacity: .64; transform: none; }
+  .hero-frame:nth-child(1) { margin-top: 8vh; }
+  .hero-frame:nth-child(2) { margin-bottom: 4vh; }
+  .hero-frame:nth-child(3) { margin-top: 5vh; }
+  .section { grid-template-columns: 1fr; padding-top: 86px; }
+  .section > *, .section > .section-label { grid-column: 1; }
+  .section > .section-label { grid-row: auto; position: static; writing-mode: horizontal-tb; transform: none; justify-self: stretch; padding-top: 0; }
+  .section-label::after { width: auto; height: 1px; flex: 1; }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .lang-bar { top: 8px; left: 8px; right: 8px; padding-left: 10px; }
+  .lang-bar nav { gap: 12px; }
+  .lang-bar nav a { font-size: 9px; }
+  .hero { padding: 108px 22px 54px; }
+  .hero-gallery { inset: 68px 8px 40%; gap: 5px; }
+  .hero-content { text-align: left; }
+  .hero-title { font-size: clamp(40px, 13vw, 58px); }
+  .hero-sub { font-size: 15px; line-height: 1.65; }
+  .article { padding: 0 20px; }
+  .section { padding-top: 74px; }
+  .section-h2, .closing-h2 { font-size: clamp(31px, 9vw, 42px); }
+  .body-text { font-size: 17px; }
+  .sensei-block { margin-left: -10px; margin-right: -10px; }
+  .sensei-banner { aspect-ratio: 4 / 3; }
+  .sensei-banner-info { padding: 20px; }
+  .theory-bar { display: block; padding: 17px 18px; }
+  .theory-bar-label { margin-bottom: 8px; }
+  .scene, .scene:nth-child(even) { grid-template-columns: 1fr; }
+  .scene-img, .scene:nth-child(even) .scene-img { grid-column: 1; grid-row: 1; min-height: 220px; max-height: 280px; border: 0; border-bottom: 1px solid var(--rule); }
+  .scene-content, .scene:nth-child(even) .scene-content { grid-column: 1; grid-row: 2; padding: 22px 20px 25px; }
+  .adult-box { padding: 24px 20px 26px; }
+  .pullquote { margin: 74px 0 0; padding: 38px 26px; }
+  .pullquote::before { left: 12px; }
+  footer { padding: 44px 24px 38px; }
+}
+
+
+/* ---- BALANCE PATCH: wider, centered reading frame ---- */
+@media (min-width: 901px) {
+  .section > .section-label {
+    margin-right: 0;
+  }
+
+  .sensei-block,
+  .transition-block {
+    width: 100%;
+  }
+
+  .pullquote {
+    width: min(100%, 920px);
+  }
+
+  .scene-content {
+    padding-left: 34px;
+    padding-right: 34px;
+  }
+}
+
+@media (min-width: 1180px) {
+  .article {
+    transform: translateX(-12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .section { opacity: 1; transform: none; transition: none; }
+  .scroll-line { animation: none; }
+}
+
+/* ---- READABILITY + L&D HIGHLIGHT PATCH ---- */
+:root {
+  --ld-red: #C0392B;
+}
+
+.article,
+.article .body-text,
+.article .section-h2,
+.article .closing-h2,
+.article .scene-title,
+.article .scene-text,
+.article .theory-bar-text,
+.article .adult-text,
+.article .transition-block p,
+.article .section-label,
+.article .post-nav a {
+  color: #111111 !important;
+}
+
+.article .theory-bar-label,
+.article .adult-label,
+.article .scene-pill {
+  color: #111111 !important;
+}
+
+.article .ld-highlight,
+.article .section-h2 em,
+.article .closing-h2 em,
+.article strong.ld-highlight {
+  color: var(--ld-red) !important;
+  font-weight: 650;
+}
+
+.article .ld-highlight {
+  border-bottom: 1px solid rgba(192, 57, 43, .28);
+  padding-bottom: 1px;
+}
+
+.pullquote {
+  background: #f8f4ed !important;
+  border: 1px solid rgba(17, 17, 17, .16) !important;
+  box-shadow: 0 22px 60px rgba(17, 17, 17, .08) !important;
+}
+
+.pullquote::before,
+.pullquote::after {
+  color: rgba(192, 57, 43, .08) !important;
+}
+
+.pullquote p {
+  color: #111111 !important;
+}
+
+.pullquote cite {
+  color: var(--ld-red) !important;
+}
+
+footer {
+  background: #f8f4ed !important;
+  border-top: 1px solid rgba(17, 17, 17, .14) !important;
+}
+
+.footer-note,
+.footer-social a,
+.footer-copy {
+  color: #111111 !important;
+}
+
+.footer-note {
+  border-bottom-color: rgba(17, 17, 17, .14) !important;
+}
+</style>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div aria-hidden="true" id="progress"></div>
+<!-- NAV -->
+<div class="lang-bar">
+<nav>
+<a href="index.html">← Blog</a>
+<a href="about.html">About</a>
+<a data-vi="" href="contact.html">Contact</a>
+<a data-en="" href="contact.html" style="display:none">Contact</a>
+</nav>
+<div class="lang-btns">
+<button class="lang-btn active" id="btn-vi" onclick="setLang('vi')">VI</button>
+<button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+</div>
+<!-- HERO -->
+<section class="hero">
+<canvas id="hero-canvas"></canvas>
+<div class="hero-bg-img"></div>
+<div class="hero-overlay"></div>
+<div aria-hidden="true" class="hero-gallery">
+<figure class="hero-frame"><img alt="" fetchpriority="high" src="assets/jjk/gojo-portrait.jpg"/></figure>
+<figure class="hero-frame"><img alt="" fetchpriority="high" src="assets/jjk/nanami-portrait.jpg"/></figure>
+<figure class="hero-frame"><img alt="" fetchpriority="high" src="assets/jjk/yaga-portrait.jpg"/></figure>
+</div>
+<div class="hero-content">
+<div class="hero-eyebrow" data-vi="">JJK · Instructional Design · L&amp;D · Anime</div>
+<div class="hero-eyebrow" data-en="" style="display:none">JJK · Instructional Design · L&amp;D · Anime</div>
+<h1 class="hero-title" data-vi="">Ba người thầy, <em>ba triết lý</em> training</h1>
+<h1 class="hero-title" data-en="" style="display:none">Three teachers, <em>three training philosophies</em></h1>
+<p class="hero-sub" data-vi="">Gojo, Nanami, Yaga trong Jujutsu Kaisen không chỉ là ba nhân vật có aura mạnh. Nếu nhìn qua lens <span class="ld-highlight">instructional design</span>, họ giống ba vai khác nhau trong một <span class="ld-highlight">hệ sinh thái đào tạo</span>: người mở cửa, người đi cạnh, và người đứng sau giữ cho hệ thống chưa sập.</p>
+<p class="hero-sub" data-en="" style="display:none">Gojo, Nanami, and Yaga from Jujutsu Kaisen are not just three characters with terrifying amounts of aura. Through an <span class="ld-highlight">instructional design</span> lens, they look like three roles inside a <span class="ld-highlight">learning ecosystem</span>: the one who opens the door, the one who walks beside the learner, and the one who keeps the system from collapsing.</p>
+<div class="scroll-hint">
+<span data-vi="">cuộn để đọc</span>
+<span data-en="" style="display:none">scroll to read</span>
+<div class="scroll-line"></div>
+</div>
+</div>
+</section>
+<!-- ARTICLE -->
+<div class="article">
+<!-- INTRO SECTION -->
+<div class="section" id="s-intro">
+<div class="section-label" data-vi="">Trước khi vào lớp · Training trong môi trường chú thuật</div>
+<div class="section-label" data-en="" style="display:none">Before class · Training in a cursed environment</div>
+<h2 class="section-h2" data-vi="">
+  Jujutsu Kaisen là gì, và vì sao một bài về <em>training</em> lại bắt đầu bằng một anh tóc trắng bịt mắt?
+</h2>
+<h2 class="section-h2" data-en="" style="display:none">
+  What is Jujutsu Kaisen, and why does an article about <em>training</em> begin with a white-haired man wearing a blindfold?
+</h2>
+<p class="body-text" data-vi="">
+  Trước khi bắt đầu, tôi xin giải thích rất nhanh cho những ai chưa từng xem Jujutsu Kaisen và đang tự hỏi vì sao mình bấm vào một bài về <span class="ld-highlight">L&amp;D</span>, nhưng lại gặp ngay một anh tóc trắng bịt mắt, đẹp trai một cách hơi thiếu trách nhiệm.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  Before we begin, a quick note for anyone who has never watched Jujutsu Kaisen and is wondering why they clicked on an article about <span class="ld-highlight">L&amp;D</span>, only to be greeted by a white-haired man in a blindfold who looks handsome in a slightly irresponsible way.
+</p>
+<p class="body-text" data-vi="">
+  Jujutsu Kaisen là một thế giới nơi cảm xúc tiêu cực của con người có thể tích tụ thành lời nguyền. Đại loại là, bạn stress vì deadline, buồn vì tình yêu, cay vì bị khách hàng sửa brief lần thứ bảy, và đâu đó trong vũ trụ JJK, những năng lượng đó có thể biến thành một con quái vật thật sự. Nghe rất hợp lý, nếu bạn từng làm việc nhóm.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  Jujutsu Kaisen is a world where negative human emotions can build up and turn into curses. In other words, you get stressed by deadlines, heartbroken by love, furious because a client changed the brief for the seventh time, and somewhere in the JJK universe that energy can become an actual monster. Honestly, this makes sense if you have ever done group work.
+</p>
+<p class="body-text" data-vi="">
+  Để xử lý mớ hỗn loạn đó, thế giới này có một lực lượng gọi là chú thuật sư. Họ không chỉ học đánh nhau, họ học cách đọc tình huống, kiểm soát năng lượng, ra quyết định dưới áp lực, sống sót trong môi trường có khả năng giết mình, và quan trọng nhất là không phát điên khi hệ thống xung quanh mình vốn đã hơi phát điên.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  To handle that mess, this world has a group of people called jujutsu sorcerers. They do not simply learn how to fight, they learn how to read situations, control energy, make decisions under pressure, survive in an environment that can kill them, and most importantly, not lose their minds inside a system that is already slightly insane.
+</p>
+<p class="body-text" data-vi="">
+  Nói ngắn gọn, JJK có trường học, có thầy cô, có học viên mới, có thực tập hiện trường, có mentor, có lãnh đạo cấp cao, có rủi ro nghề nghiệp, có chính trị tổ chức, và có những buổi <span class="ld-highlight">đào tạo thực chiến</span> mà nếu đưa vào doanh nghiệp thật thì phòng pháp chế sẽ ngất tại chỗ.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  In short, JJK has schools, teachers, new learners, field practice, mentors, senior leaders, occupational risk, organizational politics, and a kind of <span class="ld-highlight">field-based training</span> that would make a corporate legal team faint on the spot.
+</p>
+<p class="body-text" data-vi="">
+  Vì vậy, trong bài này, ta sẽ tạm coi thế giới chú thuật như một <span class="ld-highlight">môi trường training cực đoan</span>, không phải kiểu training ngồi phòng lạnh, bật slide, cuối buổi điền form phản hồi “nội dung hữu ích, giảng viên nhiệt tình”, mà là training trong một nơi mà bài kiểm tra đầu ra đôi khi là: em còn sống không?
+</p>
+<p class="body-text" data-en="" style="display:none">
+  So in this article, we will treat the world of jujutsu as an <span class="ld-highlight">extreme training environment</span>. This is not the kind of training where people sit in an air-conditioned room, click through slides, and end the session by rating “useful content, enthusiastic trainer.” This is training in a place where the final assessment may simply be: are you still alive?
+</p>
+<p class="body-text" data-vi="">
+  Từ môi trường rất hỗn loạn đó, Jujutsu Kaisen lại đưa ra một quan sát khá sắc về đào tạo: một người học không phát triển nhờ một người thầy hoàn hảo, người học phát triển nhờ được đặt vào đúng <span class="ld-highlight">hệ sinh thái đào tạo</span>, gặp đúng kiểu người hướng dẫn ở đúng thời điểm.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  Out of that chaos, Jujutsu Kaisen offers a surprisingly sharp observation about training: a learner does not grow because they have one perfect teacher, a learner grows because they are placed inside the right <span class="ld-highlight">learning ecosystem</span>, with the right type of guidance at the right time.
+</p>
+<p class="body-text" data-vi="">
+  Với Itadori Yuji, hệ sinh thái đó có ba cái tên: Gojo, Nanami và Yaga.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  For Itadori Yuji, that ecosystem has three names: Gojo, Nanami, and Yaga.
+</p>
+<p class="body-text" data-vi="">
+  Itadori Yuji không có một người thầy, nghe hơi sai, vì ai xem Jujutsu Kaisen cũng nhớ Gojo Satoru đứng đó, tóc trắng, bịt mắt, đẹp trai một cách hơi thiếu trách nhiệm, và hành xử như thể mọi quy định trong thế giới chú thuật chỉ là gợi ý tham khảo.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  Itadori Yuji does not have one teacher, which sounds wrong at first, because anyone who has watched Jujutsu Kaisen remembers Gojo Satoru standing there with white hair, a blindfold, and the energy of someone who treats every rule in the jujutsu world as a polite suggestion.
+</p>
+<p class="body-text" data-vi="">
+  Nhìn kỹ hơn, Gojo không phải toàn bộ hành trình học tập của Itadori, Gojo chỉ là người mở cửa. Sau cánh cửa đó, Itadori cần Nanami để hiểu công việc này không chỉ là đánh nhau cho ngầu, và phía sau tất cả, cậu cần Yaga, người tạo ra điều kiện để cậu được sống, được học, và được trở thành một phần của hệ thống.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  Look closer, and Gojo is not the whole of Itadori’s learning journey, he is the person who opens the door. After that door, Itadori needs Nanami to understand that this job is not just about looking cool in combat, and behind all of it, he needs Yaga, the person who creates the conditions for him to live, learn, and become part of the system.
+</p>
+<p class="body-text" data-vi="">
+  Nói cách khác, JJK không viết một câu chuyện về “người thầy vĩ đại”, nó viết về một <span class="ld-highlight">hệ sinh thái đào tạo</span>, nơi một người ném học viên vào trải nghiệm, một người đi cạnh học viên khi trải nghiệm bắt đầu đau, và một người đứng sau giữ cho cả hệ thống chưa sập.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  In other words, JJK is not telling a story about “the great teacher,” it is telling a story about a <span class="ld-highlight">learning ecosystem</span>, where one person throws the learner into experience, one person walks beside them when experience starts to hurt, and one person stands behind the scenes to keep the system from falling apart.
+</p>
+<p class="body-text" data-vi="">
+  Nếu bỏ lớp anime, lời nguyền, domain expansion ra ngoài, đây chính là điều rất nhiều chương trình <span class="ld-highlight">L&amp;D</span> ngoài đời vẫn đang làm sai, họ bắt một người trainer phải vừa là Gojo, vừa là Nanami, vừa là Yaga, để rồi trainer kiệt sức, học viên hoang mang, còn tổ chức thì tưởng mình đã “đào tạo xong” chỉ vì có một buổi workshop rất đẹp slide.
+</p>
+<p class="body-text" data-en="" style="display:none">
+  Strip away the anime, the curses, and the domain expansions, and this is exactly where many real-world <span class="ld-highlight">L&amp;D</span> programs go wrong. They expect one trainer to be Gojo, Nanami, and Yaga at the same time, and the result is a burned-out trainer, confused learners, and an organization that thinks it has “done training” because one workshop had very pretty slides.
+</p>
+</div>
+<!-- GOJO SECTION -->
+<div class="section" id="s-gojo">
+<div class="section-label" data-vi="">Giai đoạn 1 · Gojo Satoru</div>
+<div class="section-label" data-en="" style="display:none">Phase 1 · Gojo Satoru</div>
+<h2 class="section-h2" data-vi="">Người thầy tin rằng <em>trải nghiệm trực tiếp</em> là bài giảng tốt nhất.</h2>
+<h2 class="section-h2" data-en="" style="display:none">The teacher who believes <em>direct experience</em> is the best lesson.</h2>
+<p class="body-text" data-vi="">Gojo Satoru là kiểu người thầy mà nếu đưa vào doanh nghiệp thật, phòng HR sẽ vừa mê vừa sợ. Mê vì ông tạo ra <span class="ld-highlight">trải nghiệm học tập</span> không thể quên, sợ vì phương pháp của ông nhìn từ xa rất giống “ném người mới xuống nước rồi đứng trên bờ cười”.</p>
+<p class="body-text" data-en="" style="display:none">Gojo Satoru is the kind of teacher who would make a real corporate HR team both fascinated and terrified. Fascinated, because he creates unforgettable <span class="ld-highlight">learning experiences</span>, and terrified, because from a distance his method looks suspiciously like throwing a new hire into deep water and smiling from the shore.</p>
+<div class="sensei-block gojo">
+<div class="sensei-banner">
+<img alt="Gojo Satoru" height="1493" src="assets/jjk/gojo-portrait.jpg" width="1200"/>
+<div class="banner-grad"></div>
+<div class="sensei-banner-info">
+<span class="sensei-tag" data-vi="">Giai đoạn 1 · Khai mở</span>
+<span class="sensei-tag" data-en="" style="display:none">Phase 1 · Opening</span>
+<div class="sensei-name">Gojo Satoru</div>
+<div class="sensei-theory">Constructivism · Experiential Learning (Kolb)</div>
+</div>
+</div>
+<div class="theory-bar">
+<div class="theory-bar-label">Lý thuyết</div>
+<div class="theory-bar-text" data-vi="">Vòng học tập trải nghiệm của Kolb thường bắt đầu bằng <span class="ld-highlight">trải nghiệm cụ thể</span>, sau đó người học quan sát, phản tư, rút ra khái niệm, rồi thử nghiệm lại. Gojo đặc biệt ở chỗ, ông cực kỳ tin vào bước đầu tiên, đôi khi tin hơi quá, vì ông không mở lớp bằng định nghĩa, ông mở lớp bằng một cú sốc.</div>
+<div class="theory-bar-text" data-en="" style="display:none">Kolb’s experiential learning cycle usually begins with <span class="ld-highlight">concrete experience</span>, then moves through observation, reflection, conceptualization, and active experimentation. Gojo is special because he believes very strongly in the first step, sometimes a little too strongly, since he does not open class with a definition, he opens it with a shock.</div>
+</div>
+<div class="sensei-body">
+<div class="scene">
+<div class="scene-img">
+<img alt="Gojo và Itadori trong trận chiến" decoding="async" height="1578" loading="lazy" src="assets/jjk/gojo-scene-1.jpg" width="1200"/>
+</div>
+<div class="scene-content">
+<div class="scene-title" data-vi="">Throw into the deep end</div>
+<div class="scene-title" data-en="" style="display:none">Throw into the deep end</div>
+<div class="scene-text" data-vi="">Gojo đưa Itadori vào môi trường thực chiến gần như ngay lập tức, không đợi học viên “sẵn sàng”, vì trong thế giới chú thuật, sự sẵn sàng thường là một thứ xa xỉ. Cường độ cao làm người học tỉnh, kích hoạt sự chú ý, ký ức và cảm giác “à, hóa ra chuyện này không nằm trên slide”.</div>
+<div class="scene-text" data-en="" style="display:none">Gojo places Itadori in a real combat environment almost immediately, without waiting for the learner to be “ready,” because in the jujutsu world, readiness is often a luxury. High intensity wakes the learner up, activates attention and memory, and creates the very useful realization that, yes, this was never on the slide deck.</div>
+<span class="scene-pill" data-vi="">Ứng dụng: <span class="ld-highlight">action learning</span>, problem-first instruction</span>
+<span class="scene-pill" data-en="" style="display:none">Applied as: <span class="ld-highlight">action learning</span>, problem-first instruction</span>
+</div>
+</div>
+<div class="scene">
+<div class="scene-img">
+<img alt="Gojo cùng các học trò" decoding="async" height="600" loading="lazy" src="assets/jjk/gojo-scene-2.jpg" width="1200"/>
+</div>
+<div class="scene-content">
+<div class="scene-title">Situated learning</div>
+<div class="scene-text" data-vi="">Một trong những điều thú vị ở Gojo là ông không quá tôn trọng ranh giới giữa “lớp học” và “đời thật”. Với Gojo, học có thể nằm trong một chuyến đi, một nhiệm vụ, một tình huống nửa đùa nửa thật mà người học chưa kịp nhận ra mình đang được huấn luyện, và chính bối cảnh thật đó tạo ra khả năng <span class="ld-highlight">transfer</span> mạnh hơn nhiều so với một slide có hình bóng đèn và dòng chữ “Think outside the box”.</div>
+<div class="scene-text" data-en="" style="display:none">One interesting thing about Gojo is that he does not respect the boundary between “classroom” and “real life” very much. For him, learning can happen inside a trip, a mission, or a half-joking situation where the learner has not yet realized they are being trained, and that authentic context creates stronger <span class="ld-highlight">transfer</span> than any slide with a lightbulb icon and the words “Think outside the box.”</div>
+<span class="scene-pill" data-vi="">Ứng dụng: <span class="ld-highlight">situated learning</span>, case-based instruction</span>
+<span class="scene-pill" data-en="" style="display:none">Applied as: <span class="ld-highlight">situated learning</span>, case-based instruction</span>
+</div>
+</div>
+<div class="scene">
+<div class="scene-img">
+<img alt="Gojo Satoru" decoding="async" height="1493" loading="lazy" src="assets/jjk/gojo-portrait.jpg" width="1200"/>
+</div>
+<div class="scene-content">
+<div class="scene-title" data-vi="">Implicit moral modeling</div>
+<div class="scene-title" data-en="" style="display:none">Implicit moral modeling</div>
+<div class="scene-text" data-vi="">Gojo không phải kiểu thầy ngồi xuống và nói: “Hôm nay chúng ta sẽ học về đạo đức nghề nghiệp”, may quá, vì nếu Gojo giảng đạo đức bằng PowerPoint thì chắc cả lớp sẽ trốn học. Ông truyền giá trị bằng hành động, bằng việc bảo vệ học trò khi hệ thống muốn loại bỏ họ, can thiệp khi một đứa trẻ bị mắc kẹt trong cấu trúc gia tộc, và tin vào thế hệ sau dù chính thế hệ của ông đã bị hệ thống làm cho méo mó.</div>
+<div class="scene-text" data-en="" style="display:none">Gojo is not the type of teacher who sits down and says, “Today we will learn about professional ethics,” which is probably for the best, because if Gojo taught ethics through PowerPoint, half the class would skip it. He transmits values through action, by protecting students when the system wants to remove them, intervening when a child is trapped inside a clan structure, and believing in the next generation even though his own generation has already been distorted by the system.</div>
+<span class="scene-pill" data-vi="">Ứng dụng: role modeling, <span class="ld-highlight">psychological safety</span></span>
+<span class="scene-pill" data-en="" style="display:none">Applied as: role modeling, <span class="ld-highlight">psychological safety</span></span>
+</div>
+</div>
+<div class="adult-box">
+<div class="adult-label" data-vi="">Trong giảng dạy người lớn</div>
+<div class="adult-label" data-en="" style="display:none">In adult learning</div>
+<div class="adult-text" data-vi="">Gojo model hiệu quả nhất với người đã có một phần nền tảng và cần được đẩy ra khỏi vùng an toàn, như nhân sự mid-level lên vai trò mới, senior trong leadership pipeline, sinh viên năm cuối làm capstone, hoặc những người cần một cú va chạm thật để hiểu công việc không vận hành như sách nói. Dùng sai đối tượng thì rất nguy hiểm, vì với người mới hoàn toàn, phương pháp “ném vào thực tế” có thể không tạo ra trưởng thành, mà chỉ tạo ra hoảng loạn có chứng chỉ tham gia.</div>
+<div class="adult-text" data-en="" style="display:none">The Gojo model works best for learners who already have some foundation and need to be pushed out of their comfort zone: mid-level employees moving into new roles, seniors in a leadership pipeline, final-year students doing a capstone, or anyone who needs a real collision with practice to understand that work does not operate the way textbooks say it does. Applied to the wrong audience, it becomes dangerous, because for complete beginners, throwing them into reality may not create growth, it may only create panic with a certificate of participation.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TRANSITION -->
+<div class="section" id="s-t1">
+<div class="transition-block">
+<p data-vi="">Gojo biết phong cách của mình không đủ cho giai đoạn tiếp theo, và ông <em class="ld-highlight">chủ động chuyển giao Itadori cho Nanami.</em> Đây là một quyết định sư phạm rất tỉnh, vì đào tạo không phải chuyện giữ học viên trong vùng ảnh hưởng cá nhân, mà là đặt người học vào đúng điều kiện để phát triển.</p>
+<p data-en="" style="display:none">Gojo knows that his style is not enough for the next stage, so he <em class="ld-highlight">deliberately hands Itadori over to Nanami.</em> This is a very clear pedagogical decision, because training is not about keeping learners inside your personal orbit, it is about placing them in the right conditions for development.</p>
+</div>
+</div>
+<!-- NANAMI SECTION -->
+<div class="section" id="s-nanami">
+<div class="section-label" data-vi="">Giai đoạn 2 · Nanami Kento</div>
+<div class="section-label" data-en="" style="display:none">Phase 2 · Nanami Kento</div>
+<h2 class="section-h2" data-vi="">Người thầy <em>làm việc cùng</em> thay vì đứng trên bục giảng.</h2>
+<h2 class="section-h2" data-en="" style="display:none">The teacher who <em>works alongside</em> instead of standing at the podium.</h2>
+<p class="body-text" data-vi="">Nếu Gojo là người kéo rèm sân khấu và nói “nhìn đi, thế giới thật đây”, thì Nanami là người đứng cạnh bạn sau đó và nói: “Được rồi, bây giờ đừng chết vì thiếu quy trình”. Nanami không có năng lượng của một diễn giả truyền cảm hứng, ông bước vào với vẻ mặt của một người đã đi làm đủ lâu để biết thế giới không thay đổi chỉ vì bạn có thái độ tích cực.</p>
+<p class="body-text" data-en="" style="display:none">If Gojo is the person who pulls back the curtain and says, “Look, this is the real world,” Nanami is the person standing beside you afterward saying, “All right, now please do not die because you skipped the process.” Nanami does not have the energy of a motivational speaker, he enters with the face of someone who has worked long enough to know that the world does not change just because you have a positive attitude.</p>
+<div class="sensei-block nanami">
+<div class="sensei-banner">
+<img alt="Nanami Kento" height="1574" src="assets/jjk/nanami-portrait.jpg" width="1200"/>
+<div class="banner-grad"></div>
+<div class="sensei-banner-info">
+<span class="sensei-tag" data-vi="">Giai đoạn 2 · Củng cố</span>
+<span class="sensei-tag" data-en="" style="display:none">Phase 2 · Consolidation</span>
+<div class="sensei-name">Nanami Kento</div>
+<div class="sensei-theory">Cognitive Apprenticeship · Near-peer Mentoring (Collins &amp; Brown)</div>
+</div>
+</div>
+<div class="theory-bar">
+<div class="theory-bar-label">Lý thuyết</div>
+<div class="theory-bar-text" data-vi="">Nanami rất gần với <span class="ld-highlight">cognitive apprenticeship</span>: học nghề thông qua quan sát người có kinh nghiệm làm việc thật, nghe họ giải thích cách họ nghĩ, rồi dần dần tự thực hành với mức hỗ trợ giảm xuống. Điểm quan trọng ở đây không phải là “đứng cạnh chuyên gia” cho vui, mà là chuyên gia phải làm cho tư duy của mình trở nên nhìn thấy được, vì người mới thường không thiếu mắt, họ thiếu cách nhìn.</div>
+<div class="theory-bar-text" data-en="" style="display:none">Nanami is very close to <span class="ld-highlight">cognitive apprenticeship</span>: learning a craft by observing an experienced person doing real work, listening to how they think, and then gradually practicing with less support. The important point is not standing next to an expert for decoration, it is making the expert’s thinking visible, because beginners usually do not lack eyes, they lack a way of seeing.</div>
+</div>
+<div class="sensei-body">
+<div class="scene">
+<div class="scene-img">
+<img alt="Nanami và Itadori trong nhiệm vụ" decoding="async" height="1200" loading="lazy" src="assets/jjk/nanami-scene-1.jpg" width="1200"/>
+</div>
+<div class="scene-content">
+<div class="scene-title">Think-aloud modeling</div>
+<div class="scene-text" data-vi="">Nanami không chỉ làm mẫu, ông nói ra cách ông đọc tình huống. Khi đi cùng Itadori, ông giải thích cách quan sát dấu vết, cách phán đoán đối thủ, cách hiểu những gì còn sót lại sau một kỹ thuật, và đó là phần mà người mới rất cần, vì trong công việc thật, người mới thường chỉ thấy kết quả cuối cùng mà không thấy quá trình lọc tín hiệu, bỏ qua nhiễu và dự đoán rủi ro của người có kinh nghiệm.</div>
+<div class="scene-text" data-en="" style="display:none">Nanami does not only model the work, he says out loud how he reads the situation. When he works with Itadori, he explains how to observe traces, judge an opponent, and understand what remains after a technique, and that is exactly what beginners need, because in real work they often see only the final decision, not the expert’s process of filtering signals, ignoring noise, and anticipating risk.</div>
+<span class="scene-pill" data-vi="">Ứng dụng: <span class="ld-highlight">think-aloud protocol</span>, job shadowing có cấu trúc</span>
+<span class="scene-pill" data-en="" style="display:none">Applied as: <span class="ld-highlight">think-aloud protocol</span>, structured job shadowing</span>
+</div>
+</div>
+<div class="scene">
+<div class="scene-img">
+<img alt="Nanami và Itadori trao đổi" decoding="async" height="1357" loading="lazy" src="assets/jjk/nanami-scene-2.jpg" width="1199"/>
+</div>
+<div class="scene-content">
+<div class="scene-title" data-vi="">Explicit moral discourse</div>
+<div class="scene-title" data-en="" style="display:none">Explicit moral discourse</div>
+<div class="scene-text" data-vi="">Khác với Gojo, Nanami nói thẳng về giá trị, không màu mè, không lên gân, không biến nghề nghiệp thành khẩu hiệu. Ông nói với Itadori về ranh giới giữa bổn phận và bản thân, về việc người lớn không phải lúc nào cũng cao thượng, và về chuyện có những công việc ta làm không phải vì chúng làm ta hạnh phúc, mà vì nếu không làm thì có thứ còn tệ hơn sẽ xảy ra.</div>
+<div class="scene-text" data-en="" style="display:none">Unlike Gojo, Nanami speaks directly about values, without decoration, drama, or turning the profession into a slogan. He talks to Itadori about the boundary between duty and self, about the fact that adults are not always noble, and about how some work is done not because it makes us happy, but because not doing it would allow something worse to happen.</div>
+<span class="scene-pill" data-vi="">Ứng dụng: <span class="ld-highlight">reflective practice</span>, values clarification</span>
+<span class="scene-pill" data-en="" style="display:none">Applied as: <span class="ld-highlight">reflective practice</span>, values clarification</span>
+</div>
+</div>
+<div class="adult-box">
+<div class="adult-label" data-vi="">Trong giảng dạy người lớn</div>
+<div class="adult-label" data-en="" style="display:none">In adult learning</div>
+<div class="adult-text" data-vi="">Nanami model phù hợp nhất với new hire từ tháng thứ hai đến tháng thứ sáu, junior trong các ngành đòi hỏi phán đoán cao như tư vấn, luật, y tế, giáo dục, nghiên cứu, hoặc bất kỳ môi trường nào mà “làm đúng task” chưa đủ, vì người học còn phải hiểu hậu quả của task đó. Nanami không tạo cảm hứng kiểu hội thảo 90 phút, ông tạo năng lực nghề nghiệp, và đôi khi, với người học đang bước vào một thế giới quá phức tạp, một người đi cùng đúng nghĩa còn quý hơn một thiên tài đứng từ xa chỉ tay.</div>
+<div class="adult-text" data-en="" style="display:none">The Nanami model fits new hires from month two to month six, juniors in high-judgment fields such as consulting, law, medicine, education, research, or any environment where doing the task correctly is not enough, because learners also need to understand the consequences of the task. Nanami does not create inspiration in the style of a 90-minute seminar, he builds professional capability, and for a learner entering a complex world, someone who truly walks beside them can be more valuable than a genius pointing from a distance.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pullquote section" id="s-q1">
+<p data-vi="">“Không ai hiểu công việc thực tế hơn chính người đang làm công việc đó, kể cả các chuyên gia training chuyên nghiệp từ bên ngoài. Nanami biết điều này, vì ông đã từng là người từ bên ngoài nhìn vào.”</p>
+<p data-en="" style="display:none">“No one understands the actual work better than the person doing it, not even professional trainers from the outside. Nanami knows this, because he once was the outsider looking in.”</p>
+<cite data-vi="">Fieldnotes on Learning · JJK × Instructional Design</cite>
+<cite data-en="" style="display:none">Fieldnotes on Learning · JJK × Instructional Design</cite>
+</div>
+<!-- YAGA SECTION -->
+<div class="section" id="s-yaga">
+<div class="section-label" data-vi="">Tầng hệ thống · Yaga Masamichi</div>
+<div class="section-label" data-en="" style="display:none">System layer · Yaga Masamichi</div>
+<h2 class="section-h2" data-vi="">Người không dạy Itadori điều gì, nhưng <em>tạo ra điều kiện để mọi thứ có thể xảy ra.</em></h2>
+<h2 class="section-h2" data-en="" style="display:none">The person who does not teach Itadori directly, but <em>creates the conditions for everything to happen.</em></h2>
+<p class="body-text" data-vi="">Yaga Masamichi là kiểu nhân vật mà người xem dễ lướt qua, vì ông không tóc trắng phát sáng như Gojo, không có khí chất nhân viên văn phòng đã nhìn thấu hồng trần như Nanami, và cũng không xuất hiện quá nhiều trong hành trình trực tiếp của Itadori. Dù vậy, nếu bỏ Yaga ra khỏi hệ thống, rất nhiều thứ sẽ không thể bắt đầu.</p>
+<p class="body-text" data-en="" style="display:none">Yaga Masamichi is the kind of character viewers can easily overlook. He does not have Gojo’s glowing white-haired presence, he does not have Nanami’s exhausted office-worker-who-has-seen-through-life energy, and he does not appear that often in Itadori’s direct journey. Still, if Yaga is removed from the system, many things cannot even begin.</p>
+<div class="sensei-block yaga">
+<div class="sensei-banner">
+<img alt="Yaga Masamichi" height="957" src="assets/jjk/yaga-portrait.jpg" width="957"/>
+<div class="banner-grad"></div>
+<div class="sensei-banner-info">
+<span class="sensei-tag" data-vi="">Tầng hệ thống · Thiết kế môi trường</span>
+<span class="sensei-tag" data-en="" style="display:none">System layer · Environment design</span>
+<div class="sensei-name">Yaga Masamichi</div>
+<div class="sensei-theory">Institutional Design · Transformative Care (Mezirow)</div>
+</div>
+</div>
+<div class="theory-bar">
+<div class="theory-bar-label">Lý thuyết</div>
+<div class="theory-bar-text" data-vi="">Nếu Gojo đại diện cho trải nghiệm, Nanami đại diện cho apprenticeship, thì Yaga đại diện cho <span class="ld-highlight">institutional design</span>. Nói đơn giản, ông không thiết kế từng bài học, ông thiết kế điều kiện để việc học có thể xảy ra, và trong một hệ thống đào tạo, đây thường là phần ít được nhìn thấy nhất nhưng lại quyết định mọi thứ có đứng vững hay không.</div>
+<div class="theory-bar-text" data-en="" style="display:none">If Gojo represents experience and Nanami represents apprenticeship, Yaga represents <span class="ld-highlight">institutional design</span>. Simply put, he does not design every single lesson, he designs the conditions that allow learning to happen, and in a training system, this is often the least visible layer but the one that decides whether everything can stand.</div>
+</div>
+<div class="sensei-body">
+<div class="scene">
+<div class="scene-img">
+<img alt="Yaga cùng các học trò" decoding="async" height="1704" loading="lazy" src="assets/jjk/yaga-scene-1.jpg" width="1200"/>
+</div>
+<div class="scene-content">
+<div class="scene-title" data-vi="">Curriculum architect</div>
+<div class="scene-title" data-en="" style="display:none">Curriculum architect</div>
+<div class="scene-text" data-vi="">Yaga không dạy Itadori trực tiếp, nhưng ông là một phần của cấu trúc tạo ra Gojo, người sau đó trở thành thầy của Itadori. Đây là ảnh hưởng tầng hai, và ảnh hưởng tầng hai thường bị đánh giá thấp vì nó không có khoảnh khắc “wow” ngay lập tức, dù một người thiết kế hệ thống giỏi có thể thay đổi cách rất nhiều lớp học diễn ra.</div>
+<div class="scene-text" data-en="" style="display:none">Yaga does not teach Itadori directly, but he is part of the structure that produced Gojo, who later becomes Itadori’s teacher. This is second-layer influence, and second-layer influence is often underestimated because it does not create an immediate “wow” moment, even though a strong system designer can change the way many classes happen.</div>
+<span class="scene-pill" data-vi="">Ứng dụng: <span class="ld-highlight">L&amp;D design</span>, learning culture architecture</span>
+<span class="scene-pill" data-en="" style="display:none">Applied as: <span class="ld-highlight">L&amp;D design</span>, learning culture architecture</span>
+</div>
+</div>
+<div class="scene">
+<div class="scene-img">
+<img alt="Yaga và Gojo" decoding="async" height="736" loading="lazy" src="assets/jjk/yaga-scene-2.jpg" width="736"/>
+</div>
+<div class="scene-content">
+<div class="scene-title" data-vi="">Institutional protection</div>
+<div class="scene-title" data-en="" style="display:none">Institutional protection</div>
+<div class="scene-text" data-vi="">Môi trường học tập không chỉ là nơi có tài liệu, giảng viên và lịch học, mà còn là câu hỏi người học có được phép chưa hoàn hảo không. Nếu hệ thống chỉ biết loại bỏ cái chưa ổn, nó sẽ không bao giờ đào tạo được ai phức tạp, và nếu môi trường chỉ biết phạt sai, người học sẽ học rất nhanh một điều duy nhất: đừng thử gì cả.</div>
+<div class="scene-text" data-en="" style="display:none">A learning environment is not just a place with materials, trainers, and a schedule, it is also the answer to the question: is the learner allowed to be imperfect here? If a system only knows how to remove what is not yet stable, it will never train complex people, and if an environment only punishes mistakes, learners will quickly learn one thing: do not try anything.</div>
+<span class="scene-pill" data-vi="">Ứng dụng: <span class="ld-highlight">psychological safety</span>, systemic equity</span>
+<span class="scene-pill" data-en="" style="display:none">Applied as: <span class="ld-highlight">psychological safety</span>, systemic equity</span>
+</div>
+</div>
+<div class="adult-box">
+<div class="adult-label" data-vi="">Trong giảng dạy người lớn</div>
+<div class="adult-label" data-en="" style="display:none">In adult learning</div>
+<div class="adult-text" data-vi="">Yaga không đại diện cho một “phong cách giảng dạy” theo nghĩa thông thường, ông đại diện cho vai trò của người thiết kế môi trường, như L&amp;D manager, HRBP, trưởng khoa, người xây dựng chương trình, người đặt ra quy tắc đánh giá, người bảo vệ ngân sách cho đào tạo, và người quyết định học tập trong tổ chức là một hệ thống thật hay chỉ là hoạt động phụ diễn ra sau giờ làm.</div>
+<div class="adult-text" data-en="" style="display:none">Yaga does not represent a teaching style in the usual sense, he represents the role of the environment designer: the L&amp;D manager, HRBP, department head, program builder, assessment designer, budget protector, and the person who decides whether learning in the organization is a real system or just a side activity squeezed in after work.</div>
+</div>
+</div>
+</div>
+</div>
+<!-- CLOSING -->
+<div class="closing section" id="s-close">
+<div class="section-label" data-vi="">Kết · Ba archetype, một câu hỏi</div>
+<div class="section-label" data-en="" style="display:none">Closing · Three archetypes, one question</div>
+<h2 class="closing-h2" data-vi="">Bạn đang ở vai nào <em>trong tổ chức của mình?</em></h2>
+<h2 class="closing-h2" data-en="" style="display:none">Which role are you playing <em>inside your organization?</em></h2>
+<p class="body-text" data-vi="">Gojo, Nanami và Yaga không phải ba lựa chọn cạnh tranh nhau, họ là ba tầng cần thiết của một <span class="ld-highlight">hệ thống đào tạo</span> thật sự hoạt động. Gojo là tầng trải nghiệm, người mở biên độ và tạo cú va chạm; Nanami là tầng đồng hành, người biến cú va chạm đó thành năng lực; Yaga là tầng hệ thống, người tạo ra điều kiện để cả quá trình không chỉ phụ thuộc vào may mắn hay lòng tốt cá nhân.</p>
+<p class="body-text" data-en="" style="display:none">Gojo, Nanami, and Yaga are not three competing choices, they are three necessary layers of a working <span class="ld-highlight">training system</span>. Gojo is the experience layer, the one who expands the learner’s range and creates the collision; Nanami is the accompaniment layer, the one who turns that collision into capability; Yaga is the system layer, the one who creates the conditions so the whole process does not depend only on luck or personal kindness.</p>
+<p class="body-text" data-vi="">Điều JJK làm hay hơn nhiều giáo trình <span class="ld-highlight">L&amp;D</span> là nó không giả vờ một người có thể đảm nhận cả ba vai. Gojo không cố làm Nanami, Nanami không cố làm Yaga, Yaga không cần ra tiền tuyến để chứng minh mình quan trọng, và mỗi người hiểu vai của mình trong hành trình phát triển của người học. Một hệ thống đào tạo tốt không cần một siêu nhân làm tất cả, nó cần đúng người, đúng vai, đúng thời điểm.</p>
+<p class="body-text" data-en="" style="display:none">What JJK does better than many <span class="ld-highlight">L&amp;D</span> textbooks is that it does not pretend one person can perform all three roles. Gojo does not try to become Nanami, Nanami does not try to become Yaga, Yaga does not need to be on the front line to prove his importance, and each person understands their role in the learner’s development. A good training system does not need one superhero to do everything, it needs the right people, in the right roles, at the right time.</p>
+<div class="post-nav">
+<a data-vi="" href="index.html">← Về trang blog</a>
+<a data-en="" href="index.html" style="display:none">← Back to blog</a>
+<a data-vi="" href="contact.html#anonymous-mailbox">Gửi phản hồi →</a>
+<a data-en="" href="contact.html#anonymous-mailbox" style="display:none">Send feedback →</a>
+</div>
+</div>
+</div><!-- /article -->
+<!-- FOOTER -->
+<footer>
+<p class="footer-note" data-vi="">Bài viết này sử dụng Jujutsu Kaisen của Gege Akutami (Shueisha) như một lens phân tích instructional design, không nhằm mục đích thương mại. Nhân vật và tình tiết thuộc tác giả và nhà xuất bản gốc. Góc nhìn phân tích lý thuyết học tập là của tác giả bài viết.</p>
+<p class="footer-note" data-en="" style="display:none">This article uses Jujutsu Kaisen by Gege Akutami (Shueisha) as a lens for instructional design analysis, for non-commercial purposes only. Characters and plot belong to the original author and publisher. The learning theory analysis represents the views of the author of this article.</p>
+<div class="footer-social">
+<a href="https://x.com/eui_tg" rel="noopener" target="_blank">X / Twitter</a>
+<a href="https://tiktok.com/@learningiseverywheree" rel="noopener" target="_blank">TikTok · @learningiseverywheree</a>
+<a href="mailto:buitonggiang0805@gmail.com">Email</a>
+<a href="https://tellstory-blog.web.app/feed.xml">RSS</a>
+</div>
+<p class="footer-copy">
+    © 2026 Bui Tong Giang · Fieldnotes on Learning.<br/>
+    Toàn bộ bài viết, hình ảnh, demo và cách trình bày trên website này thuộc tác giả, vui lòng không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý.
+  </p>
+</footer>
+<script>
+/* ---- LANG TOGGLE ---- */
+function setLang(lang) {
+  document.body.classList.toggle('en', lang === 'en');
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+
+/* ---- READING PROGRESS ---- */
+const progress = document.getElementById('progress');
+function updateProgress() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('resize', updateProgress);
+updateProgress();
+
+/* ---- SCROLL REVEAL ---- */
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+sections.forEach(s => observer.observe(s));
+
+/* ---- HERO CANVAS: cursed energy particles ---- */
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [], lines = [];
+  const COLORS = ['rgba(201,168,76,', 'rgba(127,119,221,', 'rgba(255,255,255,'];
+
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  function Particle() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.r = Math.random() * 1.5 + 0.4;
+    this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.alpha = Math.random() * 0.5 + 0.15;
+    this.pulse = Math.random() * Math.PI * 2;
+    this.pulseSpeed = Math.random() * 0.02 + 0.005;
+  }
+
+  Particle.prototype.update = function() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.pulse += this.pulseSpeed;
+    if (this.x < 0) this.x = W;
+    if (this.x > W) this.x = 0;
+    if (this.y < 0) this.y = H;
+    if (this.y > H) this.y = 0;
+  };
+
+  Particle.prototype.draw = function() {
+    const a = this.alpha * (0.7 + 0.3 * Math.sin(this.pulse));
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color + a + ')';
+    ctx.fill();
+  };
+
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < 120; i++) particles.push(new Particle());
+  }
+
+  function drawLines() {
+    const D = 140;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < D) {
+          const a = (1 - dist / D) * 0.12;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(201,168,76,' + a + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    drawLines();
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize', () => { resize(); });
+  init();
+  frame();
+})();
+</script>
+</body>
+</html>

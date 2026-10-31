@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<title>Learner A/B · Động từ bất quy tắc</title>
+<link rel="canonical" href="https://tellstory-blog.web.app/irregular-verbs.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/sakura-gamification.css">
+
+<style>
+:root{--bg:#fff1f5;--bg2:#fff8fb;--surface:#fff;--surface2:#fffafd;--line:#ffd6e0;--line2:#f3b8c9;--pink:#ff8fab;--pink2:#f45f86;--green:#74c69d;--red:#ff6b6b;--blue:#72a8ff;--yellow:#ffd166;--text:#263238;--muted:#667085;--muted2:#8a6f79;--r:24px;--r2:16px;--shadow:0 14px 40px rgba(255,143,171,.18)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:"Be Vietnam Pro",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 10% 0,rgba(255,209,102,.28),transparent 28%),radial-gradient(circle at 88% 8%,rgba(116,198,157,.20),transparent 30%),linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text);min-height:100vh;line-height:1.65}a{color:inherit}button,input,select{font-family:inherit}#app{width:min(1120px,100%);margin:0 auto;padding:18px 16px 72px}.topbar{display:flex;gap:14px;align-items:center;justify-content:space-between;background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow);position:sticky;top:10px;z-index:20;backdrop-filter:blur(16px)}.brand{display:flex;gap:12px;align-items:center}.logo{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),#ffd1dc);font-size:1.45rem}.brand h1{font-size:1.08rem;line-height:1.25}.brand p{font-size:.82rem;color:var(--muted);margin-top:2px}.nav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.nav a,.mini-btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;text-decoration:none;font-weight:800;font-size:.78rem;color:var(--muted);cursor:pointer}.mini-btn.primary,.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}.mini-btn.danger,.btn.danger{background:#fff1f1;border-color:#ffcaca;color:#d64545}.mini-btn.good,.btn.good{background:#eefbf4;border-color:#c9f1da;color:#28805a}.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:18px;margin:20px 0}.card,.panel,.gate,.q-card{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:20px}.card h2,.panel h2,.gate h2{font-size:1.2rem;margin-bottom:8px}.hero-title{font-size:clamp(2rem,4.5vw,4rem);line-height:1.03;letter-spacing:-.045em;margin-bottom:12px}.hero-title span{color:var(--pink2)}.lead{color:var(--muted);max-width:760px}.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:7px 10px;font-size:.78rem;font-weight:800;color:var(--muted)}.auth-grid{display:grid;grid-template-columns:1fr;gap:10px}.field{width:100%;border:1px solid var(--line);border-radius:16px;padding:12px 13px;background:#fff;color:var(--text);font-size:.95rem;outline:none}.field:focus{border-color:var(--pink);box-shadow:0 0 0 4px rgba(255,143,171,.13)}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--text);font-weight:900;padding:12px 16px;cursor:pointer;text-decoration:none;transition:.18s}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}.status{display:flex;align-items:flex-start;gap:12px;border:1px dashed var(--line2);border-radius:var(--r2);background:#fffafd;padding:14px;margin:14px 0}.status b{display:block}.status p{color:var(--muted);font-size:.88rem}.grid{display:grid;gap:14px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.metric{border:1px solid var(--line);background:#fffafd;border-radius:18px;padding:14px}.metric small{display:block;color:var(--muted);font-weight:800;font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}.metric b{display:block;font-size:1.8rem;line-height:1.2;margin-top:4px;color:var(--pink2)}.mode-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}.mode-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 8px 22px rgba(255,143,171,.12);cursor:pointer;transition:.18s}.mode-card:hover{transform:translateY(-3px);border-color:var(--pink)}.mode-icon{font-size:2rem}.mode-card b{display:block;margin:8px 0 3px}.mode-card p{font-size:.82rem;color:var(--muted)}.screen{display:none}.screen.active{display:block}.progress{height:9px;border-radius:999px;background:#f4e8ec;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--pink),#ffd166);transition:.25s}.question-head{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-weight:900;font-size:.82rem}.big-word{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:12px 0}.base{font-size:clamp(3rem,8vw,5.5rem);line-height:.95;font-weight:900;color:var(--pink2);letter-spacing:-.06em}.arrow{font-weight:900;color:var(--muted2)}.past{font-size:clamp(1.6rem,4vw,3rem);font-weight:900;color:var(--green)}.sentence{border-left:4px solid var(--pink);background:#fffafd;border-radius:0 16px 16px 0;padding:12px 14px;margin:12px 0;color:#48545b}.answer-row{display:grid;grid-template-columns:1fr auto;gap:10px;margin:12px 0}.feedback{display:none;margin-top:12px;border-radius:18px;padding:14px;border:1px solid var(--line);background:#fffafd}.feedback.show{display:block}.feedback.correct{border-color:#bdeccf;background:#effbf4}.feedback.wrong{border-color:#ffd0d0;background:#fff4f4}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-weight:900;color:var(--muted);cursor:pointer}.tab.active{background:var(--pink);border-color:var(--pink);color:#fff}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:#fff}table{width:100%;border-collapse:collapse;min-width:760px}th,td{padding:12px 13px;border-bottom:1px solid #f5dfe6;text-align:left;vertical-align:top}th{font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:#8a5364;background:#fff5f8}td{font-size:.9rem}.pill{display:inline-flex;align-items:center;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 9px;font-size:.74rem;font-weight:800;color:var(--muted);margin:2px}.formula{border:1px solid #f3c1d1;background:linear-gradient(180deg,#fffafd,#fff);border-radius:22px;padding:18px;margin:14px 0}.formula-code{font-size:1.25rem;font-weight:900;color:var(--pink2);background:#fff1f5;border:1px solid var(--line);border-radius:16px;padding:12px;overflow:auto;white-space:nowrap}.formula h3{font-size:1.05rem;margin:12px 0 6px}.formula p,.panel p{color:#4e5a61;margin:8px 0}.note{color:var(--muted);font-size:.86rem}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.list{display:grid;gap:8px}.log-item{border:1px solid var(--line);background:#fffafd;border-radius:16px;padding:12px}.log-item b{color:var(--pink2)}.footer-space{height:30px}@media(max-width:880px){#app{padding:12px 10px 60px}.topbar{position:static;align-items:flex-start}.hero{grid-template-columns:1fr}.mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three,.grid.two{grid-template-columns:1fr}.answer-row{grid-template-columns:1fr}.nav{width:100%}.nav a,.mini-btn{flex:1;text-align:center}.card,.panel,.gate,.q-card{padding:16px;border-radius:20px}.base{font-size:3.4rem}.hero-title{font-size:2.15rem}}@media(max-width:520px){.topbar{display:block}.brand{margin-bottom:12px}.mode-grid{grid-template-columns:1fr}.badge-row{display:grid}.btn,.mini-btn{width:100%}.tabs{display:grid}.tab{width:100%}.metric b{font-size:1.45rem}.table-wrap{border-radius:14px}th,td{padding:10px}.formula-code{font-size:.96rem}.hero-title{font-size:1.9rem}}
+
+.gamebar{display:grid;grid-template-columns:1.2fr repeat(3,minmax(0,.8fr));gap:12px;margin:14px 0}.game-tile{border:1px solid var(--line);background:linear-gradient(180deg,#fff,#fffafd);border-radius:20px;padding:14px;box-shadow:0 8px 22px rgba(255,143,171,.10)}.game-tile small{display:block;color:var(--muted);font-size:.74rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.game-tile b{display:block;font-size:1.55rem;color:var(--pink2);line-height:1.25;margin-top:3px}.xp-track{height:10px;border-radius:999px;background:#f5e4eb;overflow:hidden;margin-top:8px}.xp-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--yellow));width:0;transition:.25s}.sound-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.sound-btn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 11px;font-weight:900;color:var(--muted);cursor:pointer}.sound-btn:hover{border-color:var(--pink);color:var(--pink2)}.student-facing{border:1px solid var(--line);background:#fffafd;border-radius:18px;padding:12px;margin-top:10px}.empty-state{border:1px dashed var(--line2);background:#fffafd;border-radius:22px;padding:20px;text-align:left}.empty-state h3{font-size:1.05rem;margin-bottom:6px}.empty-state p{color:var(--muted)}.teacher-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start}.score-pop{font-weight:900;color:var(--pink2)}@media(max-width:880px){.gamebar{grid-template-columns:repeat(2,minmax(0,1fr))}.teacher-actions{display:grid}.teacher-actions .btn{width:100%}}@media(max-width:520px){.gamebar{grid-template-columns:1fr}.sound-row{display:grid}.sound-btn{width:100%}}
+.mini-btn.lang-active{background:var(--pink);border-color:var(--pink);color:#fff}.lang-switch{display:inline-flex;gap:6px}
+
+/* Mobile safety pass: keeps navigation, cards, and report tables usable on phones. */
+@media(max-width:520px){
+  .nav{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    width:100%;
+  }
+
+  .nav a,
+  .nav .mini-btn{
+    width:100%;
+    min-height:42px;
+    padding:10px 8px;
+    font-size:.78rem;
+    justify-content:center;
+    text-align:center;
+  }
+
+  .topbar{
+    gap:12px;
+  }
+
+  #app{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .hero-title{
+    font-size:1.75rem;
+    line-height:1.12;
+  }
+
+  .lead{
+    font-size:.96rem;
+  }
+
+  .card,
+  .panel,
+  .gate,
+  .q-card{
+    padding:15px;
+  }
+
+  .table-wrap{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  table{
+    min-width:640px;
+  }
+}
+
+
+.flash-card .big-word{align-items:flex-end}
+.flash-word-forms{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.flash-layout{
+  display:grid;
+  grid-template-columns:minmax(210px,.42fr) minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+  margin-top:12px;
+}
+.flash-procedure{
+  border-left:4px solid var(--pink);
+  padding:4px 0 4px 14px;
+}
+.flash-procedure b{
+  display:block;
+  color:var(--pink2);
+  margin-bottom:8px;
+}
+.flash-procedure ol{
+  display:grid;
+  gap:8px;
+  color:#4e5a61;
+  font-size:.9rem;
+  padding-left:20px;
+}
+.flash-stage{min-width:0}
+.flash-piles{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:0 0 12px;
+}
+.flash-pile{
+  border:1px solid var(--line);
+  background:#fffafd;
+  border-radius:14px;
+  padding:9px 10px;
+}
+.flash-pile small{
+  display:block;
+  color:var(--muted);
+  font-weight:900;
+  font-size:.72rem;
+  text-transform:uppercase;
+}
+.flash-pile b{
+  display:block;
+  color:var(--pink2);
+  font-size:1.25rem;
+  line-height:1.2;
+}
+.flash-card-shell{
+  position:relative;
+  min-height:310px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:#fff;
+  overflow:hidden;
+  box-shadow:0 12px 28px rgba(255,143,171,.14);
+}
+.flash-side{
+  min-height:310px;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.flash-back{display:none}
+.flash-card.is-flipped .flash-front{display:none}
+.flash-card.is-flipped .flash-back{display:flex}
+.flash-kicker{
+  display:inline-flex;
+  width:max-content;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:5px 9px;
+  color:var(--muted);
+  font-size:.72rem;
+  font-weight:900;
+  margin-bottom:12px;
+}
+.flash-front .base{
+  font-size:clamp(3.2rem,8vw,6rem);
+}
+.flash-front p,.flash-back-note{
+  color:var(--muted);
+  margin-top:10px;
+  max-width:620px;
+}
+.flash-speak-check{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  border:1px dashed var(--line2);
+  background:#fffafd;
+  border-radius:16px;
+  padding:11px 12px;
+  margin:12px 0;
+  color:#4e5a61;
+  font-weight:700;
+}
+.flash-speak-check input{margin-top:5px}
+.flash-card:not(.is-flipped) .flash-actions [data-flash-action]{display:none}
+.flash-card.is-flipped #fcFlipBtn{display:none}
+.flash-card:not(.is-flipped) .sound-row button:not(:first-child){display:none}
+.fc-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0 14px;
+}
+.fc-detail{
+  border:1px solid var(--line);
+  background:#fffafd;
+  border-radius:16px;
+  padding:11px 12px;
+  min-height:86px;
+}
+.fc-detail b{
+  display:block;
+  color:var(--pink2);
+  font-size:.75rem;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.fc-detail span{
+  display:block;
+  color:var(--text);
+  font-weight:900;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+.fc-detail small{
+  display:block;
+  color:var(--muted);
+  font-weight:700;
+  margin-top:4px;
+}
+.flash-actions .btn{min-width:132px}
+@media(max-width:760px){
+  .flash-layout{grid-template-columns:1fr}
+  .flash-piles{grid-template-columns:1fr 1fr}
+  .fc-detail-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:520px){
+  .flash-piles{grid-template-columns:1fr}
+  .flash-side,.flash-card-shell{min-height:280px}
+  .flash-side{padding:18px}
+  .fc-detail-grid{grid-template-columns:1fr}
+  .flash-actions{display:grid}
+  .flash-actions .btn{width:100%;min-width:0}
+}
+
+.flash-card,
+.flash-layout,
+.flash-stage,
+.flash-card-shell,
+.flash-side{
+  max-width:100%;
+  min-width:0;
+}
+.flash-speak-check{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  display:grid;
+  grid-template-columns:26px minmax(0,1fr);
+  align-items:start;
+  overflow:hidden;
+}
+.flash-speak-check input{
+  width:22px;
+  height:22px;
+  margin:2px 0 0;
+}
+.flash-speak-check span{
+  display:block;
+  min-width:0;
+  max-width:100%;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+@media(max-width:520px){
+  body{overflow-x:hidden}
+  #app{overflow-x:hidden}
+  .q-card.flash-card{
+    padding:12px;
+    border-radius:12px;
+  }
+  .flash-layout{gap:12px}
+  .flash-procedure{
+    border-left-width:3px;
+    padding-left:11px;
+  }
+  .flash-card-shell{
+    min-height:248px;
+    border-radius:10px;
+    box-shadow:0 8px 18px rgba(38,50,56,.08);
+  }
+  .flash-side{
+    min-height:248px;
+    padding:16px;
+  }
+  .flash-speak-check{
+    gap:9px;
+    border-radius:10px;
+    padding:10px;
+    margin:10px 0;
+  }
+  .sound-row{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+  .sound-btn,
+  .flash-actions .btn{
+    min-height:48px;
+    border-radius:8px;
+    box-shadow:none;
+    transform:none;
+  }
+}
+
+body.sakura-off .sakura-guide,
+body.sakura-off #lessonMascot{display:none}
+body.sakura-off .lesson-room{grid-template-columns:1fr}
+body.sakura-off .lesson-board{width:100%;max-width:920px;margin:0 auto}
+
+.copyright-note{
+  max-width:880px;
+  margin:24px auto 12px;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:rgba(255,255,255,.86);
+  color:var(--muted);
+  font-size:.84rem;
+  line-height:1.7;
+  text-align:center;
+}
+.copyright-note a{
+  color:var(--pink2);
+  font-weight:800;
+  text-decoration:none;
+}
+.learning-home{
+  display:grid;
+  gap:10px;
+}
+.learning-home .btn{
+  width:max-content;
+}
+@media(max-width:520px){
+  .learning-home .btn{
+    width:100%;
+  }
+}
+
+</style>
+
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div id="app">
+<header class="topbar">
+  <div class="brand"><div class="logo">🦁</div><div><h1 data-vi="Học với Sakura · Động từ bất quy tắc" data-en="Learn with Sakura · Irregular verbs">Learner A/B · Động từ bất quy tắc</h1><p data-vi="Trang luyện tập, streak, tim và lộ trình học riêng." data-en="Practice, streaks, hearts, and the learning path in one focused page.">Ôn động từ bất quy tắc theo cụm lỗi.</p></div></div>
+  <nav class="nav"><a href="index.html">Blog</a><a href="irregular-verbs-guide.html" data-vi="Giải thích app" data-en="App notes">Giải thích app</a><a href="irregular-report.html" data-vi="Báo cáo" data-en="Report">Báo cáo</a><button class="mini-btn lang-btn" id="btn-vi" onclick="setLang('vi')">VI</button><button class="mini-btn lang-btn" id="btn-en" onclick="setLang('en')">EN</button></nav>
+</header>
+<section class="hero">
+  <div class="card">
+    <h2 class="hero-title" data-vi="Luyện <span>động từ bất quy tắc</span> theo cụm" data-en="Practise <span>irregular verbs</span> by cluster">Luyện <span>động từ bất quy tắc</span> theo cụm</h2>
+    <p class="lead" data-vi="Bạn có thể bắt đầu một phiên học thử, làm bài và xem lại dữ liệu của chính phiên đó; Learner A/B có phiên học riêng để theo dõi tiến độ lâu dài." data-en="You can start a trial session, answer questions and review the data from that exact session; Learner A/B have private sessions for long-term progress tracking.">Bạn có thể bắt đầu một phiên học thử, làm bài và xem lại dữ liệu của chính phiên đó; Learner A/B có phiên học riêng để theo dõi tiến độ lâu dài.</p>
+    <div class="badge-row"><span class="badge" data-vi="93 động từ bất quy tắc" data-en="93 irregular verbs">93 động từ bất quy tắc</span><span class="badge" data-vi="6 cụm hình thái" data-en="6 morphological clusters">6 cụm hình thái</span><span class="badge" data-vi="Quiz theo ngữ cảnh" data-en="Context-based quiz">Quiz theo ngữ cảnh</span><span class="badge" data-vi="Xem lại lỗi sai" data-en="Review mistakes">Xem lại lỗi sai</span></div>
+  </div>
+  <div class="gate">
+    <h2 data-vi="Chọn cách vào học" data-en="Choose how to enter">Chọn cách vào học</h2>
+    <div class="auth-grid">
+      <button class="btn primary" onclick="startDemo()" data-vi="Bắt đầu học thử" data-en="Start trial session">Bắt đầu học thử</button>
+      <select class="field" id="learnerSelect"><option value="L01">Learner A</option><option value="L02">Learner B</option></select>
+      <input class="field" id="learnerCode" type="password" autocomplete="off" placeholder="Nhập mã của Learner A hoặc Learner B" data-placeholder-vi="Nhập mã của Learner A hoặc Learner B" data-placeholder-en="Enter Learner A or Learner B's code">
+      <button class="btn good" onclick="unlockLearner()" data-vi="Chọn cách vào học thật" data-en="Open real session">Chọn cách vào học thật</button>
+      <select class="field" id="phaseSelect" aria-label="Learning phase" onchange="renderAblationState()"><option value="pretest">Pretest · trước can thiệp</option><option value="in_class_diagnostic">Diagnostic · đầu buổi</option><option value="lesson_practice" selected>Practice · luyện tập</option><option value="exit_ticket">Exit ticket · cuối buổi</option><option value="delayed_review">Delayed review · buổi sau</option><option value="posttest">Posttest · sau can thiệp</option><option value="delayed_posttest">Delayed posttest · đo lại sau</option></select>
+    </div>
+    <div class="status" id="modeStatus"><span>🌿</span><div><b data-vi="Chưa bắt đầu phiên học" data-en="No session has started">Chưa bắt đầu phiên học</b><p data-vi="Bắt đầu học thử để làm bài ngay, hoặc nhập mã để mở phiên riêng của Learner A/B." data-en="Start a trial session to practise now, or enter a code to open Learner A/B's private session.">Bắt đầu học thử để làm bài ngay, hoặc nhập mã để mở phiên riêng của Learner A/B.</p></div></div>
+  </div>
+</section>
+<section class="gamebar" id="statsBox"></section>
+<section class="learning-loop">
+  <div class="path-card">
+    <div class="section-kicker" data-vi="Lộ trình Sakura" data-en="Sakura path">Lộ trình Sakura</div>
+    <h2 data-vi="Mở khóa từng cụm động từ" data-en="Unlock each verb cluster">Mở khóa từng cụm động từ</h2>
+    <p data-vi="Mỗi bài chỉ 8–12 câu. Hoàn thành một chặng để mở chặng tiếp theo." data-en="Each lesson has only 8–12 questions. Finish one stage to unlock the next.">Mỗi bài chỉ 8–12 câu. Hoàn thành một chặng để mở chặng tiếp theo.</p>
+    <div class="skill-path" id="skillPath"></div>
+    <div class="badge-shelf" id="badgeShelf"></div>
+  </div>
+  <aside class="league-card">
+    <div class="section-kicker" data-vi="Thi đua nhẹ nhàng" data-en="Friendly competition">Thi đua nhẹ nhàng</div>
+    <div class="league-head"><h2 data-vi="Bảng xếp hạng tuần" data-en="Weekly leaderboard">Bảng xếp hạng tuần</h2><span class="league-badge" id="leagueBadge"></span></div>
+    <p data-vi="League mô phỏng trên thiết bị này, làm mới mỗi tuần." data-en="A device-only simulated league, refreshed weekly.">League mô phỏng trên thiết bị này, làm mới mỗi tuần.</p>
+    <div class="league-list" id="leagueList"></div>
+  </aside>
+</section>
+<section class="mode-grid">
+  <div class="mode-card" onclick="startMode('due')"><div class="mode-icon">🎯</div><b data-vi="Thử thách hôm nay" data-en="Today's challenge">Thử thách hôm nay</b><p data-vi="10–12 câu, tính điểm và giữ streak để tạo cảm giác thi đua." data-en="10–12 questions with score and streak to keep the game feeling alive.">10–12 câu, tính điểm và giữ streak để tạo cảm giác thi đua.</p></div>
+  <div class="mode-card" onclick="startMode('weak')"><div class="mode-icon">🧩</div><b data-vi="Vượt ải cụm khó" data-en="Beat the weak cluster">Vượt ải cụm khó</b><p data-vi="Câu hỏi tập trung vào nhóm từ đang hay sai nhất." data-en="Questions focus on the verb group you are currently missing most.">Câu hỏi tập trung vào nhóm từ đang hay sai nhất.</p></div>
+  <div class="mode-card" onclick="startMode('boss')"><div class="mode-icon">👑</div><b data-vi="Boss tổng hợp" data-en="Mixed boss mode">Boss tổng hợp</b><p data-vi="Trộn câu, nghĩa, hội thoại và nghe từ để kiểm tra phản xạ." data-en="Mix sentences, meanings, dialogue and listening prompts to test reflexes.">Trộn câu, nghĩa, hội thoại và nghe từ để kiểm tra phản xạ.</p></div>
+  <div class="mode-card" onclick="startFlash()"><div class="mode-icon">⚡</div><b data-vi="Flashcard tự nhớ" data-en="Self-recall flashcards">Flashcard tự nhớ</b><p data-vi="Nhìn mặt trước, tự nhớ nghĩa, đọc to, lật thẻ rồi tự chấm." data-en="Read the front, recall the meaning, say it aloud, flip, then self-check.">Nhìn mặt trước, tự nhớ nghĩa, đọc to, lật thẻ rồi tự chấm.</p></div>
+</section>
+<div class="toolbar"><a class="btn" href="irregular-verbs-guide.html" data-vi="Đọc giải thích app" data-en="Read app notes">Đọc giải thích app</a><button class="btn" onclick="showSessionData()" data-vi="Xem dữ liệu phiên này" data-en="View this session data">Xem dữ liệu phiên này</button><button class="btn" onclick="exportCurrent()" data-vi="Xuất CSV" data-en="Export CSV">Xuất CSV</button><button class="btn danger" onclick="resetCurrent()" data-vi="Reset phiên học thử" data-en="Reset trial session">Reset phiên học thử</button></div>
+<section class="screen active" id="screen-home"><div class="panel learning-home"><h2 data-vi="Chọn một chặng để học với Sakura" data-en="Choose a stage to learn with Sakura">Chọn một chặng để học với Sakura</h2><p class="note" data-vi="Trang này chỉ giữ phần học: bắt đầu phiên học thử hoặc mở Learner A/B, rồi chọn lộ trình Sakura, thử thách hôm nay, cụm khó, boss tổng hợp hoặc flashcard. Phần giải thích cách chia cụm và thuật toán đã được tách sang trang riêng." data-en="This page now keeps the learning flow only: start a trial or open Learner A/B, then choose the Sakura path, today's challenge, weak cluster, mixed boss, or flashcards. The cluster and algorithm explanation lives on its own page.">Trang này chỉ giữ phần học: bắt đầu phiên học thử hoặc mở Learner A/B, rồi chọn lộ trình Sakura, thử thách hôm nay, cụm khó, boss tổng hợp hoặc flashcard. Phần giải thích cách chia cụm và thuật toán đã được tách sang trang riêng.</p><a class="btn" href="irregular-verbs-guide.html" data-vi="Xem phần giải thích" data-en="Open explanation">Xem phần giải thích</a></div></section>
+<section class="screen lesson-screen" id="screen-quiz">
+  <div class="lesson-room">
+    <aside class="lesson-mascot" id="lessonMascot" aria-live="polite">
+      <div class="lesson-mascot-stage"><iframe id="lessonSakuraFrame" src="assets/sakura-mascot.html?embed=1" title="Sakura learning coach" tabindex="-1"></iframe></div>
+      <div class="lesson-speech"><b>Sakura</b><p id="lessonSakuraMessage">Chọn một chặng, Sakura sẽ luyện cùng bạn.</p></div>
+    </aside>
+    <main class="lesson-board">
+      <div class="lesson-topline">
+        <div><span id="qMode">QUIZ</span><span id="qCount">Câu 1/10</span></div>
+        <div class="lesson-controls"><button class="mini-btn sound-toggle" id="sakuraSoundBtn" onclick="toggleSakuraSound()" aria-pressed="true">Âm Sakura: Bật</button><button class="mini-btn" onclick="leaveLesson()" data-vi="Thoát" data-en="Exit">Thoát</button></div>
+      </div>
+      <div class="progress lesson-progress"><div class="bar" id="bar"></div></div>
+      <div class="gamebar lesson-stats" id="quizScore"></div>
+      <div class="q-card lesson-question-card">
+        <div class="lesson-prompt-label" id="qTaskLabel" data-vi="Viết dạng quá khứ V2" data-en="Write the V2 past form">Viết dạng quá khứ V2</div>
+        <div class="big-word"><span class="base" id="qBase">go</span><span class="arrow">→</span><span class="past" id="qPast">?</span></div>
+        <div class="study-card" id="qStudyCard"></div>
+        <div class="sound-row"><button class="sound-btn" onclick="speakBase()" data-vi="🔊 Nghe từ gốc" data-en="🔊 Listen to base form">🔊 Nghe từ gốc</button><button class="sound-btn" onclick="speakPrompt()" data-vi="🔊 Nghe câu hỏi" data-en="🔊 Listen to prompt">🔊 Nghe câu hỏi</button><button class="sound-btn answer-sound" id="answerSoundBtn" onclick="speakAnswer()" data-vi="🔊 Nghe đáp án" data-en="🔊 Listen to answer">🔊 Nghe đáp án</button></div>
+        <p class="sentence" id="qSentence"></p>
+        <div class="choice-grid" id="choiceGrid"></div>
+        <div class="answer-row with-hint"><input class="field" id="answer" autocomplete="off" placeholder="Nhập dạng quá khứ V2" data-placeholder-vi="Nhập dạng quá khứ V2" data-placeholder-en="Enter the V2 past form"><button class="btn hint-btn" onclick="askSakuraHint()" data-vi="Sakura gợi ý" data-en="Ask Sakura">Sakura gợi ý</button><button class="btn primary" id="checkBtn" onclick="submitAnswer()" data-vi="Chấm" data-en="Check">Chấm</button></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="heart-recovery" id="heartRecovery"><p id="heartRecoveryText"></p><button class="btn good" onclick="recoverHeart()" data-vi="Ôn nhanh để hồi 1 tim" data-en="Quick review for 1 heart">Ôn nhanh để hồi 1 tim</button></div>
+      </div>
+      <div class="toolbar lesson-actions"><button class="btn primary" id="nextBtn" onclick="nextQuestion()" style="display:none" data-vi="Câu tiếp" data-en="Next question">Câu tiếp</button></div>
+    </main>
+  </div>
+</section>
+<section class="screen" id="screen-flash">
+  <div class="q-card flash-card" id="flashCardPanel">
+    <div class="question-head"><span>FLASHCARD</span><span id="fcCount"></span></div>
+    <div class="flash-layout">
+      <aside class="flash-procedure">
+        <b data-vi="Quy trình học thẻ" data-en="Card routine">Quy trình học thẻ</b>
+        <ol>
+          <li data-vi="Xem từ ở mặt trước." data-en="Look at the word on the front.">Xem từ ở mặt trước.</li>
+          <li data-vi="Tự nhớ nghĩa trước khi lật." data-en="Recall the meaning before flipping.">Tự nhớ nghĩa trước khi lật.</li>
+          <li data-vi="Đọc to từ và nói nghĩa." data-en="Say the word and meaning aloud.">Đọc to từ và nói nghĩa.</li>
+          <li data-vi="Lật thẻ để kiểm tra." data-en="Flip the card to check.">Lật thẻ để kiểm tra.</li>
+          <li data-vi="Nhớ đúng thì đưa sang chồng đã thuộc." data-en="If correct, move it to the known pile.">Nhớ đúng thì đưa sang chồng đã thuộc.</li>
+          <li data-vi="Chưa nhớ thì đưa sang chồng học lại." data-en="If not, move it to the relearn pile.">Chưa nhớ thì đưa sang chồng học lại.</li>
+        </ol>
+      </aside>
+      <main class="flash-stage">
+        <div class="flash-piles" id="flashPiles"></div>
+        <div class="flash-card-shell" id="flashFlipCard" aria-live="polite">
+          <div class="flash-side flash-front">
+            <span class="flash-kicker" data-vi="Mặt trước" data-en="Front">Mặt trước</span>
+            <div class="base" id="fcBase"></div>
+            <p id="fcFrontPrompt"></p>
+          </div>
+          <div class="flash-side flash-back">
+            <span class="flash-kicker" data-vi="Mặt sau" data-en="Back">Mặt sau</span>
+            <div class="fc-detail-grid" id="fcInfo"></div>
+            <p class="flash-back-note" id="fcBackNote"></p>
+          </div>
+        </div>
+        <label class="flash-speak-check"><input id="fcSpokenCheck" type="checkbox" onchange="rememberFlashSpoken(this.checked)"><span data-vi="Em đã phát âm từ này và nói nghĩa trước khi lật thẻ." data-en="I said this word and its meaning aloud before flipping.">Em đã phát âm từ này và nói nghĩa trước khi lật thẻ.</span></label>
+        <div class="sound-row"><button class="sound-btn" onclick="speakFlashBase()" data-vi="🔊 Nghe V1" data-en="🔊 Listen to V1">🔊 Nghe V1</button><button class="sound-btn" onclick="speakFlashPast()" data-vi="🔊 Nghe V2" data-en="🔊 Listen to V2">🔊 Nghe V2</button><button class="sound-btn" onclick="speakFlashP3()" data-vi="🔊 Nghe V3" data-en="🔊 Listen to V3">🔊 Nghe V3</button></div>
+        <div class="toolbar flash-actions"><button class="btn primary" id="fcFlipBtn" onclick="flipFlashCard()" data-vi="Lật thẻ để kiểm tra" data-en="Flip to check">Lật thẻ để kiểm tra</button><button class="btn good" data-flash-action="remembered" onclick="flashNext('remembered')" data-vi="Nhớ đúng · sang chồng đã thuộc" data-en="Remembered · known pile">Nhớ đúng · sang chồng đã thuộc</button><button class="btn danger" data-flash-action="forgot" onclick="flashNext('forgot')" data-vi="Chưa nhớ · học lại" data-en="Not remembered · relearn">Chưa nhớ · học lại</button><button class="btn" onclick="showScreen('home')" data-vi="Thoát" data-en="Exit">Thoát</button></div>
+      </main>
+    </div>
+  </div>
+</section>
+<section class="screen" id="screen-data"><div class="panel"><h2 data-vi="Dữ liệu phiên hiện tại" data-en="Current session data">Dữ liệu phiên hiện tại</h2><p class="note" id="dataNote"></p><div class="grid three" id="dataMetrics"></div><div class="table-wrap" style="margin-top:14px"><table><thead><tr><th data-vi="Thời gian" data-en="Time">Thời gian</th><th data-vi="Người học" data-en="Learner">Người học</th><th data-vi="Từ" data-en="Verb">Từ</th><th data-vi="Đáp án" data-en="Answer">Đáp án</th><th data-vi="Loại lỗi" data-en="Error type">Loại lỗi</th><th>M꜀</th><th>Sᵥ</th></tr></thead><tbody id="eventRows"></tbody></table></div></div></section>
+</div>
+
+<aside class="sakura-guide" id="sakuraGuide" aria-live="polite">
+  <div class="sakura-stage"><iframe id="sakuraFrame" src="assets/sakura-mascot.html?embed=1" title="Sakura learning companion" tabindex="-1"></iframe></div>
+  <div class="sakura-copy"><b><span class="sakura-name">Sakura · Learning coach</span><button class="sakura-toggle" onclick="toggleSakura()" aria-label="Thu gọn Sakura">−</button></b><p id="sakuraMessage">Chào bạn! Chọn một phiên học rồi mình cùng bắt đầu nhé.</p></div>
+</aside>
+
+<div class="lesson-complete" id="lessonComplete" role="dialog" aria-modal="true" aria-labelledby="completeTitle">
+  <div class="complete-card">
+    <div class="petal-rain" aria-hidden="true"><i style="left:7%"></i><i style="left:18%"></i><i style="left:31%"></i><i style="left:46%"></i><i style="left:59%"></i><i style="left:73%"></i><i style="left:88%"></i></div>
+    <div class="bloom">🌸</div><h2 id="completeTitle">Bài học hoàn thành!</h2><p id="completeMessage"></p>
+    <div class="complete-metrics" id="completeMetrics"></div><div class="reward-pill" id="completeReward"></div>
+    <div><button class="btn primary" onclick="closeLessonComplete()" data-vi="Tiếp tục hành trình" data-en="Continue the journey">Tiếp tục hành trình</button></div>
+  </div>
+</div>
+
+<script>
+window.irregularBootStarted=true;
+window.addEventListener('error',event=>{window.irregularBootError={message:event.message,source:event.filename,line:event.lineno,column:event.colno}});
+window.addEventListener('unhandledrejection',event=>{window.irregularBootRejection=String(event.reason&&event.reason.message||event.reason)});
+const LANG_KEY='tellstory_irregular_lang';
+let currentLang=localStorage.getItem(LANG_KEY)||'vi';
+const PAGE_META={vi:{title:'Học với Sakura · Động từ bất quy tắc'},en:{title:'Learn with Sakura · Irregular verbs'}};
+const CLUSTER_EN={suppletive:'Suppletive',vowel:'Vowel change',td:'-t/-d ending',nochange:'No change',ought:'-ought / -aught',other:'Other patterns'};
+const CLUSTER_DETAILS_EN={suppletive:{desc:'The past form changes strongly and cannot be derived directly from V1; adding -ed in this cluster often signals that the learner has not separated irregular verbs from the regular past-tense rule.',rule:'Learn these as special pairs instead of deriving them by adding -ed.'},vowel:{desc:'The past form usually keeps a similar consonant frame but changes the main vowel or inner sound, as in sing → sang or run → ran.',rule:'Track errors such as runned, singed and drinked because they show the vowel-change group being pulled back toward the -ed rule.'},td:{desc:'The past form shifts into endings such as -t, -d, -lt, -pt, -nt or -ld, so learners may write forms like sleeped, feeled or sended.',rule:'Emphasise the final-sound change instead of adding -ed to the base form.'},nochange:{desc:'V1, V2 and V3 are identical or almost identical; learners may add -ed because the word does not visibly look like the past tense.',rule:'Teach this as the no-change group: put stays put, cut stays cut.'},ought:{desc:'This group contains bought, brought, caught, taught, thought and sought; the pattern exists, but it is not obvious to early learners.',rule:'Help learners notice the -ought and -aught sound/spelling cluster instead of producing buyed or teached.'},other:{desc:'These verbs do not fit neatly into the five main clusters, or they have special cases such as learn, lie, shine and show.',rule:'Track them word by word, while still letting the priority queue handle them like other clusters.'}};
+const UI={
+  vi:{player:'Người chơi',notOpen:'Chưa mở',trial:'Học thử',level:'Level',score:'Điểm',streak:'Streak',attempts:'Lượt',correct:'Đúng',overed:'Lỗi -ed',learnRule:'Cách học:',clusterProgress:'Tiến độ nhóm này',clusterProgressNote:'Phần này giúp người học thấy nhóm từ nào mình đang làm tốt hơn, còn thuật toán xếp lịch ôn được chạy ngầm phía sau.',noData:'chưa có',today:'THỬ THÁCH HÔM NAY',weak:'VƯỢT ẢI CỤM KHÓ',boss:'BOSS TỔNG HỢP',question:'Câu',card:'Thẻ',right:'Đúng rồi',wrong:'Chưa đúng',rightAnswer:'Đáp án đúng là',plus:'điểm',streakReset:'Streak về 0, thử lại ở câu sau.',overMsg:'Bạn đang thêm -ed vào một động từ bất quy tắc, hãy chú ý dạng riêng của từ này.',v3Msg:'Bạn đang dùng nhầm V3, câu này cần V2.',v2Msg:'Bạn đang dùng V2, nhưng câu này cần V3.',blankMsg:'Bạn đang bỏ trống câu trả lời, hãy thử đoán trước khi xem đáp án.',feedbackType:'Loại phản hồi:',demoData:'Đây là dữ liệu của phiên học thử hiện tại.',realData:'Đây là dữ liệu phiên của {name} trong bộ dữ liệu chính thức.',noSession:'Chưa bắt đầu phiên học',noSessionNote:'Bắt đầu học thử để làm bài ngay, hoặc nhập mã để mở phiên riêng của Learner A/B.',demoOn:'Đang học thử',demoOnNote:'Kết quả học thử chỉ lưu trên trình duyệt của bạn, không ghi vào dữ liệu chính thức.',realOn:'Đang học trong phiên của {name}',realOnNote:'Kết quả của phiên này được lưu vào bộ dữ liệu chính thức để theo dõi tiến độ lâu dài.',opening:'Đang mở phiên của {name}',openingNote:'Hệ thống đang kết nối bộ dữ liệu chính thức.',wrongCode:'Mã không đúng.',openFail:'Chưa mở được bộ dữ liệu chính thức. Hãy kiểm tra Anonymous Auth, Firestore rules và kết nối mạng.',speechFail:'Trình duyệt này chưa hỗ trợ đọc tiếng.',needMode:'Hãy bắt đầu học thử hoặc mở phiên học thật trước.',officialReset:'Dữ liệu chính thức chỉ được reset ở trang báo cáo bằng mã giáo viên.',confirmReset:'Xóa dữ liệu học thử trong phiên hiện tại?',emptySession:'Chưa có dữ liệu trong phiên này.',assessment:'Đợt đo lường',measurementOnly:'Chỉ đo lường',adaptivePractice:'Adaptive',assessmentRecorded:'Đã ghi nhận câu trả lời.',assessmentNoHint:'Phase đo lường không dùng gợi ý.',assessmentNote:'Phase này chỉ ghi dữ liệu pre/post; không cộng điểm, không trừ tim và không cập nhật model.',assessmentComplete:'Đã hoàn thành đợt đo lường.',meaning:'Nghĩa:',meaningTask:'Hãy viết dạng quá khứ của',listenTask:'Nghe từ gốc, sau đó viết dạng quá khứ V2 của từ đó.',quickTask:'Dạng quá khứ V2 của',isWhat:'là gì?',labels:{correct:'đúng',overregularization:'thêm -ed sai',wrongFormV3:'nhầm V3',wrongFormV2:'nhầm V2',spelling:'chính tả nhẹ',blank:'bỏ trống',other:'sai khác'}},
+  en:{player:'Player',notOpen:'Not opened',trial:'Trial',level:'Level',score:'Score',streak:'Streak',attempts:'Attempts',correct:'Correct',overed:'-ed errors',learnRule:'Learning rule:',clusterProgress:'Progress in this cluster',clusterProgressNote:'This section helps the learner see which verb group is improving, while the review scheduling algorithm runs quietly in the background.',noData:'no data yet',today:"TODAY'S CHALLENGE",weak:'BEAT THE WEAK CLUSTER',boss:'MIXED BOSS MODE',question:'Question',card:'Card',right:'Correct',wrong:'Not quite',rightAnswer:'The correct answer is',plus:'points',streakReset:'Streak reset to 0. Try again in the next question.',overMsg:'You are adding -ed to an irregular verb, so pay attention to this verb’s special form.',v3Msg:'You are using the V3 form, but this question needs V2.',v2Msg:'You used V2, but this question needs V3.',blankMsg:'You left the answer blank; try making a guess before checking the answer.',feedbackType:'Feedback type:',demoData:'This is the data from your current trial session.',realData:'This is {name}’s official learning-session data.',noSession:'No session has started',noSessionNote:"Start a trial session to practise now, or enter a code to open Learner A/B's private session.",demoOn:'Trial session active',demoOnNote:'Trial results are saved only in your browser and are not written to the official dataset.',realOn:'Real session active for {name}',realOnNote:'Results from this session are written to the official dataset for long-term progress tracking.',opening:'Opening {name}’s session',openingNote:'The system is connecting to the official dataset.',wrongCode:'Wrong code.',openFail:'Could not open the official dataset. Check Anonymous Auth, Firestore rules and your network connection.',speechFail:'This browser does not support speech synthesis yet.',needMode:'Start a trial session or open a real session first.',officialReset:'Official data can only be reset from the report page with the teacher code.',confirmReset:'Delete the trial data from this session?',emptySession:'No data in this session yet.',assessment:'Assessment',measurementOnly:'Measurement only',adaptivePractice:'Adaptive',assessmentRecorded:'Response recorded.',assessmentNoHint:'Hints are disabled in assessment phases.',assessmentNote:'This phase records pre/post data only; it does not add XP, remove hearts or update the adaptive model.',assessmentComplete:'Assessment phase complete.',meaning:'Meaning:',meaningTask:'Write the V2 past form of',listenTask:'Listen to the base form, then write its V2 past form.',quickTask:'What is the V2 past form of',isWhat:'?',labels:{correct:'correct',overregularization:'wrong -ed form',wrongFormV3:'V3 used as V2',wrongFormV2:'V2 used as V3',spelling:'minor spelling issue',blank:'blank',other:'other error'}}
+};
+const GAME_UI={
+  vi:{dailyStreak:'Chuỗi ngày',hearts:'Tim',freeze:'Streak Freeze',combo:'Combo',xp:'XP',locked:'Hoàn thành chặng trước để mở khóa nhé.',hint:'Sakura gợi ý: từ này thuộc cụm “{cluster}”, bắt đầu bằng “{letter}” và có {length} ký tự.',heartEmpty:'Bạn đã hết tim. Ôn nhanh đáp án vừa rồi để hồi 1 tim và tiếp tục, không mất tiến độ.',heartBack:'Đã hồi 1 tim. Mình thử câu tiếp theo nhé!',complete:'Bạn vừa hoàn thành {count} câu trong một bài học ngắn.',accuracy:'Chính xác',lessonXp:'XP bài này',daily:'Streak ngày',surprise:'Hoa thưởng bất ngờ +{xp} XP',standard:'Sakura tặng bạn một cánh hoa mới',freezeUsed:'Streak Freeze đã bảo vệ chuỗi ngày của bạn.',welcome:'Chọn một chặng, Sakura sẽ luyện cùng bạn.',correct:'Đúng rồi! +{xp} XP. Sakura đang nở hoa đây.',wrong:'Không sao, mình vừa biết từ nào cần gặp lại.',celebrate:'Tuyệt lắm! Bài ngắn đã xong, tiến độ được lưu ngay.',comeback:'Bạn quay lại rồi! Sakura đã chờ để học tiếp.',leave:'Tạm nghỉ nhé. Tiến độ vừa làm vẫn được giữ lại.',recovered:'Tim đã trở lại, tiếp tục thôi!',league:'Hạng {name}',path:'CHẶNG {n}',done:'Hoàn thành',open:'Đang mở',lock:'Khóa',badges:['Mầm đầu tiên','Hoa chăm chỉ','Lửa 7 ngày']},
+  en:{dailyStreak:'Day streak',hearts:'Hearts',freeze:'Streak Freeze',combo:'Combo',xp:'XP',locked:'Finish the previous stage to unlock this one.',hint:'Sakura hint: this verb is in “{cluster}”, starts with “{letter}”, and has {length} letters.',heartEmpty:'You are out of hearts. Review the last answer to recover one heart and continue without losing progress.',heartBack:'One heart recovered. Let’s try the next question!',complete:'You completed {count} questions in one short lesson.',accuracy:'Accuracy',lessonXp:'Lesson XP',daily:'Day streak',surprise:'Surprise blossom +{xp} XP',standard:'Sakura gave you a new blossom',freezeUsed:'A Streak Freeze protected your day streak.',welcome:'Pick a stage and Sakura will practise with you.',correct:'Correct! +{xp} XP. Sakura is blooming.',wrong:'That is okay. Now we know which verb to revisit.',celebrate:'Wonderful! Your short lesson is done and progress is saved.',comeback:'You came back! Sakura was ready to learn with you.',leave:'Time for a pause. Your progress so far is still saved.',recovered:'Your heart is back. Let’s continue!',league:'{name} league',path:'STAGE {n}',done:'Done',open:'Open',lock:'Locked',badges:['First sprout','Study bloom','7-day flame']}
+};
+function gt(k){return (GAME_UI[currentLang]&&GAME_UI[currentLang][k])||(GAME_UI.vi&&GAME_UI.vi[k])||k}
+const SAKURA_SOUND_KEY='tellstory_sakura_sound';
+let sakuraSoundOn=localStorage.getItem(SAKURA_SOUND_KEY)!=='off',sakuraAudioCtx=null,sakuraVoiceCache=[];
+const SAKURA_VOICE_LINES={
+  vi:{idle:['Cùng học nhé.','Sakura sẵn sàng rồi nè.'],hint:['Mình gợi ý một chút nha.','Nhìn theo cụm từ nhé.'],correct:['Bạn làm đúng rồi!','Đúng rồi, giỏi lắm!'],wrong:['Chưa đúng rồi, thử lại nha.','Không sao, mình làm lại nhé.'],celebrate:['Tuyệt vời, hoàn thành rồi!','Yay, Sakura vui quá!'],comeback:['Bạn quay lại rồi, học tiếp thôi.'],recovered:['Tim quay lại rồi, tiếp tục nha.']},
+  en:{idle:["Let's learn together.",'Sakura is ready.'],hint:['Here is a little hint.','Look at the verb group.'],correct:['You got it right!','Correct. Nice work!'],wrong:['Not quite. Try again.','That was close. Try again.'],celebrate:['Wonderful, lesson complete!','Yay, Sakura is happy!'],comeback:['You are back. Let’s keep going.'],recovered:['Your heart is back. Keep going.']}
+};
+function pickVoiceLine(kind,fallback){return pickVoiceLineFor(kind,currentLang,fallback)}
+function pickVoiceLineFor(kind,lang,fallback){let pack=SAKURA_VOICE_LINES[lang]||SAKURA_VOICE_LINES.en,arr=pack[kind]||[];return arr.length?arr[Math.floor(Math.random()*arr.length)]:fallback}
+function refreshSakuraVoices(){sakuraVoiceCache='speechSynthesis' in window?speechSynthesis.getVoices():[];updateSoundButton()}
+function findVoiceByLang(lang){
+  let voices=sakuraVoiceCache.length?sakuraVoiceCache:('speechSynthesis' in window?speechSynthesis.getVoices():[]);
+  return voices.find(v=>(v.lang||'').toLowerCase().startsWith(lang)&&/female|girl|mai|linh|zira|susan|samantha|aria|jenny/i.test(v.name))||voices.find(v=>(v.lang||'').toLowerCase().startsWith(lang))||null;
+}
+function getSakuraVoiceInfo(){
+  if(currentLang==='vi'){let vi=findVoiceByLang('vi');if(vi)return {voice:vi,lineLang:'vi',fallback:false};let en=findVoiceByLang('en');if(en)return {voice:en,lineLang:'en',fallback:true};return null}
+  let en=findVoiceByLang('en');if(en)return {voice:en,lineLang:'en',fallback:false};let vi=findVoiceByLang('vi');if(vi)return {voice:vi,lineLang:'vi',fallback:true};return null;
+}
+function updateSoundButton(){let btn=document.getElementById('sakuraSoundBtn');if(!btn)return;let info=getSakuraVoiceInfo(),mode=!sakuraSoundOn?(currentLang==='vi'?'Tắt':'Off'):info?info.lineLang.toUpperCase():'SFX';btn.textContent=currentLang==='vi'?'Âm Sakura: '+mode:'Sakura sound: '+mode;btn.setAttribute('aria-pressed',String(sakuraSoundOn))}
+function unlockSakuraAudio(){if(!sakuraSoundOn)return null;let Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return null;if(!sakuraAudioCtx)sakuraAudioCtx=new Ctx();if(sakuraAudioCtx.state==='suspended')sakuraAudioCtx.resume();return sakuraAudioCtx}
+function tone(freq,at,dur,type='sine',gain=.045){let ctx=unlockSakuraAudio();if(!ctx)return;let osc=ctx.createOscillator(),vol=ctx.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,at);vol.gain.setValueAtTime(0,at);vol.gain.linearRampToValueAtTime(gain,at+.02);vol.gain.exponentialRampToValueAtTime(.0001,at+dur);osc.connect(vol);vol.connect(ctx.destination);osc.start(at);osc.stop(at+dur+.04);return osc}
+function swoop(from,to,at,dur,type='sine',gain=.035){let osc=tone(from,at,dur,type,gain);if(osc){osc.frequency.exponentialRampToValueAtTime(Math.max(40,to),at+dur*.9)}}
+function playLaughSfx(at){tone(760,at,.09,'triangle',.026);tone(920,at+.12,.08,'triangle',.022);tone(820,at+.24,.09,'triangle',.024)}
+function playCrySfx(at){swoop(620,430,at,.28,'sine',.03);swoop(560,390,at+.24,.32,'sine',.024)}
+function playSakuraSfx(kind){let ctx=unlockSakuraAudio();if(!ctx)return;let t=ctx.currentTime+.01;if(kind==='correct'){tone(660,t,.11,'triangle');tone(880,t+.1,.12,'triangle');playLaughSfx(t+.18);return}if(kind==='wrong'){tone(330,t,.15,'sine',.03);swoop(392,220,t+.12,.32,'sine',.03);playCrySfx(t+.28);return}if(kind==='celebrate'){[523,659,784,1046].forEach((f,i)=>tone(f,t+i*.09,.16,'triangle',.045));playLaughSfx(t+.42);return}if(kind==='hint'){tone(740,t,.1,'sine',.03);tone(988,t+.08,.16,'sine',.028);return}if(kind==='recovered'||kind==='comeback'){tone(440,t,.12,'triangle',.032);tone(660,t+.11,.15,'triangle',.034);return}tone(520,t,.12,'sine',.02)}
+function sakuraSpeak(kind,text){if(!sakuraSoundOn)return;playSakuraSfx(kind);if(!('speechSynthesis' in window))return;let info=getSakuraVoiceInfo();if(!info)return;let spoken=info.fallback?pickVoiceLineFor(kind,info.lineLang,text):text||pickVoiceLineFor(kind,info.lineLang,'');if(!spoken)return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(spoken);u.voice=info.voice;u.lang=info.voice.lang||(info.lineLang==='vi'?'vi-VN':'en-US');u.rate=info.lineLang==='vi'?.96:.98;u.pitch=1.18;u.volume=.95;speechSynthesis.speak(u)}
+function sakuraReact(kind,message,voiceText){if(mode!=='none'&&!ablationFlags().sakura){renderAblationState();return}reactSakura(kind,message);sakuraSpeak(kind,voiceText||pickVoiceLine(kind,message))}
+function toggleSakuraSound(){sakuraSoundOn=!sakuraSoundOn;localStorage.setItem(SAKURA_SOUND_KEY,sakuraSoundOn?'on':'off');updateSoundButton();if(sakuraSoundOn)sakuraSpeak('comeback',currentLang==='vi'?'Sakura bật tiếng rồi nè.':'Sakura sound is on.')}
+if('speechSynthesis' in window){refreshSakuraVoices();speechSynthesis.addEventListener?.('voiceschanged',refreshSakuraVoices)}
+function tr(k){return (UI[currentLang]&&UI[currentLang][k])||(UI.vi&&UI.vi[k])||k}
+function trLabel(k){
+  if(k==='wrongFormV2')return currentLang==='vi'?'nhầm V2':'V2 used as V3';
+  return (UI[currentLang].labels&&UI[currentLang].labels[k])||k
+}
+function cname(k){return currentLang==='en'?(CLUSTER_EN[k]||CLUSTERS[k].name):CLUSTERS[k].name}
+function cdesc(k){return currentLang==='en'&&CLUSTER_DETAILS_EN[k]?CLUSTER_DETAILS_EN[k].desc:CLUSTERS[k].desc}
+function crule(k){return currentLang==='en'&&CLUSTER_DETAILS_EN[k]?CLUSTER_DETAILS_EN[k].rule:CLUSTERS[k].rule}
+function setLang(lang){currentLang=lang;localStorage.setItem(LANG_KEY,lang);document.documentElement.lang=lang;document.title=PAGE_META[lang]?.title||PAGE_META.vi.title;document.querySelectorAll('[data-vi][data-en]').forEach(el=>{el.innerHTML=el.getAttribute('data-'+lang)});document.querySelectorAll('[data-placeholder-vi][data-placeholder-en]').forEach(el=>{el.setAttribute('placeholder',el.getAttribute('data-placeholder-'+lang))});document.getElementById('btn-vi')?.classList.toggle('lang-active',lang==='vi');document.getElementById('btn-en')?.classList.toggle('lang-active',lang==='en');updateSoundButton();try{updateStatus();renderTheory();renderGamification();if(document.getElementById('screen-data')?.classList.contains('active'))showSessionData();if(document.getElementById('screen-quiz')?.classList.contains('active'))renderQuestion();if(document.getElementById('screen-flash')?.classList.contains('active'))renderFlash()}catch(e){}}
+window.setLang=setLang;
+
+const CLUSTERS={"suppletive":{"name":"Đổi hẳn dạng","short":"suppletive","desc":"Dạng quá khứ thay đổi mạnh, khó suy ra trực tiếp từ V1; lỗi thêm -ed trong cụm này thường là tín hiệu học sinh chưa tách nhóm bất quy tắc khỏi luật thường.","rule":"Học theo cặp riêng, không suy bằng cách thêm -ed.","verbs":[["be","was/were","been","là, thì, bị, ở","Yesterday {name} ___ at home.","beed"],["do","did","done","làm","Yesterday {name} ___ homework.","doed"],["go","went","gone","đi","Yesterday {name} ___ to school.","goed"],["have","had","had","có","{name} ___ lunch at noon.","haved"],["make","made","made","làm, chế tạo","Yesterday {name} ___ the word \"make\" in a sentence.","maked"],["say","said","said","nói","Yesterday {name} ___ the word \"say\" in a sentence.","sayed"],["see","saw","seen","nhìn thấy","{name} ___ a bird yesterday.","seed"],["tell","told","told","kể","Yesterday {name} ___ the word \"tell\" in a sentence.","telled"]]},"vowel":{"name":"Đổi nguyên âm","short":"vowel-change","desc":"Dạng quá khứ thường giữ khung phụ âm nhưng đổi nguyên âm hoặc âm chính bên trong từ, như sing → sang hoặc run → ran.","rule":"Theo dõi các lỗi như runned, singed, drinked vì đó là dấu hiệu kéo nhóm đổi nguyên âm về luật -ed.","verbs":[["become","became","become","trở thành","Yesterday {name} ___ the word \"become\" in a sentence.","becomed"],["begin","began","begun","bắt đầu","Yesterday {name} ___ the word \"begin\" in a sentence.","begined"],["break","broke","broken","làm vỡ","Yesterday {name} ___ the word \"break\" in a sentence.","breaked"],["choose","chose","chosen","chọn lựa","Yesterday {name} ___ the word \"choose\" in a sentence.","choosed"],["come","came","come","đến","Yesterday {name} ___ the word \"come\" in a sentence.","comed"],["draw","drew","drawn","vẽ","Yesterday {name} ___ the word \"draw\" in a sentence.","drawed"],["drink","drank","drunk","uống","Yesterday {name} ___ the word \"drink\" in a sentence.","drinked"],["drive","drove","driven","lái xe","Yesterday {name} ___ the word \"drive\" in a sentence.","drived"],["eat","ate","eaten","ăn","Yesterday {name} ___ noodles.","eated"],["fall","fell","fallen","ngã, rơi","Yesterday {name} ___ the word \"fall\" in a sentence.","falled"],["fly","flew","flown","bay","Yesterday {name} ___ the word \"fly\" in a sentence.","flyed"],["forget","forgot","forgotten","quên","Yesterday {name} ___ the word \"forget\" in a sentence.","forgeted"],["get","got","got/gotten","có được","Yesterday {name} ___ the word \"get\" in a sentence.","geted"],["give","gave","given","cho","Yesterday {name} ___ the word \"give\" in a sentence.","gived"],["grow","grew","grown","phát triển, trồng","Yesterday {name} ___ the word \"grow\" in a sentence.","growed"],["know","knew","known","biết","Yesterday {name} ___ the word \"know\" in a sentence.","knowed"],["ride","rode","ridden","cưỡi","Yesterday {name} ___ the word \"ride\" in a sentence.","rided"],["ring","rang","rung","rung chuông","Yesterday {name} ___ the word \"ring\" in a sentence.","ringed"],["rise","rose","risen","mọc, tăng lên","Yesterday {name} ___ the word \"rise\" in a sentence.","rised"],["run","ran","run","chạy","Yesterday {name} ___ very fast.","runned"],["shake","shook","shaken","lắc","Yesterday {name} ___ the word \"shake\" in a sentence.","shaked"],["sing","sang","sung","hát","Last night {name} ___ a song.","singed"],["sit","sat","sat","ngồi","Yesterday {name} ___ the word \"sit\" in a sentence.","sited"],["speak","spoke","spoken","nói chuyện","{name} ___ English in class.","speaked"],["steal","stole","stolen","trộm","Yesterday {name} ___ the word \"steal\" in a sentence.","stealed"],["swim","swam","swum","bơi","Yesterday {name} ___ the word \"swim\" in a sentence.","swimmed"],["take","took","taken","lấy","{name} ___ a photo yesterday.","taked"],["throw","threw","thrown","ném","Yesterday {name} ___ the word \"throw\" in a sentence.","throwed"],["wake","woke","woken","thức dậy","Yesterday {name} ___ the word \"wake\" in a sentence.","waked"],["wear","wore","worn","mặc, đeo","Yesterday {name} ___ the word \"wear\" in a sentence.","weared"],["write","wrote","written","viết","{name} ___ a short story.","writed"],["bite","bit","bitten","cắn","Yesterday {name} ___ the word \"bite\" in a sentence.","bited"],["blow","blew","blown","thổi","Yesterday {name} ___ the word \"blow\" in a sentence.","blowed"],["forbid","forbade","forbidden","cấm","Yesterday {name} ___ the word \"forbid\" in a sentence.","forbided"],["freeze","froze","frozen","đông cứng","Yesterday {name} ___ the word \"freeze\" in a sentence.","freezed"],["hide","hid","hidden","giấu","Yesterday {name} ___ the word \"hide\" in a sentence.","hided"],["slide","slid","slid","trượt","Yesterday {name} ___ the word \"slide\" in a sentence.","slided"],["sting","stung","stung","châm, đốt","Yesterday {name} ___ the word \"sting\" in a sentence.","stinged"],["strike","struck","struck","đánh","Yesterday {name} ___ the word \"strike\" in a sentence.","striked"],["swear","swore","sworn","thề","Yesterday {name} ___ the word \"swear\" in a sentence.","sweared"],["swing","swung","swung","đu đưa","Yesterday {name} ___ the word \"swing\" in a sentence.","swinged"],["tear","tore","torn","xé rách","Yesterday {name} ___ the word \"tear\" in a sentence.","teared"]]},"td":{"name":"Kết thúc -t/-d","short":"t-d-ending","desc":"Dạng quá khứ đổi sang các kết thúc như -t, -d, -lt, -pt, -nt, -ld hoặc dạng âm gần kề, khiến học sinh dễ viết sleeped, feeled, sended.","rule":"Nhấn mạnh biến đổi ở cuối từ thay vì thêm -ed vào nguyên mẫu.","verbs":[["build","built","built","xây dựng","Yesterday {name} ___ the word \"build\" in a sentence.","builded"],["feel","felt","felt","cảm thấy","Yesterday {name} ___ the word \"feel\" in a sentence.","feeled"],["find","found","found","tìm thấy","Yesterday {name} ___ the word \"find\" in a sentence.","finded"],["hear","heard","heard","nghe thấy","Yesterday {name} ___ the word \"hear\" in a sentence.","heared"],["hold","held","held","cầm, giữ","Yesterday {name} ___ the word \"hold\" in a sentence.","holded"],["keep","kept","kept","giữ","Yesterday {name} ___ the word \"keep\" in a sentence.","keeped"],["leave","left","left","rời đi","Yesterday {name} ___ the word \"leave\" in a sentence.","leaved"],["lose","lost","lost","mất","Yesterday {name} ___ the word \"lose\" in a sentence.","losed"],["mean","meant","meant","có ý nghĩa","Yesterday {name} ___ the word \"mean\" in a sentence.","meaned"],["meet","met","met","gặp","Yesterday {name} ___ the word \"meet\" in a sentence.","meeted"],["pay","paid","paid","trả tiền","Yesterday {name} ___ the word \"pay\" in a sentence.","payed"],["sell","sold","sold","bán","Yesterday {name} ___ the word \"sell\" in a sentence.","selled"],["send","sent","sent","gửi","Yesterday {name} ___ the word \"send\" in a sentence.","sended"],["shoot","shot","shot","bắn","Yesterday {name} ___ the word \"shoot\" in a sentence.","shooted"],["sleep","slept","slept","ngủ","{name} ___ early last night.","sleeped"],["spend","spent","spent","tiêu, dành thời gian","Yesterday {name} ___ the word \"spend\" in a sentence.","spended"],["stand","stood","stood","đứng","Yesterday {name} ___ the word \"stand\" in a sentence.","standed"],["understand","understood","understood","hiểu","Yesterday {name} ___ the word \"understand\" in a sentence.","understanded"],["win","won","won","chiến thắng","Yesterday {name} ___ the word \"win\" in a sentence.","wined"],["bleed","bled","bled","chảy máu","Yesterday {name} ___ the word \"bleed\" in a sentence.","bleeded"],["deal","dealt","dealt","giải quyết","Yesterday {name} ___ the word \"deal\" in a sentence.","dealed"],["lead","led","led","dẫn dắt","Yesterday {name} ___ the word \"lead\" in a sentence.","leaded"],["smell","smelt","smelt","ngửi thấy","Yesterday {name} ___ the word \"smell\" in a sentence.","smelled"],["spoil","spoilt","spoilt","làm hỏng","Yesterday {name} ___ the word \"spoil\" in a sentence.","spoiled"]]},"nochange":{"name":"Giữ nguyên","short":"no-change","desc":"V1, V2 và V3 viết giống nhau hoặc gần như giống nhau; học sinh dễ tự thêm -ed vì thấy từ chưa có dấu hiệu quá khứ.","rule":"Dạy như nhóm “không đổi”, ví dụ put vẫn là put.","verbs":[["cost","cost","cost","có giá","Yesterday {name} ___ the word \"cost\" in a sentence.","costed"],["cut","cut","cut","cắt","Yesterday {name} ___ the word \"cut\" in a sentence.","cutted"],["hurt","hurt","hurt","làm đau","Yesterday {name} ___ the word \"hurt\" in a sentence.","hurted"],["let","let","let","cho phép","Yesterday {name} ___ the word \"let\" in a sentence.","leted"],["put","put","put","đặt, để","{name} ___ the book on the desk.","putted"],["read","read","read","đọc","{name} ___ a book yesterday.","readed"],["set","set","set","thiết lập","Yesterday {name} ___ the word \"set\" in a sentence.","seted"],["quit","quit","quit","bỏ cuộc, từ bỏ","Yesterday {name} ___ the word \"quit\" in a sentence.","quited"],["split","split","split","tách ra","Yesterday {name} ___ the word \"split\" in a sentence.","splited"]]},"ought":{"name":"-ought/-aught","short":"ought-aught","desc":"Nhóm có mẫu bought, brought, caught, taught, thought, sought; có pattern riêng nhưng không đủ hiển nhiên với học sinh nhỏ.","rule":"Cho học sinh nhận diện cụm âm/chữ -ought và -aught thay vì tạo dạng buyed, teached.","verbs":[["bring","brought","brought","mang đến","Yesterday {name} ___ the word \"bring\" in a sentence.","bringed"],["buy","bought","bought","mua","{name} ___ a new pencil.","buyed"],["catch","caught","caught","bắt lấy","Yesterday {name} ___ the word \"catch\" in a sentence.","catched"],["teach","taught","taught","dạy","The teacher ___ English yesterday.","teached"],["think","thought","thought","nghĩ","Yesterday {name} ___ the word \"think\" in a sentence.","thinked"],["seek","sought","sought","tìm kiếm","Yesterday {name} ___ the word \"seek\" in a sentence.","seeked"]]},"other":{"name":"Mẫu khác","short":"other-patterns","desc":"Các từ chưa rơi gọn vào năm cụm chính hoặc có điểm đặc biệt cần theo dõi riêng như learn, lie, shine, show.","rule":"Theo dõi theo từng từ, nhưng vẫn đưa vào hàng đợi ưu tiên như các cụm khác.","verbs":[["learn","learned","learned","học","Yesterday {name} ___ the word \"learn\" in a sentence.","learned"],["lie","lay","lain","nằm","Yesterday {name} ___ the word \"lie\" in a sentence.","lied"],["shine","shone","shone","chiếu sáng","Yesterday {name} ___ the word \"shine\" in a sentence.","shined"],["show","showed","shown","cho thấy","Yesterday {name} ___ the word \"show\" in a sentence.","showed"]]}};
+const LEARNER_LABELS={L01:'Learner A',L02:'Learner B'};
+function learnerLabel(id){return LEARNER_LABELS[id]||id}
+const HASHES={L01:'3ae88e74b4f6e7e58bc12ed8cd36fe2161aa15ed55301c2aa4371798bb0e43fc',L02:'dcfbf8123c0e3dce49207dbe2d8e9b9bd513afad5c593fd4cb60370e7727cc88',teacher:'91fdf38c3bb5c676e35b1a3b9306635f14c07421eb94f37cb5940f25e10cc8e0'};
+const DATA_VERSION='v11';
+const COLLECTION_ROOT='irregular_v11_students';
+const DEMO_KEY='mn_irregular_v11_demo';
+function now(){return new Date().toISOString()}
+function daysAgo(d){return new Date(Date.now()-d*86400000).toISOString()}
+function daysSince(x){return Math.max(0,(Date.now()-new Date(x).getTime())/86400000)}
+function clamp(n,a,b){return Math.max(a,Math.min(b,n))}
+function fmt(n,d=2){return Number(n||0).toFixed(d)}
+function norm(s){return String(s||'').trim().toLowerCase().replace(/\s+/g,' ')}
+const IPA={
+be:['/biː/','/wəz/, /wɜːr/','/bɪn/'],do:['/duː/','/dɪd/','/dʌn/'],go:['/ɡoʊ/','/went/','/ɡɔːn/'],have:['/hæv/','/hæd/','/hæd/'],make:['/meɪk/','/meɪd/','/meɪd/'],say:['/seɪ/','/sed/','/sed/'],see:['/siː/','/sɔː/','/siːn/'],tell:['/tel/','/toʊld/','/toʊld/'],
+become:['/bɪˈkʌm/','/bɪˈkeɪm/','/bɪˈkʌm/'],begin:['/bɪˈɡɪn/','/bɪˈɡæn/','/bɪˈɡʌn/'],break:['/breɪk/','/broʊk/','/ˈbroʊkən/'],choose:['/tʃuːz/','/tʃoʊz/','/ˈtʃoʊzən/'],come:['/kʌm/','/keɪm/','/kʌm/'],draw:['/drɔː/','/druː/','/drɔːn/'],drink:['/drɪŋk/','/dræŋk/','/drʌŋk/'],drive:['/draɪv/','/droʊv/','/ˈdrɪvən/'],eat:['/iːt/','/eɪt/','/ˈiːtən/'],fall:['/fɔːl/','/fel/','/ˈfɔːlən/'],fly:['/flaɪ/','/fluː/','/floʊn/'],forget:['/fərˈɡet/','/fərˈɡɑːt/','/fərˈɡɑːtən/'],get:['/ɡet/','/ɡɑːt/','/ɡɑːt/, /ˈɡɑːtən/'],give:['/ɡɪv/','/ɡeɪv/','/ˈɡɪvən/'],grow:['/ɡroʊ/','/ɡruː/','/ɡroʊn/'],know:['/noʊ/','/nuː/','/noʊn/'],ride:['/raɪd/','/roʊd/','/ˈrɪdən/'],ring:['/rɪŋ/','/ræŋ/','/rʌŋ/'],rise:['/raɪz/','/roʊz/','/ˈrɪzən/'],run:['/rʌn/','/ræn/','/rʌn/'],shake:['/ʃeɪk/','/ʃʊk/','/ˈʃeɪkən/'],sing:['/sɪŋ/','/sæŋ/','/sʌŋ/'],sit:['/sɪt/','/sæt/','/sæt/'],speak:['/spiːk/','/spoʊk/','/ˈspoʊkən/'],steal:['/stiːl/','/stoʊl/','/ˈstoʊlən/'],swim:['/swɪm/','/swæm/','/swʌm/'],take:['/teɪk/','/tʊk/','/ˈteɪkən/'],throw:['/θroʊ/','/θruː/','/θroʊn/'],wake:['/weɪk/','/woʊk/','/ˈwoʊkən/'],wear:['/wer/','/wɔːr/','/wɔːrn/'],write:['/raɪt/','/roʊt/','/ˈrɪtən/'],
+bite:['/baɪt/','/bɪt/','/ˈbɪtən/'],blow:['/bloʊ/','/bluː/','/bloʊn/'],forbid:['/fərˈbɪd/','/fərˈbæd/','/fərˈbɪdən/'],freeze:['/friːz/','/froʊz/','/ˈfroʊzən/'],hide:['/haɪd/','/hɪd/','/ˈhɪdən/'],slide:['/slaɪd/','/slɪd/','/slɪd/'],sting:['/stɪŋ/','/stʌŋ/','/stʌŋ/'],strike:['/straɪk/','/strʌk/','/strʌk/'],swear:['/swer/','/swɔːr/','/swɔːrn/'],swing:['/swɪŋ/','/swʌŋ/','/swʌŋ/'],tear:['/ter/','/tɔːr/','/tɔːrn/'],
+build:['/bɪld/','/bɪlt/','/bɪlt/'],feel:['/fiːl/','/felt/','/felt/'],find:['/faɪnd/','/faʊnd/','/faʊnd/'],hear:['/hɪr/','/hɜːrd/','/hɜːrd/'],hold:['/hoʊld/','/held/','/held/'],keep:['/kiːp/','/kept/','/kept/'],leave:['/liːv/','/left/','/left/'],lose:['/luːz/','/lɔːst/','/lɔːst/'],mean:['/miːn/','/ment/','/ment/'],meet:['/miːt/','/met/','/met/'],pay:['/peɪ/','/peɪd/','/peɪd/'],sell:['/sel/','/soʊld/','/soʊld/'],send:['/send/','/sent/','/sent/'],shoot:['/ʃuːt/','/ʃɑːt/','/ʃɑːt/'],sleep:['/sliːp/','/slept/','/slept/'],spend:['/spend/','/spent/','/spent/'],stand:['/stænd/','/stʊd/','/stʊd/'],understand:['/ˌʌndərˈstænd/','/ˌʌndərˈstʊd/','/ˌʌndərˈstʊd/'],win:['/wɪn/','/wʌn/','/wʌn/'],bleed:['/bliːd/','/bled/','/bled/'],deal:['/diːl/','/delt/','/delt/'],lead:['/liːd/','/led/','/led/'],smell:['/smel/','/smelt/','/smelt/'],spoil:['/spɔɪl/','/spɔɪlt/','/spɔɪlt/'],
+cost:['/kɔːst/','/kɔːst/','/kɔːst/'],cut:['/kʌt/','/kʌt/','/kʌt/'],hurt:['/hɜːrt/','/hɜːrt/','/hɜːrt/'],let:['/let/','/let/','/let/'],put:['/pʊt/','/pʊt/','/pʊt/'],read:['/riːd/','/red/','/red/'],set:['/set/','/set/','/set/'],quit:['/kwɪt/','/kwɪt/','/kwɪt/'],split:['/splɪt/','/splɪt/','/splɪt/'],
+bring:['/brɪŋ/','/brɔːt/','/brɔːt/'],buy:['/baɪ/','/bɔːt/','/bɔːt/'],catch:['/kætʃ/','/kɔːt/','/kɔːt/'],teach:['/tiːtʃ/','/tɔːt/','/tɔːt/'],think:['/θɪŋk/','/θɔːt/','/θɔːt/'],seek:['/siːk/','/sɔːt/','/sɔːt/'],
+learn:['/lɜːrn/','/lɜːrnd/','/lɜːrnd/'],lie:['/laɪ/','/leɪ/','/leɪn/'],shine:['/ʃaɪn/','/ʃoʊn/','/ʃoʊn/'],show:['/ʃoʊ/','/ʃoʊd/','/ʃoʊn/']
+};
+function ipaFor(v,form){let arr=IPA[v.base]||[],idx=form==='base'?0:form==='p3'?2:1;return arr[idx]||''}
+function verbs(){let out=[];Object.entries(CLUSTERS).forEach(([ck,c],ci)=>c.verbs.forEach((v,i)=>out.push({id:ck+'_'+v[0],clusterKey:ck,clusterName:c.name,base:v[0],past:v[1],p3:v[2],meaning:v[3],sentence:v[4],wrong:v[5],order:i+ci*100})));return out}
+function gameSeed(){return {hearts:5,maxHearts:5,streakFreeze:1,lastStudyDate:null,lastHeartRefill:null,dailyStreak:0,weeklyXp:0,weekKey:'',completedLessons:0,unlockedStage:0,badges:[],freezeUsed:false}}
+function researchSeed(){return {protocolId:'IRV-SAKURA-001',version:'2026-07-12',status:'draft_preregistration',createdAt:now(),hypotheses:[{id:'H1',title:'Adaptive cluster practice improves later recall',prediction:'Accuracy and predicted recall should increase from diagnostic/pretest to exit ticket and delayed review.',primaryOutcome:'improvement_pp'},{id:'H2',title:'Hints reduce stuck responses during practice',prediction:'Hint availability should reduce blank and overregularization errors in practice, but hint use must be flagged separately.',primaryOutcome:'blank_rate_and_overregularization_rate'},{id:'H3',title:'Reward and Sakura mainly affect engagement',prediction:'Reward/Sakura conditions should increase completion and attempts; measurement phases should stay quiet to avoid contaminating recall scores.',primaryOutcome:'completion_and_attempt_count'}],experiments:[{id:'E1',name:'Irregular verb adaptive practice',design:'within-learner repeated measures with pre/practice/post/delayed phases',unit:'learner x verb x attempt',phases:['pretest','in_class_diagnostic','lesson_practice','exit_ticket','delayed_review','posttest','delayed_posttest']}],ablations:[{id:'full',label:'reward + hint + Sakura'},{id:'no_reward',label:'reward removed'},{id:'no_hint',label:'hint removed'},{id:'no_sakura',label:'Sakura removed'},{id:'quiet_measure',label:'no reward, no hint, no Sakura'}],analysisPlan:{primary:'Compare baseline accuracy/recall with exit or delayed-review accuracy by learner and verb cluster.',secondary:['recall','accuracy','improvement_pp','error_mix','hint_used_rate','flashcard_remembered_rate','completion_count'],statistics:['descriptive first for small N','paired difference and bootstrap confidence interval when enough paired observations exist','report deviations from the plan separately from confirmatory results']},dataPlan:{before:['define hypotheses and outcomes','choose phase and ablation condition before each session','keep demo and real learner data separate'],during:['log actor, task, verb, timestamp, phase, condition, scaffold flags, response and model state','record flashcard flip/self-check behavior','do not mix practice rewards with measurement-only phases'],after:['export raw events and protocol JSON','compute accuracy, recall and improvement','separate planned analysis from exploratory notes']}}}
+function ensureResearch(m){m.research={...researchSeed(),...(m.research||{})};return m.research}
+function seed(){let m={totalScore:0,streak:0,createdAt:now(),updatedAt:now(),clusters:{},verbs:{},events:[],gamification:gameSeed(),research:researchSeed()};Object.entries(CLUSTERS).forEach(([ck,c],ci)=>{m.clusters[ck]={M:.72,attempts:0,correct:0,overregularization:0,wrongFormV3:0,wrongFormV2:0,blank:0,spelling:0,other:0};c.verbs.forEach((a,i)=>{m.verbs[ck+'_'+a[0]]={S:4+(i%7)*.35,lastReviewed:daysAgo(1+((i+ci)%8)),attempts:0,correct:0,wrong:0,errors:{overregularization:0,wrongFormV3:0,wrongFormV2:0,blank:0,spelling:0,other:0}}})});return m}
+async function sha256(s){let b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('')}
+function upgrade(m){let s=seed();m=m||s;if(!m.clusters)m.clusters={};if(!m.verbs)m.verbs={};if(!m.events)m.events=[];for(let k in s.clusters)m.clusters[k]={...s.clusters[k],...(m.clusters[k]||{})};for(let k in s.verbs)m.verbs[k]={...s.verbs[k],...(m.verbs[k]||{}),errors:{...s.verbs[k].errors,...((m.verbs[k]||{}).errors||{})}};if(typeof m.totalScore!=='number')m.totalScore=0;if(typeof m.streak!=='number')m.streak=0;m.gamification={...gameSeed(),...(m.gamification||{})};ensureResearch(m);syncWeek(m.gamification);return m}
+function readDemo(){try{let raw=localStorage.getItem(DEMO_KEY)||sessionStorage.getItem(DEMO_KEY);return upgrade(JSON.parse(raw||'null'))}catch(e){return seed()}}
+function writeDemo(m){m.updatedAt=now();let raw=JSON.stringify(m);localStorage.setItem(DEMO_KEY,raw);sessionStorage.setItem(DEMO_KEY,raw)}
+let realCache={},firebaseReady=false,firebaseLoadPromise=null,db=null,auth=null,signInAnonymously=null,doc=null,getDoc=null,setDoc=null,collection=null,addDoc=null,serverTimestamp=null;
+const dynamicImport=url=>new Function('url','return import(url)')(url);
+async function loadFirebaseModules(){
+  if(firebaseLoadPromise)return firebaseLoadPromise;
+  firebaseLoadPromise=Promise.all([
+    dynamicImport('./firebase-config.js'),
+    dynamicImport('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js'),
+    dynamicImport('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
+  ]).then(([config,authMod,firestoreMod])=>{
+    db=config.db;auth=config.auth;signInAnonymously=authMod.signInAnonymously;
+    doc=firestoreMod.doc;getDoc=firestoreMod.getDoc;setDoc=firestoreMod.setDoc;collection=firestoreMod.collection;addDoc=firestoreMod.addDoc;serverTimestamp=firestoreMod.serverTimestamp;
+    return true;
+  }).catch(error=>{firebaseLoadPromise=null;throw error});
+  return firebaseLoadPromise;
+}
+async function ensureFirebase(){await loadFirebaseModules();if(auth.currentUser)return true;if(firebaseReady)return true;await signInAnonymously(auth);firebaseReady=true;return true}
+function realDoc(name){return doc(db,COLLECTION_ROOT,name)}
+function realEvents(name){return collection(db,COLLECTION_ROOT,name,'events')}
+async function loadReal(name){await ensureFirebase();let snap=await getDoc(realDoc(name));let m=snap.exists()&&snap.data().model?upgrade(snap.data().model):seed();realCache[name]=m;await setDoc(realDoc(name),{learnerId:name,studentId:learnerLabel(name),version:DATA_VERSION,model:m,updatedAt:serverTimestamp()},{merge:true});return m}
+async function writeReal(name,m,ev){await ensureFirebase();m.updatedAt=now();realCache[name]=m;await setDoc(realDoc(name),{learnerId:name,studentId:learnerLabel(name),version:DATA_VERSION,model:m,updatedAt:serverTimestamp()},{merge:true});if(ev)await addDoc(realEvents(name),{...ev,learnerId:name,studentId:learnerLabel(name),version:DATA_VERSION,createdAt:serverTimestamp()})}
+function recall(vs){return Math.pow(2,-daysSince(vs.lastReviewed)/Math.max(.25,vs.S))}
+function nextReview(S){return Math.max(.1,-S*Math.log2(.8))}
+const PRIORITY_CLUSTER_WEIGHT=.4;
+function priorityFor(v,m){let vs=m.verbs[v.id],cs=m.clusters[v.clusterKey];return (1-recall(vs))+PRIORITY_CLUSTER_WEIGHT*(1-cs.M)}
+function acceptedForms(s){return String(s||'').split('/').map(x=>norm(x)).filter(Boolean)}
+function targetAnswer(v,targetForm){return targetForm==='p3'?v.p3:targetForm==='base'?v.base:targetForm==='meaning'?v.meaning:v.past}
+function isAccepted(answer,target){let a=norm(answer);return a===norm(target)||acceptedForms(target).some(x=>a===x)}
+function classify(answer,v,targetForm='past'){let a=norm(answer),target=targetAnswer(v,targetForm),p=norm(v.past),p3=norm(v.p3);if(isAccepted(a,target))return 'correct';if(!a)return 'blank';if(targetForm==='past'&&p3&&a===p3&&p3!==p)return 'wrongFormV3';if(targetForm==='p3'&&a===p&&p3!==p)return 'wrongFormV2';if(a===norm(v.wrong)||/ed$/.test(a)||(/d$/.test(a)&&!acceptedForms(target).some(x=>x.endsWith('d'))))return 'overregularization';let t=acceptedForms(target)[0]||'';let close=Math.abs(a.length-t.length)<=1&&(a[0]===t[0]||a.slice(0,2)===t.slice(0,2));if(close)return 'spelling';return 'other'}
+const PHASE_WEIGHTS={pretest:0,in_class_diagnostic:1.2,lesson_practice:.8,exit_ticket:1,delayed_review:1.4,posttest:0,delayed_posttest:0};
+const ASSESSMENT_PHASES=new Set(['pretest','posttest','delayed_posttest']);
+function currentPhase(){return document.getElementById('phaseSelect')?.value||'lesson_practice'}
+function isAssessmentPhase(p=currentPhase()){return ASSESSMENT_PHASES.has(p)}
+function isAdaptivePhase(p=currentPhase()){return !isAssessmentPhase(p)}
+function phaseLabel(p){return ({pretest:'Pretest',in_class_diagnostic:'Diagnostic',lesson_practice:'Practice',exit_ticket:'Exit ticket',delayed_review:'Delayed review',posttest:'Posttest',delayed_posttest:'Delayed posttest'})[p]||p}
+function currentAblationCondition(){return localStorage.getItem('tellstory_research_condition')||'full'}
+function ablationFlags(condition=currentAblationCondition(),phase=currentPhase()){
+  let quiet=isAssessmentPhase(phase)||condition==='quiet_measure';
+  return {condition,reward:!quiet&&condition!=='no_reward',hint:!quiet&&condition!=='no_hint',sakura:!quiet&&condition!=='no_sakura',quiet};
+}
+function conditionLabel(condition){
+  if(arguments.length===0)condition=currentAblationCondition();
+  return ({full:'Full',no_reward:'No reward',no_hint:'No hint',no_sakura:'No Sakura',quiet_measure:'Quiet measure',legacy:'Legacy'})[condition]||condition||'Legacy';
+}
+function interventionLabel(ev){
+  let flags=ev.interventionFlags||{},bits=[];
+  if(ev.ablationCondition)bits.push(conditionLabel(ev.ablationCondition));
+  bits.push(flags.reward?'reward:on':'reward:off');
+  bits.push(flags.hintAvailable?'hint:on':'hint:off');
+  bits.push(flags.sakura?'sakura:on':'sakura:off');
+  return bits.join(' · ');
+}
+function renderAblationState(){
+  let flags=ablationFlags();
+  document.body.classList.toggle('sakura-off',mode!=='none'&&!flags.sakura);
+  let hintBtn=document.querySelector('.hint-btn');
+  if(hintBtn)hintBtn.disabled=isAssessmentPhase()||!flags.hint;
+}
+function applyAnswer(m,v,answer,student,mode,meta={}){
+  let targetForm=meta.targetForm||'past',phase=meta.phase||'lesson_practice',condition=meta.ablationCondition||currentAblationCondition(),flags=ablationFlags(condition,phase),phaseWeight=PHASE_WEIGHTS[phase]??1,adaptive=isAdaptivePhase(phase),type=classify(answer,v,targetForm),ok=type==='correct',vs=m.verbs[v.id],cs=m.clusters[v.clusterKey],oldS=vs.S,oldM=cs.M,oldP=recall(vs),oldPriority=priorityFor(v,m),g=m.gamification;
+  let delta={correct:1,overregularization:-2,wrongFormV3:-1,wrongFormV2:-1,spelling:-.3,blank:-.3,other:-.5}[type]??-.5,scaffoldPenalty=(meta.scaffoldUsed?.hint||meta.scaffoldUsed?.forms)?.72:1,alpha=ok?2:.5,newM=oldM,newS=oldS,newPriority=oldPriority,attemptNumber=vs.attempts||0,xpEarned=0,rewardType=adaptive&&flags.reward?'standard':adaptive?'none':'assessment',blossom=false,beta=.7+.3*oldM;
+  if(adaptive){
+    newM=clamp(oldM+.1*delta*phaseWeight,0,1);
+    beta=.7+.3*newM;
+    newS=clamp(oldS*alpha*beta*scaffoldPenalty,.25,60);
+    cs.M=newM;cs.attempts++;if(ok)cs.correct++;else cs[type]=(cs[type]||0)+1;
+    vs.S=newS;vs.lastReviewed=now();vs.attempts++;attemptNumber=vs.attempts;
+    if(ok)vs.correct++;else{vs.wrong++;vs.errors[type]=(vs.errors[type]||0)+1}
+    blossom=flags.reward&&ok&&Math.random()<Math.min(.24,.12+(m.streak||0)*.012);
+    xpEarned=flags.reward&&ok?10+((m.streak||0)>=2?2:0)+(blossom?5:0):0;
+    rewardType=flags.reward?(blossom?'blossom':'standard'):'none';
+    if(flags.reward){
+      if(ok){m.totalScore+=xpEarned;m.streak++;g.weeklyXp+=xpEarned}else{m.streak=0;g.hearts=Math.max(0,g.hearts-1)}
+    }
+    newPriority=priorityFor(v,m);
+  }
+  let recallAfter=adaptive?recall(vs):oldP,interventionFlags={reward:!!flags.reward,hintAvailable:!!flags.hint,hintUsed:!!meta.scaffoldUsed?.hint,sakura:!!flags.sakura,audio:!!meta.scaffoldUsed?.audio,forms:!!meta.scaffoldUsed?.forms,meaning:!!meta.scaffoldUsed?.meaning,ipa:!!meta.scaffoldUsed?.ipa,adaptive:!!adaptive};
+  let ev={studentId:student,sessionId:mode+'_'+new Date().toISOString().slice(0,10),timestamp:now(),lessonDate:localDateKey(),phase,phaseLabel:phaseLabel(phase),phaseWeight,phaseRole:adaptive?'adaptive_practice':'measurement_only',adaptiveUpdate:adaptive,modelUse:adaptive?'adaptive_review':'measurement_only',experimentId:meta.experimentId||'E1',hypothesisIds:meta.hypothesisIds||['H1','H2','H3'],ablationCondition:condition,interventionFlags,mode:mode,verbBase:v.base,correctV2:v.past,correctV3:v.p3,targetForm,targetAnswer:targetAnswer(v,targetForm),meaning:v.meaning,cluster:v.clusterKey,clusterName:v.clusterName,prompt:v.renderedPrompt||v.sentence.replace('{name}',student),promptType:meta.promptType||v.promptType||'sentence',taskType:meta.taskType||v.promptType||'sentence',scaffoldUsed:meta.scaffoldUsed||{},scaffoldPenalty,alpha:adaptive?alpha:null,beta:adaptive?beta:null,teacherDecision:meta.teacherDecision||{algorithmSuggestion:adaptive?'review_or_spaced_practice':'measurement_only',teacherAgreed:null,teacherAction:'not_coded',teacherNote:''},before:{clusterMastery:oldM,verbStrength:oldS,predictedRecall:oldP,priority:oldPriority},after:{clusterMastery:newM,verbStrength:newS,predictedRecall:recallAfter,priority:newPriority},outcomeMetrics:{accuracy:ok?1:0,recallBefore:oldP,recallAfter,improvementInStrength:newS-oldS,nextReviewDays:nextReview(newS)},answerRaw:answer,answerNormalized:norm(answer),isCorrect:ok,errorType:type,xpEarned,rewardType,heartsAfter:g.hearts,oldHalfLife:oldS,newHalfLife:newS,oldClusterMastery:oldM,newClusterMastery:newM,recallBefore:oldP,nextReviewDays:nextReview(newS),attemptNumber,priorityAfter:newPriority,responseTimeMs:meta.responseTimeMs??null};
+  m.events.push(ev);if(m.events.length>3000)m.events=m.events.slice(-3000);ensureResearch(m);return ev
+}
+function eventLabel(t){return trLabel(t)}
+function csv(events){let cols=['studentId','timestamp','lessonDate','phase','phaseRole','phaseWeight','experimentId','ablationCondition','adaptiveUpdate','modelUse','mode','verbBase','correctV2','correctV3','targetForm','targetAnswer','taskType','interventionFlags','scaffoldUsed','teacherDecision','flashcard','outcomeMetrics','meaning','cluster','clusterName','answerRaw','isCorrect','errorType','oldHalfLife','newHalfLife','oldClusterMastery','newClusterMastery','recallBefore','nextReviewDays','priorityAfter','responseTimeMs'];let jsonCols=['interventionFlags','scaffoldUsed','teacherDecision','flashcard','outcomeMetrics'];let rows=[cols.join(',')].concat(events.map(e=>cols.map(c=>'"'+String(jsonCols.includes(c)?JSON.stringify(e[c]||{}):(e[c]??'')).replace(/"/g,'""')+'"').join(',')));return rows.join('\n')}
+function downloadCSV(events,name){let blob=new Blob([csv(events)],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function mergeData(list){let base=seed();base.totalScore=0;base.streak=0;base.events=[];for(let m of list){m=upgrade(m);base.totalScore+=m.totalScore||0;base.events=base.events.concat(m.events||[]);for(let ck in base.clusters){let a=base.clusters[ck],b=m.clusters[ck];a.attempts+=b.attempts||0;a.correct+=b.correct||0;a.overregularization+=b.overregularization||0;a.wrongFormV3+=b.wrongFormV3||0;a.wrongFormV2+=b.wrongFormV2||0;a.blank+=b.blank||0;a.spelling+=b.spelling||0;a.other+=b.other||0;a.M=(a.M+b.M)/2}for(let vid in base.verbs){let a=base.verbs[vid],b=m.verbs[vid];a.attempts+=b.attempts||0;a.correct+=b.correct||0;a.wrong+=b.wrong||0;a.S=(a.S+b.S)/2;if(new Date(b.lastReviewed)>new Date(a.lastReviewed))a.lastReviewed=b.lastReviewed;for(let k in a.errors)a.errors[k]+=b.errors[k]||0}}base.events.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));return base}
+
+function localDateKey(d=new Date()){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function dateGap(a,b){if(!a||!b)return 999;let x=new Date(a+'T12:00:00'),y=new Date(b+'T12:00:00');return Math.round((y-x)/86400000)}
+function currentWeekKey(){let d=new Date(),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return localDateKey(d)}
+function syncWeek(g){let key=currentWeekKey();if(g.weekKey!==key){g.weekKey=key;g.weeklyXp=0}}
+function refillDailyHearts(m){let g=m.gamification,today=localDateKey();if(g.lastHeartRefill!==today){g.hearts=g.maxHearts;g.lastHeartRefill=today}}
+function averageMastery(m){let values=Object.values(m.clusters||{});return values.length?Math.round(values.reduce((sum,c)=>sum+(c.M||0),0)/values.length*100):0}
+function finishDailyStreak(m){let g=m.gamification,today=localDateKey(),gap=dateGap(g.lastStudyDate,today);g.freezeUsed=false;if(g.lastStudyDate===today)return;if(gap===1)g.dailyStreak=Math.max(1,g.dailyStreak+1);else if(gap===2&&g.streakFreeze>0){g.streakFreeze--;g.dailyStreak=Math.max(1,g.dailyStreak+1);g.freezeUsed=true}else g.dailyStreak=1;g.lastStudyDate=today;if(g.dailyStreak>0&&g.dailyStreak%7===0)g.streakFreeze=Math.min(2,g.streakFreeze+1)}
+function unlockBadges(m){let g=m.gamification,attempts=(m.events||[]).length,earned=[];if(attempts>=1)earned.push('sprout');if(g.completedLessons>=3)earned.push('bloom');if(g.dailyStreak>=7)earned.push('flame');g.badges=[...new Set([...(g.badges||[]),...earned])]}
+function prepareSession(m){syncWeek(m.gamification);refillDailyHearts(m);let hasStudied=!!m.gamification.lastStudyDate,gap=dateGap(m.gamification.lastStudyDate,localDateKey());reactSakura(hasStudied&&gap>1?'comeback':'idle',hasStudied&&gap>1?gt('comeback'):gt('welcome'))}
+function postSakuraPayload(payload){['sakuraFrame','lessonSakuraFrame'].forEach(id=>{let frame=document.getElementById(id);if(frame?.contentWindow)frame.contentWindow.postMessage(payload,'*')})}
+function restartSakuraMotion(el){if(!el)return;el.classList.remove('is-reacting');void el.offsetWidth;el.classList.add('is-reacting')}
+function reactSakura(state,message){renderAblationState();if(mode!=='none'&&!ablationFlags().sakura)return;let m=mode==='none'?seed():data(),g=m.gamification||gameSeed(),payload={type:'sakura-state',state,streak:m.streak||0,hearts:g.hearts,mastery:averageMastery(m)},guide=document.getElementById('sakuraGuide'),lessonMascot=document.getElementById('lessonMascot');if(message){let small=document.getElementById('sakuraMessage'),lesson=document.getElementById('lessonSakuraMessage');if(small)small.textContent=message;if(lesson)lesson.textContent=message}postSakuraPayload(payload);clearTimeout(reactSakura.postTimer);clearTimeout(reactSakura.postTimer2);reactSakura.postTimer=setTimeout(()=>postSakuraPayload(payload),90);reactSakura.postTimer2=setTimeout(()=>postSakuraPayload(payload),260);restartSakuraMotion(guide);restartSakuraMotion(lessonMascot);clearTimeout(reactSakura.timer);reactSakura.timer=setTimeout(()=>{guide?.classList.remove('is-reacting');lessonMascot?.classList.remove('is-reacting')},900)}
+function toggleSakura(){let guide=document.getElementById('sakuraGuide'),collapsed=guide.classList.toggle('collapsed');guide.querySelector('.sakura-toggle').textContent=collapsed?'+':'−'}
+function showXpPop(xp,surprise){let anchor=document.getElementById('checkBtn').getBoundingClientRect(),pop=document.createElement('div');pop.className='xp-pop';pop.textContent=(surprise?'🌸 ':'')+'+'+xp+' XP';pop.style.left=Math.max(12,anchor.left)+'px';pop.style.top=Math.max(12,anchor.top-10)+'px';document.body.appendChild(pop);setTimeout(()=>pop.remove(),1300)}
+function renderPath(m){let keys=Object.keys(CLUSTERS),g=m.gamification;document.getElementById('skillPath').innerHTML=keys.map((key,i)=>{let locked=i>g.unlockedStage,done=i<g.unlockedStage||g.completedLessons>=keys.length&&i===keys.length-1,state=locked?gt('lock'):done?gt('done'):gt('open');return `<button class="path-step ${locked?'locked':done?'done':'active'}" onclick="startPath(${i})" aria-label="${cname(key)} · ${state}"><span class="path-node">${locked?'🔒':done?'✓':['🌱','🌿','🌸','🎋','✨','👑'][i]}</span><b>${cname(key)}</b><small>${gt('path').replace('{n}',i+1)} · ${state}</small></button>`}).join('')}
+function renderBadges(m){let got=m.gamification.badges||[],ids=['sprout','bloom','flame'],icons=['🌱','🌸','🔥'];document.getElementById('badgeShelf').innerHTML=ids.map((id,i)=>`<span class="achievement ${got.includes(id)?'':'locked'}">${icons[i]} ${gt('badges')[i]}</span>`).join('')}
+function renderLeague(m){let g=m.gamification,tiers=currentLang==='vi'?['Đồng','Bạc','Vàng','Kim cương']:['Bronze','Silver','Gold','Diamond'],tier=tiers[Math.min(3,Math.floor(g.weeklyXp/250))],players=[{name:'Linh',xp:260},{name:'An',xp:185},{name:mode==='real'?learnerLabel(learner):currentLang==='vi'?'Bạn':'You',xp:g.weeklyXp,you:true},{name:'Mai',xp:95},{name:'Khoa',xp:55}].sort((a,b)=>b.xp-a.xp);document.getElementById('leagueBadge').textContent='🏆 '+gt('league').replace('{name}',tier);document.getElementById('leagueList').innerHTML=players.map((p,i)=>`<div class="league-row ${p.you?'you':''}"><b>${i+1}</b><span>${p.name}${p.you?' · '+(currentLang==='vi'?'bạn':'you'):''}</span><span>${p.xp} XP</span></div>`).join('')}
+function renderGamification(){let m=mode==='none'?seed():data();renderPath(m);renderBadges(m);renderLeague(m)}
+function startPath(index){if(!requireMode())return;let m=data(),keys=Object.keys(CLUSTERS);if(index>m.gamification.unlockedStage){reactSakura('hint',gt('locked'));return}activeCluster=keys[index];renderTheory();startMode('path',activeCluster)}
+
+let mode='none',learner='Khách',activeCluster='suppletive',quiz={items:[],i:0,last:null,answered:false},flash={items:[],i:0};
+function data(){return mode==='real'?(realCache[learner]||seed()):readDemo()}
+async function save(m,ev){if(mode==='real')await writeReal(learner,m,ev);else writeDemo(m)}
+function requireMode(){if(mode==='none'){alert(tr('needMode'));return false}return true}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+id).classList.add('active');document.body.classList.toggle('lesson-active',id==='quiz');renderAblationState()}
+function updateStatus(){let box=document.getElementById('modeStatus');if(mode==='demo')box.innerHTML='<span>🧪</span><div><b>'+tr('demoOn')+'</b><p>'+tr('demoOnNote')+'</p></div>';else if(mode==='real')box.innerHTML='<span>🔐</span><div><b>'+tr('realOn').replace('{name}',learnerLabel(learner))+'</b><p>'+tr('realOnNote')+'</p></div>';else box.innerHTML='<span>🌿</span><div><b>'+tr('noSession')+'</b><p>'+tr('noSessionNote')+'</p></div>';renderStats();renderTheory();renderGamification();renderAblationState()}
+function startDemo(){mode='demo';learner='Khách';let m=readDemo();prepareSession(m);writeDemo(m);updateStatus();showScreen('home')}
+async function unlockLearner(){let name=document.getElementById('learnerSelect').value,code=document.getElementById('learnerCode').value,h=await sha256(code);if(h!==HASHES[name]){alert(tr('wrongCode'));return}document.getElementById('learnerCode').value='';let box=document.getElementById('modeStatus');box.innerHTML='<span>⏳</span><div><b>'+tr('opening').replace('{name}',learnerLabel(name))+'</b><p>'+tr('openingNote')+'</p></div>';try{learner=name;mode='real';let m=await loadReal(name);prepareSession(m);await writeReal(name,m);updateStatus();showScreen('home')}catch(e){mode='none';learner='Khách';alert(tr('openFail'))}}
+function renderStats(){let m=mode==='none'?seed():data(),g=m.gamification,level=Math.floor((m.totalScore||0)/100)+1,xp=(m.totalScore||0)%100;document.getElementById('statsBox').innerHTML=`<div class="game-tile"><small>${tr('player')}</small><b>${mode==='real'?learnerLabel(learner):mode==='demo'?tr('trial'):tr('notOpen')}</b><div class="xp-track"><div class="xp-fill" style="width:${xp}%"></div></div></div><div class="game-tile"><small>${tr('level')} · ${gt('xp')}</small><b>${level} · ${m.totalScore||0}</b></div><div class="game-tile"><small>${gt('dailyStreak')}</small><b>${g.dailyStreak||0} 🔥</b><span class="freeze-chip">❄️ ${gt('freeze')} · ${g.streakFreeze}</span></div><div class="game-tile"><small>${gt('hearts')}</small><b>${g.hearts}/${g.maxHearts}</b><div class="hearts-line">${'♥'.repeat(g.hearts)}${'♡'.repeat(g.maxHearts-g.hearts)}</div></div>`}
+function setCluster(k){activeCluster=k;renderTheory()}
+function renderTheory(){let tabs=document.getElementById('clusterTabs'),detail=document.getElementById('clusterDetail');if(!tabs||!detail)return;tabs.innerHTML=Object.entries(CLUSTERS).map(([k,c])=>`<button class="tab ${activeCluster===k?'active':''}" onclick="setCluster('${k}')">${cname(k)}</button>`).join('');let c=CLUSTERS[activeCluster],m=mode==='none'?seed():data(),cs=m.clusters[activeCluster],ex=c.verbs.slice(0,18).map(v=>`<span class="pill">${v[0]} → ${v[1]}</span>`).join(''),rate=cs.attempts?fmt(cs.correct/cs.attempts*100,0)+'%':tr('noData');detail.innerHTML=`<div class="grid two"><div class="card"><h2>${cname(activeCluster)}</h2><p>${cdesc(activeCluster)}</p><p><b>${tr('learnRule')}</b> ${crule(activeCluster)}</p><div>${ex}</div></div><div class="card"><h2>${tr('clusterProgress')}</h2><p>${tr('clusterProgressNote')}</p><div class="grid three"><div class="metric"><small>${tr('attempts')}</small><b>${cs.attempts}</b></div><div class="metric"><small>${tr('correct')}</small><b>${rate}</b></div><div class="metric"><small>${tr('overed')}</small><b>${cs.overregularization}</b></div></div></div></div>`}
+
+const PROMPT_STYLES=['mc_v2','type_v2','sentence_v2','mc_v3','type_v3','sentence_v3','v2_or_v3','meaning_to_base','fix_error','listen_type'];
+const TIME_WORDS=['Yesterday','Last weekend','Two days ago','Last night','This morning','After school','During the game','In the story'];
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function shuffle(arr){return arr.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1])}
+function formName(form){return form==='p3'?'V3':form==='base'?'V1':'V2'}
+function taskLabel(type,targetForm){let f=formName(targetForm);if(type==='mc_v2'||type==='mc_v3')return currentLang==='vi'?'Chọn đáp án '+f:'Choose the '+f+' form';if(type==='v2_or_v3')return currentLang==='vi'?'Chọn đúng V2 hay V3':'Choose the right V2 or V3 form';if(type==='meaning_to_base')return currentLang==='vi'?'Nhìn nghĩa, viết V1':'Use the meaning to write V1';if(type==='fix_error')return currentLang==='vi'?'Sửa lỗi sai':'Fix the mistake';if(type==='listen_type')return currentLang==='vi'?'Nghe và viết '+f:'Listen and type '+f;return currentLang==='vi'?'Viết dạng '+f:'Write the '+f+' form'}
+function inputPlaceholder(targetForm){return currentLang==='vi'?'Nhập '+formName(targetForm):'Enter '+formName(targetForm)}
+function varySentence(v,name,targetForm='past'){let s=v.sentence.replace('{name}',name),t=TIME_WORDS[Math.floor(Math.random()*TIME_WORDS.length)];s=s.replace(/^Yesterday\b/,t).replace(/^Last weekend\b/,t);if(targetForm==='p3')s=(currentLang==='vi'?'Hoàn thành câu với V3: ':'Complete with V3: ')+name+' has ___ the word "'+v.base+'" in a sentence.';else if(!/___/.test(s))s=t+', '+name+' ___ the word "'+v.base+'" in a sentence.';return s}
+function choicesFor(v,targetForm){let correct=targetAnswer(v,targetForm),pool=verbs().filter(x=>x.id!==v.id).map(x=>targetAnswer(x,targetForm)),distractors=shuffle([v.wrong,targetForm==='past'?v.p3:v.past,...pool].filter(Boolean)),out=[correct];for(let d of distractors){if(out.length>=4)break;if(!out.some(x=>norm(x)===norm(d)))out.push(d)}return shuffle(out)}
+function buildPrompt(v,name,kind){
+  let planned=v.lessonTarget||'past',styles=planned==='p3'?['mc_v3','type_v3','sentence_v3','listen_type']:['mc_v2','type_v2','sentence_v2','fix_error','listen_type'];
+  if(kind==='boss')styles=planned==='p3'?['mc_v3','type_v3','sentence_v3','listen_type']:['mc_v2','type_v2','sentence_v2','fix_error','listen_type'];
+  if(kind==='weak')styles=planned==='p3'?['type_v3','sentence_v3','mc_v3']:['type_v2','sentence_v2','mc_v2','fix_error'];
+  let type=styles[Math.floor(Math.random()*styles.length)],targetForm=planned,choiceMode=type.startsWith('mc_')||type==='v2_or_v3';
+  let answer=targetAnswer(v,targetForm),sentence=varySentence(v,name,targetForm),html=sentence,plain=sentence,audio=sentence;
+  if(type==='type_v2'||type==='type_v3'){plain='Write '+formName(targetForm)+' of '+v.base+'.';html='Write <b>'+formName(targetForm)+'</b> of <b>'+esc(v.base)+'</b>.';audio=v.base}
+  if(type==='mc_v2'||type==='mc_v3'){plain='Choose '+formName(targetForm)+' of '+v.base+'.';html='Choose <b>'+formName(targetForm)+'</b> of <b>'+esc(v.base)+'</b>.';audio=v.base}
+  if(type==='meaning_to_base'){plain='Meaning: '+v.meaning+'. Write the base verb.';html=tr('meaning')+' <b>'+esc(v.meaning)+'</b>. Write <b>V1</b>.';audio=v.base}
+  if(type==='fix_error'){plain='Fix the incorrect form: '+v.wrong+'.';html='Fix the mistake: <b>'+esc(v.wrong)+'</b> -> ?';audio=v.wrong}
+  if(type==='v2_or_v3'){targetForm=Math.random()<.5?'past':'p3';answer=targetAnswer(v,targetForm);plain='Choose the '+formName(targetForm)+' form of '+v.base+'.';html='Choose the <b>'+formName(targetForm)+'</b> form of <b>'+esc(v.base)+'</b>.';audio=v.base}
+  if(type==='listen_type'){plain='Listen and type '+formName(targetForm)+' of '+v.base+'.';html=(currentLang==='vi'?'Nghe từ gốc, sau đó viết ':'Listen, then type ')+'<b>'+formName(targetForm)+'</b>.';audio=v.base}
+  return {type,targetForm,plain,html,audio,label:taskLabel(type,targetForm),inputMode:choiceMode?'choice':'text',choices:choiceMode?choicesFor(v,targetForm):null,answer}
+}
+function speechSafe(text){return String(text||'').replace(/_{2,}|[-–—]{2,}/g,' ').replace(/→/g,' to ').replace(/\s+/g,' ').trim()}
+function speakText(text){if(!('speechSynthesis' in window)){alert(tr('speechFail'));return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(speechSafe(text));u.lang='en-US';u.rate=.82;u.pitch=1;speechSynthesis.speak(u)}
+function speakBase(){let v=quiz.items[quiz.i];if(v)speakText(v.base)}
+function speakPrompt(){let v=quiz.items[quiz.i];if(v)speakText(v.promptAudio||v.renderedPrompt||v.base)}
+function speakAnswer(){let v=quiz.items[quiz.i];if(v&&quiz.answered)speakText(targetAnswer(v,v.targetForm||'past'))}
+function speakFlashBase(){let v=flash.items[flash.i];if(v)speakText(v.base)}
+function speakFlashPast(){let v=flash.items[flash.i];if(v)speakText(v.past)}
+function speakFlashP3(){let v=flash.items[flash.i];if(v)speakText(v.p3)}
+function renderQuizScore(){let m=data(),g=m.gamification,level=Math.floor((m.totalScore||0)/100)+1;if(isAssessmentPhase()){document.getElementById('quizScore').innerHTML=`<div class="game-tile"><small>${tr('assessment')}</small><b>${phaseLabel(currentPhase())}</b></div><div class="game-tile"><small>${tr('measurementOnly')}</small><b>${quiz.i+1}/${quiz.items.length}</b></div>`;return}document.getElementById('quizScore').innerHTML=`<div class="game-tile"><small>${tr('level')}</small><b>${level}</b></div><div class="game-tile"><small>${gt('xp')}</small><b>${m.totalScore||0}</b></div><div class="game-tile"><small>${gt('combo')}</small><b>${m.streak||0} 🔥</b></div><div class="game-tile"><small>${gt('hearts')}</small><b>${'♥'.repeat(g.hearts)}${'♡'.repeat(g.maxHearts-g.hearts)}</b></div>`}
+function pickItems(kind,targetCluster){let m=data(),list=verbs();if(kind==='path'&&targetCluster)list=list.filter(v=>v.clusterKey===targetCluster);if(kind==='weak'){let wk=Object.entries(m.clusters).sort((a,b)=>a[1].M-b[1].M)[0][0];list=list.filter(v=>v.clusterKey===wk)}let ranked=(kind==='boss'?list.sort(()=>Math.random()-.5):list.map(v=>({v,p:priorityFor(v,m)})).sort((a,b)=>b.p-a.p).map(x=>x.v)),questionCount=kind==='path'?Math.min(12,Math.max(8,ranked.length*2)):Math.min(12,ranked.length*2),verbCount=Math.max(1,Math.ceil(questionCount/2)),picked=[];for(let i=0;i<verbCount&&ranked.length;i++){let v=ranked[i%ranked.length];picked.push({...v,lessonTarget:'past',pairStep:1},{...v,lessonTarget:'p3',pairStep:2})}return picked.slice(0,questionCount)}
+function startMode(kind,targetCluster){if(!requireMode())return;unlockSakuraAudio();clearTimeout(finishLesson.modalTimer);document.getElementById('lessonComplete')?.classList.remove('show');let m=data();refillDailyHearts(m);if(!(kind==='path'&&targetCluster&&m.gamification.completedLessons>0))m.streak=0;quiz={items:pickItems(kind,targetCluster),i:0,last:null,kind,answered:false,hinted:false,startScore:m.totalScore||0,correct:0};save(m);renderQuestion();showScreen('quiz');sakuraReact('idle',gt('welcome'),pickVoiceLine('idle'))}
+function renderStudyCard(v){return `<div class="study-forms"><span class="study-form"><b>V1</b>${esc(v.base)}</span></div><div class="study-meaning"><b>${tr('meaning')}</b><span>${esc(v.meaning)}</span></div>`}
+function renderAnswerCard(v){return `<div class="study-forms"><span class="study-form"><b>V1</b>${esc(v.base)} <small>${esc(ipaFor(v,'base'))}</small></span><span class="study-form"><b>V2</b>${esc(v.past)} <small>${esc(ipaFor(v,'past'))}</small></span><span class="study-form"><b>V3</b>${esc(v.p3)} <small>${esc(ipaFor(v,'p3'))}</small></span></div><div class="study-meaning"><b>${tr('meaning')}</b><span>${esc(v.meaning)}</span></div>`}
+function renderChoices(prompt){let grid=document.getElementById('choiceGrid');if(!prompt.choices?.length){grid.innerHTML='';grid.style.display='none';return}grid.style.display='grid';grid.innerHTML=prompt.choices.map(c=>`<button type="button" class="choice-btn" aria-pressed="false" onclick='selectChoice(${JSON.stringify(c)},this)'>${esc(c)}</button>`).join('')}
+function selectChoice(value,btn){document.querySelectorAll('.choice-btn').forEach(b=>{b.classList.remove('selected');b.setAttribute('aria-pressed','false')});btn.classList.add('selected');btn.setAttribute('aria-pressed','true');document.getElementById('answer').value=value}
+function markChoices(correctAnswer,answer){document.querySelectorAll('.choice-btn').forEach(b=>{let t=norm(b.textContent);if(t===norm(correctAnswer))b.classList.add('correct');else if(t===norm(answer))b.classList.add('wrong');b.disabled=true})}
+function lockChoices(){document.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true})}
+function renderQuestion(){
+  let v=quiz.items[quiz.i],student=mode==='real'?learnerLabel(learner):learner,prompt=buildPrompt(v,student,quiz.kind),answer=document.getElementById('answer'),assessment=isAssessmentPhase();
+  quiz.answered=false;quiz.hinted=false;quiz.questionStartedAt=Date.now();v.renderedPrompt=prompt.plain;v.promptType=prompt.type;v.promptAudio=prompt.audio;v.targetForm=prompt.targetForm;v.inputMode=prompt.inputMode;
+  document.getElementById('qMode').textContent=assessment?phaseLabel(currentPhase()).toUpperCase()+' · '+tr('measurementOnly'):(quiz.kind==='weak'?tr('weak'):quiz.kind==='boss'?tr('boss'):quiz.kind==='path'?cname(v.clusterKey).toUpperCase():tr('today'));
+  document.getElementById('qCount').textContent=`${tr('question')} ${quiz.i+1}/${quiz.items.length}`;
+  document.getElementById('bar').style.width=(quiz.i/quiz.items.length*100)+'%';
+  document.getElementById('qTaskLabel').textContent=prompt.label+(v.pairStep?` · ${v.pairStep}/2`:'');
+  document.getElementById('qBase').textContent=v.base;
+  document.getElementById('qPast').textContent=formName(prompt.targetForm)+' ?';
+  document.getElementById('qStudyCard').innerHTML=assessment?'':renderStudyCard(v);
+  document.getElementById('qSentence').innerHTML=prompt.html;
+  renderChoices(prompt);answer.value='';answer.disabled=false;answer.type=prompt.inputMode==='choice'?'hidden':'text';answer.placeholder=inputPlaceholder(prompt.targetForm);
+  document.getElementById('checkBtn').disabled=false;
+  document.querySelector('.hint-btn').disabled=assessment||!ablationFlags().hint;
+  document.getElementById('answerSoundBtn')?.classList.add('is-hidden');
+  let fb=document.getElementById('feedback');fb.className='feedback';fb.innerHTML='';
+  document.getElementById('heartRecovery').className='heart-recovery';
+  let nextBtn=document.getElementById('nextBtn');nextBtn.disabled=false;nextBtn.style.display='none';
+  renderQuizScore();renderAblationState();if(prompt.inputMode!=='choice')setTimeout(()=>answer.focus(),50)
+}
+function askSakuraHint(){if(quiz.answered)return;let flags=ablationFlags();if(isAssessmentPhase()||!flags.hint){let fb=document.getElementById('feedback');fb.className='feedback show';fb.innerHTML=`<b>${tr('measurementOnly')}</b><p>${esc(isAssessmentPhase()?tr('assessmentNoHint'):(currentLang==='vi'?'Condition này đang tắt hint để đo tác động của gợi ý.':'Hints are disabled in this condition.'))}</p>`;return}let v=quiz.items[quiz.i],target=targetAnswer(v,v.targetForm||'past'),hint=gt('hint').replace('{cluster}',cname(v.clusterKey)).replace('{letter}',target.charAt(0).toUpperCase()).replace('{length}',target.length)+' '+(currentLang==='vi'?'Nghĩa: ':'Meaning: ')+v.meaning+'. IPA: '+ipaFor(v,v.targetForm||'past');quiz.hinted=true;let fb=document.getElementById('feedback');fb.className='feedback show';fb.innerHTML=`<b>Sakura</b><p>${esc(hint)}</p>`;sakuraReact('hint',hint,pickVoiceLine('hint'))}
+function feedbackMessage(ev){if(ev.errorType==='overregularization')return tr('overMsg');if(ev.errorType==='wrongFormV3')return tr('v3Msg');if(ev.errorType==='wrongFormV2')return tr('v2Msg');if(ev.errorType==='blank')return tr('blankMsg');return tr('feedbackType')+' '+eventLabel(ev.errorType)+'.'}
+function explainAnswer(v){return `<div class="feedback-explain"><b>${currentLang==='vi'?'Ghi nho':'Remember'}</b><span>V1: ${esc(v.base)} ${esc(ipaFor(v,'base'))}</span><span>V2: ${esc(v.past)} ${esc(ipaFor(v,'past'))}</span><span>V3: ${esc(v.p3)} ${esc(ipaFor(v,'p3'))}</span><span>${tr('meaning')} ${esc(v.meaning)}</span></div>`}
+async function submitAnswer(){
+  if(quiz.answered)return;let assessment=isAssessmentPhase();if(!assessment)unlockSakuraAudio();quiz.answered=true;
+  let flags=ablationFlags(),v=quiz.items[quiz.i],m=data(),ans=document.getElementById('answer').value,student=mode==='real'?learnerLabel(learner):learner,meta={phase:currentPhase(),ablationCondition:flags.condition,responseTimeMs:quiz.questionStartedAt?Date.now()-quiz.questionStartedAt:null,targetForm:v.targetForm||'past',promptType:v.promptType||'sentence',taskType:v.promptType||'sentence',scaffoldUsed:{hint:!!quiz.hinted,meaning:!assessment,ipa:false,forms:false,audio:!assessment&&v.promptType==='listen_type',teacherExplanation:false}},ev=applyAnswer(m,v,ans,student,mode,meta),correctAnswer=targetAnswer(v,meta.targetForm);
+  if(ev.isCorrect)quiz.correct++;if(ev.rewardType==='blossom')quiz.surprise=true;await save(m,ev);quiz.last=ev;
+  let fb=document.getElementById('feedback');
+  document.getElementById('answer').disabled=true;document.getElementById('checkBtn').disabled=true;
+  if(assessment){
+    lockChoices();document.getElementById('answerSoundBtn')?.classList.add('is-hidden');
+    fb.className='feedback show';fb.innerHTML=`<b>${tr('assessmentRecorded')}</b><p class="note">${esc(tr('assessmentNote'))}</p>`;
+    document.getElementById('qPast').textContent=tr('measurementOnly');document.getElementById('nextBtn').style.display='inline-flex';
+    renderStats();renderTheory();renderQuizScore();renderGamification();return
+  }
+  markChoices(correctAnswer,ans);document.getElementById('answerSoundBtn')?.classList.remove('is-hidden');document.getElementById('qStudyCard').innerHTML=renderAnswerCard(v);
+  fb.className='feedback show '+(ev.isCorrect?'correct':'wrong');
+  let bonus=ev.isCorrect?(ev.xpEarned?`<span class="score-pop">+${ev.xpEarned} XP</span> · ${gt('combo')} ${m.streak||0}`:(currentLang==='vi'?'Đúng, reward đang tắt trong condition này.':'Correct; rewards are off in this condition.')):(flags.reward?tr('streakReset'):(currentLang==='vi'?'Sai, nhưng condition này không trừ tim/điểm.':'Not correct, but this condition does not remove hearts or points.')),msg=feedbackMessage(ev);
+  fb.innerHTML=`<b>${ev.isCorrect?tr('right'):tr('wrong')}</b><p>${tr('rightAnswer')} <b>${esc(correctAnswer)}</b>. ${bonus}</p><p class="note">${esc(msg)}</p>${explainAnswer(v)}`;
+  document.getElementById('qPast').textContent=correctAnswer;
+  if(ev.isCorrect){let mood=(m.streak||0)>=3?'celebrate':'correct';if(ev.xpEarned)showXpPop(ev.xpEarned,ev.rewardType==='blossom');sakuraReact(mood,ev.xpEarned?gt('correct').replace('{xp}',ev.xpEarned):(currentLang==='vi'?'Đúng rồi. Condition này đang tắt reward.':'Correct. Rewards are off in this condition.'),pickVoiceLine(mood))}else sakuraReact('wrong',gt('wrong'),pickVoiceLine('wrong'));
+  if(m.gamification.hearts===0){document.getElementById('heartRecovery').className='heart-recovery show';document.getElementById('heartRecoveryText').textContent=gt('heartEmpty')}else document.getElementById('nextBtn').style.display='inline-flex';
+  renderStats();renderTheory();renderQuizScore();renderGamification()
+}
+async function recoverHeart(){let m=data();m.gamification.hearts=1;await save(m);document.getElementById('heartRecovery').className='heart-recovery';document.getElementById('nextBtn').style.display='inline-flex';renderStats();renderQuizScore();sakuraReact('comeback',gt('recovered'),pickVoiceLine('recovered'))}
+function nextQuestion(){if(!quiz.answered||(!isAssessmentPhase()&&data().gamification.hearts===0))return;quiz.i++;if(quiz.i>=quiz.items.length){finishLesson();return}renderQuestion()}
+async function finishLesson(){let nextBtn=document.getElementById('nextBtn');if(nextBtn){nextBtn.disabled=true;nextBtn.style.display='none'}let m=data(),g=m.gamification,assessment=isAssessmentPhase(),flags=ablationFlags();if(!assessment){g.completedLessons++;if(quiz.kind==='path'){let index=Object.keys(CLUSTERS).indexOf(activeCluster);g.unlockedStage=Math.max(g.unlockedStage,Math.min(Object.keys(CLUSTERS).length-1,index+1))}if(flags.reward){finishDailyStreak(m);g.hearts=Math.min(g.maxHearts,g.hearts+1);unlockBadges(m)}}await save(m);let xp=Math.max(0,(m.totalScore||0)-(quiz.startScore||0)),accuracy=quiz.items.length?Math.round((quiz.correct||0)/quiz.items.length*100):0;document.getElementById('bar').style.width='100%';document.getElementById('completeTitle').textContent=assessment?tr('assessmentComplete'):(currentLang==='vi'?'Bài học hoàn thành!':'Lesson complete!');document.getElementById('completeMessage').textContent=assessment?tr('assessmentNote'):gt('complete').replace('{count}',quiz.items.length)+(g.freezeUsed?' '+gt('freezeUsed'):'');document.getElementById('completeMetrics').innerHTML=assessment?`<div><small>${tr('assessment')}</small><b>${phaseLabel(currentPhase())}</b></div><div><small>${gt('accuracy')}</small><b>${accuracy}%</b></div><div><small>${tr('adaptivePractice')}</small><b>0</b></div>`:flags.reward?`<div><small>${gt('lessonXp')}</small><b>+${xp}</b></div><div><small>${gt('accuracy')}</small><b>${accuracy}%</b></div><div><small>${gt('daily')}</small><b>${g.dailyStreak} 🔥</b></div>`:`<div><small>Condition</small><b>${conditionLabel(flags.condition)}</b></div><div><small>${gt('accuracy')}</small><b>${accuracy}%</b></div><div><small>${gt('lessonXp')}</small><b>0</b></div>`;document.getElementById('completeReward').textContent=assessment?tr('measurementOnly'):(flags.reward?(quiz.surprise?'🌸 '+gt('surprise').replace('{xp}','5'):'🌸 '+gt('standard')):(currentLang==='vi'?'Reward tắt để phục vụ ablation.':'Rewards are off for this ablation.'));let completeLayer=document.getElementById('lessonComplete');renderStats();renderTheory();renderGamification();renderAblationState();clearTimeout(finishLesson.modalTimer);if(!assessment){sakuraReact('celebrate',gt('celebrate'),pickVoiceLine('celebrate'));finishLesson.modalTimer=setTimeout(()=>completeLayer.classList.add('show'),1050)}else completeLayer.classList.add('show')}
+function closeLessonComplete(){clearTimeout(finishLesson.modalTimer);document.getElementById('lessonComplete').classList.remove('show');showScreen('home');renderGamification()}
+function leaveLesson(){clearTimeout(finishLesson.modalTimer);showScreen('home');reactSakura(quiz.i>0?'disappointed':'idle',gt('leave'))}
+function startFlash(){if(!requireMode())return;unlockSakuraAudio();flash={items:pickItems('due').slice(0,14),i:0,flipped:false,startedAt:Date.now(),cardStartedAt:Date.now(),cardFlippedAt:null,spokenChecked:false,remembered:[],relearn:[]};renderFlash();showScreen('flash');sakuraReact('hint',currentLang==='vi'?'Nhìn mặt trước, tự nhớ nghĩa rồi mới lật thẻ nhé.':'Look at the front, recall the meaning, then flip.',pickVoiceLine('hint'))}
+function showSessionData(){if(!requireMode())return;let m=data(),events=(m.events||[]).slice().reverse();document.getElementById('dataNote').textContent=mode==='demo'?tr('demoData'):tr('realData').replace('{name}',learnerLabel(learner));document.getElementById('dataMetrics').innerHTML=`<div class="metric"><small>${tr('attempts')}</small><b>${events.length}</b></div><div class="metric"><small>${tr('overed')}</small><b>${events.filter(e=>e.errorType==='overregularization').length}</b></div><div class="metric"><small>${tr('score')}</small><b>${m.totalScore}</b></div>`;document.getElementById('eventRows').innerHTML=events.slice(0,80).map(e=>`<tr><td>${new Date(e.timestamp).toLocaleString(currentLang==='vi'?'vi-VN':'en-US')}<br><span class="note">${e.phaseLabel||phaseLabel(e.phase||'lesson_practice')}</span></td><td>${learnerLabel(e.learnerId||e.studentId)}</td><td>${e.verbBase} → ${e.targetAnswer||e.correctV2}</td><td>${e.answerRaw||'∅'}</td><td>${eventLabel(e.errorType)}</td><td>${fmt(e.oldClusterMastery)} → ${fmt(e.newClusterMastery)}</td><td>${fmt(e.oldHalfLife)} → ${fmt(e.newHalfLife)}</td></tr>`).join('')||`<tr><td colspan="7">${tr('emptySession')}</td></tr>`;showScreen('data')}
+function setFlashBusy(busy){flash.busy=busy;document.querySelectorAll('[data-flash-action]').forEach(btn=>btn.disabled=busy)}
+function rememberFlashSpoken(checked){flash.spokenChecked=!!checked}
+function flashActionLabel(action){if(action==='remembered')return currentLang==='vi'?'nhớ đúng':'remembered';if(action==='forgot')return currentLang==='vi'?'chưa nhớ':'not remembered';return action}
+function renderFlash(){
+  let v=flash.items[flash.i];if(!v){showSessionData();return}
+  setFlashBusy(false);
+  let panel=document.getElementById('flashCardPanel'),flipped=!!flash.flipped;
+  panel?.classList.toggle('is-flipped',flipped);
+  document.getElementById('fcCount').textContent=`${tr('card')} ${flash.i+1}/${flash.items.length}`;
+  document.getElementById('flashPiles').innerHTML=`<div class="flash-pile"><small>${currentLang==='vi'?'Đang học':'Studying'}</small><b>${Math.max(0,flash.items.length-flash.i)}</b></div><div class="flash-pile"><small>${currentLang==='vi'?'Đã thuộc':'Known'}</small><b>${flash.remembered.length}</b></div><div class="flash-pile"><small>${currentLang==='vi'?'Học lại':'Relearn'}</small><b>${flash.relearn.length}</b></div>`;
+  document.getElementById('fcBase').textContent=v.base;
+  document.getElementById('fcFrontPrompt').textContent=currentLang==='vi'?'Nhìn từ này, tự nhớ nghĩa và các dạng của nó trước. Đọc to một lần rồi hãy lật thẻ.':'Look at this word and recall its meaning and forms first. Say it aloud once before flipping.';
+  document.getElementById('fcInfo').innerHTML=`<div class="fc-detail"><b>V1</b><span>${esc(v.base)}</span><small>${esc(ipaFor(v,'base'))}</small></div><div class="fc-detail"><b>V2</b><span>${esc(v.past)}</span><small>${esc(ipaFor(v,'past'))}</small></div><div class="fc-detail"><b>V3</b><span>${esc(v.p3)}</span><small>${esc(ipaFor(v,'p3'))}</small></div><div class="fc-detail"><b>${currentLang==='vi'?'Nghĩa':'Meaning'}</b><span>${esc(v.meaning)}</span><small>${currentLang==='vi'?'Dạng: ':'Pattern: '}${esc(cname(v.clusterKey))}</small></div>`;
+  document.getElementById('fcBackNote').textContent=currentLang==='vi'?'Nếu đúng với điều em vừa tự nhớ, chuyển thẻ sang chồng đã thuộc. Nếu chưa đúng, đưa sang chồng học lại.':'If this matches what you recalled, move it to the known pile. If not, move it to relearn.';
+  let spoken=document.getElementById('fcSpokenCheck');if(spoken){spoken.checked=!!flash.spokenChecked;spoken.disabled=flipped}
+}
+function flipFlashCard(){let v=flash.items[flash.i];if(!v)return;flash.spokenChecked=!!document.getElementById('fcSpokenCheck')?.checked;flash.flipped=true;flash.cardFlippedAt=Date.now();renderFlash();sakuraReact('idle',currentLang==='vi'?'Giờ kiểm tra thật nhé: mình nhớ đúng không?':'Now check honestly: did you remember it?')}
+async function saveFlashEvents(m,events){if(mode==='real'){for(const ev of events)await writeReal(learner,m,ev)}else writeDemo(m)}
+async function flashNext(action){
+  if(flash.busy)return;if(!flash.flipped){flipFlashCard();return}
+  setFlashBusy(true);unlockSakuraAudio();
+  let v=flash.items[flash.i],m=data(),g=m.gamification,hearts=g.hearts,streak=m.streak,student=mode==='real'?learnerLabel(learner):learner,remembered=action==='remembered',targetForms=['meaning','past','p3'],events=[],responseTime=flash.cardStartedAt?Date.now()-flash.cardStartedAt:null,flipTime=flash.cardFlippedAt&&flash.cardStartedAt?flash.cardFlippedAt-flash.cardStartedAt:null;
+  for(const targetForm of targetForms){
+    let ev=applyAnswer(m,v,remembered?targetAnswer(v,targetForm):'',student,mode+'_flashcard',{phase:currentPhase(),ablationCondition:currentAblationCondition(),targetForm,promptType:'flashcard_front_recall',taskType:'flashcard_selfcheck',responseTimeMs:responseTime,scaffoldUsed:{forms:true,meaning:true,ipa:true,audio:!!flash.spokenChecked,teacherExplanation:false},teacherDecision:{algorithmSuggestion:'leitner_self_recall_signal',teacherAgreed:null,teacherAction:'learner_self_report',teacherNote:'Flashcard self-check: '+flashActionLabel(action)}});
+    ev.heartsAfter=hearts;ev.selfCheck=action;ev.flashcard={protocol:'front_recall_flip_selfcheck_v1',frontOnlyBeforeFlip:true,meaningHiddenBeforeFlip:true,spokenBeforeFlip:!!flash.spokenChecked,flipped:true,selfRating:remembered?'remembered':'not_remembered',pileAfter:remembered?'known':'relearn',flipLatencyMs:flipTime,responseTimeMs:responseTime};
+    events.push(ev);
+  }
+  g.hearts=hearts;if(!remembered)m.streak=streak;
+  if(remembered)flash.remembered.push(v.id);else flash.relearn.push(v.id);
+  await saveFlashEvents(m,events);
+  flash.i++;flash.flipped=false;flash.cardStartedAt=Date.now();flash.cardFlippedAt=null;flash.spokenChecked=false;
+  renderStats();renderTheory();renderGamification();renderAblationState();
+  let xp=events.reduce((sum,ev)=>sum+(ev.xpEarned||0),0),msg=remembered?(currentLang==='vi'?'Đã chuyển sang chồng đã thuộc.':'Moved to the known pile.'):(currentLang==='vi'?'Đã chuyển sang chồng học lại.':'Moved to the relearn pile.');
+  sakuraReact(remembered?'correct':'hint',msg+(xp?` +${xp} XP`:''),pickVoiceLine(remembered?'correct':'hint'));
+  if(flash.i>=flash.items.length)showSessionData();else renderFlash()
+}
+function exportCurrent(){if(!requireMode())return;downloadCSV(data().events||[],mode==='real'?'real_'+learnerLabel(learner).replace(/\s+/g,'_')+'.csv':'demo_session.csv')}
+function resetCurrent(){if(!requireMode())return;if(mode==='real'){alert(tr('officialReset'));return}if(!confirm(tr('confirmReset')))return;localStorage.removeItem(DEMO_KEY);sessionStorage.removeItem(DEMO_KEY);updateStatus();showSessionData()}
+document.getElementById('answer').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();quiz.answered?nextQuestion():submitAnswer()}});
+document.getElementById('sakuraFrame')?.addEventListener('load',()=>reactSakura('idle',gt('welcome')));
+document.getElementById('lessonSakuraFrame')?.addEventListener('load',()=>reactSakura('idle',gt('welcome')));
+Object.assign(window,{startDemo,unlockLearner,showScreen,showSessionData,exportCurrent,resetCurrent,startMode,submitAnswer,nextQuestion,startFlash,flashNext,flipFlashCard,rememberFlashSpoken,setCluster,speakBase,speakPrompt,speakAnswer,speakFlashBase,speakFlashPast,speakFlashP3,setLang,startPath,askSakuraHint,recoverHeart,finishLesson,closeLessonComplete,leaveLesson,toggleSakura,toggleSakuraSound,selectChoice,renderAblationState});
+setLang(currentLang);
+updateStatus();
+window.irregularBootFinished=true;
+</script>
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Tellstory blog. Trang học thử, mã demo, dữ liệu mẫu, thuật toán phân loại lỗi và giao diện học thuộc tác giả. Vui lòng không sao chép hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Nguồn gốc: &lt;a href=&quot;https://tellstory-blog.web.app/irregular-verbs.html&quot;&gt;Tellstory blog&lt;/a&gt;." data-en="© 2026 Bui Tong Giang · Tellstory blog. The trial-learning page, demo code, sample data, error-classification algorithm and learning interface belong to the author. Please do not copy or reuse the source code without permission. Source: &lt;a href=&quot;https://tellstory-blog.web.app/irregular-verbs.html&quot;&gt;Tellstory blog&lt;/a&gt;.">© 2026 Bui Tong Giang · Tellstory blog. Trang học thử, mã demo, dữ liệu mẫu, thuật toán phân loại lỗi và giao diện học thuộc tác giả. Vui lòng không sao chép hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Nguồn gốc: <a href="https://tellstory-blog.web.app/irregular-verbs.html">Tellstory blog</a>.</p>
+
+
+
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "\n\nNguồn: Tellstory blog · Bui Tong Giang\n" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

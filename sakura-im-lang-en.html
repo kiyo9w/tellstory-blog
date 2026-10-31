@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tg Wanted Sakura to Stay Quiet</title>
+<meta name="description" content="A fieldnote about an irregular-verb learning app, Sakura, gamification, and the moment I had to separate intervention from measurement so the data could be trusted.">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Article, images, demo code, and presentation belong to Tellstory blog. Do not copy the full text or reuse source code without the author's permission.">
+<link rel="canonical" href="https://tellstory-blog.web.app/sakura-im-lang-en.html">
+<link rel="alternate" hreflang="vi" href="https://tellstory-blog.web.app/sakura-im-lang.html">
+<link rel="alternate" hreflang="en" href="https://tellstory-blog.web.app/sakura-im-lang-en.html">
+<meta property="og:title" content="Tg Wanted Sakura to Stay Quiet">
+<meta property="og:description" content="When gamification does its job, but measurement needs silence so the data can be trusted.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tellstory-blog.web.app/sakura-im-lang-en.html">
+<meta property="og:site_name" content="Tellstory blog">
+<meta property="og:image" content="https://tellstory-blog.web.app/assets/sakura-reference.png">
+<meta property="og:image:alt" content="Sakura inside the irregular-verb learning web app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tg Wanted Sakura to Stay Quiet">
+<meta name="twitter:description" content="A fieldnote about Sakura, a trial learning app, gamification, and data in a small EdTech study.">
+<meta name="twitter:image" content="https://tellstory-blog.web.app/assets/sakura-reference.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comments.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#181512;--ink-2:#332f2a;--ink-3:#514a43;--ink-4:#625b54;
+  --paper:#f6f1e8;--paper-2:#ede8dc;--paper-3:#e2dbcb;
+  --rule:rgba(26,23,20,.12);--red:#8b2a1a;--gold:#a07830;--gold-light:#c49a48;
+  --canvas:#0e0c0a;--rose:#d96f9a;--rose-soft:#ffd7e8;--plum:#3b2633;
+}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.78;overflow-x:hidden}
+a{color:inherit}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--red);width:0;z-index:1000;transition:width .1s linear}
+.blog-nav{position:fixed;top:1rem;left:1rem;z-index:1100;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase}
+.blog-nav a{display:inline-flex;align-items:center;justify-content:center;padding:.55rem .85rem;color:rgba(26,23,20,.76);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);backdrop-filter:blur(10px);transition:background .2s,color .2s,border-color .2s}
+.blog-nav a:hover{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+#dot-nav{position:fixed;right:1.4rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.55rem;z-index:100}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(26,23,20,.16);cursor:pointer;transition:.28s;border:1px solid rgba(26,23,20,.22)}
+.dot.active{background:var(--red);transform:scale(1.7);border-color:var(--red)}
+@media(max-width:760px){#dot-nav{display:none}.blog-nav{left:.7rem;top:.7rem;font-size:8px;gap:.3rem}.blog-nav a{padding:.45rem .55rem}}
+
+#intro{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,38vw);gap:4vw;align-items:center;padding:7rem 8vw 5rem;position:relative;border-bottom:1px solid var(--rule);background:var(--paper);overflow:hidden}
+#intro::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink)}
+#intro::after{content:'桜';position:absolute;right:3vw;bottom:-8vh;font-family:'Playfair Display',serif;font-size:clamp(180px,32vw,430px);color:rgba(26,23,20,.035);line-height:1;pointer-events:none}
+.intro-copy{position:relative;z-index:1;max-width:780px}
+.intro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:1.8rem}
+.intro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.35rem,5.4vw,4.8rem);font-weight:700;line-height:1.05;margin-bottom:1.5rem}
+.intro-title em{color:var(--red);font-style:italic}
+.intro-rule{width:48px;height:2px;background:var(--red);margin-bottom:1.6rem}
+.intro-sub{font-size:1rem;color:var(--ink-2);max-width:610px;line-height:1.95;margin-bottom:1rem;font-weight:300}
+.scroll-cue{display:flex;align-items:center;gap:1rem;margin-top:2.7rem;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-4);text-transform:uppercase}
+.scroll-bar{width:44px;height:1px;background:var(--ink-3);transform-origin:left;animation:grow 2s ease-in-out infinite}
+@keyframes grow{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+.hero-art{position:relative;z-index:1;align-self:center}
+.hero-art img{display:block;width:100%;aspect-ratio:4/5;object-fit:contain;background:#fff7fb;border:1px solid var(--rule);box-shadow:0 24px 80px rgba(26,23,20,.13)}
+.hero-note{margin-top:.6rem;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-4)}
+@media(max-width:900px){#intro{grid-template-columns:1fr;padding:6.5rem 6vw 4rem}.hero-art{max-width:620px}.intro-sub{max-width:none}}
+
+.practice-preview{padding:6rem 7vw;background:var(--paper-3);border-bottom:1px solid var(--rule);position:relative;overflow:hidden}
+.practice-preview::after{content:'TRY';position:absolute;right:4vw;top:2rem;font-family:'Playfair Display',serif;font-size:clamp(7rem,17vw,17rem);font-weight:700;color:rgba(26,23,20,.035);line-height:1;pointer-events:none}
+.preview-wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,.82fr) minmax(420px,1.18fr);gap:3rem;align-items:start}
+.preview-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--red);text-transform:uppercase;margin-bottom:1.1rem}
+.preview-copy h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.7rem,3.4vw,3rem);line-height:1.08;margin-bottom:1.2rem}
+.preview-copy p{color:var(--ink-2);margin-bottom:1rem;font-weight:300}
+.browser-shell{border:1px solid rgba(26,23,20,.18);background:var(--ink);box-shadow:0 24px 70px rgba(0,0,0,.18);overflow:hidden}
+.browser-top{height:34px;border-bottom:1px solid rgba(246,241,232,.14);display:flex;align-items:center;gap:.4rem;padding:0 .9rem;background:#17120f}
+.browser-dot{width:8px;height:8px;border-radius:50%;background:rgba(246,241,232,.28)}
+.browser-dot:nth-child(1){background:#d96f9a}.browser-dot:nth-child(2){background:#d3aa53}.browser-dot:nth-child(3){background:#74c69d}
+.preview-frame{display:block;width:100%;height:650px;border:0;background:#fff}
+.preview-links{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+.preview-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border:1px solid var(--rule);padding:.7rem 1rem;color:var(--ink-3);background:rgba(246,241,232,.65);transition:.2s}
+.preview-link:hover{color:var(--paper);background:var(--ink);border-color:var(--ink)}
+@media(max-width:980px){.preview-wrap{grid-template-columns:1fr}.preview-frame{height:560px}}
+@media(max-width:600px){.practice-preview{padding:4rem 5vw}.preview-frame{height:500px}}
+
+.scrolly{position:relative}
+.sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:var(--canvas)}
+canvas#scene{position:absolute;inset:0;width:100%;height:100%}
+.graphic-caption{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(246,241,232,.24);position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);white-space:nowrap;text-transform:uppercase}
+.right-hud{position:absolute;right:6vw;top:50%;transform:translateY(-50%);width:min(360px,30vw);z-index:5;color:var(--paper);pointer-events:none}
+.right-hud-card{border:1px solid rgba(246,241,232,.16);background:rgba(246,241,232,.055);backdrop-filter:blur(10px);padding:1.2rem 1.25rem;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.right-hud-kicker{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:rgba(196,154,72,.82);margin-bottom:.7rem}
+.right-hud-title{font-family:'Playfair Display',Georgia,serif;font-size:1.36rem;line-height:1.18;color:rgba(246,241,232,.94);margin-bottom:.7rem}
+.right-hud-body{font-size:.8rem;line-height:1.7;color:rgba(246,241,232,.62);font-weight:300}
+.hud-sakura{position:relative;height:210px;margin-bottom:.8rem;overflow:hidden}
+.hud-sakura iframe{position:absolute;left:50%;top:50%;width:560px;height:430px;border:0;transform:translate(-50%,-50%) scale(.46);pointer-events:none}
+.hud-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.9rem}
+.hud-tag{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:rgba(246,241,232,.65);border:1px solid rgba(246,241,232,.13);padding:.25rem .45rem;background:rgba(246,241,232,.04)}
+@media(max-width:1060px){.right-hud{display:none}}
+.steps{position:relative;z-index:10;padding:16vh 0 28vh}
+.step{max-width:590px;margin:0 6vw 64vh;padding:2.5rem 2.7rem;background:var(--paper);border-top:3px solid var(--ink);box-shadow:0 2px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.step:last-child{margin-bottom:0}
+.step.is-active{opacity:1;transform:translateY(0)}
+.step-act{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:.85rem}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.18rem,1.9vw,1.55rem);font-weight:700;line-height:1.24;color:var(--ink);margin-bottom:1rem}
+.step-body{font-size:.92rem;color:var(--ink-2);line-height:1.9;margin-bottom:.85rem;font-weight:300}
+.step-body em{color:var(--red);font-style:italic}
+.step-pull{font-family:'Playfair Display',Georgia,serif;font-size:.95rem;font-style:italic;color:var(--ink-2);border-left:2px solid var(--red);padding:.7rem 1rem;margin:1rem 0;background:var(--paper-2);line-height:1.75}
+.figure-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;margin:1.2rem 0}
+.sakura-shot{border:1px solid var(--rule);background:linear-gradient(180deg,#fff,#fff8fc);min-height:210px;position:relative;overflow:hidden}
+.sakura-shot iframe{position:absolute;left:50%;top:50%;width:560px;height:430px;border:0;transform:translate(-50%,-50%) scale(.46);pointer-events:none}
+.shot-caption{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);padding:.5rem .6rem;border-top:1px solid var(--rule);background:rgba(246,241,232,.9)}
+.data-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;margin:1.1rem 0}
+.data-card{border:1px solid var(--rule);background:var(--paper-2);padding:.9rem 1rem}
+.data-card b{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:var(--red);text-transform:uppercase;margin-bottom:.35rem}
+.data-card span{display:block;font-size:.82rem;color:var(--ink-2);line-height:1.65}
+.signal-flow{margin:1.2rem 0;padding:1rem;background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:.74rem;letter-spacing:.04em;line-height:1.9}
+.signal-flow span{color:var(--gold-light)}
+.decision-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.82rem}
+.decision-table th{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-4);text-align:left;border-bottom:2px solid var(--ink);padding:.5rem}
+.decision-table td{border-bottom:1px solid var(--rule);padding:.58rem .5rem;color:var(--ink-2)}
+.decision-table td:first-child{color:var(--red);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em}
+.timeline{border-left:2px solid var(--rule);padding-left:1.1rem;margin:1.1rem 0;display:grid;gap:.9rem}
+.time-item{position:relative}
+.time-item::before{content:'';position:absolute;left:-1.42rem;top:.4rem;width:9px;height:9px;border-radius:50%;background:var(--paper);border:2px solid var(--red)}
+.time-item b{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--red);text-transform:uppercase}
+.time-item span{display:block;font-size:.83rem;color:var(--ink-2);line-height:1.65;margin-top:.15rem}
+@media(max-width:680px){.steps{padding-top:10vh}.step{margin:0 4vw 52vh;max-width:96vw;padding:2rem 1.45rem}.figure-row,.data-grid{grid-template-columns:1fr}.sakura-shot{min-height:190px}.sakura-shot iframe{transform:translate(-50%,-50%) scale(.42)}}
+
+.bridge-section{padding:5.6rem 7vw;background:var(--paper);border-top:1px solid var(--rule)}
+.bridge-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:minmax(0,.78fr) minmax(340px,1fr);gap:2.4rem;align-items:center}
+.bridge-inner h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.7rem,3.2vw,2.7rem);line-height:1.1;margin-bottom:1rem}
+.bridge-inner p{color:var(--ink-2);font-weight:300;margin-bottom:1rem}
+.mode-split{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);background:var(--paper-2)}
+.mode-panel{min-height:340px;padding:1.2rem;position:relative;overflow:hidden}
+.mode-panel.dark{background:var(--ink);color:var(--paper)}
+.mode-panel h3{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:.8rem}
+.mode-panel.dark h3{color:var(--gold-light)}
+.mode-panel p{font-size:.82rem;line-height:1.7;color:inherit;opacity:.72;margin-bottom:0}
+.mode-panel .sakura-shot{border:0;background:transparent;min-height:210px;margin-top:.6rem}
+.mode-panel .sakura-shot iframe{transform:translate(-50%,-50%) scale(.42)}
+@media(max-width:900px){.bridge-inner{grid-template-columns:1fr}.mode-split{grid-template-columns:1fr}.mode-panel{min-height:300px}}
+
+#outro{background:var(--ink);color:var(--paper);min-height:78vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 10vw;position:relative;overflow:hidden}
+#outro::before{content:'静';position:absolute;font-family:'Playfair Display',serif;font-size:clamp(200px,34vw,480px);color:rgba(246,241,232,.025);line-height:1;pointer-events:none}
+.outro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:rgba(196,154,72,.75);text-transform:uppercase;margin-bottom:2rem;position:relative}
+.outro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.8rem,4vw,3.5rem);line-height:1.1;margin-bottom:1.8rem;max-width:780px;position:relative}
+.outro-title em{color:var(--gold-light);font-style:italic}
+.outro-body{max-width:630px;color:rgba(246,241,232,.68);font-size:.95rem;font-weight:300;line-height:1.95;margin-bottom:3rem;position:relative}
+.outro-links{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;position:relative}
+.outro-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,232,.62);text-decoration:none;border:1px solid rgba(246,241,232,.15);padding:.7rem 1.1rem;transition:.2s}
+.outro-link:hover{color:var(--gold-light);border-color:rgba(196,154,72,.4)}
+.copyright-note{max-width:760px;margin:3rem auto 2rem;padding:1rem 1.2rem;border-top:1px solid rgba(26,23,20,.14);border-bottom:1px solid rgba(26,23,20,.08);color:rgba(26,23,20,.62);font-size:.85rem;line-height:1.8;text-align:center}
+.copyright-note a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Tg Wanted Sakura to Stay Quiet",
+  "description": "A fieldnote about an irregular-verb learning app, Sakura, gamification, and the moment I had to separate intervention from measurement so the data could be trusted.",
+  "image": "https://tellstory-blog.web.app/assets/sakura-reference.png",
+  "author": {
+    "@type": "Person",
+    "name": "Bui Tong Giang",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tellstory blog",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "datePublished": "2026-07-02",
+  "dateModified": "2026-07-02",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tellstory-blog.web.app/sakura-im-lang-en.html"
+  },
+  "inLanguage": "en",
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Bui Tong Giang"
+  },
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="blog-nav" aria-label="Blog navigation">
+  <a href="index.html">Blog</a>
+  <a href="goed-du-lieu.html">← Previous</a>
+  <a href="irregular-verbs.html">Try app</a>
+  <a href="contact.html">Contact</a>
+  <a href="sakura-im-lang.html">VI</a>
+  <a href="sakura-im-lang-en.html">EN</a>
+</nav>
+<nav id="dot-nav" aria-label="Section navigation">
+  <div class="dot active" data-i="0"></div>
+  <div class="dot" data-i="1"></div>
+  <div class="dot" data-i="2"></div>
+  <div class="dot" data-i="3"></div>
+  <div class="dot" data-i="4"></div>
+  <div class="dot" data-i="5"></div>
+  <div class="dot" data-i="6"></div>
+  <div class="dot" data-i="7"></div>
+</nav>
+
+<section id="intro">
+  <div class="intro-copy">
+    <div class="intro-kicker">EdTech · Gamification · Measurement</div>
+    <h1 class="intro-title">Tg wanted <em>Sakura</em><br>to stay quiet.</h1>
+    <div class="intro-rule"></div>
+    <p class="intro-sub">In the two previous articles, I told two different stories. The article “when go becomes goed” explained why a mistake that looks childish or silly is actually a linguistic signal with its own logic. The data article explained how that mistake becomes a row of data. This article is the missing piece between those two: the story of how I built the web app that generated those rows of data, and why at one point I had to switch off the part I liked most.</p>
+    <p class="intro-sub">For a while, I built this irregular-verb learning app exactly like a child handed a box of Lego: if I could plug something in, I plugged it in. Duolingo had streaks, so I added streaks. It had hearts, so I added hearts. It had a cheering mascot, so I drew an entire girl named Sakura, gave her different emotions, made her happy when learners were correct, sad when they were wrong, and excited when a streak got longer. At that time, I simply thought my learners were two primary-school children, and children need something cute beside them, not a cold progress bar. That was how Sakura was born, and I genuinely liked gamifying learning.</p>
+    <p class="intro-sub">That part was fun, and I do not regret it at all. But it created a problem I only noticed later. The funny thing is that the problem was not in the code. It was in the fact that I had forgotten I was wearing two hats at the same time.</p>
+    <div class="scroll-cue"><div class="scroll-bar"></div><span>scroll down</span></div>
+  </div>
+  <figure class="hero-art">
+    <img src="assets/sakura-reference.png" alt="Sakura in the irregular-verb learning web app">
+    <figcaption class="hero-note">Sakura speaks in practice · Sakura stays quiet in measurement</figcaption>
+  </figure>
+</section>
+
+<section class="practice-preview">
+  <div class="preview-wrap">
+    <div class="preview-copy">
+      <div class="preview-kicker">Inside the trial page</div>
+      <h2>What is inside Tg's trial learning page?</h2>
+      <p>Before telling the build story, I think it helps to walk around the trial page first, because not everyone reading this has clicked into it before.</p>
+      <p>When the page opens, the first thing is to choose a mode: a casual trial session, or a code-protected login for the real Learner A and Learner B data. After that, there are four practice modes: sentence fill-in, multiple choice, self-checked flashcards, and a skill-path route where learners unlock verb clusters stage by stage, a bit like the way Duolingo moves learners through small lessons.</p>
+      <p>Every answer has Sakura in the corner of the screen. She reacts immediately: nodding when the learner is correct, looking sad when they are wrong, jumping up when a streak is kept. There are hearts, XP, and a small weekly leaderboard so the two children can sometimes tease each other about who studied harder. I intentionally made this part feel as game-like as possible, because for primary-school learners, a serious test-like interface often backfires from the first minute.</p>
+      <p>Behind that cheerful interface is the part I liked most. Each answer is not only marked right or wrong; it is classified into one of seven error types: correct, overregularization with -ed, confusion between past forms, minor spelling error, blank answer, or other error. From there, the system updates both the memory strength of the individual verb and the stability of the whole verb cluster. On the surface, it looks like a game. Underneath, a fairly serious tracking system is quietly running.</p>
+      <div class="preview-links">
+        <a class="preview-link" href="irregular-verbs.html">Open trial page</a>
+        <a class="preview-link" href="irregular-report.html">Open report</a>
+      </div>
+    </div>
+    <div class="browser-shell" aria-label="Trial page preview frame">
+      <div class="browser-top"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
+      <iframe class="preview-frame" src="irregular-verbs.html" title="Irregular-verb trial learning page with Sakura" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<div class="scrolly">
+  <div class="sticky">
+    <canvas id="scene"></canvas>
+    <aside class="right-hud" aria-hidden="true">
+      <div class="right-hud-card">
+        <div class="hud-sakura"><iframe id="hudSakuraFrame" src="assets/sakura-mascot.html?embed=1" title="Sakura illustration" tabindex="-1"></iframe></div>
+        <div class="right-hud-kicker" id="hud-kicker">build first</div>
+        <div class="right-hud-title" id="hud-title">From a playful app to serious data</div>
+        <div class="right-hud-body" id="hud-body">A small product can begin with the wish to make students enjoy practice, then slowly force its maker to ask a harder question.</div>
+        <div class="hud-tags" id="hud-tags"><span class="hud-tag">Sakura</span><span class="hud-tag">gamification</span><span class="hud-tag">data</span></div>
+      </div>
+    </aside>
+    <div class="graphic-caption" id="graphic-caption">practice first · research later</div>
+  </div>
+
+  <div class="steps">
+    <article class="step" data-step="0">
+      <div class="step-act">Part I · Build first, research later</div>
+      <h2 class="step-title">I did not begin with a complete research design.</h2>
+      <p class="step-body">When I first started coding, I was not thinking seriously about data collection. I only wanted a page where my two students could practise for fun. So the trial page came first: an open mode where anyone could start practising without logging in, and where nothing touched the official dataset.</p>
+      <p class="step-body">Only later, when the two children had settled into a learning routine, did I add a private entrance. With the right code, I could open the real data for Learner A and Learner B. Visitors to the blog could still only use the trial version, and their data would never be mixed into the research dataset.</p>
+      <div class="figure-row">
+        <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura idle" data-state="idle" loading="lazy"></iframe><figcaption class="shot-caption">Sakura · idle</figcaption></figure>
+        <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura comeback" data-state="comeback" loading="lazy"></iframe><figcaption class="shot-caption">Sakura · comeback</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="step" data-step="1">
+      <div class="step-act">Part II · A manual workflow</div>
+      <h2 class="step-title">Nothing was fully automated.</h2>
+      <p class="step-body">The workflow at that time was quite manual. I was the person writing code, the teacher sitting beside the students, and the person manually typing paper-test scores into a data table. Some days, after a lesson ended, I stayed for another half hour just to enter dozens of handwritten answers while the students had already closed their books.</p>
+      <p class="step-body">The truth is that nothing was completely automated. And perhaps because I was supervising it myself, I noticed small details that a fully automated system would have missed.</p>
+      <div class="signal-flow"><span>paper test</span> → manual entry → <span>web practice log</span> → teacher notes → readable data</div>
+    </article>
+
+    <article class="step" data-step="2">
+      <div class="step-act">Part III · Four sources of data</div>
+      <h2 class="step-title">The data in this small project came from four places.</h2>
+      <p class="step-body">To make it easier to picture, the data in this small project came from four places.</p>
+      <p class="step-body">First were the paper tests. The two children sat down and answered on paper, the way I used to do when I was a student. Then came my turn, not as the teacher, but as a data-entry person typing each handwritten answer into a table.</p>
+      <p class="step-body">Only after that came the fun part: web practice sessions, where every action was logged automatically, including correctness, response time, whether a hint was used, and so on. Finally, there were my own notes. Whenever the system suggested something that did not make sense, I noted why I chose not to follow it.</p>
+      <p class="step-body">Written like this, it sounds quite organized. In reality, at the beginning it was messy. My solution was to make use of everything I had, especially AI, and apply it wherever it could keep the research process from becoming too slow and heavy.</p>
+      <div class="data-grid">
+        <div class="data-card"><b>01 · paper</b><span>pre/post tests in a setting with fewer interventions.</span></div>
+        <div class="data-card"><b>02 · web</b><span>practice logs, response time, hints, errors, and cluster scores.</span></div>
+        <div class="data-card"><b>03 · observation</b><span>notes from sitting beside the learner and seeing what the system could not see.</span></div>
+        <div class="data-card"><b>04 · override</b><span>moments when I ignored the algorithm's suggestion and recorded why.</span></div>
+      </div>
+    </article>
+
+    <article class="step" data-step="3">
+      <div class="step-act">Part IV · When Sakura was doing her job</div>
+      <h2 class="step-title">If I only looked at this as learning experience design, I could have stopped here proudly.</h2>
+      <p class="step-body">I will admit it directly: the gamification worked better than I expected. The two children really liked Sakura. They liked hearing her praise them, liked watching the XP bar go up. One day, a learner got three questions wrong in a row and started to look discouraged, but Sakura clumsily crawled back up, because my animation was imperfect, and the learner laughed and kept going. If I were only looking at this as a learning experience designer, I could have proudly stopped here and called the work done.</p>
+      <p class="step-body">But the problem was that I was not only designing an experience. I was also trying to measure how much the students actually remembered. This is where my two roles began to collide.</p>
+      <div class="figure-row">
+        <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura correct" data-state="correct" loading="lazy"></iframe><figcaption class="shot-caption">correct · Sakura praises</figcaption></figure>
+        <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura wrong" data-state="wrong" loading="lazy"></iframe><figcaption class="shot-caption">wrong · Sakura softens the mood</figcaption></figure>
+      </div>
+      <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura celebrate" data-state="celebrate" loading="lazy"></iframe><figcaption class="shot-caption">long streak · Sakura celebrates</figcaption></figure>
+    </article>
+
+    <article class="step" data-step="4">
+      <div class="step-act">Part V · The moment I muted her</div>
+      <h2 class="step-title">I no longer knew whether I was measuring memory or excitement.</h2>
+      <p class="step-body">One day, while reviewing the test data, I got stuck on a question that would not let me go: did that high score really come from the student remembering the word, or partly from Sakura praising them right before, from an audio hint, from the feeling of a small reward waiting at the end of the round?</p>
+      <p class="step-body">The more I looked at the data, the more I could not pretend those factors did not exist. Sakura made the kids happier, hints kept them from getting stuck, sound cues pulled recall up faster, rewards made learning feel less like a dry test. All of that was useful during practice, but if I let it show up during measurement, I would no longer know whether I was measuring independent recall, or a child's reaction to a learning environment designed to make them more excited.</p>
+      <p class="step-body">That was when I truly understood why research methods books keep insisting on separating intervention from measurement. Before, I read that as a fairly dry theoretical line. Once I looked at the data from my two students myself, I saw how concrete that line actually was.</p>
+      <p class="step-body">So the final decision was fairly simple, though painful to carry out. During the pre- and post-paper tests, Sakura had to disappear completely: no praise, no hints, no sound, no rewards, no instant feedback. She only came back during ordinary practice sessions, where the goal was to keep motivation up, support retrying, and leave a learning trail for the teacher to read later.</p>
+      <p class="step-body">In other words, Sakura still stayed inside the learning process, just not standing next to the student while I was measuring memory. I lost a lovable part of the testing experience, and in exchange I got something more important: a dataset I dare to trust.</p>
+      <table class="decision-table">
+        <thead><tr><th>Context</th><th>Sakura's role</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Practice</td><td>praises, gives feedback, hints, creates a sense of company</td><td>keeps motivation up and helps kids keep practicing</td></tr>
+          <tr><td>Measurement</td><td>stays completely silent</td><td>reduces effect on memory data</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <article class="step" data-step="5">
+      <div class="step-act">Part VI · From a playful idea to a research question</div>
+      <h2 class="step-title">The boundary did not arrive as one clear timestamp.</h2>
+      <p class="step-body">If you ask where the line sits between making something for fun and doing research, honestly, I do not have one clean moment to point to. It came from many small steps piling up.</p>
+      <div class="timeline">
+        <div class="time-item"><b>Step 1</b><span>The first step was simply noticing. Not through numbers, just by ear. The two children kept repeating the same kind of error on words that sounded very different: goed, runned, putted. The words had almost nothing in common in meaning, but the wrong form looked strangely similar. At first I thought it was probably a coincidence, until it happened often enough to stop feeling like one.</span></div>
+        <div class="time-item"><b>Step 2</b><span>The second step was looking for whether someone had already named the phenomenon. That led me to overregularization, to Marcus and colleagues, to Bybee, and to the realization that what I was seeing had been described for decades. It just had not yet been tied to a real review system for a tiny real class like mine.</span></div>
+      </div>
+    </article>
+
+    <article class="step" data-step="6">
+      <div class="step-act">Part VII · Breaking down the vague thing</div>
+      <h2 class="step-title">If I believe this is real, how do I prove it with only two students?</h2>
+      <p class="step-body">Step three was the hardest one. I had to break the vague observation into things that could be measured. Errors had to be named as seven specific types. Verbs had to be grouped into morphological clusters. Every learner response had to become a structured data row, not just a right-or-wrong mark. This was where I moved from accidentally noticing something to having to answer the question: if I believe this is real, how do I prove it with only two students?</p>
+      <p class="step-body">Step four, the one that kept me awake quite late, was writing the proposal: forming the research question, defining what interpretable meant, defining what alignment meant, and only then returning to the code to make it fit those definitions, not the other way around. This was exactly where I saw the Sakura problem described above. The decision to move testing back onto paper came from the proposal-writing process itself, not from a neat plan made in advance.</p>
+      <div class="signal-flow">observation → <span>reading literature</span> → code → proposal → code follows definitions → measure again</div>
+      <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura hint" data-state="hint" loading="lazy"></iframe><figcaption class="shot-caption">Sakura can hint during practice, not during measurement</figcaption></figure>
+    </article>
+
+    <article class="step" data-step="7">
+      <div class="step-act">Part VIII · The honest corner</div>
+      <h2 class="step-title">I had to make it a little less fun to make it a little more honest.</h2>
+      <p class="step-body">Looking back, my workflow did not follow the straight line that research-methods books often draw: idea first, research later. It looped around. I observed first, read later, coded first, defined later, then returned to the code so it could match the definitions. For a tiny one-person project like this, that looping path may have been the only workable path.</p>
+      <p class="step-body">I do not think this is some grand discovery. Anyone doing education research already knows that measurement should be separated from intervention. What I wanted to record is the real feeling of someone building both a game and a study: the moment you have to make the thing you love a little quieter in exchange for data you can trust a little more. Sakura is still there, still dancing during practice. She just knows when to stay silent now.</p>
+      <div class="figure-row">
+        <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura disappointed" data-state="disappointed" loading="lazy"></iframe><figcaption class="shot-caption">when a lesson is abandoned halfway</figcaption></figure>
+        <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura sleepy" data-state="sleepy" loading="lazy"></iframe><figcaption class="shot-caption">when the wait lasts too long</figcaption></figure>
+      </div>
+    </article>
+  </div>
+</div>
+
+<section class="bridge-section">
+  <div class="bridge-inner">
+    <div>
+      <h2>Playful during practice, quiet during measurement.</h2>
+      <p>The difference is not whether Sakura is adorable. The difference is the purpose of the session: one side needs motivation so children keep going, the other needs cleaner data so I dare to read it.</p>
+      <p>That is my favorite part of this piece: the same character, the same system, but a different role depending on context.</p>
+    </div>
+    <div class="mode-split">
+      <div class="mode-panel">
+        <h3>practice mode</h3>
+        <p>Sakura speaks, smiles, hints, gives flowers, restores hearts, and pulls the learner back into the lesson.</p>
+        <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura practice mode" data-state="celebrate" loading="lazy"></iframe></figure>
+      </div>
+      <div class="mode-panel dark">
+        <h3>measurement mode</h3>
+        <p>Sakura disappears so the paper test contains only the learner's answer.</p>
+        <figure class="sakura-shot"><iframe src="assets/sakura-mascot.html?embed=1" title="Sakura quiet mode" data-state="idle" loading="lazy"></iframe></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="copyright-note">© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analysis structure, and presentation belong to the author. Please do not copy the full text, repost it, or reuse the source code without permission. When quoting a portion of the article, please credit: <a href="https://tellstory-blog.web.app/sakura-im-lang-en.html">Tellstory blog</a>.</p>
+
+<section class="comments-section" data-comments data-post-slug="sakura-im-lang-en" data-post-title="Tg Wanted Sakura to Stay Quiet" data-comment-lang="en"></section>
+
+<section id="outro">
+  <div class="outro-kicker">Ending · Tellstory</div>
+  <h2 class="outro-title">Sakura is still there. She just knows when to <em>stay quiet.</em></h2>
+  <p class="outro-body">This piece sits between the two goed essays: one about why the error has logic, and one about how the error becomes data. In the middle is the very ordinary story of someone building a learning app: sometimes the part you love most has to step back so the data can become more honest.</p>
+  <div class="outro-links">
+    <a class="outro-link" href="index.html">← All posts</a>
+    <a class="outro-link" href="goed-thuat-toan.html">Goed essay</a>
+    <a class="outro-link" href="goed-du-lieu.html">Data essay</a>
+    <a class="outro-link" href="irregular-verbs.html">Open trial page</a>
+  </div>
+</section>
+
+<script>
+const hudData=[
+  {k:'build first',t:'From a playful app to serious data',b:'I built a practice page first, and the research question slowly appeared afterward.',c:'practice first · research later',s:'idle',tags:['web app','trial mode','learner A/B']},
+  {k:'manual workflow',t:'One person wearing too many hats',b:'Coding, teaching, observing, copying data, and asking what the system was missing.',c:'teacher · coder · data clerk',s:'comeback',tags:['paper test','notes','manual data']},
+  {k:'four data sources',t:'Not just right or wrong',b:'Paper tests, web logs, observation, and manual notes all became part of the data.',c:'paper · web · notes · override',s:'hint',tags:['logs','cluster','teacher note']},
+  {k:'gamification works',t:'Sakura was doing her job',b:'During practice, cuteness is not decoration. It keeps children with the task.',c:'hearts · xp · streak · mascot',s:'celebrate',tags:['motivation','XP','streak']},
+  {k:'measurement',t:'Muting the part I liked most',b:'A high score could come from memory, or from the lift after praise.',c:'am I measuring memory or excitement?',s:'disappointed',tags:['validity','intervention','noise']},
+  {k:'research question',t:'An error repeated often enough',b:'Goed, runned, and putted differ in meaning, but share the same wrong shape.',c:'pattern becomes question',s:'idle',tags:['overregularization','pattern','literature']},
+  {k:'operationalize',t:'Breaking down the vague thing',b:'Errors received names, verbs received clusters, and every answer became a data row.',c:'observation → structured data',s:'hint',tags:['interpretable','alignment','proposal']},
+  {k:'honest corner',t:'Less fun, more honest',b:'Sakura still dances during practice, but she knows when measurement needs quiet.',c:'Sakura knows when to stay quiet',s:'sleepy',tags:['practice','measurement','trust']}
+];
+let currentStep=0;
+const progress=document.getElementById('progress');
+const capEl=document.getElementById('graphic-caption');
+const dots=document.querySelectorAll('.dot');
+const hudFrame=document.getElementById('hudSakuraFrame');
+function setSakuraFrame(frame,state,extra={}){
+  if(!frame||!frame.contentWindow)return;
+  frame.contentWindow.postMessage({type:'sakura-state',state,streak:extra.streak||4,hearts:extra.hearts||4,mastery:extra.mastery||72},'*');
+}
+function syncInlineSakura(){
+  document.querySelectorAll('iframe[data-state]').forEach(frame=>{
+    const state=frame.getAttribute('data-state')||'idle';
+    setSakuraFrame(frame,state,{streak:state==='celebrate'?6:3,hearts:state==='wrong'?2:4,mastery:state==='correct'?86:64});
+  });
+}
+document.querySelectorAll('iframe[data-state]').forEach(frame=>frame.addEventListener('load',syncInlineSakura));
+hudFrame?.addEventListener('load',()=>setSakuraFrame(hudFrame,hudData[currentStep].s));
+function updateHud(i){
+  const data=hudData[i]||hudData[0];
+  currentStep=i;
+  document.getElementById('hud-kicker').textContent=data.k;
+  document.getElementById('hud-title').textContent=data.t;
+  document.getElementById('hud-body').textContent=data.b;
+  document.getElementById('hud-tags').innerHTML=data.tags.map(tag=>`<span class="hud-tag">${tag}</span>`).join('');
+  capEl.textContent=data.c;
+  dots.forEach((dot,idx)=>dot.classList.toggle('active',idx===i));
+  setSakuraFrame(hudFrame,data.s,{streak:i>=3?6:3,hearts:i===4?2:4,mastery:65+i*4});
+}
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  progress.style.width=(h>0?window.scrollY/h*100:0)+'%';
+},{passive:true});
+dots.forEach(dot=>dot.addEventListener('click',()=>{
+  const step=document.querySelector(`.step[data-step="${dot.dataset.i}"]`);
+  step?.scrollIntoView({behavior:'smooth',block:'center'});
+}));
+const steps=document.querySelectorAll('.step');
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('is-active');
+      const i=parseInt(entry.target.dataset.step,10);
+      if(!Number.isNaN(i))updateHud(i);
+    }
+  });
+},{threshold:.34,rootMargin:'-16% 0px -26% 0px'});
+steps.forEach(step=>io.observe(step));
+
+const canvas=document.getElementById('scene');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[];
+function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight}
+class Particle{
+  constructor(){this.reset(true)}
+  reset(seed=false){
+    this.x=Math.random()*W; this.y=seed?Math.random()*H:H+20;
+    this.vx=(Math.random()-.5)*.28; this.vy=-.25-Math.random()*.45;
+    this.r=Math.random()*2.2+.5; this.a=Math.random()*.45+.12;
+    this.kind=Math.random()>.58?'petal':'data';
+  }
+  tick(){this.x+=this.vx;this.y+=this.vy;if(this.y<-30||this.x<-40||this.x>W+40)this.reset()}
+  draw(){
+    ctx.save();ctx.globalAlpha=this.a;
+    if(this.kind==='petal'){
+      ctx.translate(this.x,this.y);ctx.rotate((this.x+this.y)*.01);
+      ctx.fillStyle=currentStep===4?'#c49a48':'#d96f9a';
+      ctx.beginPath();ctx.ellipse(0,0,this.r*2.5,this.r*5,.7,0,Math.PI*2);ctx.fill();
+    }else{
+      ctx.fillStyle=currentStep>=4?'#c49a48':'#f6f1e8';
+      ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+function initParticles(){particles=Array.from({length:115},()=>new Particle())}
+function draw(){
+  ctx.fillStyle='rgba(14,12,10,.24)';ctx.fillRect(0,0,W,H);
+  const word=['GAME','WEB','DATA','XP','QUIET','WHY','LOG','TRUST'][currentStep]||'DATA';
+  ctx.save();ctx.globalAlpha=.045;ctx.fillStyle=currentStep===4?'#c49a48':'#f6f1e8';
+  ctx.font=`700 ${Math.min(W,H)*.19}px Georgia, serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(word,W*.42,H*.5);ctx.restore();
+  const maxD=currentStep>=2?110:74;
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<maxD&&particles[i].kind==='data'&&particles[j].kind==='data'){
+        ctx.save();ctx.globalAlpha=(1-d/maxD)*(currentStep===4?.12:.06);
+        ctx.strokeStyle=currentStep===4?'#c49a48':'#f6f1e8';ctx.lineWidth=.35;ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();ctx.restore();
+      }
+    }
+  }
+  particles.forEach(p=>{p.tick();p.draw()});
+  requestAnimationFrame(draw);
+}
+window.addEventListener('resize',resize);
+resize();initParticles();updateHud(0);syncInlineSakura();draw();
+</script>
+<script type="module" src="comments.js"></script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+  const credit = "\n\nSource: Tellstory blog · Bui Tong Giang\n" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<title>Admin · Hòm thư ẩn danh</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;--paper:#F6F1E8;--paper-2:#EDE8DC;--rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;}
+body{min-height:100vh;background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;}
+.top-rule{height:3px;background:var(--ink);}
+.nav{position:fixed;top:1rem;right:1rem;z-index:10;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.nav a{color:var(--ink-2);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);padding:.55rem .85rem;backdrop-filter:blur(10px);transition:color .2s,border-color .2s,background .2s;}
+.nav a:hover{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+.wrap{width:min(980px,88vw);margin:0 auto;padding:7rem 0 5rem;}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:1.5rem;}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.2rem,5vw,4rem);line-height:1.06;margin-bottom:1.4rem;}
+h1 em{color:var(--red);font-style:italic;}
+.card{background:var(--paper-2);border-top:3px solid var(--ink);box-shadow:0 2px 24px rgba(0,0,0,.1),0 0 0 1px rgba(0,0,0,.04);padding:2rem;margin-bottom:1rem;}
+label{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--red);text-transform:uppercase;margin:1rem 0 .35rem;}
+input,textarea{width:100%;border:1px solid var(--rule);background:var(--paper);color:var(--ink);font:inherit;font-size:.95rem;padding:.8rem .9rem;outline:none;}
+textarea{min-height:96px;resize:vertical;}
+.btn-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem;}
+button{border:0;background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:.75rem 1.1rem;cursor:pointer;transition:background .2s;}
+button:hover{background:var(--red);}
+button.outline{background:transparent;color:var(--ink);border:1px solid var(--rule);}
+button.outline:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.status{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--ink-3);margin-top:.8rem;}
+.message{background:var(--paper);border:1px solid var(--rule);padding:1.2rem;margin-top:1rem;}
+.meta{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.12em;color:var(--ink-4);text-transform:uppercase;margin-bottom:.6rem;}
+.topic{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:1.2rem;color:var(--red);line-height:1.2;margin-bottom:.4rem;}
+.name{color:var(--ink-3);font-size:.9rem;margin-bottom:.6rem;}
+.text{white-space:pre-wrap;color:var(--ink-2);line-height:1.85;}
+.admin-section-title{font-family:'Playfair Display',Georgia,serif;font-size:1.7rem;line-height:1.2;margin:2.2rem 0 1rem;}
+.status-pill{display:inline-flex;align-items:center;border:1px solid var(--rule);padding:.2rem .45rem;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;color:var(--ink-3);margin-left:.45rem;}
+.status-pill.approved{color:var(--red);border-color:rgba(139,42,26,.35);}
+.reply-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.16em;color:var(--red);margin:1rem 0 .35rem;}
+.reply-current{white-space:pre-wrap;color:var(--ink-2);line-height:1.75;background:var(--paper-2);border-left:2px solid var(--red);padding:.8rem;margin-top:.8rem;}
+.empty{color:var(--ink-3);font-style:italic;padding:1rem 0;}
+@media(max-width:760px){.wrap{width:min(92vw,620px);padding:6rem 0 4rem}.card{padding:1.5rem}.nav{left:.7rem;right:auto;top:.7rem;font-size:8px;}}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div class="top-rule"></div>
+<nav class="nav" aria-label="Điều hướng blog">
+  <a href="index.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</nav>
+<main class="wrap">
+  <div class="kicker">Admin</div>
+  <h1>Đọc hòm thư<br><em>ẩn danh.</em></h1>
+  <section class="card">
+    <div class="btn-row">
+      <button id="login-btn" type="button">Đăng nhập Google</button>
+      <button id="logout-btn" type="button" class="outline">Đăng xuất</button>
+      <button id="load-btn" type="button">Tải lời nhắn</button>
+      <button id="load-comments-btn" type="button">tải bình luận</button>
+    </div>
+    <div class="status" id="status">Chỉ email admin trong Firestore Rules mới đọc được lời nhắn.</div>
+    <div class="status" id="comments-status">bình luận mới sẽ nằm ở trạng thái chờ duyệt.</div>
+  </section>
+  <h2 class="admin-section-title">lời nhắn</h2>
+  <section id="messages"></section>
+  <h2 class="admin-section-title">bình luận</h2>
+  <section id="comments"></section>
+</main>
+<script type="module">
+import { auth, db } from './firebase-config.js';
+import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+import { collection, query, orderBy, getDocs, deleteDoc, doc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+
+const loginBtn = document.getElementById('login-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const loadBtn = document.getElementById('load-btn');
+const loadCommentsBtn = document.getElementById('load-comments-btn');
+const statusEl = document.getElementById('status');
+const commentsStatusEl = document.getElementById('comments-status');
+const messagesEl = document.getElementById('messages');
+const commentsEl = document.getElementById('comments');
+const provider = new GoogleAuthProvider();
+
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>'"]/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+  }[char]));
+}
+
+function formatDate(value) {
+  if (!value) return '';
+  if (typeof value.toDate === 'function') return value.toDate().toLocaleString('vi-VN');
+  return new Date(value).toLocaleString('vi-VN');
+}
+
+async function loadMessages() {
+  if (!auth.currentUser) {
+    statusEl.textContent = 'Bạn cần đăng nhập trước.';
+    return;
+  }
+
+  statusEl.textContent = 'Đang tải lời nhắn...';
+
+  try {
+    const q = query(collection(db, 'anonymous_messages'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    const messages = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
+
+    statusEl.textContent = `Đã tải ${messages.length} lời nhắn.`;
+
+    if (!messages.length) {
+      messagesEl.innerHTML = '<div class="card empty">Chưa có lời nhắn nào.</div>';
+      return;
+    }
+
+    messagesEl.innerHTML = messages.map((item) => `
+      <article class="message" data-id="${escapeHtml(item.id)}">
+        <div class="meta">${escapeHtml(formatDate(item.createdAt) || item.createdAtClient || '')}</div>
+        <div class="topic">${escapeHtml(item.topic || 'Khác')}</div>
+        <div class="name">${escapeHtml(item.name || 'Ẩn danh')}</div>
+        <div class="text">${escapeHtml(item.message || '')}</div>
+        <button type="button" data-delete="${escapeHtml(item.id)}" style="margin-top:.8rem;">Xóa</button>
+      </article>
+    `).join('');
+  } catch (error) {
+    console.error(error);
+    statusEl.textContent = 'Không đọc được lời nhắn. Hãy kiểm tra tài khoản admin và Firestore Rules.';
+  }
+}
+
+async function loadComments() {
+  if (!auth.currentUser) {
+    commentsStatusEl.textContent = 'Bạn cần đăng nhập trước.';
+    return;
+  }
+
+    commentsStatusEl.textContent = 'Đang tải bình luận...';
+
+  try {
+    const q = query(collection(db, 'article_comments'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    const comments = snap.docs.map((item) => ({ id: item.id, ...item.data() }));
+
+    commentsStatusEl.textContent = `Đã tải ${comments.length} bình luận.`;
+
+    if (!comments.length) {
+      commentsEl.innerHTML = '<div class="card empty">Chưa có bình luận nào.</div>';
+      return;
+    }
+
+    commentsEl.innerHTML = comments.map((item) => {
+      const approved = item.status === 'approved';
+      const statusText = approved ? 'đã duyệt' : 'chờ duyệt';
+      const statusClass = approved ? 'status-pill approved' : 'status-pill';
+      return `
+        <article class="message" data-id="${escapeHtml(item.id)}">
+          <div class="meta">${escapeHtml(formatDate(item.createdAt) || item.createdAtClient || '')}<span class="${statusClass}">${statusText}</span></div>
+          <div class="topic">${escapeHtml(item.postTitle || item.postSlug || 'bài viết')}</div>
+          <div class="name">${escapeHtml(item.name || 'ẩn danh')}</div>
+          <div class="text">${escapeHtml(item.message || '')}</div>
+          ${item.authorReply ? `<div class="reply-current">${escapeHtml(item.authorReply)}</div>` : ''}
+          <div class="reply-label">Tg trả lời</div>
+          <textarea data-reply="${escapeHtml(item.id)}" placeholder="viết câu trả lời của Tg...">${escapeHtml(item.authorReply || '')}</textarea>
+          <div class="btn-row">
+            <button type="button" data-comment-action="approve">${approved ? 'đã duyệt' : 'duyệt'}</button>
+            <button type="button" class="outline" data-comment-action="pending">chờ duyệt</button>
+            <button type="button" data-comment-action="reply">lưu trả lời</button>
+            <button type="button" class="outline" data-comment-action="delete">xóa</button>
+          </div>
+        </article>
+      `;
+    }).join('');
+  } catch (error) {
+    console.error(error);
+    commentsStatusEl.textContent = 'Không đọc được bình luận. Hãy kiểm tra tài khoản admin và Firestore Rules.';
+  }
+}
+
+loginBtn.addEventListener('click', async () => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (error) {
+    console.error(error);
+    statusEl.textContent = 'Không đăng nhập được.';
+  }
+});
+
+logoutBtn.addEventListener('click', async () => {
+  await signOut(auth);
+  messagesEl.innerHTML = '';
+  commentsEl.innerHTML = '';
+});
+
+loadBtn.addEventListener('click', loadMessages);
+loadCommentsBtn.addEventListener('click', loadComments);
+
+messagesEl.addEventListener('click', async (event) => {
+  const id = event.target?.dataset?.delete;
+  if (!id) return;
+  if (!confirm('Xóa lời nhắn này?')) return;
+
+  try {
+    await deleteDoc(doc(db, 'anonymous_messages', id));
+    await loadMessages();
+  } catch (error) {
+    console.error(error);
+    statusEl.textContent = 'Không xóa được lời nhắn.';
+  }
+});
+
+commentsEl.addEventListener('click', async (event) => {
+  const action = event.target?.dataset?.commentAction;
+  if (!action) return;
+  const article = event.target.closest('[data-id]');
+  const id = article?.dataset?.id;
+  if (!id) return;
+
+  try {
+    if (action === 'approve') {
+      await updateDoc(doc(db, 'article_comments', id), { status: 'approved' });
+    }
+    if (action === 'pending') {
+      await updateDoc(doc(db, 'article_comments', id), { status: 'pending' });
+    }
+    if (action === 'reply') {
+      const reply = String(article.querySelector('textarea[data-reply]')?.value || '').trim();
+      await updateDoc(doc(db, 'article_comments', id), {
+        authorReply: reply,
+        authorReplyAt: reply ? serverTimestamp() : null
+      });
+    }
+    if (action === 'delete') {
+      if (!confirm('xóa bình luận này?')) return;
+      await deleteDoc(doc(db, 'article_comments', id));
+    }
+    await loadComments();
+  } catch (error) {
+    console.error(error);
+    commentsStatusEl.textContent = 'Không cập nhật được bình luận.';
+  }
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    statusEl.textContent = `Đã đăng nhập: ${user.email}`;
+    loadMessages();
+    loadComments();
+  } else {
+    statusEl.textContent = 'Chỉ email admin trong Firestore Rules mới đọc được lời nhắn.';
+    commentsStatusEl.textContent = 'Bình luận mới sẽ nằm ở trạng thái chờ duyệt.';
+  }
+});
+</script>
+
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "Nguồn: Tellstory blog · Bui Tong Giang" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

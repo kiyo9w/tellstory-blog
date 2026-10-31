@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact · Fieldnotes on learning</title>
+<meta name="description" content="Liên hệ với Tg hoặc gửi một lời nhắn ẩn danh đến Fieldnotes on learning.">
+<meta name="author" content="Bui Tong Giang">
+<link rel="canonical" href="https://tellstory-blog.web.app/contact.html">
+<meta property="og:title" content="Contact · Fieldnotes on learning">
+<meta property="og:description" content="Liên hệ với Tg hoặc gửi một lời nhắn ẩn danh đến Fieldnotes on learning.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tellstory-blog.web.app/contact.html">
+<meta property="og:image" content="https://tellstory-blog.web.app/assets/about/tg-profile.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="pages.css">
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body data-page="contact">
+<div class="top-rule"></div>
+<nav class="nav" aria-label="Điều hướng blog">
+  <a href="index.html" data-vi="Blog" data-en="Blog">Blog</a>
+  <a href="about.html" data-vi="About" data-en="About">About</a>
+  <a href="contact.html" class="active" data-vi="Contact" data-en="Contact">Contact</a>
+  <a href="#" class="active" id="page-vi" onclick="setPageLang('vi');return false;">VI</a>
+  <a href="#" id="page-en" onclick="setPageLang('en');return false;">EN</a>
+</nav>
+
+<main class="page-shell">
+  <section class="hero contact-hero">
+    <div class="hero-copy">
+      <div class="eyebrow" data-vi="Contact · mình đang lắng nghe" data-en="Contact · I'm listening">Contact · mình đang lắng nghe</div>
+      <h1 class="display" data-vi="Cứ để lại một <em>lời nhắn.</em>" data-en="Leave a <em>note.</em>">Cứ để lại một <em>lời nhắn.</em></h1>
+      <p class="lead" data-vi="Góp ý một bài viết, chia sẻ một câu hỏi, hay đơn giản là nói xin chào. Bạn có thể tìm mình ở các kênh dưới đây, hoặc dùng hộp thư ẩn danh." data-en="Share feedback on an article, ask a question, or simply say hello. Find me through the channels here, or use the anonymous mailbox.">Góp ý một bài viết, chia sẻ một câu hỏi, hay đơn giản là nói xin chào. Bạn có thể tìm mình ở các kênh dưới đây, hoặc dùng hộp thư ẩn danh.</p>
+    </div>
+
+    <aside class="paper-card" aria-label="Thông tin liên hệ">
+      <span class="sticker one">say hi</span>
+      <span class="sticker two">HÀ NỘI</span>
+      <h2 data-vi="Tìm mình ở đây" data-en="Find me here">Tìm mình ở đây</h2>
+      <p data-vi="Mình đọc email và tin nhắn, đôi khi chỉ hơi chậm một chút." data-en="I read my email and messages, though replies may occasionally take a little while.">Mình đọc email và tin nhắn, đôi khi chỉ hơi chậm một chút.</p>
+      <div class="contact-list">
+        <a class="contact-link" href="mailto:buitonggiang0805@gmail.com">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"></rect><path class="icon-outline" d="m4 7 8 6 8-6"></path></svg></span>
+          <span class="contact-details"><strong>Email</strong><span>buitonggiang0805@gmail.com</span></span>
+        </a>
+        <a class="contact-link" href="https://x.com/eui_tg" target="_blank" rel="noopener">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18.24 2.25h3.31l-7.23 8.26 8.51 11.24h-6.66l-5.22-6.82-5.96 6.82H1.68l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23Zm-1.16 17.52h1.83L7.08 4.13H5.11l11.97 15.64Z"></path></svg></span>
+          <span class="contact-details"><strong>X</strong><span>@eui_tg</span></span>
+        </a>
+        <a class="contact-link" href="https://tiktok.com/@learningiseverywheree" target="_blank" rel="noopener">
+          <span class="contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16.6 2c.2 1.8 1.2 3.4 2.8 4.3a7.2 7.2 0 0 0 2.6.8v3.7a10.8 10.8 0 0 1-5.4-1.7v7.2a6.3 6.3 0 1 1-5.4-6.2v3.8a2.7 2.7 0 1 0 1.7 2.5V2h3.7Z"></path></svg></span>
+          <span class="contact-details"><strong>TikTok</strong><span>@learningiseverywheree</span></span>
+        </a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="content-section" id="anonymous-mailbox">
+    <div class="section-label" data-vi="Hộp thư ẩn danh" data-en="Anonymous mailbox">Hộp thư ẩn danh</div>
+    <div class="contact-grid" style="margin-top:1.4rem">
+      <form class="card" id="anonymous-form" name="anonymous-message" method="POST">
+        <h2 data-vi="Không cần để tên." data-en="No name required.">Không cần để tên.</h2>
+        <p class="card-intro" data-vi="Bạn chỉ cần viết điều muốn nói. Tên hoặc nickname hoàn toàn tùy chọn." data-en="Just write what you want to say. A name or nickname is completely optional.">Bạn chỉ cần viết điều muốn nói. Tên hoặc nickname hoàn toàn tùy chọn.</p>
+
+        <label for="topic" data-vi="Chủ đề" data-en="Topic">Chủ đề</label>
+        <select id="topic" name="topic">
+          <option value="Góp ý bài viết" data-vi="Góp ý bài viết" data-en="Article feedback">Góp ý bài viết</option>
+          <option value="Câu hỏi" data-vi="Câu hỏi" data-en="Question">Câu hỏi</option>
+          <option value="Lời nhắn riêng" data-vi="Lời nhắn riêng" data-en="Personal note">Lời nhắn riêng</option>
+          <option value="Khác" data-vi="Khác" data-en="Other">Khác</option>
+        </select>
+
+        <label for="name" data-vi="Tên / nickname · không bắt buộc" data-en="Name / nickname · optional">Tên / nickname · không bắt buộc</label>
+        <input id="name" name="name" type="text" maxlength="80" autocomplete="nickname" data-placeholder-vi="Để trống nếu muốn ẩn danh" data-placeholder-en="Leave blank to stay anonymous" placeholder="Để trống nếu muốn ẩn danh">
+
+        <label for="message" data-vi="Lời nhắn" data-en="Message">Lời nhắn</label>
+        <textarea id="message" name="message" required maxlength="3000" data-placeholder-vi="Viết lời nhắn của bạn ở đây..." data-placeholder-en="Write your note here..." placeholder="Viết lời nhắn của bạn ở đây..."></textarea>
+
+        <input type="hidden" name="source" value="Tellstory anonymous mailbox">
+        <button class="submit" type="submit" data-vi="Gửi lời nhắn" data-en="Send note">Gửi lời nhắn</button>
+        <div class="status" id="form-status" aria-live="polite" data-vi="Hộp thư đã sẵn sàng nhận lời nhắn." data-en="The mailbox is ready for your note.">Hộp thư đã sẵn sàng nhận lời nhắn.</div>
+      </form>
+
+      <aside class="card privacy-note">
+        <h2 data-vi="Một góc nhỏ riêng tư" data-en="A small private corner">Một góc nhỏ riêng tư</h2>
+        <p data-vi="Form này của TG không yêu cầu email, nội dung được gửi thẳng vào hòm thư Firebase của blog." data-en="This form does not ask for your email. Your note goes directly to the blog's Firebase mailbox.">Form này của TG không yêu cầu email, nội dung được gửi thẳng vào hòm thư Firebase của blog.</p>
+        <ul>
+          <li data-vi="Tên hoặc nickname" data-en="Your name is optional.">Tên bạn hoặc nick name</li>
+          <li data-vi="Chỉ mình và bạn đọc được lời nhắn." data-en="Only I read the notes.">Chỉ mình và bạn đọc được lời nhắn.</li>
+          <li data-vi="Mình rất vui khi nghe những góp ý từ bạn." data-en="I'm always glad to hear from you.">Mình rất vui khi nghe những góp ý từ bạn.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <span>© 2026 Bui Tong Giang · Fieldnotes on Learning</span>
+  <a href="about.html" data-vi="Đọc thêm về mình →" data-en="Read more about me →">Đọc thêm về mình →</a>
+</footer>
+
+<script src="pages.js"></script>
+<script type="module">
+import { db } from './firebase-config.js';
+import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+
+const form = document.getElementById('anonymous-form');
+const statusEl = document.getElementById('form-status');
+const submitBtn = form.querySelector('button[type="submit"]');
+
+function text(vi, en){
+  return document.documentElement.lang === 'en' ? en : vi;
+}
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(form).entries());
+  const message = String(data.message || '').trim();
+  const name = String(data.name || '').trim();
+  const topic = String(data.topic || 'Khác').trim();
+
+  if(message.length < 2){
+    statusEl.className = 'status';
+    statusEl.textContent = text('Vui lòng viết lời nhắn trước khi gửi.', 'Please write a note before sending.');
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = text('Đang gửi...', 'Sending...');
+  statusEl.className = 'status';
+  statusEl.textContent = text('Đang gửi lời nhắn về hòm thư...', 'Sending your note...');
+
+  try {
+    await addDoc(collection(db, 'anonymous_messages'), {
+      topic,
+      name,
+      message,
+      source: 'Tellstory anonymous mailbox',
+      page: 'contact.html',
+      status: 'new',
+      createdAt: serverTimestamp(),
+      createdAtClient: new Date().toISOString()
+    });
+    form.reset();
+    statusEl.className = 'status ok';
+    statusEl.textContent = text('Đã gửi. Cảm ơn bạn đã để lại lời nhắn.', 'Sent. Thank you for leaving a note.');
+  } catch(error) {
+    console.error(error);
+    statusEl.className = 'status';
+    statusEl.textContent = text('Chưa gửi được lời nhắn. Vui lòng thử lại sau.', 'The note could not be sent. Please try again later.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = text('Gửi lời nhắn', 'Send note');
+  }
+});
+</script>
+</body>
+</html>

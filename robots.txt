@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /post-template.html
+
+Sitemap: https://tellstory-blog.web.app/sitemap.xml

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://tellstory-blog.web.app/</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/about.html</loc>
+    <lastmod>2026-06-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/contact.html</loc>
+    <lastmod>2026-06-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://tellstory-blog.web.app/readiness-debt.html</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/sakura-im-lang.html</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://tellstory-blog.web.app/sakura-im-lang.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tellstory-blog.web.app/sakura-im-lang-en.html"/>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/sakura-im-lang-en.html</loc>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://tellstory-blog.web.app/sakura-im-lang.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tellstory-blog.web.app/sakura-im-lang-en.html"/>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/starbucks-tank-day.html</loc>
+    <lastmod>2026-06-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/jjk-pedagogy.html</loc>
+    <lastmod>2026-06-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/pizza-4ps-training.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/goed-thuat-toan.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/lms-khong-chet.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/attention-is-the-new-classroom.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/nguoi-thay-bien-mat.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://tellstory-blog.web.app/nguoi-thay-bien-mat.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html"/>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="vi" href="https://tellstory-blog.web.app/nguoi-thay-bien-mat.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html"/>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/irregular-verbs.html</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/irregular-verbs-guide.html</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/irregular-report.html</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tellstory-blog.web.app/irregular-verb-scheduler-demo.html</loc>
+    <lastmod>2026-06-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tank Day và câu hỏi L&D không ai hỏi · Fieldnotes on Learning</title>
+<meta name="description" content="Starbucks Korea không thất bại vì AI hay vì đội marketing thiếu trách nhiệm, và cả hai cách đổ lỗi đó đều bỏ sót điều quan trọng hơn.">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh và cách trình bày thuộc Fieldnotes on Learning. Không sao chép toàn văn hoặc tái sử dụng khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/starbucks-tank-day.html">
+<meta property="og:title" content="Tank Day và câu hỏi L&D không ai hỏi">
+<meta property="og:description" content="Starbucks Korea không thất bại vì AI hay vì đội marketing thiếu trách nhiệm, và cả hai cách đổ lỗi đó đều bỏ sót điều quan trọng hơn.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tellstory-blog.web.app/starbucks-tank-day.html">
+<meta property="og:site_name" content="Fieldnotes on Learning">
+<meta property="og:image" content="https://tellstory-blog.web.app/assets/starbucks/hanok-store.png">
+<meta property="og:image:alt" content="Mặt tiền một cửa hàng Starbucks trong kiến trúc hanok tại Hàn Quốc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tank Day và câu hỏi L&D không ai hỏi">
+<meta name="twitter:description" content="Starbucks Korea không thất bại vì AI hay vì đội marketing thiếu trách nhiệm, và cả hai cách đổ lỗi đó đều bỏ sót điều quan trọng hơn.">
+<meta name="twitter:image" content="https://tellstory-blog.web.app/assets/starbucks/hanok-store.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="comments.css">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--ink-4:#625B54;
+  --paper:#F6F1E8;--paper-2:#EDE8DC;--paper-3:#E2DBCB;
+  --rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;--gold-light:#C49A48;--canvas:#E8DFD0;
+  --mint:#BDE7D0;--butter:#F3D887;--sky:#BFDDEA;--blush:#E7B9B0;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:18px;line-height:1.8;overflow-x:hidden;}
+
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--red);width:0%;z-index:1000;transition:width .1s linear;}
+
+#dot-nav{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.55rem;z-index:100;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(26,23,20,.15);cursor:pointer;transition:all .3s ease;border:1px solid rgba(26,23,20,.2);}
+.dot.active{background:var(--red);transform:scale(1.7);border-color:var(--red);}
+@media(max-width:720px){#dot-nav{display:none;}}
+
+.blog-nav{position:fixed;top:1rem;left:1rem;z-index:1100;display:flex;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;}
+.blog-nav a,.lang-btn{display:inline-flex;align-items:center;justify-content:center;padding:.55rem .85rem;color:rgba(26,23,20,.75);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);backdrop-filter:blur(10px);transition:background .2s,color .2s,border-color .2s;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;}
+.blog-nav a:hover,.lang-btn:hover{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+.lang-btn.active{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+
+#intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;border-bottom:1px solid var(--rule);background:var(--paper);}
+#intro::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink);}
+#intro::after{content:'文';position:absolute;right:4vw;bottom:-4vh;font-family:'Playfair Display',serif;font-size:clamp(160px,28vw,400px);color:rgba(26,23,20,.032);line-height:1;pointer-events:none;}
+.intro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:2rem;}
+.intro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.4rem,5.5vw,5rem);font-weight:700;line-height:1.06;max-width:900px;margin-bottom:1.6rem;color:var(--ink);}
+.intro-title em{color:var(--red);font-style:italic;}
+.intro-rule{width:48px;height:2px;background:var(--red);margin-bottom:1.6rem;}
+.intro-sub{font-size:1.05rem;color:var(--ink-2);max-width:600px;line-height:2;margin-bottom:3.5rem;font-weight:300;}
+.scroll-cue{display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-4);}
+.scroll-bar{width:44px;height:1px;background:var(--ink-3);transform-origin:left;animation:grow 2s ease-in-out infinite;}
+@keyframes grow{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+
+.scrolly{position:relative;}
+.sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:var(--canvas);}
+canvas#scene{position:absolute;inset:0;width:100%;height:100%;}
+.graphic-caption{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(24,21,18,.46);position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%) rotate(-1deg);white-space:nowrap;text-transform:uppercase;background:rgba(246,241,232,.72);padding:.35rem .7rem;border:1px solid rgba(24,21,18,.08);}
+.scene-stickers{position:absolute;inset:0;pointer-events:none;z-index:2;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);}
+.scene-sticker{position:absolute;padding:.55rem .75rem;border:1px solid rgba(24,21,18,.16);box-shadow:2px 3px 0 rgba(24,21,18,.12);}
+.scene-sticker.one{left:8%;top:17%;background:var(--mint);transform:rotate(-6deg);}
+.scene-sticker.two{right:9%;top:24%;background:var(--butter);transform:rotate(5deg);}
+.scene-sticker.three{right:12%;bottom:18%;background:var(--sky);transform:rotate(-3deg);}
+
+.steps{position:relative;z-index:10;padding-bottom:28vh;}
+
+.step{max-width:680px;margin:0 6vw 68vh;padding:3.2rem 3.4rem;background:var(--paper);border:1px solid rgba(24,21,18,.08);border-top:3px solid var(--ink);box-shadow:7px 9px 0 rgba(24,21,18,.09),0 2px 32px rgba(0,0,0,.1);opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;position:relative;}
+.step::before{content:'';position:absolute;width:82px;height:24px;top:-14px;left:50%;transform:translateX(-50%) rotate(-2deg);background:rgba(231,185,176,.72);border-left:1px solid rgba(24,21,18,.06);border-right:1px solid rgba(24,21,18,.06);}
+.step:last-child{margin-bottom:0;}
+.step.is-active{opacity:1;transform:translateY(0);}
+
+.step-act{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:1rem;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.25rem,2.2vw,1.75rem);font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:1.2rem;}
+.step-body{font-size:1rem;color:var(--ink-2);line-height:1.95;margin-bottom:1rem;font-weight:300;}
+.step-body em{color:var(--red);font-style:italic;}
+.step-body strong{color:var(--ink);font-weight:500;}
+.step-pull{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-style:italic;color:var(--ink-2);border-left:2px solid var(--red);padding:.8rem 1.2rem;margin:1.2rem 0;background:var(--paper-2);line-height:1.8;}
+.step-source{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-4);margin-top:1.2rem;letter-spacing:.05em;border-top:1px solid var(--rule);padding-top:.8rem;line-height:1.7;}
+
+.timeline{margin:1.6rem 0;display:grid;gap:.8rem;}
+.timeline-item{display:flex;gap:1.2rem;margin:0;align-items:flex-start;padding:1rem 1.1rem;background:#FFF9D9;border:1px solid rgba(24,21,18,.1);box-shadow:3px 4px 0 rgba(24,21,18,.07);position:relative;}
+.timeline-item:nth-child(2){background:#E4F3EA;transform:rotate(-.5deg);}
+.timeline-item:nth-child(3){background:#E5F0F4;transform:rotate(.5deg);}
+.timeline-dot{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--red);margin-top:.1rem;position:relative;box-shadow:inset 0 0 0 6px rgba(255,255,255,.86);}
+.timeline-dot::after{content:'';position:absolute;top:22px;left:11px;width:2px;height:calc(100% + 20px);background:rgba(139,42,26,.28);}
+.timeline-item:last-child .timeline-dot::after{display:none;}
+.timeline-time{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:var(--red);text-transform:uppercase;margin-bottom:.25rem;}
+.timeline-body{font-size:.9rem;color:var(--ink-2);line-height:1.8;}
+
+.approval-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.55rem;margin:1.4rem 0;position:relative;}
+.approval-grid::after{content:'7 × OK → 0 × STOP';position:absolute;right:0;bottom:-1.35rem;font:8px 'JetBrains Mono',monospace;letter-spacing:.14em;color:var(--red);transform:rotate(-2deg);}
+.approval-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid rgba(24,21,18,.16);border-radius:50%;background:var(--butter);font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.08em;color:var(--ink-4);text-align:center;padding:.3rem;transition:all .6s ease;cursor:default;box-shadow:2px 3px 0 rgba(24,21,18,.12);transform:rotate(-4deg);}
+.approval-cell:nth-child(even){background:var(--mint);transform:rotate(4deg);}
+.approval-cell.passed{border-color:rgba(26,23,20,.12);}
+.approval-cell.exploded{background:var(--red);border-color:var(--red);color:var(--paper);transform:rotate(7deg) scale(1.08);}
+.approval-cell .cell-icon{font-size:1.1rem;margin-bottom:.2rem;}
+
+.flow-block{margin:1.8rem 0;padding:1.5rem 1.6rem;background:#FFF9D9;color:var(--ink);border:1px dashed rgba(24,21,18,.28);box-shadow:4px 5px 0 rgba(24,21,18,.09);position:relative;transform:rotate(-.35deg);}
+.flow-block::before{content:'✦';position:absolute;right:1rem;top:-1.25rem;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--blush);border:1px solid rgba(24,21,18,.16);font-size:1rem;transform:rotate(10deg);}
+.flow-kicker{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--red);text-transform:uppercase;margin-bottom:1rem;}
+.flow-line{display:flex;align-items:center;gap:.8rem;margin-bottom:.7rem;font-size:.88rem;color:var(--ink-2);font-weight:300;flex-wrap:wrap;border-bottom:1px dotted rgba(24,21,18,.16);padding-bottom:.7rem;}
+.flow-line:last-child{margin-bottom:0;}
+.flow-tag{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.14em;background:var(--mint);border:1px solid rgba(24,21,18,.16);padding:.28rem .55rem;color:var(--ink-2);white-space:nowrap;box-shadow:2px 2px 0 rgba(24,21,18,.08);}
+.flow-tag.red{background:var(--blush);border-color:rgba(139,42,26,.22);color:var(--red);}
+.flow-arrow{color:var(--red);font-size:.9rem;font-weight:700;}
+
+.stat-pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.4rem 0;}
+.stat-card{padding:1.4rem;border:1px solid rgba(24,21,18,.14);background:var(--sky);box-shadow:3px 4px 0 rgba(24,21,18,.1);transform:rotate(-1.5deg);position:relative;}
+.stat-card:nth-child(2){background:var(--butter);transform:rotate(1.5deg);}
+.stat-card::after{content:'';position:absolute;width:42px;height:13px;top:-7px;left:50%;transform:translateX(-50%) rotate(2deg);background:rgba(246,241,232,.75);}
+.stat-number{font-family:'Playfair Display',Georgia,serif;font-size:2.2rem;font-weight:700;color:var(--red);line-height:1;margin-bottom:.4rem;}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);}
+
+.case-block{margin:1.8rem 0;padding:1.5rem 1.5rem;border:1px solid rgba(24,21,18,.15);background:var(--mint);position:relative;box-shadow:4px 5px 0 rgba(24,21,18,.09);transform:rotate(.5deg);}
+.case-block::before{content:'KEEP THIS NOTE';position:absolute;top:-.75rem;left:1rem;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.18em;color:var(--ink);background:var(--butter);border:1px solid rgba(24,21,18,.12);padding:.2rem .5rem;transform:rotate(-3deg);}
+.case-body{font-size:.9rem;color:var(--ink-2);line-height:1.8;}
+
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.4rem 0;}
+.pillar{padding:1.5rem 1.4rem;border:1px solid rgba(24,21,18,.13);background:var(--butter);box-shadow:3px 4px 0 rgba(24,21,18,.08);transform:rotate(-1deg);position:relative;}
+.pillar:nth-child(2){background:var(--mint);transform:rotate(1deg);}.pillar:nth-child(3){background:var(--sky);transform:rotate(.6deg);}.pillar:nth-child(4){background:var(--blush);transform:rotate(-.7deg);}
+.pillar::before{content:'';position:absolute;top:-8px;left:calc(50% - 24px);width:48px;height:15px;background:rgba(246,241,232,.7);transform:rotate(-2deg);}
+.pillar-num{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--red);text-transform:uppercase;margin-bottom:.5rem;}
+.pillar-title{font-family:'Playfair Display',Georgia,serif;font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:.5rem;line-height:1.35;}
+.pillar-body{font-size:.85rem;color:var(--ink-3);line-height:1.8;}
+
+.story-photo{margin:1.8rem 0 2rem;padding:.65rem .65rem 1rem;background:#fff;border:1px solid rgba(24,21,18,.12);box-shadow:5px 7px 0 rgba(24,21,18,.1);position:relative;transform:rotate(-.7deg);}
+.story-photo:nth-of-type(even){transform:rotate(.7deg);}
+.story-photo::before{content:'';position:absolute;width:76px;height:21px;left:50%;top:-12px;transform:translateX(-50%) rotate(-2deg);background:rgba(243,216,135,.75);z-index:1;}
+.story-photo img{display:block;width:100%;height:auto;max-height:430px;object-fit:cover;filter:saturate(.9) contrast(.98);}
+.story-photo.social img{object-fit:contain;background:#f7f7f7;}
+.story-photo figcaption{font:9px/1.6 'JetBrains Mono',monospace;letter-spacing:.08em;color:var(--ink-4);padding:.8rem .35rem 0;}
+.photo-sticker{position:absolute;right:-9px;bottom:34px;width:72px;height:72px;border-radius:50%;display:grid;place-items:center;text-align:center;background:var(--mint);border:1px solid rgba(24,21,18,.16);box-shadow:2px 3px 0 rgba(24,21,18,.1);font:700 8px/1.3 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;transform:rotate(8deg);}
+
+#outro{background:var(--ink);color:var(--paper);min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 10vw;position:relative;overflow:hidden;}
+#outro::before{content:'問';position:absolute;font-family:'Playfair Display',serif;font-size:clamp(200px,34vw,480px);color:rgba(246,241,232,.02);pointer-events:none;line-height:1;}
+.outro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:rgba(196,154,72,.7);text-transform:uppercase;margin-bottom:2rem;}
+.outro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.9rem,4.2vw,3.6rem);line-height:1.1;margin-bottom:1.8rem;max-width:800px;}
+.outro-title em{color:var(--gold-light);font-style:italic;}
+.outro-body{max-width:600px;color:rgba(246,241,232,.6);font-size:1rem;font-weight:300;line-height:2;margin-bottom:3rem;}
+.outro-links{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.outro-link{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,241,232,.55);text-decoration:none;border:1px solid rgba(246,241,232,.15);padding:.7rem 1.1rem;transition:all .2s;}
+.outro-link:hover{color:var(--gold-light);border-color:rgba(196,154,72,.4);}
+
+/* COPYRIGHT ở cuối cùng, sau outro, contrast cao hơn */
+.copyright-note{max-width:860px;margin:0 auto;padding:2rem 1.4rem;border-top:1px solid rgba(26,23,20,.18);color:var(--ink-3);font-size:.88rem;line-height:1.9;text-align:center;background:var(--paper);}
+.copyright-note a{color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;}
+
+@media(max-width:780px){
+  .step{margin:0 4vw 52vh;max-width:96vw;padding:2.2rem 1.8rem;}
+  .pillars{grid-template-columns:1fr;}
+  .stat-pair{grid-template-columns:1fr;}
+  .approval-grid{grid-template-columns:repeat(4,1fr);}
+  .scene-sticker{font-size:7px;}.scene-sticker.one{left:4%;top:14%;}.scene-sticker.two{right:4%;top:20%;}.scene-sticker.three{right:5%;bottom:13%;}
+  .story-photo{margin-left:-.6rem;margin-right:-.6rem;}.photo-sticker{right:2px;}
+  #intro{padding:0 6vw;}
+  .blog-nav{font-size:8px;gap:.3rem;}
+  .blog-nav a,.lang-btn{padding:.45rem .55rem;}
+}
+
+
+/* PATCH: nền đen dịu + căn giữa ô nội dung, giữ nguyên style bên trong ô */
+body{
+  background:#0b0b0a;
+}
+
+#intro{
+  background:#0b0b0a;
+  color:var(--paper);
+}
+
+#intro::before{
+  background:rgba(246,241,232,.24);
+}
+
+#intro::after{
+  color:rgba(246,241,232,.035);
+}
+
+.intro-kicker{
+  color:rgba(246,241,232,.66);
+}
+
+.intro-title{
+  color:var(--paper);
+}
+
+.intro-title em{
+  color:var(--blush);
+}
+
+.intro-sub{
+  color:rgba(246,241,232,.74);
+}
+
+.scroll-cue{
+  color:rgba(246,241,232,.62);
+}
+
+.scroll-bar{
+  background:rgba(246,241,232,.62);
+}
+
+.scrolly,
+.sticky{
+  background:#0b0b0a;
+}
+
+.graphic-caption{
+  color:rgba(246,241,232,.66);
+  background:rgba(11,11,10,.72);
+  border-color:rgba(246,241,232,.12);
+}
+
+.dot{
+  background:rgba(246,241,232,.22);
+  border-color:rgba(246,241,232,.26);
+}
+
+.dot.active{
+  background:var(--blush);
+  border-color:var(--blush);
+}
+
+.blog-nav a,
+.lang-btn{
+  color:rgba(246,241,232,.78);
+  background:rgba(11,11,10,.82);
+  border-color:rgba(246,241,232,.16);
+}
+
+.blog-nav a:hover,
+.lang-btn:hover{
+  color:#0b0b0a;
+  background:var(--paper);
+  border-color:var(--paper);
+}
+
+.lang-btn.active{
+  color:#0b0b0a;
+  background:var(--paper);
+  border-color:var(--paper);
+}
+
+/* Sửa lệch: bản gốc để margin 0 6vw nên card bám trái */
+.step{
+  width:min(680px, calc(100vw - 2rem));
+  max-width:680px;
+  margin:0 auto 68vh !important;
+}
+
+.step:last-child{
+  margin-bottom:0 !important;
+}
+
+@media(max-width:780px){
+  .step{
+    width:calc(100vw - 2rem);
+    max-width:96vw;
+    margin:0 auto 52vh !important;
+  }
+}
+
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Tank Day và câu hỏi L&D không ai hỏi",
+  "description": "Starbucks Korea không thất bại vì AI hay vì đội marketing thiếu trách nhiệm, và cả hai cách đổ lỗi đó đều bỏ sót điều quan trọng hơn.",
+  "author": {"@type":"Person","name":"Bui Tong Giang","url":"https://tellstory-blog.web.app/"},
+  "publisher": {"@type":"Organization","name":"Fieldnotes on Learning","url":"https://tellstory-blog.web.app/"},
+  "image": "https://tellstory-blog.web.app/assets/starbucks/hanok-store.png",
+  "datePublished": "2026-06-21",
+  "dateModified": "2026-06-21",
+  "mainEntityOfPage": {"@type":"WebPage","@id":"https://tellstory-blog.web.app/starbucks-tank-day.html"},
+  "inLanguage": "vi",
+  "copyrightHolder": {"@type":"Person","name":"Bui Tong Giang"},
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav class="blog-nav" aria-label="Điều hướng blog">
+  <a href="index.html">← Blog</a>
+  <button class="lang-btn active" id="btn-vi" onclick="setLang('vi')">VI</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</nav>
+
+<nav id="dot-nav" aria-label="Điều hướng phần">
+  <div class="dot active" data-i="0"></div>
+  <div class="dot" data-i="1"></div>
+  <div class="dot" data-i="2"></div>
+  <div class="dot" data-i="3"></div>
+  <div class="dot" data-i="4"></div>
+  <div class="dot" data-i="5"></div>
+  <div class="dot" data-i="6"></div>
+  <div class="dot" data-i="7"></div>
+</nav>
+
+<!-- INTRO -->
+<section id="intro" data-step-index="0">
+  <div>
+    <div class="intro-kicker">L&D · Marketing · AI · Cultural Intelligence</div>
+    <h1 class="intro-title"
+      data-vi="Tank Day và <em>câu hỏi L&D</em><br>mà không ai hỏi."
+      data-en="Tank Day and <em>the L&D question</em><br>that nobody asked.">
+      Tank Day và <em>câu hỏi L&D</em><br>mà không ai hỏi.
+    </h1>
+    <div class="intro-rule"></div>
+    <p class="intro-sub"
+      data-vi="Starbucks Korea thất bại vì AI, vì đội marketing thiếu trách nhiệm, và cả hai cách đổ lỗi đó đều đúng một phần nhưng đều bỏ sót điều quan trọng hơn."
+      data-en="Starbucks Korea did not fail because of AI, not because the marketing team was irresponsible, and both of those explanations are partly right but both miss something more important.">
+      Starbucks Korea thất bại vì AI, vì đội marketing thiếu trách nhiệm, và cả hai cách đổ lỗi đó đều đúng một phần nhưng đều bỏ sót điều quan trọng hơn.
+    </p>
+    <div class="scroll-cue"><div class="scroll-bar"></div><span data-vi="cuộn để đọc" data-en="scroll to read">cuộn để đọc</span></div>
+  </div>
+</section>
+
+<!-- SCROLLYTELLING -->
+<div class="scrolly">
+  <div class="sticky">
+    <canvas id="scene"></canvas>
+    <div class="scene-stickers" aria-hidden="true">
+      <span class="scene-sticker one">context<br>matters</span>
+      <span class="scene-sticker two">7 approvals<br>0 pause</span>
+      <span class="scene-sticker three">human<br>checkpoint</span>
+    </div>
+    <div class="graphic-caption" id="graphic-caption">18 tháng 5 · gwangju 1980</div>
+  </div>
+
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <article class="step" data-step-index="1">
+      <div class="step-act"
+        data-vi="Phần I · Bối cảnh · Ngày 18 tháng 5"
+        data-en="Part I · Context · May 18th">
+        Phần I · Bối cảnh · Ngày 18 tháng 5
+      </div>
+      <h2 class="step-title"
+        data-vi="Không phải ngày nào cũng chỉ là một ngày trong lịch, và ngày 18 tháng 5 với người Hàn Quốc là một trong những ngày như vậy."
+        data-en="Not every date is just a date on a calendar, and May 18th for South Koreans is one of those dates that is not.">
+        Không phải ngày nào cũng chỉ là một ngày trong lịch, và ngày 18 tháng 5 với người Hàn Quốc là một trong những ngày như vậy.
+      </h2>
+      <p class="step-body"
+        data-vi="Ngày 18 tháng 5 năm 1980, chính quyền quân sự Hàn Quốc điều binh lính, xe tăng và trực thăng đến Gwangju để đàn áp phong trào dân chủ, và hàng trăm người thiệt mạng trong sự kiện đó. Đây không chỉ là một trang lịch sử mà là một vết thương tập thể còn nguyên trong ký ức người Hàn cho đến tận hôm nay."
+        data-en="On May 18, 1980, South Korea's military government sent soldiers, tanks, and helicopters to Gwangju to suppress a pro-democracy uprising, and hundreds were killed in that event. This is not just a page in a history book but a collective wound that remains raw in Korean memory to this day.">
+        Ngày 18 tháng 5 năm 1980, chính quyền quân sự Hàn Quốc điều binh lính, xe tăng và trực thăng đến Gwangju để đàn áp phong trào dân chủ, và hàng trăm người thiệt mạng trong sự kiện đó. Đây không chỉ là một trang lịch sử mà là một vết thương tập thể còn nguyên trong ký ức người Hàn cho đến tận hôm nay.
+      </p>
+      <figure class="story-photo">
+        <img src="assets/starbucks/hanok-store.png" alt="Mặt tiền một cửa hàng Starbucks trong kiến trúc hanok tại Hàn Quốc" width="1800" height="943" loading="eager" decoding="async">
+        <span class="photo-sticker">local<br>context!</span>
+        <figcaption data-vi="Một thương hiệu toàn cầu vẫn luôn vận hành bên trong ký ức rất địa phương." data-en="A global brand still operates inside deeply local memory.">Một thương hiệu toàn cầu vẫn luôn vận hành bên trong ký ức rất địa phương.</figcaption>
+      </figure>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="timeline-time" data-vi="18 tháng 5, 2026 · Sáng sớm" data-en="May 18, 2026 · Early morning">18 tháng 5, 2026 · Sáng sớm</div>
+            <div class="timeline-body" data-vi="Starbucks Korea tung chiến dịch &ldquo;Tank Day&rdquo; để quảng bá dòng bình giữ nhiệt cỡ lớn mang tên &ldquo;tank&rdquo;, và slogan đi kèm là &ldquo;Tak on the desk,&rdquo; mô phỏng âm thanh khi đặt bình xuống bàn." data-en="Starbucks Korea launches the &ldquo;Tank Day&rdquo; campaign to promote a large tumbler called the &ldquo;tank,&rdquo; and the accompanying slogan is &ldquo;Tak on the desk,&rdquo; mimicking the sound of placing the tumbler on a table.">Starbucks Korea tung chiến dịch &ldquo;Tank Day&rdquo; để quảng bá dòng bình giữ nhiệt cỡ lớn mang tên &ldquo;tank&rdquo;, và slogan đi kèm là &ldquo;Tak on the desk,&rdquo; mô phỏng âm thanh khi đặt bình xuống bàn.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="timeline-time" data-vi="Vài giờ sau · Mạng xã hội bùng phát" data-en="Hours later · Social media erupts">Vài giờ sau · Mạng xã hội bùng phát</div>
+            <div class="timeline-body" data-vi="Người dùng nhận ra &ldquo;Tak&rdquo; gợi nhớ đến vụ tra tấn sinh viên Park Jong-chul năm 1987, khi cảnh sát giải thích cái chết của anh bằng câu &ldquo;đập tay xuống bàn một tiếng,&rdquo; và chiến dịch bị hủy chỉ vài giờ sau khi tung ra." data-en="Users recognize &ldquo;Tak&rdquo; echoes the 1987 torture death of student activist Park Jong-chul, when police explained his death as happening from a single &ldquo;thwack on the desk,&rdquo; and the campaign is pulled within hours of launching.">Người dùng nhận ra &ldquo;Tak&rdquo; gợi nhớ đến vụ tra tấn sinh viên Park Jong-chul năm 1987, khi cảnh sát giải thích cái chết của anh bằng câu &ldquo;đập tay xuống bàn một tiếng,&rdquo; và chiến dịch bị hủy chỉ vài giờ sau khi tung ra.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div>
+            <div class="timeline-time" data-vi="Những tuần sau" data-en="Weeks after">Những tuần sau</div>
+            <div class="timeline-body" data-vi="CEO Starbucks Korea bị sa thải, chủ tịch Shinsegae Group cúi đầu xin lỗi trên truyền hình, hơn 2.000 cửa hàng đóng cửa đồng loạt 3 tiếng để nhân viên học lịch sử, và doanh số được xác nhận giảm &ldquo;rất nghiêm trọng.&rdquo;" data-en="Starbucks Korea's CEO is fired, the Shinsegae Group chairman bows in apology on national television, over 2,000 stores close simultaneously for three hours of mandatory history training, and sales are confirmed to have fallen &ldquo;very significantly.&rdquo;">CEO Starbucks Korea bị sa thải, chủ tịch Shinsegae Group cúi đầu xin lỗi trên truyền hình, hơn 2.000 cửa hàng đóng cửa đồng loạt 3 tiếng để nhân viên học lịch sử, và doanh số được xác nhận giảm &ldquo;rất nghiêm trọng.&rdquo;</div>
+          </div>
+        </div>
+      </div>
+      <div class="step-source">NBC News · Al Jazeera · Korea Times · Malay Mail · Shinsegae Group press conference, May 26, 2026</div>
+    </article>
+
+    <!-- STEP 2 -->
+    <article class="step" data-step-index="2">
+      <div class="step-act"
+        data-vi="Phần II · Dễ đổ lỗi, khó chẩn đoán"
+        data-en="Part II · Easy to blame, hard to diagnose">
+        Phần II · Dễ đổ lỗi, khó chẩn đoán
+      </div>
+      <h2 class="step-title"
+        data-vi="Đây có phải lỗi marketing, hay là lỗi AI, và câu hỏi thật sự không phải là ai đã sai mà là điều gì đã không xảy ra trong suốt quy trình đó."
+        data-en="This is not a marketing failure, not an AI failure either, and the real question is not who was wrong but what failed to happen throughout that entire process.">
+        Đây có phải lỗi marketing, hay là lỗi AI, và câu hỏi thật sự không phải là ai đã sai mà là điều gì đã không xảy ra trong suốt quy trình đó.
+      </h2>
+      <p class="step-body"
+        data-vi="Khi scandal nổ ra, phản xạ đầu tiên của dư luận là đổ lỗi cho đội marketing, và sau đó khi điều tra nội bộ tiết lộ AI đã được dùng để gợi ý slogan, phản xạ thứ hai là đổ lỗi cho AI. Cả hai đều có phần đúng, nhưng cả hai đều bỏ sót điều quan trọng hơn."
+        data-en="When the scandal broke, the first instinct was to blame the marketing team, and then when the internal investigation revealed AI had suggested the slogan, the second instinct was to blame AI. Both are partly right, but both miss something more important.">
+        Khi scandal nổ ra, phản xạ đầu tiên của dư luận là đổ lỗi cho đội marketing, và sau đó khi điều tra nội bộ tiết lộ AI đã được dùng để gợi ý slogan, phản xạ thứ hai là đổ lỗi cho AI. Cả hai đều có phần đúng, nhưng cả hai đều bỏ sót điều quan trọng hơn.
+      </p>
+
+      <div class="flow-block">
+        <div class="flow-kicker" data-vi="chuỗi phê duyệt · 7 tầng" data-en="approval chain · 7 layers">chuỗi phê duyệt · 7 tầng</div>
+        <div class="flow-line">
+          <span class="flow-tag">AI gợi ý slogan</span>
+          <span class="flow-arrow">→</span>
+          <span data-vi="được đề xuất và không bị từ chối" data-en="suggested and not rejected">được đề xuất và không bị từ chối</span>
+        </div>
+        <div class="flow-line">
+          <span class="flow-tag">Marketing soạn campaign</span>
+          <span class="flow-arrow">→</span>
+          <span data-vi="không ai trong đội flagup" data-en="nobody on the team flagged it">không ai trong đội flagup</span>
+        </div>
+        <div class="flow-line">
+          <span class="flow-tag red">7 người phê duyệt</span>
+          <span class="flow-arrow">→</span>
+          <span data-vi="một số ký mà không mở file đính kèm" data-en="some signed without opening the attachment">một số ký mà không mở file đính kèm</span>
+        </div>
+        <div class="flow-line">
+          <span class="flow-tag">Legal review</span>
+          <span class="flow-arrow">→</span>
+          <span data-vi="quy trình vốn có từ trước, lần này bị bỏ qua" data-en="a process that existed before, skipped this time">quy trình vốn có từ trước, lần này bị bỏ qua</span>
+        </div>
+        <div class="flow-line">
+          <span class="flow-tag red">Campaign được tung ra</span>
+          <span class="flow-arrow">→</span>
+          <span data-vi="qua 7 tầng mà không có điểm dừng nào được kích hoạt" data-en="through 7 layers with no checkpoint activated">qua 7 tầng mà không có điểm dừng nào được kích hoạt</span>
+        </div>
+      </div>
+
+      <p class="step-body"
+        data-vi="AI không biết khi nào cần sợ, điều đó đúng, nhưng qua 7 tầng phê duyệt của con người, không ai thực sự hiểu được thứ mà AI thiếu, và câu hỏi không còn là ai sai nữa mà là tại sao cả hệ thống không có một điểm dừng nào được kích hoạt."
+        data-en="AI does not know when to be afraid, that is true, but across 7 layers of human approval nobody activated what AI lacked, and the question is no longer who was wrong but why the entire system had not a single checkpoint that fired.">
+        AI không biết khi nào cần sợ, điều đó đúng, nhưng qua 7 tầng phê duyệt của con người, không ai thực sự hiểu được thứ mà AI thiếu, và câu hỏi không còn là ai sai nữa mà là tại sao cả hệ thống không có một điểm dừng nào được kích hoạt.
+      </p>
+      <figure class="story-photo social">
+        <img src="assets/starbucks/tank-day-post.png" alt="Bài đăng về lời kêu gọi tẩy chay Starbucks sau chiến dịch Tank Day ngày 18 tháng 5" width="1080" height="1018" loading="lazy" decoding="async">
+        <span class="photo-sticker">5/18<br>is not<br>just a date</span>
+        <figcaption data-vi="Ảnh chụp bài đăng ghi lại phản ứng tẩy chay sau khi chiến dịch được công bố." data-en="A captured post documenting boycott calls after the campaign launched.">Ảnh chụp bài đăng ghi lại phản ứng tẩy chay sau khi chiến dịch được công bố.</figcaption>
+      </figure>
+      <div class="step-source">Shinsegae Group press conference · PRovoke Media · Korea Times, June 2026</div>
+    </article>
+
+    <!-- STEP 3 -->
+    <article class="step" data-step-index="3">
+      <div class="step-act"
+        data-vi="Phần III · 7 tầng · 0 điểm dừng"
+        data-en="Part III · 7 layers · 0 checkpoints">
+        Phần III · 7 tầng · 0 điểm dừng
+      </div>
+      <h2 class="step-title"
+        data-vi="Họ đã ký, nhưng một số trong họ không mở file đính kèm, và quy trình review của phòng pháp lý vốn có từ trước thì lần này bị bỏ qua hoàn toàn."
+        data-en="They approved it, but some of them never opened the attachment, and the legal review process that had existed before was skipped entirely this time.">
+        Họ đã ký, nhưng một số trong họ không mở file đính kèm, và quy trình review của phòng pháp lý vốn có từ trước thì lần này bị bỏ qua hoàn toàn.
+      </h2>
+
+      <div class="approval-grid" id="approval-grid" aria-label="7 tầng phê duyệt">
+        <div class="approval-cell passed"><div class="cell-icon">✓</div><div data-vi="ký" data-en="signed">ký</div></div>
+        <div class="approval-cell passed"><div class="cell-icon">✓</div><div data-vi="ký" data-en="signed">ký</div></div>
+        <div class="approval-cell passed"><div class="cell-icon">✓</div><div data-vi="ký" data-en="signed">ký</div></div>
+        <div class="approval-cell passed"><div class="cell-icon">✓</div><div data-vi="ký" data-en="signed">ký</div></div>
+        <div class="approval-cell passed"><div class="cell-icon">✓</div><div data-vi="ký" data-en="signed">ký</div></div>
+        <div class="approval-cell passed"><div class="cell-icon">✓</div><div data-vi="ký" data-en="signed">ký</div></div>
+        <div class="approval-cell exploded"><div class="cell-icon">✕</div><div data-vi="tung ra" data-en="launched">tung ra</div></div>
+      </div>
+
+      <figure class="story-photo">
+        <img src="assets/starbucks/boycott-protest.png" alt="Người biểu tình Hàn Quốc cầm các biểu ngữ phản đối Starbucks" width="1241" height="826" loading="lazy" decoding="async">
+        <span class="photo-sticker">people<br>noticed</span>
+        <figcaption data-vi="Phản ứng công chúng biến một lỗi phê duyệt nội bộ thành khủng hoảng ngoài đời thực." data-en="Public reaction turned an internal approval failure into a real-world crisis.">Phản ứng công chúng biến một lỗi phê duyệt nội bộ thành khủng hoảng ngoài đời thực.</figcaption>
+      </figure>
+
+      <p class="step-body"
+        data-vi="Cuộc điều tra nội bộ tiết lộ rằng ưu tiên được đặt vào tốc độ và tính kịp thời của chiến dịch, một số trong 7 người phê duyệt ký duyệt theo thói quen mà không mở file đính kèm, và quy trình review của phòng pháp lý vốn được thực hiện ở các lần trước thì lần này bị bỏ qua."
+        data-en="The internal investigation revealed that priority was placed on the speed and immediacy of the campaign, some of the 7 approvers signed off as a matter of routine without opening the attached file, and the legal review process that had been conducted in previous campaigns was skipped this time.">
+        Cuộc điều tra nội bộ tiết lộ rằng ưu tiên được đặt vào tốc độ và tính kịp thời của chiến dịch, một số trong 7 người phê duyệt ký duyệt theo thói quen mà không mở file đính kèm, và quy trình review của phòng pháp lý vốn được thực hiện ở các lần trước thì lần này bị bỏ qua.
+      </p>
+      <div class="step-pull"
+        data-vi="&ldquo;Priority was given to the speed and immediacy of the campaign, and not a single objection was raised during either the planning or approval stages.&rdquo; Jeon Sang-jin, Shinsegae Group, họp báo ngày 26 tháng 5."
+        data-en="&ldquo;Priority was given to the speed and immediacy of the campaign, and not a single objection was raised during either the planning or approval stages.&rdquo; Jeon Sang-jin, Shinsegae Group, press conference May 26.">
+        &ldquo;Priority was given to the speed and immediacy of the campaign, and not a single objection was raised during either the planning or approval stages.&rdquo; Jeon Sang-jin, Shinsegae Group, họp báo ngày 26 tháng 5.
+      </div>
+      <div class="step-source">Bangkok Post · Malay Mail · Shinsegae Group press conference, May 26, 2026</div>
+    </article>
+
+    <!-- STEP 4 -->
+    <article class="step" data-step-index="4">
+      <div class="step-act"
+        data-vi="Phần IV · L&D và Marketing · không phải hai thế giới riêng"
+        data-en="Part IV · L&D and Marketing · not two separate worlds">
+        Phần IV · L&D và Marketing · không phải hai thế giới riêng
+      </div>
+      <h2 class="step-title"
+        data-vi="Muốn bán được hàng thì phải hiểu khách hàng, muốn hiểu khách hàng thì phải hiểu cả những vùng cấm mà khách hàng sẽ phản ứng dữ dội nếu bị chạm vào, và đây là chỗ L&D có vai trò trực tiếp."
+        data-en="To sell well you must understand the customer, to understand the customer you must also understand the forbidden zones that customers will react to violently if touched, and this is exactly where L&D has a direct role.">
+        Muốn bán được hàng thì phải hiểu khách hàng, muốn hiểu khách hàng thì phải hiểu cả những vùng cấm mà khách hàng sẽ phản ứng dữ dội nếu bị chạm vào, và đây là chỗ L&D có vai trò trực tiếp.
+      </h2>
+      <p class="step-body"
+        data-vi="Marketing thường là đội đầu tiên bị nhìn vào khi một sự cố văn hóa xảy ra, và điều đó không sai, nhưng marketing không phải hòn đảo. Kiến thức về văn hóa địa phương, về vùng cấm lịch sử, về những gì khách hàng sẽ đọc khác đi so với những gì tổ chức định nói, không phải là thứ tự nhiên xuất hiện trong đầu một người làm marketing mà không có hệ thống hỗ trợ phía sau."
+        data-en="Marketing is usually the first team looked at when a cultural incident occurs, and that is not wrong, but marketing is not an island. Knowledge of local culture, of historical sensitivities, of what customers will read differently from what the organization intends, is not something that naturally appears in a marketer's head without a supporting system behind it.">
+        Marketing thường là đội đầu tiên bị nhìn vào khi một sự cố văn hóa xảy ra, và điều đó không sai, nhưng marketing không phải hòn đảo. Kiến thức về văn hóa địa phương, về vùng cấm lịch sử, về những gì khách hàng sẽ đọc khác đi so với những gì tổ chức định nói, không phải là thứ tự nhiên xuất hiện trong đầu một người làm marketing mà không có hệ thống hỗ trợ phía sau.
+      </p>
+      <p class="step-body"
+        data-vi="Cultural intelligence, tức khả năng nhận ra và điều hướng sự nhạy cảm văn hóa, là một năng lực cần được xây dựng có chủ đích, và đây là nơi L&D có vai trò trực tiếp, không chỉ với marketing mà với toàn bộ chuỗi phê duyệt."
+        data-en="Cultural intelligence, the capacity to recognize and navigate cultural sensitivities, is a capability that must be built deliberately, and this is where L&D has a direct role, not just with marketing but across the entire approval chain.">
+        Cultural intelligence, tức khả năng nhận ra và điều hướng sự nhạy cảm văn hóa, là một năng lực cần được xây dựng có chủ đích, và đây là nơi L&D có vai trò trực tiếp, không chỉ với marketing mà với toàn bộ chuỗi phê duyệt.
+      </p>
+      <div class="stat-pair">
+        <div class="stat-card">
+          <div class="stat-number">7</div>
+          <div class="stat-label" data-vi="người phê duyệt · 0 người dừng lại" data-en="approvers · 0 who stopped it">người phê duyệt · 0 người dừng lại</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">27</div>
+          <div class="stat-label" data-vi="năm Starbucks có mặt ở Hàn Quốc trước khi điều này xảy ra" data-en="years Starbucks had been in Korea before this happened">năm Starbucks có mặt ở Hàn Quốc trước khi điều này xảy ra</div>
+        </div>
+      </div>
+      <p class="step-body"
+        data-vi="27 năm là đủ thời gian để xây dựng cultural intelligence thật sự trong tổ chức, và câu hỏi không phải là liệu Starbucks Korea có training về lịch sử hay không mà là liệu cái training đó, nếu có, có được thiết kế để sống trong quy trình làm việc thực tế không."
+        data-en="27 years is enough time to build genuine cultural intelligence into an organization, and the question is not whether Starbucks Korea had historical training somewhere but whether that training, if it existed, was designed to live inside the actual working process.">
+        27 năm là đủ thời gian để xây dựng cultural intelligence thật sự trong tổ chức, và câu hỏi không phải là liệu Starbucks Korea có training về lịch sử hay không mà là liệu cái training đó, nếu có, có được thiết kế để sống trong quy trình làm việc thực tế không.
+      </p>
+    </article>
+
+    <!-- STEP 5 -->
+    <article class="step" data-step-index="5">
+      <div class="step-act"
+        data-vi="Phần V · Biết chưa chắc đã đủ"
+        data-en="Part V · Knowing is not enough">
+        Phần V · Biết chưa chắc đã đủ
+      </div>
+      <h2 class="step-title"
+        data-vi="Có một khoảng cách trong L&D mà người ta thường không nhìn thấy, đó là khoảng cách giữa điều người ta đã học và điều họ thực sự nhớ lại khi đang làm việc dưới áp lực."
+        data-en="There is a gap in L&D that people often do not see, which is the gap between what people have learned and what they actually recall when working under pressure.">
+        Có một khoảng cách trong L&D mà người ta thường không nhìn thấy, đó là khoảng cách giữa điều người ta đã học và điều họ thực sự nhớ lại khi đang làm việc dưới áp lực.
+      </h2>
+      <p class="step-body"
+        data-vi="Trong L&D có một bài toán gọi là transfer of learning, trong đó người học có thể nắm kiến thức tốt trong môi trường training nhưng không apply được khi quay lại công việc thực tế, đặc biệt khi có áp lực về tốc độ, deadline hoặc một quy trình đang chạy quá quen theo thói quen."
+        data-en="In L&D there is a problem called transfer of learning, in which learners may understand content well during training but fail to apply it when back at work, especially under pressure from speed, deadlines, or a process running too comfortably on autopilot.">
+        Trong L&D có một bài toán gọi là transfer of learning, trong đó người học có thể nắm kiến thức tốt trong môi trường training nhưng không apply được khi quay lại công việc thực tế, đặc biệt khi có áp lực về tốc độ, deadline hoặc một quy trình đang chạy quá quen theo thói quen.
+      </p>
+
+      <div class="flow-block">
+        <div class="flow-kicker" data-vi="khoảng cách transfer" data-en="transfer gap">khoảng cách transfer</div>
+        <div class="flow-line">
+          <span class="flow-tag">Môi trường training</span>
+          <span class="flow-arrow">→</span>
+          <span data-vi="kiến thức được tiếp nhận và ghi nhớ" data-en="knowledge received and retained">kiến thức được tiếp nhận và ghi nhớ</span>
+        </div>
+        <div class="flow-line">
+          <span class="flow-tag red">Môi trường làm việc thực tế</span>
+          <span class="flow-arrow">→</span>
+          <span data-vi="deadline và tốc độ thay thế kiến thức bằng thói quen" data-en="deadline and speed replace knowledge with habit">deadline và tốc độ thay thế kiến thức bằng thói quen</span>
+        </div>
+        <div class="flow-line">
+          <span class="flow-tag">Quyết định được đưa ra</span>
+          <span class="flow-arrow">→</span>
+          <span data-vi="không có gì nhắc người ta nhớ lại điều đã học vào đúng lúc" data-en="nothing triggers recall of what was learned at the right moment">không có gì nhắc người ta nhớ lại điều đã học vào đúng lúc</span>
+        </div>
+      </div>
+
+      <p class="step-body"
+        data-vi="Rất có thể Starbucks Korea đã có training về lịch sử và nhạy cảm xã hội ở đâu đó trong hệ thống, nhưng cái training đó không được kết nối vào bước phê duyệt campaign, không có checklist nào hỏi ngày tung campaign có trùng ngày lịch sử nhạy cảm không, và không có gì nhắc 7 người ký duyệt nhớ lại điều họ đã được dạy."
+        data-en="It is very likely Starbucks Korea had historical and social sensitivity training somewhere in its system, but that training was not connected to the campaign approval step, there was no checklist asking whether the campaign date coincided with a sensitive historical anniversary, and nothing triggered the 7 approvers to recall what they had been taught.">
+        Rất có thể Starbucks Korea đã có training về lịch sử và nhạy cảm xã hội ở đâu đó trong hệ thống, nhưng cái training đó không được kết nối vào bước phê duyệt campaign, không có checklist nào hỏi ngày tung campaign có trùng ngày lịch sử nhạy cảm không, và không có gì nhắc 7 người ký duyệt nhớ lại điều họ đã được dạy.
+      </p>
+      <div class="step-pull"
+        data-vi="Training tốt chưa đủ, vì hệ thống phải được thiết kế để nhắc người ta nhớ lại điều đã học vào đúng thời điểm cần dùng, không phải sau khi mọi thứ đã xảy ra."
+        data-en="Good training is not enough, because the system must be designed to trigger recall of what was learned at exactly the moment it is needed, not after everything has already happened.">
+        Training tốt chưa đủ, vì hệ thống phải được thiết kế để nhắc người ta nhớ lại điều đã học vào đúng thời điểm cần dùng, không phải sau khi mọi thứ đã xảy ra.
+      </div>
+    </article>
+
+    <!-- STEP 6 -->
+    <article class="step" data-step-index="6">
+      <div class="step-act"
+        data-vi="Phần VI · AI và giới hạn của việc hiểu con người"
+        data-en="Part VI · AI and the limits of understanding humans">
+        Phần VI · AI và giới hạn của việc hiểu con người
+      </div>
+      <h2 class="step-title"
+        data-vi="AI biết ngày 18 tháng 5 là gì nếu bạn hỏi thẳng, nhưng khi đang generate một slogan quảng cáo, nó không tự hỏi mình liệu cái âm thanh đó có đang chạm vào ký ức tập thể của cả một dân tộc không."
+        data-en="AI knows what May 18th is if you ask it directly, but when generating an advertising slogan it does not ask itself whether that particular sound might be touching the collective memory of an entire nation.">
+        AI biết ngày 18 tháng 5 là gì nếu bạn hỏi thẳng, nhưng khi đang generate một slogan quảng cáo, nó không tự hỏi mình liệu cái âm thanh đó có đang chạm vào ký ức tập thể của cả một dân tộc không.
+      </h2>
+      <p class="step-body"
+        data-vi="AI có thể nhận ra rằng &ldquo;tank&rdquo; gợi lên sức mạnh và sự bền bỉ, rằng &ldquo;tak&rdquo; nghe có vẻ catchy trong quảng cáo, nhưng khi đang tối ưu hóa cho một slogan bình giữ nhiệt, nó không dừng lại để hỏi liệu âm thanh này có đang chạm vào một vết thương lịch sử chưa lành không, vì cái biết đó đòi hỏi thứ mà AI không có, đó là nỗi sợ có bối cảnh."
+        data-en="AI can recognize that &ldquo;tank&rdquo; suggests strength and durability, that &ldquo;tak&rdquo; sounds catchy in advertising copy, but when optimizing a slogan for a tumbler, it does not pause to ask whether this sound might be touching a historical wound that has not healed, because that kind of knowing requires something AI does not have, which is contextual fear.">
+        AI có thể nhận ra rằng &ldquo;tank&rdquo; gợi lên sức mạnh và sự bền bỉ, rằng &ldquo;tak&rdquo; nghe có vẻ catchy trong quảng cáo, nhưng khi đang tối ưu hóa cho một slogan bình giữ nhiệt, nó không dừng lại để hỏi liệu âm thanh này có đang chạm vào một vết thương lịch sử chưa lành không, vì cái biết đó đòi hỏi thứ mà AI không có, đó là nỗi sợ có bối cảnh.
+      </p>
+
+      <div class="case-block">
+        <div class="case-body"
+          data-vi="&ldquo;AI can access data, but it does not know when to be afraid. Cultural trauma lives in the highly localised, highly sensitive anomalies that AI optimises away because they represent only 2% of the pattern space.&rdquo; PRovoke Media, 2026"
+          data-en="&ldquo;AI can access data, but it does not know when to be afraid. Cultural trauma lives in the highly localised, highly sensitive anomalies that AI optimises away because they represent only 2% of the pattern space.&rdquo; PRovoke Media, 2026">
+          &ldquo;AI can access data, but it does not know when to be afraid. Cultural trauma lives in the highly localised, highly sensitive anomalies that AI optimises away because they represent only 2% of the pattern space.&rdquo; PRovoke Media, 2026
+        </div>
+      </div>
+
+      <p class="step-body"
+        data-vi="Tank Day không chứng minh AI nguy hiểm, mà chứng minh điều sắc sảo hơn: khi tổ chức dùng AI để tăng tốc judgment mà không xây dựng được human review layer đủ năng lực để bù vào phần AI thiếu, thì tốc độ không tạo ra hiệu quả mà tạo ra rủi ro có hệ thống."
+        data-en="Tank Day does not prove AI is dangerous, but proves something sharper: when organizations use AI to accelerate judgment without building a sufficiently capable human review layer to compensate for what AI lacks, speed does not create efficiency but systemic risk.">
+        Tank Day không chứng minh AI nguy hiểm, mà chứng minh điều sắc sảo hơn: khi tổ chức dùng AI để tăng tốc judgment mà không xây dựng được human review layer đủ năng lực để bù vào phần AI thiếu, thì tốc độ không tạo ra hiệu quả mà tạo ra rủi ro có hệ thống.
+      </p>
+      <p class="step-body"
+        data-vi="Ít nhất ở thời điểm này, năng lực hiểu con người, hiểu ký ức tập thể, cảm nhận được trọng lượng của một ngày, một từ, một âm thanh trong lịch sử một dân tộc, vẫn là thứ không thể outsource cho bất kỳ công cụ nào và phải được xây dựng một cách có chủ đích trong tổ chức."
+        data-en="At least at this point in time, the capacity to understand people, to grasp collective memory, to feel the weight of a date, a word, a sound in a nation's history, remains something that cannot be outsourced to any tool and must be built deliberately inside the organization.">
+        Ít nhất ở thời điểm này, năng lực hiểu con người, hiểu ký ức tập thể, cảm nhận được trọng lượng của một ngày, một từ, một âm thanh trong lịch sử một dân tộc, vẫn là thứ không thể outsource cho bất kỳ công cụ nào và phải được xây dựng một cách có chủ đích trong tổ chức.
+      </p>
+      <div class="step-source">PRovoke Media, June 2026 · Korea Times, June 2026</div>
+    </article>
+
+    <!-- STEP 7 -->
+    <article class="step" data-step-index="7">
+      <div class="step-act"
+        data-vi="Phần VII · Thì cần thiết kế gì khác đi"
+        data-en="Part VII · What needs to be designed differently">
+        Phần VII · Thì cần thiết kế gì khác đi
+      </div>
+      <h2 class="step-title"
+        data-vi="Đóng cửa 3 tiếng để nhân viên xem video lịch sử là reactive training, tức là giải quyết triệu chứng sau khi hệ thống đã sập, và thứ cần được thiết kế lại không phải là buổi học bù mà là những điểm dừng được nhúng vào chính quy trình."
+        data-en="Closing stores for three hours to watch history videos is reactive training, meaning treating the symptom after the system has already collapsed, and what needs to be redesigned is not a makeup session but checkpoints embedded inside the process itself.">
+        Đóng cửa 3 tiếng để nhân viên xem video lịch sử là reactive training, tức là giải quyết triệu chứng sau khi hệ thống đã sập, và thứ cần được thiết kế lại không phải là buổi học bù mà là những điểm dừng được nhúng vào chính quy trình.
+      </h2>
+
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-num" data-vi="01 · Nhúng trigger vào quy trình" data-en="01 · Embed triggers in the process">01 · Nhúng trigger vào quy trình</div>
+          <div class="pillar-title"
+            data-vi="Thay vì chỉ dạy trong buổi training, hãy đặt câu hỏi ngay tại bước phê duyệt."
+            data-en="Instead of only teaching in a session, put the question directly at the approval step.">
+            Thay vì chỉ dạy trong buổi training, hãy đặt câu hỏi ngay tại bước phê duyệt.
+          </div>
+          <div class="pillar-body"
+            data-vi="Ngày tung campaign có trùng ngày lịch sử nhạy cảm không, slogan có từ nào mang nghĩa kép trong văn hóa địa phương không, người ta không cần nhớ tất cả mà cần được nhắc đúng lúc."
+            data-en="Does the campaign date coincide with a sensitive historical date, does any slogan word carry a double meaning in local culture, people do not need to remember everything but need to be prompted at the right moment.">
+            Ngày tung campaign có trùng ngày lịch sử nhạy cảm không, slogan có từ nào mang nghĩa kép trong văn hóa địa phương không, người ta không cần nhớ tất cả mà cần được nhắc đúng lúc.
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num" data-vi="02 · Performance support, không phải knowledge dump" data-en="02 · Performance support, not knowledge dump">02 · Performance support, không phải knowledge dump</div>
+          <div class="pillar-title"
+            data-vi="Công cụ tra cứu nhanh đặt trong workflow, không phải chôn trong file đào tạo mà không ai mở."
+            data-en="Quick reference tools inside the workflow, not buried in a training file that nobody opens.">
+            Công cụ tra cứu nhanh đặt trong workflow, không phải chôn trong file đào tạo mà không ai mở.
+          </div>
+          <div class="pillar-body"
+            data-vi="Danh sách ngày lễ, ngày tưởng niệm và vùng cấm ngôn ngữ của từng thị trường đặt ngay trong công cụ làm việc, không cần mở thêm tab nào và không cần nhớ trước."
+            data-en="A list of local holidays, commemorations, and language sensitivities per market built directly into the working tool, requiring no extra tab and no prior memorization.">
+            Danh sách ngày lễ, ngày tưởng niệm và vùng cấm ngôn ngữ của từng thị trường đặt ngay trong công cụ làm việc, không cần mở thêm tab nào và không cần nhớ trước.
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num" data-vi="03 · Ai được phép dừng lại" data-en="03 · Who is allowed to stop">03 · Ai được phép dừng lại</div>
+          <div class="pillar-title"
+            data-vi="Tâm lý an toàn để bất kỳ ai trong chuỗi phê duyệt, kể cả người cấp thấp nhất, dám nói không mà không sợ bị xem là cản trở tốc độ."
+            data-en="Psychological safety so that anyone in the approval chain, including the most junior person, can say no without fear of being seen as slowing things down.">
+            Tâm lý an toàn để bất kỳ ai trong chuỗi phê duyệt, kể cả người cấp thấp nhất, dám nói không mà không sợ bị xem là cản trở tốc độ.
+          </div>
+          <div class="pillar-body"
+            data-vi="Không ai trong 7 tầng phê duyệt dừng lại, và đây không chỉ là câu chuyện của knowledge mà là câu chuyện của culture, vì ai dám cản trở tốc độ khi deadline đang kéo tất cả xuôi theo một hướng."
+            data-en="Nobody among the 7 approval layers stopped, and this is not only a knowledge story but a culture story, because who dares slow things down when a deadline is pulling everyone forward in the same direction.">
+            Không ai trong 7 tầng phê duyệt dừng lại, và đây không chỉ là câu chuyện của knowledge mà là câu chuyện của culture, vì ai dám cản trở tốc độ khi deadline đang kéo tất cả xuôi theo một hướng.
+          </div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num" data-vi="04 · AI governance" data-en="04 · AI governance">04 · AI governance</div>
+          <div class="pillar-title"
+            data-vi="Dùng AI để tạo nội dung thì phải có người review đủ năng lực để biết khi nào cần sợ thay cho AI."
+            data-en="Using AI to generate content requires a reviewer capable of knowing when to be afraid on AI's behalf.">
+            Dùng AI để tạo nội dung thì phải có người review đủ năng lực để biết khi nào cần sợ thay cho AI.
+          </div>
+          <div class="pillar-body"
+            data-vi="Không phải cấm AI mà là thiết kế đúng lớp review phía sau, nơi AI tạo ra và human với contextual knowledge xác nhận, vì nếu lớp đó không tồn tại thì tốc độ của AI không còn là lợi thế mà trở thành rủi ro."
+            data-en="Not banning AI but designing the right review layer behind it, where AI generates and a human with contextual knowledge confirms, because if that layer does not exist then AI's speed is no longer an advantage but a liability.">
+            Không phải cấm AI mà là thiết kế đúng lớp review phía sau, nơi AI tạo ra và human với contextual knowledge xác nhận, vì nếu lớp đó không tồn tại thì tốc độ của AI không còn là lợi thế mà trở thành rủi ro.
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<!-- COMMENTS -->
+<section class="comments-section" data-comments data-post-slug="starbucks-tank-day" data-post-title="Tank Day và câu hỏi L&D không ai hỏi" data-comment-lang="vi"></section>
+
+<!-- OUTRO -->
+<section id="outro">
+  <div class="outro-kicker" data-vi="Kết · Fieldnotes on Learning" data-en="Closing · Fieldnotes on Learning">Kết · Fieldnotes on Learning</div>
+  <h2 class="outro-title"
+    data-vi="Trong tổ chức của bạn, <em>khoảng cách đó</em> đang được thu hẹp bằng cách nào?"
+    data-en="In your organization, how is <em>that gap</em> being closed?">
+    Trong tổ chức của bạn, <em>khoảng cách đó</em> đang được thu hẹp bằng cách nào?
+  </h2>
+  <p class="outro-body"
+    data-vi="Không phải khoảng cách giữa tổ chức và khách hàng, mà là khoảng cách giữa điều nhân viên đã được dạy và điều quy trình thực tế cho phép họ nhớ lại vào đúng lúc cần, vì Tank Day là một ví dụ cực đoan nhưng phiên bản nhỏ hơn của nó đang xảy ra ở khắp nơi, thầm lặng hơn và ít tốn kém hơn, cho đến khi nó không còn như vậy nữa."
+    data-en="Not the gap between the organization and its customers, but the gap between what employees were taught and what the actual process allows them to recall at exactly the right moment, because Tank Day is an extreme example but smaller versions of it are happening everywhere, quietly and cheaply, until they are not.">
+    Không phải khoảng cách giữa tổ chức và khách hàng, mà là khoảng cách giữa điều nhân viên đã được dạy và điều quy trình thực tế cho phép họ nhớ lại vào đúng lúc cần, vì Tank Day là một ví dụ cực đoan nhưng phiên bản nhỏ hơn của nó đang xảy ra ở khắp nơi, thầm lặng hơn và ít tốn kém hơn, cho đến khi nó không còn như vậy nữa.
+  </p>
+  <div class="outro-links">
+    <a class="outro-link" href="index.html" data-vi="← Tất cả bài viết" data-en="← All articles">← Tất cả bài viết</a>
+    <a class="outro-link" href="contact.html" data-vi="Gửi phản hồi" data-en="Send feedback">Gửi phản hồi</a>
+    <a class="outro-link" href="feed.xml">RSS</a>
+  </div>
+</section>
+
+<!-- COPYRIGHT · cuối cùng, sau outro -->
+<p class="copyright-note"
+  data-vi="© 2026 Bui Tong Giang · Fieldnotes on Learning. Bài viết, góc nhìn phân tích và cách trình bày thuộc tác giả, vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng khi chưa có sự đồng ý, và khi trích dẫn một phần, vui lòng ghi rõ nguồn: <a href='https://tellstory-blog.web.app/starbucks-tank-day.html'>Fieldnotes on Learning</a>. Các sự kiện và số liệu trong bài đều có nguồn dẫn cụ thể từ báo chí quốc tế."
+  data-en="© 2026 Bui Tong Giang · Fieldnotes on Learning. The article, analytical perspective and presentation belong to the author, please do not reproduce the full text, republish or reuse without permission, and when quoting an excerpt please credit: <a href='https://tellstory-blog.web.app/starbucks-tank-day.html'>Fieldnotes on Learning</a>. All events and figures referenced are sourced from international press coverage.">
+  © 2026 Bui Tong Giang · Fieldnotes on Learning. Bài viết, góc nhìn phân tích và cách trình bày thuộc tác giả, vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng khi chưa có sự đồng ý, và khi trích dẫn một phần, vui lòng ghi rõ nguồn: <a href="https://tellstory-blog.web.app/starbucks-tank-day.html">Fieldnotes on Learning</a>. Các sự kiện và số liệu trong bài đều có nguồn dẫn cụ thể từ báo chí quốc tế.
+</p>
+
+<script>
+let currentLang = 'vi';
+let currentStep = 0;
+
+const captions = {
+  vi: ['18 tháng 5 · gwangju 1980','phần i · bối cảnh','phần ii · đổ lỗi dễ hơn chẩn đoán','phần iii · 7 tầng · 0 điểm dừng','phần iv · l&d và marketing','phần v · transfer of learning','phần vi · ai và giới hạn','phần vii · thiết kế lại hệ thống'],
+  en: ['may 18 · gwangju 1980','part i · context','part ii · blame is easier than diagnosis','part iii · 7 layers · 0 checkpoints','part iv · l&d and marketing','part v · transfer of learning','part vi · ai and its limits','part vii · redesigning the system']
+};
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  try { localStorage.setItem('tellstoryLang', lang); } catch(e) {}
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.querySelectorAll('[data-vi]').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (!text) return;
+    const hasHTML = text.includes('<') || text.includes('&');
+    if (hasHTML || el.tagName === 'H1' || el.tagName === 'H2') {
+      el.innerHTML = text;
+    } else {
+      el.textContent = text;
+    }
+  });
+  const capEl = document.getElementById('graphic-caption');
+  if (capEl) capEl.textContent = captions[lang][currentStep] || '';
+  syncCopyrightLang();
+}
+
+const savedLang = (() => { try { return localStorage.getItem('tellstoryLang') || 'vi'; } catch(e) { return 'vi'; }})();
+setLang(savedLang);
+
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress').style.width = (window.scrollY / h * 100) + '%';
+});
+
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+const orgNodes = [];
+const memNodes = [];
+for (let i = 0; i < 30; i++) {
+  orgNodes.push({ x: .3 + (Math.random()-.5)*.35, y: .5 + (Math.random()-.5)*.55, vx:(Math.random()-.5)*.00018, vy:(Math.random()-.5)*.00018, r: Math.random()*2.5+.8 });
+}
+for (let i = 0; i < 30; i++) {
+  memNodes.push({ x: .7 + (Math.random()-.5)*.35, y: .5 + (Math.random()-.5)*.55, vx:(Math.random()-.5)*.00018, vy:(Math.random()-.5)*.00018, r: Math.random()*2.5+.8 });
+}
+const bridgeParticles = [];
+for (let i = 0; i < 6; i++) {
+  bridgeParticles.push({ t: Math.random(), speed: .0004 + Math.random()*.0003 });
+}
+
+function drawCluster(nodes, color, alpha, maxDist) {
+  const px = nodes.map(n => ({x: n.x * W, y: n.y * H}));
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = px[i].x - px[j].x, dy = px[i].y - px[j].y;
+      const d = Math.sqrt(dx*dx + dy*dy);
+      if (d < maxDist) {
+        ctx.strokeStyle = `rgba(${color},${alpha * (1 - d/maxDist)})`;
+        ctx.lineWidth = .4;
+        ctx.beginPath(); ctx.moveTo(px[i].x, px[i].y); ctx.lineTo(px[j].x, px[j].y); ctx.stroke();
+      }
+    }
+  }
+  nodes.forEach((n, i) => {
+    ctx.beginPath(); ctx.arc(px[i].x, px[i].y, n.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(${color},.78)`;
+    ctx.fill();
+  });
+}
+
+let raf;
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  const bg = ctx.createRadialGradient(W*.5, H*.45, 0, W*.5, H*.45, Math.max(W,H));
+  bg.addColorStop(0, '#141311');
+  bg.addColorStop(1, '#080807');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  [...orgNodes, ...memNodes].forEach(n => {
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < .04 || n.x > .96) n.vx *= -1;
+    if (n.y < .08 || n.y > .92) n.vy *= -1;
+  });
+
+  const orgColor = currentStep >= 3 ? '243,216,135' : '231,185,176';
+  const memColor = currentStep >= 6 ? '196,154,72' : '189,231,208';
+  const orgAlpha = currentStep >= 3 ? .34 : .18;
+  const memAlpha = currentStep >= 6 ? .38 : .18;
+
+  drawCluster(orgNodes, orgColor, orgAlpha, 80);
+  drawCluster(memNodes, memColor, memAlpha, 80);
+
+  if (currentStep >= 5) {
+    const bridgeAlpha = Math.min(1, (currentStep - 4) * .3);
+    bridgeParticles.forEach(p => {
+      p.t += p.speed;
+      if (p.t > 1) p.t = 0;
+      const x = (.3 + p.t * .4) * W;
+      const y = (.5 + Math.sin(p.t * Math.PI) * .05) * H;
+      ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(243,216,135,${bridgeAlpha * .85})`;
+      ctx.fill();
+    });
+    ctx.strokeStyle = `rgba(243,216,135,${bridgeAlpha * .28})`;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 6]);
+    ctx.beginPath(); ctx.moveTo(.3*W, .5*H); ctx.lineTo(.7*W, .5*H); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  const labelAlpha = .42;
+  ctx.font = `${Math.min(11, W*.012)}px Arial, sans-serif`;
+  ctx.fillStyle = `rgba(246,241,232,${labelAlpha})`;
+  ctx.textAlign = 'center';
+  ctx.fillText(currentLang === 'vi' ? 'TỔ CHỨC' : 'ORGANIZATION', .3*W, .88*H);
+  ctx.fillStyle = `rgba(${currentStep >= 6 ? '243,216,135' : '246,241,232'},${labelAlpha})`;
+  ctx.fillText(currentLang === 'vi' ? 'KÝ ỨC VĂN HÓA' : 'CULTURAL MEMORY', .7*W, .88*H);
+  ctx.textAlign = 'left';
+
+  raf = requestAnimationFrame(draw);
+}
+document.addEventListener('visibilitychange', () => { if(document.hidden) cancelAnimationFrame(raf); else draw(); });
+draw();
+
+const steps = document.querySelectorAll('.step');
+const sections = document.querySelectorAll('[data-step-index]');
+const dots = document.querySelectorAll('.dot');
+const capEl = document.getElementById('graphic-caption');
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-active');
+      const idx = +entry.target.dataset.stepIndex;
+      currentStep = idx;
+      if (capEl) capEl.textContent = captions[currentLang][idx] || '';
+      dots.forEach(d => d.classList.toggle('active', +d.dataset.i === idx));
+    }
+  });
+}, { threshold: .28 });
+
+sections.forEach(s => io.observe(s));
+dots.forEach(dot => {
+  dot.addEventListener('click', () => { sections[+dot.dataset.i]?.scrollIntoView({behavior:'smooth',block:'center'}); });
+});
+
+function animateApproval() {
+  const cells = document.querySelectorAll('.approval-cell');
+  if (!cells.length) return;
+  cells.forEach((c, i) => { if (i < 6) { c.classList.remove('exploded'); c.classList.add('passed'); } });
+  setTimeout(() => { const last = cells[6]; if (last) last.classList.add('exploded'); }, 800);
+}
+const approvalStep = document.querySelector('[data-step-index="3"]');
+if (approvalStep) {
+  new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) animateApproval(); });
+  }, { threshold: .4 }).observe(approvalStep);
+}
+
+function syncCopyrightLang() {
+  const lang = document.documentElement.lang === 'en' ? 'en' : 'vi';
+  document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (val) el.innerHTML = val;
+  });
+}
+
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+  const credit = '\n\nNguồn: Fieldnotes on Learning · Bui Tong Giang · ' + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+<script type="module" src="comments.js"></script>
+</body>
+</html>

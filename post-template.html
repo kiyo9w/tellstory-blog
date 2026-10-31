@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<title>Tiêu đề bài viết mới</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--ink:#181512;--ink-2:#332F2A;--ink-3:#514A43;--paper:#F6F1E8;--paper-2:#EDE8DC;--rule:rgba(26,23,20,0.12);--red:#8B2A1A;--gold:#A07830;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:18px;line-height:1.85;}
+.nav{position:fixed;top:1rem;right:1rem;z-index:10;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;display:flex;gap:.45rem;}
+.nav a{color:var(--ink-2);text-decoration:none;background:rgba(246,241,232,.88);border:1px solid var(--rule);padding:.55rem .85rem;backdrop-filter:blur(10px);transition:color .2s,background .2s,border-color .2s;}
+.nav a:hover{color:var(--paper);background:var(--ink);border-color:var(--ink);}
+.article{width:min(760px,88vw);margin:0 auto;padding:7rem 0;}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--red);text-transform:uppercase;margin-bottom:1.5rem;}
+h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.4rem,6vw,4.5rem);line-height:1.08;margin-bottom:1.6rem;}
+.lead{color:var(--ink-2);font-size:1.05rem;margin-bottom:3rem;}
+h2{font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;line-height:1.2;margin:2.8rem 0 1rem;}
+p{margin-bottom:1rem;color:var(--ink-2);}
+figure{margin:2rem 0;}
+figure img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid var(--rule);}
+@media(max-width:680px){.article{width:92vw;padding:6rem 0 4rem;}.nav{left:.7rem;right:auto;top:.7rem;font-size:8px;}}
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<nav class="nav"><a href="index.html">Blog</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav>
+<article class="article">
+  <div class="kicker">Chủ đề · Ngày đăng</div>
+  <h1>Tiêu đề bài viết mới</h1>
+  <p class="lead">Viết mô tả ngắn của bài ở đây.</p>
+
+  <h2>Phần 1</h2>
+  <p>Viết nội dung bài ở đây.</p>
+
+  <figure>
+    <img src="learningdes.jpg" alt="Mô tả ảnh">
+  </figure>
+
+  <h2>Phần 2</h2>
+  <p>Viết tiếp nội dung ở đây.</p>
+</article>
+
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "
+
+Nguồn: Tellstory blog · Bui Tong Giang
+" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

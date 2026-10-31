@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fieldnotes on Learning · Bùi Tống Giang</title>
+    <link>https://tellstory-blog.web.app</link>
+    <description>Fieldnotes on Learning · data · AI · design. Bài mới mỗi tuần.</description>
+    <language>vi</language>
+    <managingEditor>buitonggiang0805@gmail.com (Bui Tong Giang)</managingEditor>
+    <webMaster>buitonggiang0805@gmail.com (Bui Tong Giang)</webMaster>
+    <atom:link href="https://tellstory-blog.web.app/feed.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>Mon, 13 Jul 2026 09:00:00 +0700</lastBuildDate>
+    <ttl>10080</ttl>
+
+    <item>
+      <title>Readiness debt: khi AI nhanh hơn sự sẵn sàng</title>
+      <link>https://tellstory-blog.web.app/readiness-debt.html</link>
+      <guid>https://tellstory-blog.web.app/readiness-debt.html</guid>
+      <pubDate>Mon, 13 Jul 2026 09:00:00 +0700</pubDate>
+      <description>AI tạo content nhanh hơn năng lực tổ chức xác minh nó. Ba phép ẩn dụ từ My Hero Academia, Hunter x Hunter và Naruto cho một khoản nợ đang âm thầm tích lũy trong L&amp;D.</description>
+      <category>AI</category>
+      <category>L&amp;D</category>
+      <category>Readiness debt</category>
+      <category>Anime</category>
+    </item>
+
+<item>
+      <title>Tg muốn Sakura im lặng</title>
+      <link>https://tellstory-blog.web.app/sakura-im-lang.html</link>
+      <guid>https://tellstory-blog.web.app/sakura-im-lang.html</guid>
+      <pubDate>Thu, 02 Jul 2026 09:00:00 +0700</pubDate>
+      <description>Một fieldnote về app học động từ bất quy tắc, Sakura, game hóa học tập và khoảnh khắc phải tách can thiệp khỏi đo lường để dữ liệu đáng tin hơn.</description>
+      <category>EdTech</category>
+      <category>Sakura</category>
+      <category>Gamification</category>
+      <category>Dữ liệu</category>
+    </item>
+
+    <item>
+      <title>Tank Day và câu hỏi L&amp;D không ai hỏi</title>
+      <link>https://tellstory-blog.web.app/starbucks-tank-day.html</link>
+      <guid>https://tellstory-blog.web.app/starbucks-tank-day.html</guid>
+      <pubDate>Sun, 21 Jun 2026 09:00:00 +0700</pubDate>
+      <description>Starbucks Korea không thất bại chỉ vì AI hay đội marketing. Điều đáng hỏi hơn là vì sao 7 tầng phê duyệt không tạo ra nổi một điểm dừng.</description>
+      <category>L&amp;D</category>
+      <category>Marketing</category>
+      <category>AI</category>
+      <category>Cultural Intelligence</category>
+    </item>
+
+    <item>
+      <title>Ba người thầy trong Jujutsu Kaisen và ba triết lý giảng dạy</title>
+      <link>https://tellstory-blog.web.app/jjk-pedagogy.html</link>
+      <guid>https://tellstory-blog.web.app/jjk-pedagogy.html</guid>
+      <pubDate>Sat, 20 Jun 2026 09:00:00 +0700</pubDate>
+      <description>Gojo, Nanami, Yaga trong JJK không chỉ là nhân vật anime. Nhìn qua lens instructional design, họ là ba archetype sư phạm mà L&amp;D thực sự cần.</description>
+      <category>Jujutsu Kaisen</category>
+      <category>Instructional Design</category>
+      <category>L&amp;D</category>
+      <category>Anime</category>
+    </item>
+
+    <item>
+      <title>Khi goed trở thành dữ liệu</title>
+      <link>https://tellstory-blog.web.app/goed-du-lieu.html</link>
+      <guid>https://tellstory-blog.web.app/goed-du-lieu.html</guid>
+      <pubDate>Wed, 18 Jun 2026 09:00:00 +0700</pubDate>
+      <description>Từ lỗi goed đến dữ liệu học tập: một bài tiếp nối về cách biến câu trả lời sai thành tín hiệu cho thuật toán ôn tập, rồi để người đọc tự tạo dữ liệu và xem báo cáo riêng của mình.</description>
+      <category>EdTech</category>
+      <category>Dữ liệu</category>
+      <category>Thuật toán</category>
+    </item>
+
+    <item>
+      <title>Người giỏi nhất chính là tài liệu training tốt nhất</title>
+      <link>https://tellstory-blog.web.app/pizza-4ps-training.html</link>
+      <guid>https://tellstory-blog.web.app/pizza-4ps-training.html</guid>
+      <pubDate>Thu, 11 Jun 2026 09:00:00 +0700</pubDate>
+      <description>Một góc nhìn về bài toán đào tạo của Pizza 4P's: khi kiến thức quý giá nhất nằm trong đầu những nhân viên giỏi nhất, chứ không nằm trong slide orientation.</description>
+      <category>L&amp;D</category>
+      <category>Đào tạo</category>
+      <category>Doanh nghiệp</category>
+    </item>
+
+    <item>
+      <title>AGI và đường viền răng cưa: quyết định đào tạo hôm nay dựa vào điều gì?</title>
+      <link>https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html</link>
+      <guid>https://tellstory-blog.web.app/agi-duong-vien-rang-cua.html</guid>
+      <pubDate>Thu, 04 Jun 2026 09:00:00 +0700</pubDate>
+      <description>Dự đoán AGI dao động từ 2026 đến sau 2100, nhưng thứ đáng quan tâm hơn là ranh giới giữa cái AI làm được và cái AI chỉ trông như làm được.</description>
+      <category>AGI</category>
+      <category>AI</category>
+      <category>L&amp;D</category>
+    </item>
+
+    <item>
+      <title>Khi go biến thành goed: một thuật toán thú vị</title>
+      <link>https://tellstory-blog.web.app/goed-thuat-toan.html</link>
+      <guid>https://tellstory-blog.web.app/goed-thuat-toan.html</guid>
+      <pubDate>Wed, 28 May 2026 09:00:00 +0700</pubDate>
+      <description>Lỗi goed không chỉ là quên từ, mà là dấu hiệu người học đang áp nhầm một luật lên cả nhóm động từ, từ đó mở ra cách thiết kế thuật toán ôn tập thông minh hơn.</description>
+      <category>Spaced repetition</category>
+      <category>LLM</category>
+      <category>EdTech</category>
+    </item>
+
+    <item>
+      <title>LMS không chết, nó chỉ đang bị AI bắt phải trưởng thành</title>
+      <link>https://tellstory-blog.web.app/lms-khong-chet.html</link>
+      <guid>https://tellstory-blog.web.app/lms-khong-chet.html</guid>
+      <pubDate>Wed, 21 May 2026 09:00:00 +0700</pubDate>
+      <description>Từ Blackboard, Moodle, Canvas đến AI và LXP, một bài viết về cách LMS đang bị buộc phải đổi vai trong thời đại học tập số.</description>
+      <category>LMS</category>
+      <category>AI</category>
+      <category>EdTech</category>
+    </item>
+
+    <item>
+      <title>Sự tập trung của bộ não và bức tranh đào tạo</title>
+      <link>https://tellstory-blog.web.app/attention-is-the-new-classroom.html</link>
+      <guid>https://tellstory-blog.web.app/attention-is-the-new-classroom.html</guid>
+      <pubDate>Wed, 14 May 2026 09:00:00 +0700</pubDate>
+      <description>Vì sao nhân viên quên gần hết nội dung đào tạo, và cách microlearning cùng AI có thể biến học tập thành luyện tập đúng lúc.</description>
+      <category>L&amp;D</category>
+      <category>Microlearning</category>
+      <category>Đào tạo</category>
+    </item>
+
+    <item>
+      <title>Liệu người thầy có thật sự biến mất?</title>
+      <link>https://tellstory-blog.web.app/nguoi-thay-bien-mat.html</link>
+      <guid>https://tellstory-blog.web.app/nguoi-thay-bien-mat.html</guid>
+      <pubDate>Wed, 07 May 2026 09:00:00 +0700</pubDate>
+      <description>Từ "oracle" duy nhất nắm giữ tri thức, đến máy kiểm tra tự động, đến AI tutor: một câu chuyện dài về cách công nghệ làm thay đổi vai trò của người thầy.</description>
+      <category>Lịch sử giáo dục</category>
+      <category>AI</category>
+      <category>Scrollytelling</category>
+    </item>
+
+  </channel>
+</rss>

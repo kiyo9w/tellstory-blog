@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Will the teacher really disappear?</title>
+<meta name="description" content="From the printing press and teaching machines to AI tutors, this article revisits how technology changes the role of teachers."/>
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Tellstory blog. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html"/>
+<link rel="alternate" hreflang="vi" href="https://tellstory-blog.web.app/nguoi-thay-bien-mat.html"/>
+<link rel="alternate" hreflang="en" href="https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html"/>
+<meta property="og:title" content="Will the teacher really disappear?"/>
+<meta property="og:description" content="A long form story about education, technology, and the changing role of teachers in the age of AI."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html"/>
+<meta property="og:site_name" content="Tellstory blog"/>
+<meta property="og:image" content="https://tellstory-blog.web.app/mayin.png"/>
+<meta property="og:image:alt" content="History of education and the role of teachers"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Will the teacher really disappear?"/>
+<meta name="twitter:description" content="A story about education, technology, and teachers in the age of AI."/>
+<meta name="twitter:image" content="https://tellstory-blog.web.app/mayin.png"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&amp;family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&amp;family=Inter:wght@300;400;500&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="comments.css" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1A1714;
+  --ink-2:#3D3830;
+  --ink-3:#514A43;
+  --ink-4:#625B54;
+  --paper:#F6F1E8;
+  --paper-2:#EDE8DC;
+  --paper-3:#E2DBCB;
+  --rule:rgba(26,23,20,0.12);
+  --red:#8B2A1A;
+  --gold:#A07830;
+  --gold-light:#C49A48;
+  --canvas:#0E0C0A;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.75;overflow-x:hidden;}
+
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--red);width:0%;z-index:1000;transition:width .1s linear;}
+
+#dot-nav{position:fixed;right:1.6rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.55rem;z-index:100;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(26,23,20,.15);cursor:pointer;transition:all .3s ease;border:1px solid rgba(26,23,20,.2);}
+.dot.active{background:var(--red);transform:scale(1.7);border-color:var(--red);}
+@media(max-width:720px){#dot-nav{display:none;}}
+
+#intro{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;position:relative;border-bottom:1px solid var(--rule);background:var(--paper);}
+#intro::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--ink);}
+.intro-kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.28em;color:var(--ink-3);text-transform:uppercase;margin-bottom:2rem;}
+.intro-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.4rem,5.5vw,4.6rem);font-weight:700;line-height:1.05;max-width:840px;margin-bottom:1.6rem;color:var(--ink);}
+.intro-title em{color:var(--red);font-style:italic;}
+.intro-rule{width:48px;height:2px;background:var(--red);margin-bottom:1.6rem;}
+.intro-sub{font-size:1rem;color:var(--ink-2);max-width:560px;line-height:1.95;margin-bottom:3.5rem;font-weight:300;}
+.scroll-cue{display:flex;align-items:center;gap:1rem;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-4);}
+.scroll-bar{width:44px;height:1px;background:var(--ink-3);transform-origin:left;animation:grow 2s ease-in-out infinite;}
+@keyframes grow{0%,100%{transform:scaleX(.4);opacity:.4}50%{transform:scaleX(1);opacity:1}}
+
+.scrolly{position:relative;}
+.sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;background:var(--canvas);}
+canvas#scene{position:absolute;inset:0;width:100%;height:100%;}
+.graphic-caption{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:rgba(246,241,232,.2);position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);white-space:nowrap;text-transform:uppercase;}
+
+.steps{position:relative;z-index:10;padding-bottom:28vh;}
+.step{
+  max-width:500px;
+  margin:0 6vw 68vh;
+  padding:2.6rem 2.8rem;
+  background:var(--paper);
+  border-top:3px solid var(--ink);
+  box-shadow:0 2px 24px rgba(0,0,0,.12),0 0 0 1px rgba(0,0,0,.04);
+  opacity:0;transform:translateY(16px);
+  transition:opacity .5s ease,transform .5s ease;
+}
+.step:last-child{margin-bottom:0;}
+.step.is-active{opacity:1;transform:translateY(0);}
+.step-act{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:var(--red);text-transform:uppercase;margin-bottom:.9rem;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.1rem,1.8vw,1.5rem);font-weight:700;line-height:1.25;color:var(--ink);margin-bottom:1rem;}
+.step-body{font-size:.9rem;color:var(--ink-2);line-height:1.9;margin-bottom:.8rem;font-weight:300;}
+.step-body em{color:var(--red);font-style:italic;}
+.step-body strong{color:var(--ink);font-weight:500;}
+.step-pull{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:.92rem;font-style:italic;
+  color:var(--ink-2);
+  border-left:2px solid var(--red);
+  padding:.6rem 1rem;
+  margin:1rem 0;
+  background:var(--paper-2);
+  line-height:1.75;
+}
+.step-source{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--ink-4);margin-top:1rem;letter-spacing:.05em;border-top:1px solid var(--rule);padding-top:.7rem;}
+.step-source a{color:var(--gold);text-decoration:none;}
+.step-source a:hover{text-decoration:underline;}
+
+.mini-timeline{margin:1.2rem 0;border-left:2px solid var(--rule);padding-left:1.3rem;display:flex;flex-direction:column;gap:.85rem;}
+.mini-event{position:relative;}
+.mini-event::before{content:'';position:absolute;left:-1.58rem;top:.38rem;width:8px;height:8px;border-radius:50%;background:var(--paper);border:2px solid var(--ink-3);}
+.mini-year{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--red);letter-spacing:.18em;}
+.mini-desc{font-size:.82rem;color:var(--ink-2);line-height:1.6;margin-top:.1rem;}
+
+.stat-block{margin:1.2rem 0;padding:1.2rem 1.4rem;background:var(--ink);color:var(--paper);}
+.stat-num{font-family:'Playfair Display',Georgia,serif;font-size:3rem;font-weight:700;color:var(--paper);line-height:1;display:block;}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(246,241,232,.55);letter-spacing:.18em;margin-top:.3rem;display:block;}
+.stat-source{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(246,241,232,.3);margin-top:.5rem;display:block;}
+
+.fact-row{display:flex;gap:1rem;margin:1.1rem 0;}
+.fact-box{flex:1;padding:.9rem 1rem;border:1px solid var(--rule);background:var(--paper-2);}
+.fact-box .num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--red);line-height:1;display:block;}
+.fact-box .lbl{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-4);letter-spacing:.15em;margin-top:.25rem;display:block;}
+
+.img-slot{width:100%;aspect-ratio:16/9;margin:1.3rem 0 0;position:relative;overflow:hidden;border:1px solid var(--rule);cursor:zoom-in;background:var(--paper-2);}
+.img-slot img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:grayscale(8%) contrast(1.02);transition:filter .3s;}
+.img-slot img:hover{filter:grayscale(0%) contrast(1.05);}
+.img-placeholder{width:100%;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;background:var(--paper-2);cursor:pointer;position:relative;}
+.img-placeholder input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.img-placeholder-icon{font-size:1.2rem;opacity:.3;}
+.img-placeholder-text{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.15em;color:var(--ink-4);}
+.img-placeholder-hint{font-size:8px;color:var(--ink-4);font-family:'JetBrains Mono',monospace;letter-spacing:.06em;}
+.img-caption{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--ink-4);margin-top:.3rem;padding:0 2px;letter-spacing:.06em;}
+
+#lightbox{position:fixed;inset:0;background:rgba(10,8,6,.95);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;cursor:zoom-out;backdrop-filter:blur(10px);}
+#lightbox.open{opacity:1;pointer-events:all;}
+#lightbox-inner{max-width:94vw;max-height:92vh;position:relative;transform:scale(.95);transition:transform .3s ease;}
+#lightbox.open #lightbox-inner{transform:scale(1);}
+#lightbox-content svg,#lightbox-content img{max-width:92vw;max-height:86vh;display:block;background:var(--paper);padding:2rem;}
+#lightbox-close{position:absolute;top:-2.2rem;right:0;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.2em;color:rgba(246,241,232,.4);cursor:pointer;background:none;border:none;text-transform:uppercase;}
+#lightbox-caption{font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(246,241,232,.3);text-align:center;margin-top:.7rem;letter-spacing:.1em;}
+
+#outro{background:var(--ink);color:var(--paper);min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 10vw;position:relative;overflow:hidden;}
+#outro::before{content:'師';position:absolute;font-family:'Playfair Display',serif;font-size:clamp(200px,34vw,480px);color:rgba(246,241,232,.02);pointer-events:none;line-height:1;}
+.outro-kicker{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.3em;color:rgba(246,241,232,.3);text-transform:uppercase;margin-bottom:1.5rem;position:relative;}
+.outro-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:700;line-height:1.2;margin-bottom:1.8rem;color:var(--paper);position:relative;}
+.outro-title em{color:var(--gold-light);font-style:italic;}
+.outro-rule{width:40px;height:2px;background:var(--red);margin:0 auto 1.8rem;position:relative;}
+.outro-body{font-size:.95rem;color:rgba(246,241,232,.65);max-width:560px;line-height:2.1;position:relative;font-weight:300;}
+.outro-question{font-family:'Playfair Display',serif;font-size:1.05rem;color:rgba(246,241,232,.75);max-width:500px;margin:2.5rem auto 0;line-height:1.85;font-style:italic;position:relative;border-top:1px solid rgba(246,241,232,.1);padding-top:2rem;}
+.outro-sources{margin-top:4rem;padding-top:2rem;border-top:1px solid rgba(246,241,232,.08);max-width:580px;position:relative;text-align:left;width:100%;}
+.outro-sources h3{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.28em;color:rgba(246,241,232,.25);text-transform:uppercase;margin-bottom:.9rem;}
+.outro-sources li{font-size:.78rem;color:rgba(246,241,232,.25);line-height:1.7;list-style:none;margin-bottom:.35rem;}
+.outro-sources a{color:rgba(192,154,72,.5);text-decoration:none;}
+.outro-sources a:hover{color:var(--gold-light);}
+
+@media(max-width:680px){
+  .step{margin:0 4vw 52vh;max-width:96vw;padding:2rem 1.6rem;}
+  .fact-row{flex-direction:column;}
+}
+
+.history-timeline{
+  position:fixed;
+  right:clamp(4.2rem,7vw,8.5rem);
+  top:50%;
+  transform:translateY(-50%);
+  z-index:90;
+  width:190px;
+  font-family:'JetBrains Mono',monospace;
+  color:rgba(246,241,232,.68);
+  pointer-events:auto;
+  user-select:none;
+}
+.history-timeline-head{
+  font-size:8px;
+  letter-spacing:.28em;
+  color:rgba(246,241,232,.24);
+  text-transform:uppercase;
+  margin-bottom:.85rem;
+}
+.history-time-list{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+.history-time-row{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.25rem auto;
+  align-items:center;
+  gap:.55rem;
+  width:100%;
+  min-height:1.35rem;
+  padding:.08rem 0;
+  border:0;
+  background:transparent;
+  color:inherit;
+  font:inherit;
+  text-align:left;
+  cursor:pointer;
+  transition:color .28s ease, opacity .28s ease, transform .28s ease;
+}
+.history-time-row:not(:last-child){
+  margin-bottom:.28rem;
+}
+.history-time-row:not(:last-child)::after{
+  content:'│';
+  position:absolute;
+  left:.2rem;
+  top:1.05rem;
+  height:1.05rem;
+  color:rgba(246,241,232,.24);
+  font-size:13px;
+  line-height:1;
+}
+.history-time-marker{
+  display:inline-block;
+  width:1rem;
+  font-size:13px;
+  line-height:1;
+  color:currentColor;
+  text-align:center;
+}
+.history-time-year{
+  font-size:11px;
+  letter-spacing:.18em;
+  line-height:1;
+}
+.history-time-row.is-past{
+  color:rgba(246,241,232,.46);
+}
+.history-time-row.is-current{
+  color:var(--gold-light);
+  transform:translateX(-2px);
+}
+.history-time-row.is-future{
+  color:rgba(246,241,232,.22);
+}
+.history-time-row:hover{
+  color:var(--gold-light);
+}
+.history-note{
+  margin-top:1.15rem;
+  padding-top:1rem;
+  border-top:1px solid rgba(246,241,232,.12);
+  max-width:180px;
+}
+.history-note-eyebrow{
+  font-size:8px;
+  letter-spacing:.26em;
+  color:rgba(246,241,232,.26);
+  text-transform:uppercase;
+  margin-bottom:.55rem;
+}
+.history-note-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:1.22rem;
+  line-height:1.2;
+  color:rgba(246,241,232,.78);
+  margin-bottom:.55rem;
+}
+.history-note-detail{
+  font-size:9px;
+  line-height:1.7;
+  letter-spacing:.08em;
+  color:rgba(246,241,232,.36);
+  text-transform:uppercase;
+}
+@media(min-width:1050px){
+  .step{margin-left:clamp(7.5vw,12vw,190px);}
+}
+@media(max-width:900px){
+  .history-timeline{
+    right:.55rem;
+    width:64px;
+    padding:.45rem .35rem;
+    background:rgba(14,12,10,.42);
+    border:1px solid rgba(246,241,232,.08);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-radius:999px;
+    opacity:.75;
+  }
+  .history-timeline-head,.history-note{display:none;}
+  .history-time-row{
+    grid-template-columns:.9rem auto;
+    gap:.22rem;
+    min-height:1.05rem;
+    padding:0;
+  }
+  .history-time-row:not(:last-child){margin-bottom:.12rem;}
+  .history-time-row:not(:last-child)::after{
+    left:.17rem;
+    top:.82rem;
+    height:.72rem;
+    font-size:10px;
+    color:rgba(246,241,232,.2);
+  }
+  .history-time-marker{font-size:10px;width:.8rem;}
+  .history-time-year{font-size:8px;letter-spacing:.06em;}
+}
+@media(max-width:480px){
+  .history-timeline{display:none;}
+}
+
+.blog-nav{
+  position:fixed;
+  top:1rem;
+  left:1rem;
+  z-index:1100;
+  display:flex;
+  gap:.45rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.blog-nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:.55rem .85rem;
+  color:rgba(246,241,232,.82);
+  text-decoration:none;
+  background:rgba(14,12,10,.52);
+  border:1px solid rgba(246,241,232,.15);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  transition:background .25s ease,color .25s ease,border-color .25s ease;
+}
+.blog-nav a:hover{
+  color:var(--gold-light);
+  border-color:rgba(196,154,72,.5);
+  background:rgba(14,12,10,.82);
+}
+.blog-nav a.active{
+  color:var(--gold-light);
+  border-color:rgba(196,154,72,.4);
+}
+
+.img-slot{
+  aspect-ratio:16/9;
+  background:var(--paper-2);
+}
+.img-slot img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+.img-placeholder{
+  height:100%;
+  min-height:unset;
+}
+
+@media(max-width:680px){
+  .img-slot{aspect-ratio:4/3;}
+  .blog-nav{
+    top:.65rem;
+    left:.65rem;
+    font-size:8px;
+    gap:.3rem;
+  }
+  .blog-nav a{padding:.45rem .55rem;}
+}
+
+
+.copyright-note{
+  max-width:760px;
+  margin:3rem auto 2rem;
+  padding:1rem 1.2rem;
+  border-top:1px solid rgba(26,23,20,.14);
+  border-bottom:1px solid rgba(26,23,20,.08);
+  color:rgba(26,23,20,.62);
+  font-size:.85rem;
+  line-height:1.8;
+  text-align:center;
+}
+.copyright-note a{
+  color:inherit;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+
+</style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Will the teacher really disappear?",
+  "description": "From the printing press and teaching machines to AI tutors, this article revisits how technology changes the role of teachers.",
+  "author": {
+    "@type": "Person",
+    "name": "Bui Tong Giang",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Tellstory blog",
+    "url": "https://tellstory-blog.web.app/"
+  },
+  "datePublished": "2026-06-18",
+  "dateModified": "2026-06-18",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html"
+  },
+  "inLanguage": "vi",
+  "copyrightHolder": {
+    "@type": "Person",
+    "name": "Bui Tong Giang"
+  },
+  "copyrightYear": "2026"
+}
+</script>
+<link rel="stylesheet" href="font-normalize.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav aria-label="Blog navigation" class="blog-nav"><a href="index.html">Blog</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="nguoi-thay-bien-mat.html" onclick="try{localStorage.setItem('tellstoryLang','vi')}catch(e){}">VI</a><a class="active" href="nguoi-thay-bien-mat-en.html" onclick="try{localStorage.setItem('tellstoryLang','en')}catch(e){}">EN</a></nav>
+<nav id="dot-nav">
+<div class="dot active" data-i="0"></div>
+<div class="dot" data-i="1"></div>
+<div class="dot" data-i="2"></div>
+<div class="dot" data-i="3"></div>
+<div class="dot" data-i="4"></div>
+<div class="dot" data-i="5"></div>
+<div class="dot" data-i="6"></div>
+<div class="dot" data-i="7"></div>
+</nav>
+<aside aria-label="Historical timeline" class="history-timeline" id="history-timeline">
+<div class="history-timeline-head">Timeline</div>
+<div aria-hidden="true" class="history-time-list">
+<button class="history-time-row" data-step-target="1" data-timeline-index="0" type="button"><span class="history-time-marker">○</span><span class="history-time-year">1440</span></button>
+<button class="history-time-row" data-step-target="2" data-timeline-index="1" type="button"><span class="history-time-marker">○</span><span class="history-time-year">1924</span></button>
+<button class="history-time-row" data-step-target="3" data-timeline-index="2" type="button"><span class="history-time-marker">○</span><span class="history-time-year">1970</span></button>
+<button class="history-time-row" data-step-target="4" data-timeline-index="3" type="button"><span class="history-time-marker">○</span><span class="history-time-year">2005</span></button>
+<button class="history-time-row" data-step-target="6" data-timeline-index="4" type="button"><span class="history-time-marker">○</span><span class="history-time-year">2022</span></button>
+</div>
+<div aria-live="polite" class="history-note">
+<div class="history-note-eyebrow" id="history-note-eyebrow">ACT I</div>
+<div class="history-note-title" id="history-note-title">Who owns knowledge?</div>
+<div class="history-note-detail" id="history-note-detail">Knowledge was stored in people</div>
+</div>
+</aside>
+<div id="lightbox">
+<div id="lightbox-inner">
+<button id="lightbox-close">ESC · Close</button>
+<div id="lightbox-content"></div>
+<div id="lightbox-caption"></div>
+</div>
+</div>
+<section id="intro">
+<div class="intro-kicker">History of education, artificial intelligence, and a few curious historical notes</div>
+<h1 class="intro-title">Will the teacher<br/><em>really disappear?</em></h1>
+<div class="intro-rule"></div>
+<p class="intro-sub">Or are we misunderstanding the history of education? From the single "oracle" who held knowledge, to the mechanical teaching machine of 1924, to the AI tutor, every technological revolution seems to plant a small seed in the hearts of teachers in a new generation: anticipation, anxiety, and a readiness to change.</p>
+<div class="scroll-cue"><div class="scroll-bar"></div><span>scroll down</span></div>
+</section>
+<section class="scrolly">
+<div class="sticky">
+<canvas id="scene"></canvas>
+<div class="graphic-caption" id="graphic-caption">act i — when knowledge lived inside people</div>
+</div>
+<div class="steps">
+<div class="step is-active" data-step="0">
+<div class="step-act">Act I · Ancient–medieval era</div>
+<h2 class="step-title">The Teacher as the "Oracle"</h2>
+<p class="step-body">For most of human history, knowledge was passed from person to person. Philosophers, monks, scholars, and teachers did not simply transmit knowledge; they <em>were the place where knowledge was stored</em>.</p>
+<p class="step-body">Socrates did not leave behind a single page of writing. Most of what we know about him comes from the records of students such as Plato. The central question of education in this period was only this:</p>
+<div class="step-pull">"How do we reach the person who knows?" If there was no teacher, there was no learning.</div>
+<p class="step-body">In Vietnam, the Temple of Literature — Quốc Tử Giám (1076) was the first center of education, where Confucian scholars did not merely teach; they carried knowledge as something attached to the human body. Knowledge was locked inside a biological body, and learning could not happen remotely. Students had to travel all the way to the capital, step through the Confucian gates, kneel in the courtyard, and listen to the teacher lecture. The learner’s body had to share the same physical space as the teacher’s body for “knowledge transfer” to happen. The entire education system depended on the flesh-and-blood presence of the teacher..</p>
+<div class="img-slot" id="slot-0">
+<img alt="Temple of Literature — Quốc Tử Giám" id="img-0" onclick="openLightboxImg(this.src,this.alt)" src="vanmieu.jpg" style="display:block"/>
+</div>
+</div>
+<div class="step" data-step="1">
+<div class="step-act">Act II · 1440 - 1900</div>
+<h2 class="step-title">The Printing Press Freed Knowledge.</h2>
+<p class="step-body">Around 1440, Johannes Gutenberg developed movable-type printing. For the first time in history, knowledge could be copied at scale. The central question became: <em>how do we help more people learn?</em></p>
+<div class="mini-timeline">
+<div class="mini-event"><div class="mini-year">1440</div><div class="mini-desc">Gutenberg — the printing press appears; books can be reproduced in large numbers</div></div>
+<div class="mini-event"><div class="mini-year">1600s</div><div class="mini-desc">The first public schools in Europe; literacy around ~10–20%</div></div>
+<div class="mini-event"><div class="mini-year">1837</div><div class="mini-desc">Horace Mann — a free public school system across the United States</div></div>
+<div class="mini-event"><div class="mini-year">1900</div><div class="mini-desc">European literacy reaches ~80%, rising nearly 8X over 400 years</div></div>
+</div>
+<div class="step-pull">The teacher did not disappear. They shifted from the <em>keeper</em> of knowledge to the <em>guide</em> who helps people read knowledge. This was the first major role shift in the history of education.</div>
+<div class="img-slot" id="slot-1">
+<img alt="Johannes Gutenberg and movable-type printing press" id="img-1" onclick="openLightboxImg(this.src,this.alt)" src="mayin.png" style="display:block"/>
+</div>
+</div>
+<div class="step" data-step="2">
+<div class="step-act">Act III · 1924 - 1969</div>
+<h2 class="step-title">A New Question Appeared for the First Time</h2>
+<p class="step-body">In 1924, psychologist Sidney Pressey at "Ohio State University" built the first mechanical "automatic intelligence testing machine (testing-and-teaching machine)." Students answered questions, the machine checked the answers, and they received immediate feedback.</p>
+<p class="step-body">This was the first time in human history that people seriously asked: <em>can machines teach?</em></p>
+<div class="mini-timeline">
+<div class="mini-event"><div class="mini-year">1924</div><div class="mini-desc">Sidney Pressey — automatic intelligence testing machine, Ohio State</div></div>
+<div class="mini-event"><div class="mini-year">1950</div><div class="mini-desc">Alan Turing — "Computing Machinery and Intelligence," the theoretical foundation of AI</div></div>
+<div class="mini-event"><div class="mini-year">1954</div><div class="mini-desc">B.F. Skinner — teaching machine based on behaviorism, Harvard</div></div>
+<div class="mini-event"><div class="mini-year">1956</div><div class="mini-desc">Dartmouth Conference — the term "Artificial Intelligence" is officially born</div></div>
+<div class="mini-event"><div class="mini-year">1960</div><div class="mini-desc">PLATO — the first computer-based teaching system, Univ. of Illinois</div></div>
+</div>
+<div class="step-pull">The machine did not understand students, adapt, or explain. It only automated checking answers, but that alone was enough to change the central question forever.</div>
+<div class="img-slot" id="slot-2">
+<img alt="Pressey automatic intelligence testing machine" id="img-2" onclick="openLightboxImg(this.src,this.alt)" src="machine-l.jpg" style="display:block"/>
+</div>
+<div class="step-source">Source: <a href="https://link.springer.com/article/10.1007/s40593-022-00313-2" target="_blank">Springer — Intertwined Histories of AI &amp; Education (2022)</a></div>
+</div>
+<div class="step" data-step="3">
+<div class="step-act">Act IV · 1970 - 1999</div>
+<h2 class="step-title">The Era of "Intelligent Tutoring Systems"</h2>
+<p class="step-body">From the 1970s, researchers began building more ambitious systems: <strong>SCHOLAR, SOPHIE, AutoTutor, Cognitive Tutors</strong>. The goal was to model knowledge, model the student’s state, and choose an appropriate teaching strategy.</p>
+<p class="step-body">The measured results from meta-analyses were far more impressive than early expectations:</p>
+<div class="fact-row">
+<div class="fact-box">
+<span class="num">g = 0.42</span>
+<span class="lbl">VERSUS TRADITIONAL CLASSROOMS</span>
+</div>
+<div class="fact-box">
+<span class="num">g = 0.57</span>
+<span class="lbl">VERSUS ORDINARY INSTRUCTIONAL SOFTWARE</span>
+</div>
+</div>
+<p class="step-body" style="font-size:.82rem;color:var(--ink-3);margin-top:.2rem;">Effect size g (Cohen's g). Meta-analysis of 107 effect sizes and 14,321 students — Ma et al., 2014 · APA.</p>
+<div class="mini-timeline">
+<div class="mini-event"><div class="mini-year">1970</div><div class="mini-desc">SCHOLAR (Carbonell, MIT) — the first ITS, teaching geography through natural language</div></div>
+<div class="mini-event"><div class="mini-year">1973</div><div class="mini-desc">SOPHIE — a simulation for teaching electrical-circuit troubleshooting</div></div>
+<div class="mini-event"><div class="mini-year">1993</div><div class="mini-desc">AIED Society establishes the field as an officially recognized academic discipline</div></div>
+<div class="mini-event"><div class="mini-year">1997</div><div class="mini-desc">AutoTutor — conversational AI teaching physics, Univ. of Memphis</div></div>
+</div>
+<div class="step-pull">But ITS was very expensive to build, usually worked only within a narrow subject, and was hard to scale. ITS did not fail at this point, but it could not become a digital teacher for the entire world.</div>
+<div class="step-source">Source: Ma et al. (2014). <em>Intelligent Tutoring Systems and Learning Outcomes: A Meta-Analysis</em>. APA. · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8095475/" target="_blank">PMC — Evolution of ITS (2021)</a></div>
+</div>
+<div class="step" data-step="4">
+<div class="step-act">Act V · 2000 - 2015</div>
+<h2 class="step-title">The Internet Democratized Knowledge — and Revealed Its Downside</h2>
+<p class="step-body">YouTube (2005), Khan Academy (2008), Coursera &amp; edX (2012) all promised us the same thing: anyone, anywhere, could learn from the best professors for free. But a paradox appeared from there.</p>
+<div class="stat-block">
+<span class="stat-num">12,6 %</span>
+<span class="stat-label">MEDIAN MOOC COMPLETION RATE</span>
+<span class="stat-source">Jordan (2015), analysis of 221 MOOCs from Coursera, Open2Study, and 78 universities · International Review of Research in Open and Distributed Learning</span>
+</div>
+<p class="step-body">Range: <strong>0.7% to 52.1%</strong>. Coursera’s "Bioelectricity" lost 80% of learners before the course even began, leaving only 350 certificates from 12,700 registrants.</p>
+<p class="step-body">Many studies also found that <em>39% of learners who registered for a MOOC took no action in the course at all</em> (Jansen et al., 2020).</p>
+<div class="step-pull">Knowledge became more abundant than ever, yet completing learning did not automatically become easier. The problem was not a lack of information; the problem was a lack of <em>companionship.</em></div>
+<div class="step-source">Source: Jordan, K. (2015). MOOC Completion Rates. <em>Int. Review of Research in Open and Distributed Learning.</em> · <a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2022.1055108/full" target="_blank">Frontiers in Psychology (2022)</a></div>
+</div>
+<div class="step" data-step="5">
+<div class="step-act">Act VI · 2010 - 2022</div>
+<h2 class="step-title">The History of AI Has Never Been a Straight Line</h2>
+<p class="step-body">Many periods of excessive expectations were followed by disappointment, creating "AI winters" — periods when communities, governments, and businesses lost confidence in AI, leading to cuts in funding, research, and investment after a time when AI had been over-promoted. But in education, AI <em>never stopped existing</em>. It simply kept changing form.</p>
+<p class="step-body">Deep learning and big data allowed AI to move beyond rule-based systems and become truly <em>adaptive</em>. AI learns from student behavior instead of requiring every rule to be programmed manually.</p>
+<div class="mini-timeline">
+<div class="mini-event"><div class="mini-year">2011</div><div class="mini-desc">IBM Watson wins Jeopardy — an NLP breakthrough captures mainstream attention</div></div>
+<div class="mini-event"><div class="mini-year">2016</div><div class="mini-desc">Duolingo — ML personalizes lessons for 300 million users</div></div>
+<div class="mini-event"><div class="mini-year">2017</div><div class="mini-desc">Carnegie Learning RAND study confirms the effectiveness of AI tutoring in math</div></div>
+<div class="mini-event"><div class="mini-year">2020</div><div class="mini-desc">COVID-19 — EdTech surges, and AI learning becomes mainstream</div></div>
+</div>
+<div class="step-pull">AI in education existed for decades before ChatGPT, Claude, Gemini, etc. LLMs did not begin the story; they are simply opening a new chapter.</div>
+<div class="step-source">Source: <a href="https://link.springer.com/article/10.1007/s40593-022-00313-2" target="_blank">Springer — Intertwined Histories of AI &amp; Education (2022)</a></div>
+</div>
+<div class="step" data-step="6">
+<div class="step-act">Act VII · 2022 - present</div>
+<h2 class="step-title">Generative AI: The Teacher That Never Gets Tired</h2>
+<p class="step-body">The arrival of large language models created a significant shift. For the first time, a computer system could converse in natural language, explain the same concept in multiple ways, and generate genuinely contextual feedback.</p>
+<div class="img-slot" id="slot-6">
+<img alt="LLMs in education" id="img-6" onclick="openLightboxImg(this.src,this.alt)" src="LLMs in edu.jpg" style="display:block"/>
+</div>
+<div class="fact-row">
+<div class="fact-box">
+<span class="num">83%</span>
+<span class="lbl">U.S. K–12 TEACHERS USING AI<br/>IN THE 2023–2024 SCHOOL YEAR</span>
+</div>
+<div class="fact-box">
+<span class="num">&lt;10%</span>
+<span class="lbl">UNIVERSITIES WITH OFFICIAL AI POLICIES (2023)</span>
+</div>
+</div>
+<p class="step-body" style="font-size:.82rem;color:var(--ink-3);margin-top:.2rem;">Source: NEA 2025 (K–12 teachers) · UNESCO 2023 (school policies).</p>
+<div class="mini-timeline">
+<div class="mini-event"><div class="mini-year">11/2022</div><div class="mini-desc">ChatGPT — 100 million users in its first two months</div></div>
+<div class="mini-event"><div class="mini-year">3/2023</div><div class="mini-desc">Khanmigo (Khan Academy) — the first large-scale integrated AI tutor</div></div>
+<div class="mini-event"><div class="mini-year">5/2023</div><div class="mini-desc">UNESCO convenes an emergency global meeting of education ministers on GenAI; for the first time in history, the two letters AI are heard everywhere.</div></div>
+<div class="mini-event"><div class="mini-year">2024</div><div class="mini-desc">94% of students use AI in some form (HEPI 2025, up from 66% in 2024)</div></div>
+</div>
+<div class="step-pull">Recent review studies emphasize that real-world effectiveness depends on the subject, pedagogical design, data quality, and implementation context. <em>AI is not an automatic solution.</em></div>
+<div class="step-source">Source: <a href="https://www.weforum.org/stories/2023/09/generative-ai-education-unesco/" target="_blank">UNESCO / WEF (2023)</a> · NEA 2025 · HEPI Survey 2025 · <a href="https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-023-00436-z" target="_blank">IJETHE — Meta Systematic Review (2023)</a></div>
+</div>
+<div class="step" data-step="7">
+<div class="step-act">Act VIII · What Remains After All of This</div>
+<h2 class="step-title">The Thing No AI Can Replace</h2>
+<p class="step-body">The history of education shows an undeniable repeating pattern: the printing press did not eliminate teachers, the internet did not eliminate teachers, ITS did not eliminate teachers, and clearly, "Generative AI" has not yet shown evidence that it will do so.</p>
+<p class="step-body">As researcher Simon Doroudi notes in Springer (2022), <em>"the histories of AI and education have been intertwined since the early days of AI"</em>, and every revolution makes clearer the things only humans can do.</p>
+<div class="step-pull">Presence, trust, and a question asked at the right moment; the look in a teacher’s eyes when they realize a student is lost; empathy and an understanding of learning behavior; only teachers know what their students truly need, and only people who understand human beings and corporate training culture can see the core "pain" of the learner. All of those things are things only humans can give one another.</div>
+<p class="step-body">What technology often does is: <strong>automate part of the work, change roles, and redistribute responsibility</strong> in the learning process. The teacher does not disappear; on the contrary, the teacher is distilled back to their true essence.</p>
+<div class="img-slot" id="slot-7">
+<img alt="AI or VR&amp;AR" id="img-7" onclick="openLightboxImg(this.src,this.alt)" src="LophocAI.jpg" style="display:block"/>
+</div>
+<div class="step-source">Source: <a href="https://link.springer.com/article/10.1007/s40593-022-00313-2" target="_blank">Springer - AI &amp; Education (2022)</a> · <a href="https://link.springer.com/article/10.1007/s40593-022-00347-6" target="_blank">Springer — AI Ethics in Education</a></div>
+</div>
+</div>
+</section>
+
+<p class="copyright-note" data-vi="© 2026 Bui Tong Giang · Tellstory blog. Bài viết, hình ảnh, mã demo, cấu trúc phân tích và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: &lt;a href=&quot;https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html&quot;&gt;Tellstory blog&lt;/a&gt;." data-en="© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analytical structure and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse source code without permission. When quoting a short excerpt, please credit: &lt;a href=&quot;https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html&quot;&gt;Tellstory blog&lt;/a&gt;.">© 2026 Bui Tong Giang · Tellstory blog. The article, images, demo code, analytical structure and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse source code without permission. When quoting a short excerpt, please credit: <a href="https://tellstory-blog.web.app/nguoi-thay-bien-mat-en.html">Tellstory blog</a>.</p>
+
+<section class="comments-section" data-comments data-post-slug="nguoi-thay-bien-mat-en" data-post-title="Will the teacher really disappear?" data-comment-lang="en"></section>
+
+<section id="outro">
+<div class="outro-kicker">Conclusion</div>
+<h2 class="outro-title">Teachers Will Not Disappear</h2>
+<div class="outro-rule"></div>
+<p class="outro-body">From Sidney Pressey in 1924 to ChatGPT in 2022, has a century of technology been trying to replace the teacher?<br/> Or, in reality, has each revolution made clearer the things only humans can do?<br/>The people who transmit knowledge are among those chosen to lead the new technological era of knowledge transmission.</p>
+<div class="outro-question">The important question is probably not "Will AI replace teachers?" but rather: "How will teachers and AI together shape learning in the decades ahead?"</div>
+<div class="outro-sources">
+<h3>References</h3>
+<ul>
+<li><a href="https://link.springer.com/article/10.1007/s40593-022-00313-2" target="_blank">Springer - The Intertwined Histories of Artificial Intelligence and Education (2022)</a></li>
+<li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8095475/" target="_blank">PMC / NIH - Evolution and Trends in Intelligent Tutoring Systems Research (2021)</a></li>
+<li>Ma et al. (2014). ITS and Learning Outcomes: A Meta-Analysis. <em>APA - Journal of Educational Psychology.</em> 107 effect sizes, N=14,321</li>
+<li>Jordan, K. (2015). MOOC Completion Rates: The data. <em>Int. Review of Research in Open and Distributed Learning.</em> N=221 MOOCs</li>
+<li><a href="https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2022.1055108/full" target="_blank">Frontiers in Psychology - MOOC Completion Factors (2022)</a></li>
+<li><a href="https://www.weforum.org/stories/2023/09/generative-ai-education-unesco/" target="_blank">UNESCO / WEF - Generative AI in Education (2023)</a></li>
+<li><a href="https://educationaltechnologyjournal.springeropen.com/articles/10.1186/s41239-023-00436-z" target="_blank">IJETHE - Meta Systematic Review of AI in Higher Education (2023)</a></li>
+<li><a href="https://link.springer.com/article/10.1007/s40593-022-00347-6" target="_blank">Springer - Artificial Intelligence in Education and Ethics</a></li>
+</ul>
+</div>
+</section>
+<script>
+
+function loadImg(input,slotId,imgId,capId){
+  const file=input.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const slot=document.getElementById(slotId);
+    const img=document.getElementById(imgId);
+    img.src=e.target.result; img.style.display='block';
+    slot.querySelector('.img-placeholder').style.display='none';
+    if(capId) document.getElementById(capId).textContent=file.name;
+    img.addEventListener('click',()=>openLightboxImg(img.src,file.name));
+  };
+  reader.readAsDataURL(file);
+}
+
+const lb=document.getElementById('lightbox');
+const lbContent=document.getElementById('lightbox-content');
+const lbCaption=document.getElementById('lightbox-caption');
+function openLightboxImg(src,caption){
+  lbContent.innerHTML=`<img src="${src}" alt="${caption}" style="max-width:88vw;max-height:82vh;display:block;">`;
+  lbCaption.textContent=caption||''; lb.classList.add('open'); document.body.style.overflow='hidden';
+}
+function closeLightbox(){ lb.classList.remove('open'); document.body.style.overflow=''; }
+lb.addEventListener('click',e=>{ if(e.target===lb) closeLightbox(); });
+document.getElementById('lightbox-close').addEventListener('click',closeLightbox);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
+
+const canvas=document.getElementById('scene');
+const ctx=canvas.getContext('2d');
+let W,H,particles=[],currentStep=0,symA=0;
+
+function resize(){ W=canvas.width=canvas.offsetWidth; H=canvas.height=canvas.offsetHeight; }
+
+class Particle{
+  constructor(s){ this.respawn(s); for(let i=0;i<Math.random()*200;i++) this.tick(); }
+  respawn(s){
+    const cfgs=[
+      ()=>{const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.22;this.x=W/2+Math.cos(a)*d;this.y=H/2+Math.sin(a)*d;this.vx=(Math.random()-.5)*.2;this.vy=(Math.random()-.5)*.2;this.r=Math.random()*2.5+.5;this.ba=Math.random()*.6+.2;this.col='212,168,67';},
+      ()=>{const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.46;this.x=W/2+Math.cos(a)*d;this.y=H/2+Math.sin(a)*d;this.vx=Math.cos(a)*.4;this.vy=Math.sin(a)*.4;this.r=Math.random()*1.5+.3;this.ba=Math.random()*.4+.1;this.col='212,168,67';},
+      ()=>{this.x=(Math.floor(Math.random()*10)+.5)*(W/10);this.y=(Math.floor(Math.random()*7)+.5)*(H/7);this.vx=(Math.random()-.5)*.08;this.vy=(Math.random()-.5)*.08;this.r=Math.random()*2+.6;this.ba=Math.random()*.45+.12;this.col='212,168,67';},
+      ()=>{const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.38;this.x=W/2+Math.cos(a)*d;this.y=H*.5+Math.sin(a)*d*.7;this.vx=(Math.random()-.5)*.18;this.vy=-Math.random()*.25;this.r=Math.random()*1.8+.4;this.ba=Math.random()*.5+.15;this.col='212,168,67';},
+      ()=>{this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.65;this.vy=(Math.random()-.5)*.65;this.r=Math.random()*1+.2;this.ba=Math.random()*.15+.04;this.col='246,241,232';},
+      ()=>{this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.5;this.vy=(Math.random()-.5)*.5;this.r=Math.random()*1.2+.3;this.ba=Math.random()*.18+.05;this.col='160,82,45';},
+      ()=>{const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.42;this.x=W/2+Math.cos(a)*d;this.y=H/2+Math.sin(a)*d;this.vx=(Math.random()-.5)*.6;this.vy=(Math.random()-.5)*.6;this.r=Math.random()*1.5+.3;this.ba=Math.random()*.55+.15;this.col='160,82,45';},
+      ()=>{const a=Math.random()*Math.PI*2,d=Math.random()*Math.min(W,H)*.15;this.x=W/2+Math.cos(a)*d;this.y=H/2+Math.sin(a)*d;this.vx=(Math.random()-.5)*.15;this.vy=(Math.random()-.5)*.15;this.r=Math.random()*3.5+1;this.ba=Math.random()*.75+.3;this.col='212,168,67';}
+    ];
+    cfgs[s](); this.life=Math.random()*.6+.4; this.decay=Math.random()*.003+.001;
+  }
+  tick(){ this.x+=this.vx;this.y+=this.vy;this.life-=this.decay; if(this.life<=0||this.x<-30||this.x>W+30||this.y<-30||this.y>H+30) this.respawn(currentStep); }
+  draw(){ ctx.save();ctx.globalAlpha=this.life*this.ba;ctx.fillStyle=`rgb(${this.col})`;ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fill();ctx.restore(); }
+}
+
+const symbols=['師','本','機','知','網','習','脳','心'];
+const symCols=['212,168,67','212,168,67','212,168,67','212,168,67','246,241,232','160,82,45','160,82,45','212,168,67'];
+const captions=['act i — knowledge lived inside people','act ii — the printing press freed knowledge','act iii — 1924: the first question','act iv — intelligent tutoring systems','act v — the internet & the MOOC paradox','act vi — the AI winters','act vii — the generative AI era','act viii — what remains'];
+
+function initParticles(s){
+  particles=[];
+  const n=[55,88,78,95,130,100,140,65][s]||80;
+  for(let i=0;i<n;i++) particles.push(new Particle(s));
+}
+
+function drawFrame(){
+  ctx.fillStyle='rgba(14,12,10,.17)'; ctx.fillRect(0,0,W,H);
+  const s=currentStep;
+  symA=Math.min(.05,symA+.002);
+  ctx.save();ctx.globalAlpha=symA;ctx.fillStyle=`rgb(${symCols[s]})`;
+  ctx.font=`300 ${Math.min(W,H)*.48}px Arial, sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(symbols[s],W*.38,H*.5);ctx.restore();
+
+  if(s===0){
+    particles.forEach(p=>{
+      const dx=p.x-W/2,dy=p.y-H/2,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<200){ctx.save();ctx.globalAlpha=(1-d/200)*.1*p.life;ctx.strokeStyle='rgba(212,168,67,1)';ctx.lineWidth=.35;ctx.beginPath();ctx.moveTo(W/2,H/2);ctx.lineTo(p.x,p.y);ctx.stroke();ctx.restore();}
+    });
+  }
+  if(s===5||s===6){
+    const th=W/(s===6?9:11);
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<th){ctx.save();ctx.globalAlpha=(1-d/th)*(s===6?.1:.06);ctx.strokeStyle=s===6?'rgba(160,82,45,1)':'rgba(246,241,232,1)';ctx.lineWidth=.3;ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();ctx.restore();}
+    }
+  }
+  particles.forEach(p=>{p.tick();p.draw();});
+  requestAnimationFrame(drawFrame);
+}
+
+const stepEls=document.querySelectorAll('.step');
+const dots=document.querySelectorAll('.dot');
+const capEl=document.getElementById('graphic-caption');
+
+const historyRows=document.querySelectorAll('.history-time-row');
+const historyNotes=[
+  {eyebrow:'ACT I',title:'Who owns knowledge?',detail:'Knowledge lived inside people'},
+  {eyebrow:'1440',title:'Can knowledge scale?',detail:'The printing press freed knowledge'},
+  {eyebrow:'1924',title:'Can a machine teach?',detail:'The first teaching machine'},
+  {eyebrow:'1970',title:'Can a machine understand a learner?',detail:'Intelligent Tutoring Systems'},
+  {eyebrow:'2005',title:'Is access enough?',detail:'The internet, MOOCs, and the completion paradox'},
+  {eyebrow:'2010–2022',title:'Can intelligence be learned?',detail:'Machine learning and adaptive learning'},
+  {eyebrow:'2022',title:'Can AI become a tutor?',detail:'The generative AI era'},
+  {eyebrow:'ACT VIII',title:'What remains human?',detail:'What remains of the teacher'}
+];
+const historyIndexByStep=[-1,0,1,2,3,3,4,4];
+function updateHistoryTimeline(stepIndex){
+  const activeIndex=historyIndexByStep[stepIndex] ?? -1;
+  historyRows.forEach((row,idx)=>{
+    const marker=row.querySelector('.history-time-marker');
+    row.classList.remove('is-past','is-current','is-future');
+    if(idx<activeIndex){ row.classList.add('is-past'); if(marker) marker.textContent='●'; }
+    else if(idx===activeIndex){ row.classList.add('is-current'); if(marker) marker.textContent='◎'; }
+    else { row.classList.add('is-future'); if(marker) marker.textContent='○'; }
+  });
+  const note=historyNotes[stepIndex] || historyNotes[0];
+  const eyebrow=document.getElementById('history-note-eyebrow');
+  const title=document.getElementById('history-note-title');
+  const detail=document.getElementById('history-note-detail');
+  if(eyebrow) eyebrow.textContent=note.eyebrow;
+  if(title) title.textContent=note.title;
+  if(detail) detail.textContent=note.detail;
+}
+historyRows.forEach(row=>row.addEventListener('click',()=>{
+  const target=parseInt(row.dataset.stepTarget,10);
+  if(!Number.isNaN(target) && stepEls[target]) stepEls[target].scrollIntoView({behavior:'smooth',block:'center'});
+}));
+
+function goToStep(i){
+  if(i===currentStep&&particles.length>0){ updateHistoryTimeline(i); return; }
+  stepEls.forEach((s,j)=>s.classList.toggle('is-active',j===i));
+  dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+  capEl.textContent=captions[i];
+  symA=0; currentStep=i; initParticles(i);
+  updateHistoryTimeline(i);
+}
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) goToStep(parseInt(e.target.dataset.step)); });
+},{rootMargin:'-44% 0px -44% 0px',threshold:0});
+stepEls.forEach(s=>obs.observe(s));
+
+dots.forEach(d=>d.addEventListener('click',()=>{
+  stepEls[parseInt(d.dataset.i)].scrollIntoView({behavior:'smooth',block:'center'});
+}));
+
+window.addEventListener('scroll',()=>{
+  const st=window.scrollY,dh=document.documentElement.scrollHeight-window.innerHeight;
+  document.getElementById('progress').style.width=(st/dh*100)+'%';
+},{passive:true});
+
+window.addEventListener('resize',resize);
+resize(); initParticles(0); goToStep(0); drawFrame();
+</script>
+<script type="module" src="comments.js"></script>
+<script>try{localStorage.setItem('tellstoryLang','en')}catch(e){}</script>
+
+
+<script id="tellstory-copyright-lang-sync">
+(function(){
+  function syncCopyrightLang(){
+    var lang = document.documentElement.lang || localStorage.getItem('tellstory_irregular_lang') || 'vi';
+    if(lang !== 'en') lang = 'vi';
+    document.querySelectorAll('.copyright-note[data-vi][data-en]').forEach(function(el){
+      var val = el.getAttribute('data-' + lang);
+      if(val) el.innerHTML = val;
+    });
+  }
+  document.addEventListener('DOMContentLoaded', syncCopyrightLang);
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'btn-en' || e.target.id === 'btn-vi')) setTimeout(syncCopyrightLang, 0);
+  });
+})();
+</script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+
+  const credit = "
+
+Nguồn: Tellstory blog · Bui Tong Giang
+" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+</body>
+</html>

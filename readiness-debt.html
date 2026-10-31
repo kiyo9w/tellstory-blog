@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Readiness debt: khi AI nhanh hơn sự sẵn sàng</title>
+<meta name="description" content="84% người làm L&D dùng AI để tăng tốc content, nhưng năng lực xác minh không tăng kịp. Ba phép ẩn dụ từ My Hero Academia, Hunter x Hunter, Naruto để hiểu readiness debt.">
+<meta name="author" content="Bui Tong Giang">
+<meta name="copyright" content="© 2026 Bui Tong Giang. All rights reserved.">
+<meta name="rights" content="Bài viết, hình ảnh, mã demo và cách trình bày thuộc Fieldnotes on Learning. Không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý của tác giả.">
+<link rel="canonical" href="https://tellstory-blog.web.app/readiness-debt.html">
+<meta property="og:title" content="Readiness debt: khi AI nhanh hơn sự sẵn sàng">
+<meta property="og:description" content="AI tạo content nhanh hơn năng lực tổ chức xác minh nó. Ba phép ẩn dụ anime cho một khoản nợ đang âm thầm tích lũy.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://tellstory-blog.web.app/readiness-debt.html">
+<meta property="og:site_name" content="Fieldnotes on Learning">
+<meta property="og:image" content="https://tellstory-blog.web.app/assets/readiness-debt/mha-deku-all-might.png">
+<meta property="og:image:alt" content="Deku, All Might, Naruto, Gon and Killua as anime metaphors for AI readiness debt">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Readiness debt: khi AI nhanh hơn sự sẵn sàng">
+<meta name="twitter:description" content="AI tạo content nhanh hơn năng lực tổ chức xác minh nó. Ba phép ẩn dụ anime cho một khoản nợ đang âm thầm tích lũy.">
+<meta name="twitter:image" content="https://tellstory-blog.web.app/assets/readiness-debt/mha-deku-all-might.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="font-normalize.css">
+<link rel="stylesheet" href="comments.css">
+<style>
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f3efe5;
+  --paper-2:#e9dfcf;
+  --paper-3:#fbf6eb;
+  --ink:#151922;
+  --ink-2:#323744;
+  --ink-3:#5a6070;
+  --ink-4:#85828a;
+  --night:#080f20;
+  --night-2:#111a34;
+  --rule:rgba(21,25,34,.16);
+  --rule-light:rgba(243,239,229,.16);
+  --red:#b2413b;
+  --gold:#b58c32;
+  --gold-light:#f1cf73;
+  --mha:#2c7bd3;
+  --mha-deep:#122e63;
+  --hxh:#1b9b69;
+  --hxh-deep:#0c4f39;
+  --naruto:#f08a24;
+  --naruto-deep:#80370e;
+  --pink:#f6b6ca;
+  --mint:#98e7c0;
+  --blue:#9ed8ff;
+}
+html{scroll-behavior:smooth;background:var(--night);}
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  background:
+    linear-gradient(90deg,transparent 0 49.9%,rgba(21,25,34,.025) 50%,transparent 50.1%),
+    var(--paper);
+  color:var(--ink);
+  font-family:'Source Serif 4',Georgia,serif;
+  font-weight:300;
+  font-size:17px;
+  line-height:1.82;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+}
+a{color:inherit;}
+#progress{position:fixed;z-index:150;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--mha),var(--hxh) 42%,var(--gold-light) 68%,var(--naruto));box-shadow:0 0 18px rgba(158,216,255,.55);transition:width .1s linear;}
+.lang-bar{
+  position:fixed;
+  z-index:100;
+  top:14px;
+  left:18px;
+  right:18px;
+  min-height:46px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:7px 8px 7px 16px;
+  background:rgba(8,15,32,.82);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:3px;
+  box-shadow:0 16px 45px rgba(0,0,0,.18);
+  backdrop-filter:blur(18px);
+}
+.lang-bar nav{display:flex;gap:22px;align-items:center;}
+.lang-bar nav a{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(244,239,231,.7);text-decoration:none;letter-spacing:.06em;transition:color .2s;}
+.lang-bar nav a:hover{color:#fff;}
+.lang-btns{display:flex;gap:4px;}
+.lang-btn{font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 10px;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(244,239,231,.65);cursor:pointer;letter-spacing:.08em;transition:all .2s;}
+.lang-btn:hover{color:#fff;border-color:rgba(255,255,255,.4);}
+.lang-btn.active{background:var(--gold-light);color:var(--night);border-color:var(--gold-light);}
+[data-en]:not([data-vi]){display:none!important;}
+body.en [data-vi]:not([data-en]){display:none!important;}
+body.en [data-en]:not([data-vi]){display:revert!important;}
+.hero{
+  position:relative;
+  min-height:100svh;
+  display:flex;
+  align-items:stretch;
+  justify-content:center;
+  overflow:hidden;
+  isolation:isolate;
+  padding:126px clamp(24px,6vw,92px) 74px;
+  background:
+    radial-gradient(circle at 14% 20%,rgba(44,123,211,.28),transparent 34%),
+    radial-gradient(circle at 82% 16%,rgba(240,138,36,.22),transparent 30%),
+    linear-gradient(135deg,var(--night) 0%,#0b152d 56%,#1c1622 100%);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.hero::before{content:'AI';position:absolute;z-index:0;left:-2vw;bottom:-13vh;color:rgba(255,255,255,.026);font-family:'Playfair Display',Georgia,serif;font-size:clamp(240px,44vw,650px);font-weight:700;line-height:.8;letter-spacing:-.08em;}
+.hero::after{content:'';position:absolute;inset:0;z-index:0;background:repeating-linear-gradient(90deg,transparent 0 7.9vw,rgba(255,255,255,.023) 8vw),linear-gradient(90deg,var(--night) 0%,rgba(8,15,32,.96) 39%,rgba(8,15,32,.26) 72%,rgba(8,15,32,.62) 100%);pointer-events:none;}
+#hero-canvas{position:absolute;inset:0;z-index:1;opacity:.44;}
+.hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(8,15,32,.92),transparent 36%);}
+.hero-content{position:relative;z-index:5;align-self:center;width:min(48%,680px);max-width:680px;margin-right:auto;text-align:left;}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:30px;color:var(--blue);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;}
+.hero-eyebrow::before{content:'';width:40px;height:1px;background:currentColor;}
+.hero-title{max-width:660px;margin-bottom:24px;color:#f7f0e4;font-family:'Playfair Display',Georgia,serif;font-size:clamp(44px,6vw,82px);font-weight:600;line-height:.98;letter-spacing:-.035em;}
+.hero-title em{font-style:italic;color:var(--gold-light);font-weight:400;text-shadow:0 0 34px rgba(241,207,115,.18);}
+.hero-sub{max-width:560px;margin:0 0 42px;color:rgba(247,240,228,.72);font-size:16px;line-height:1.7;}
+.scroll-hint{display:flex;align-items:flex-start;gap:10px;flex-direction:column;color:rgba(247,240,228,.42);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;}
+.scroll-line{width:72px;height:1px;background:linear-gradient(90deg,var(--blue),transparent);animation:scrollpulse 2s ease-in-out infinite;transform-origin:left;}
+@keyframes scrollpulse{0%,100%{opacity:.45;transform:scaleX(1);}50%{opacity:1;transform:scaleX(1.15);}}
+.hero-gallery{position:absolute;z-index:3;top:92px;right:clamp(18px,4vw,64px);bottom:44px;width:min(48vw,700px);display:grid;grid-template-columns:.9fr 1.08fr .82fr;gap:clamp(7px,1vw,14px);transform:perspective(1100px) rotateY(-3deg);transform-origin:right center;}
+.hero-frame{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.16);background:radial-gradient(circle at 50% 30%,rgba(158,216,255,.16),transparent 42%),#151a28;box-shadow:0 28px 70px rgba(0,0,0,.38);}
+.hero-frame:nth-child(1){margin-top:12vh;margin-bottom:4vh;}
+.hero-frame:nth-child(2){margin-bottom:10vh;}
+.hero-frame:nth-child(3){margin-top:7vh;}
+.hero-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,13,27,.82),transparent 55%);}
+.hero-frame img{width:100%;height:100%;object-fit:contain;filter:saturate(.96) contrast(1.05);transform:scale(.96);}
+.hero-frame:nth-child(1) img{object-position:50% center;transform:scale(.98);}
+.hero-frame:nth-child(2) img{object-position:50% center;transform:scale(.94);}
+.hero-frame:nth-child(3) img{object-position:50% center;transform:scale(.98);}
+.hero-sticker{position:absolute;z-index:6;padding:.45rem .7rem;border:2px solid #07101f;box-shadow:4px 4px 0 #07101f;color:#07101f;background:var(--gold-light);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;line-height:1;text-transform:uppercase;white-space:nowrap;}
+.hero-sticker.one{right:42vw;top:18vh;background:var(--mint);transform:rotate(-8deg);}
+.hero-sticker.two{right:6vw;bottom:18vh;background:var(--pink);transform:rotate(7deg);}
+.hero-sticker.three{right:34vw;bottom:9vh;background:var(--blue);transform:rotate(-4deg);}
+.article{max-width:1240px;margin:0 auto;padding:0 clamp(24px,4.5vw,64px);}
+.section{display:grid;grid-template-columns:minmax(96px,160px) minmax(0,840px);column-gap:clamp(24px,4vw,58px);justify-content:center;padding-top:112px;opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease;}
+.section.visible{opacity:1;transform:none;}
+.section>*{grid-column:2;}
+.section>.section-label{grid-column:1;grid-row:1 / span 9;align-self:start;position:sticky;top:94px;justify-self:center;padding-top:8px;color:var(--ink-muted,var(--ink-3));writing-mode:vertical-rl;transform:rotate(180deg);}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+.section-label::after{content:'';flex:none;width:1px;height:74px;background:var(--rule);}
+.section-h2,.closing-h2{max-width:840px;margin-bottom:28px;color:var(--ink);font-family:'Playfair Display',serif;font-size:clamp(34px,4.2vw,54px);font-weight:500;line-height:1.08;letter-spacing:-.025em;}
+.section-h2 em,.closing-h2 em{font-style:italic;color:var(--red);font-weight:400;}
+.section-h3{max-width:780px;margin:46px 0 16px;font-family:'Playfair Display',serif;font-size:clamp(23px,2.6vw,31px);font-weight:600;line-height:1.18;color:var(--ink);}
+.body-text{max-width:780px;margin-bottom:20px;color:var(--ink-2);font-size:18px;line-height:1.85;}
+.body-text strong{font-weight:600;color:var(--ink);}
+.body-text em{font-style:italic;}
+.body-text a{color:var(--red);text-decoration:underline;text-underline-offset:4px;}
+.ld-highlight{color:var(--red);font-style:italic;}
+.scene-photo{position:relative;margin:26px 0 34px;border:1px solid var(--rule);background:#fff;box-shadow:0 22px 60px rgba(21,25,34,.12);overflow:hidden;}
+.scene-photo img{display:block;width:100%;height:auto;max-height:520px;object-fit:cover;filter:saturate(.92) contrast(1.03);}
+.scene-photo figcaption{display:flex;justify-content:space-between;gap:18px;padding:12px 16px;color:var(--ink-3);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;line-height:1.55;text-transform:uppercase;}
+.photo-sticker{position:absolute;z-index:3;right:18px;top:18px;padding:.52rem .72rem;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:var(--gold-light);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transform:rotate(4deg);}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:26px 0 34px;}
+.photo-grid .scene-photo{margin:0;}
+.photo-grid .scene-photo img{height:100%;aspect-ratio:4 / 3;}
+.diagram-block{max-width:820px;margin:46px 0;border:1px solid var(--rule);background:rgba(255,255,255,.42);padding:28px 24px 22px;box-shadow:0 18px 50px rgba(21,25,34,.06);}
+.diagram-caption{max-width:820px;margin:-28px 0 34px;text-align:center;color:var(--ink-4);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;}
+.diagram-block svg{display:block;width:100%;height:auto;overflow:hidden;}
+.power-block{--accent:var(--mha);--accent-deep:var(--mha-deep);max-width:920px;margin:58px 0 6px;border:1px solid var(--rule);border-top:0;background:rgba(255,255,255,.24);box-shadow:0 24px 70px rgba(24,25,31,.08);}
+.power-block.mha{--accent:var(--mha);--accent-deep:var(--mha-deep);}
+.power-block.hxh{--accent:var(--hxh);--accent-deep:var(--hxh-deep);}
+.power-block.naruto{--accent:var(--naruto);--accent-deep:var(--naruto-deep);}
+.power-head{display:grid;grid-template-columns:84px minmax(0,1fr);gap:20px;align-items:center;padding:24px 28px;border-top:4px solid var(--accent);border-bottom:1px solid color-mix(in srgb,var(--accent),transparent 68%);background:color-mix(in srgb,var(--accent),transparent 90%);}
+.power-icon{width:68px;height:68px;filter:drop-shadow(5px 6px 0 rgba(21,25,34,.08));}
+.power-tag{display:inline-block;margin-bottom:8px;padding:4px 10px;border:1px solid color-mix(in srgb,var(--accent),transparent 45%);background:var(--accent-deep);color:#fff!important;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;}
+.power-title{color:var(--ink);font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);font-weight:600;line-height:1.05;letter-spacing:-.02em;}
+.power-sub{margin-top:6px;color:var(--ink-3);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.02em;}
+.power-body{padding:30px 30px 34px;}
+.power-body .body-text{max-width:780px;}
+.expert-card{max-width:820px;margin:32px 0;padding:24px 26px;border:1px solid color-mix(in srgb,var(--gold),transparent 58%);border-left:4px solid var(--gold);background:rgba(255,255,255,.45);box-shadow:0 12px 38px rgba(21,25,34,.06);}
+.expert-name{margin-bottom:12px;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;}
+.expert-card p{font-size:16.5px;line-height:1.78;color:var(--ink-2);}
+.expert-card p+p{margin-top:12px;}
+.guardrail-board{position:relative;max-width:920px;margin:38px 0 8px;padding:28px;background:rgba(255,255,255,.45);border:1px solid var(--rule);box-shadow:0 26px 70px rgba(21,25,34,.1);overflow:hidden;}
+.guardrail-board::before{content:'guardrails';position:absolute;right:-18px;top:10px;color:rgba(21,25,34,.045);font:800 clamp(58px,9vw,116px)/1 'JetBrains Mono',monospace;letter-spacing:-.08em;text-transform:uppercase;pointer-events:none;}
+.guardrail-sticker{position:absolute;z-index:2;padding:.45rem .68rem;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);background:var(--pink);color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;}
+.guardrail-sticker.one{top:18px;right:22px;transform:rotate(6deg);}
+.guardrail-sticker.two{left:22px;bottom:18px;background:var(--mint);transform:rotate(-5deg);}
+.guardrail-intro{position:relative;z-index:1;max-width:720px;margin-bottom:22px;color:var(--ink-2);font-size:17px;line-height:1.75;}
+.guardrail-flow{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0 20px;}
+.guardrail-card{position:relative;min-height:260px;padding:22px 18px 20px;border:1px solid var(--rule);border-top:4px solid var(--accent,var(--gold));background:var(--paper-3);box-shadow:7px 7px 0 rgba(21,25,34,.08);}
+.guardrail-card:nth-child(1){--accent:var(--mha);}
+.guardrail-card:nth-child(2){--accent:var(--naruto);}
+.guardrail-card:nth-child(3){--accent:var(--hxh);}
+.guardrail-number{display:inline-grid;place-items:center;width:34px;height:34px;margin-bottom:14px;border:1px solid color-mix(in srgb,var(--accent),transparent 36%);background:color-mix(in srgb,var(--accent),transparent 86%);color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;}
+.guardrail-card h3{margin:0 0 10px;font-family:'Playfair Display',serif;font-size:24px;line-height:1.08;color:var(--ink);}
+.guardrail-card p{color:var(--ink-2);font-size:15px;line-height:1.7;}
+.guardrail-chip{display:inline-block;margin-top:15px;padding:4px 9px;background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;}
+.guardrail-map{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:16px;margin-top:18px;}
+.guardrail-pipeline,.risk-stack,.cognitive-card{border:1px solid var(--rule);background:rgba(255,255,255,.58);}
+.guardrail-pipeline{padding:22px;}
+.pipe-title,.risk-title,.cognitive-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.pipe-row{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:10px;}
+.pipe-node{min-height:78px;display:grid;place-items:center;text-align:center;padding:12px;border:1px solid var(--rule);background:var(--paper-2);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;line-height:1.45;}
+.pipe-arrow{color:var(--red);font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;}
+.risk-stack{padding:20px;}
+.risk-list{display:grid;gap:10px;}
+.risk-item{display:grid;grid-template-columns:86px minmax(0,1fr);gap:12px;align-items:start;padding:11px 12px;border-left:3px solid var(--accent,var(--gold));background:rgba(255,255,255,.5);}
+.risk-item:nth-child(1){--accent:var(--mha);}
+.risk-item:nth-child(2){--accent:var(--naruto);}
+.risk-item:nth-child(3){--accent:var(--hxh);}
+.risk-item b{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;}
+.risk-item span{color:var(--ink-2);font-size:14.5px;line-height:1.55;}
+.cognitive-card{position:relative;z-index:1;margin-top:16px;padding:22px 24px;border-left:4px solid var(--red);}
+.cognitive-card p{max-width:760px;color:var(--ink-2);font-size:16px;line-height:1.78;}
+.cognitive-card p+p{margin-top:10px;}
+.expert-details{max-width:860px;margin-top:28px;padding:24px 26px;border:1px dashed rgba(21,25,34,.24);background:rgba(255,255,255,.35);}
+.expert-details .section-h3{display:inline-block;margin:24px 0 12px;padding:6px 10px;background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;line-height:1.45;text-transform:uppercase;}
+.expert-details .section-h3 em{color:inherit;}
+.expert-details .body-text{font-size:16px;line-height:1.78;margin-bottom:14px;}
+.expert-details .expert-card{display:none;}
+.post-nav{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;max-width:840px;padding:32px 0;margin-top:42px;border-top:1px solid var(--rule);}
+.post-nav a{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;color:var(--ink-3);text-decoration:none;transition:color .2s;}
+.post-nav a:hover{color:var(--red);}
+.pullquote{display:grid;grid-template-columns:1fr;margin:104px auto 0;padding:clamp(42px,7vw,76px);background:radial-gradient(circle at 85% 10%,rgba(158,216,255,.18),transparent 35%),var(--night);border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 80px rgba(8,15,32,.16);position:relative;overflow:hidden;}
+.pullquote>*{grid-column:1;}
+.pullquote::before{content:'"';position:absolute;top:-20px;left:24px;color:rgba(241,207,115,.1);font-family:'Playfair Display',serif;font-size:180px;line-height:1;pointer-events:none;}
+.pullquote::after{content:'clone';position:absolute;right:2%;bottom:-12%;color:rgba(255,255,255,.035);font:700 160px/1 'JetBrains Mono',monospace;letter-spacing:-.08em;text-transform:uppercase;}
+.pullquote p{max-width:760px;color:#f7f0e4;font-family:'Playfair Display',serif;font-size:clamp(22px,3.2vw,34px);font-weight:400;font-style:italic;line-height:1.5;position:relative;z-index:1;}
+.closing{padding-bottom:72px;}
+.outro-sources{max-width:860px;margin-top:58px;padding:30px;border:1px solid var(--rule);background:rgba(255,255,255,.42);}
+.outro-sources h3{margin-bottom:18px;color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;}
+.outro-sources ul{list-style:none;display:grid;gap:10px;}
+.outro-sources li{position:relative;padding-left:22px;color:var(--ink-3);font-size:14.5px;line-height:1.75;}
+.outro-sources li::before{content:'->';position:absolute;left:0;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:12px;}
+.outro-sources a{color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;}
+.outro-sources a:hover{color:var(--red);}
+.copyright-note{max-width:860px;margin:56px auto 0;padding:18px 22px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);color:rgba(21,25,34,.62);font-size:14px;line-height:1.8;text-align:center;}
+.copyright-note a{color:inherit;text-decoration:underline;text-underline-offset:3px;}
+footer{max-width:none;margin:58px 0 0;padding:58px max(24px,calc((100vw - 980px) / 2)) 46px;color:rgba(242,238,230,.68);background:var(--night);border-top:0;}
+.footer-note{font-size:13px;font-style:italic;color:rgba(242,238,230,.58);line-height:1.7;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--rule-light);}
+.footer-social{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;}
+.footer-social a{color:rgba(242,238,230,.6);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-decoration:none;transition:color .2s;}
+.footer-social a:hover{color:var(--gold-light);}
+.footer-copy{color:rgba(242,238,230,.54);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;line-height:1.7;}
+@media(max-width:900px){
+  .hero{justify-content:flex-end;padding-bottom:70px;}
+  .hero::after{background:linear-gradient(to top,var(--night) 0%,rgba(8,15,32,.76) 45%,rgba(8,15,32,.2) 100%);}
+  .hero-content{align-self:flex-end;width:100%;max-width:720px;}
+  .hero-gallery{inset:78px 16px 28%;width:auto;opacity:.66;transform:none;}
+  .hero-frame:nth-child(1){margin-top:8vh;}
+  .hero-frame:nth-child(2){margin-bottom:4vh;}
+  .hero-frame:nth-child(3){margin-top:5vh;}
+  .hero-sticker.one{right:auto;left:24px;top:18vh;}
+  .hero-sticker.two{right:22px;bottom:28vh;}
+  .hero-sticker.three{right:auto;left:38px;bottom:13vh;}
+  .section{grid-template-columns:minmax(0,1fr);padding-top:86px;max-width:100%;}
+  .section>*,.section>.section-label{grid-column:1;min-width:0;max-width:100%;}
+  .section>.section-label{grid-row:auto;position:static;writing-mode:horizontal-tb;transform:none;justify-self:stretch;padding-top:0;}
+  .section-label::after{width:auto;height:1px;flex:1;}
+  .guardrail-flow,.guardrail-map{grid-template-columns:1fr;}
+  .guardrail-sticker.one{top:12px;right:14px;}
+  .pipe-row{grid-template-columns:1fr;}
+  .pipe-arrow{transform:rotate(90deg);justify-self:center;}
+}
+@media(max-width:640px){
+  body{font-size:16px;}
+  .lang-bar{top:8px;left:8px;right:8px;padding-left:10px;}
+  .lang-bar nav{gap:12px;}
+  .lang-bar nav a{font-size:9px;}
+  .hero{display:block;min-height:auto;padding:86px 20px 58px;}
+  .hero::after{background:linear-gradient(to bottom,rgba(8,15,32,.5),rgba(8,15,32,.92) 48%,var(--night) 100%);}
+  .hero-content{width:100%;max-width:none;margin:0;padding:0;}
+  .hero-gallery{position:relative;inset:auto;width:100%;height:292px;grid-template-columns:.9fr 1.1fr .86fr;gap:6px;margin:0 0 28px;opacity:.92;transform:none;}
+  .hero-frame:nth-child(1),.hero-frame:nth-child(2),.hero-frame:nth-child(3){margin:0;}
+  .hero-frame:nth-child(1){height:74%;align-self:end;}
+  .hero-frame:nth-child(2){height:100%;}
+  .hero-frame:nth-child(3){height:68%;align-self:end;}
+  .hero-frame::after{background:linear-gradient(to top,rgba(8,13,27,.45),transparent 58%);}
+  .hero-sticker.one{left:16px;right:auto;top:122px;}
+  .hero-sticker.two{right:16px;bottom:auto;top:328px;}
+  .hero-sticker.three{left:26px;right:auto;bottom:auto;top:340px;}
+  .hero-title{font-size:clamp(40px,13vw,58px);}
+  .hero-sub{font-size:15px;line-height:1.65;}
+  .article{padding:0 20px;}
+  .section{padding-top:74px;}
+  .section-h2,.closing-h2{font-size:clamp(31px,9vw,42px);}
+  .body-text{font-size:17px;}
+  .photo-grid{grid-template-columns:minmax(0,1fr);}
+  .scene-photo,.photo-grid,.power-block,.diagram-block,.pullquote,.expert-card,.guardrail-board,.outro-sources{box-sizing:border-box;max-width:100%;}
+  .power-block{margin-left:0;margin-right:0;}
+  .power-head{grid-template-columns:1fr;padding:22px 20px;}
+  .power-body{padding:24px 20px 28px;}
+  .guardrail-board{margin-left:0;margin-right:0;padding:24px 18px;}
+  .guardrail-sticker{position:relative;display:inline-block;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;margin:0 8px 14px 0;transform:none!important;}
+  .guardrail-card{min-height:auto;}
+  .risk-item{grid-template-columns:1fr;}
+  .diagram-block{padding:16px 10px;overflow:hidden;}
+  .diagram-block svg{width:100%;max-width:100%;min-width:0;}
+  .pullquote{margin-top:78px;padding:36px 26px;}
+  .pullquote::after{font-size:94px;bottom:-8%;}
+  .outro-sources{padding:22px 18px;}
+}
+
+</style>
+</head>
+<body>
+<div aria-hidden="true" id="progress"></div>
+
+<div class="lang-bar">
+<nav>
+<a href="index.html">← Blog</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</nav>
+<div class="lang-btns">
+<button class="lang-btn active" id="btn-vi" onclick="setLang('vi')">VI</button>
+<button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+</div>
+
+<section class="hero">
+<canvas aria-hidden="true" id="hero-canvas"></canvas>
+<div aria-hidden="true" class="hero-overlay"></div>
+<div aria-hidden="true" class="hero-gallery">
+<figure class="hero-frame"><img alt="" fetchpriority="high" src="assets/readiness-debt/mha-deku-all-might.png"></figure>
+<figure class="hero-frame"><img alt="" fetchpriority="high" src="assets/readiness-debt/naruto-clones.png"></figure>
+<figure class="hero-frame"><img alt="" fetchpriority="high" src="assets/readiness-debt/hxh-gon-killua-training.png"></figure>
+</div>
+<span class="hero-sticker one">check first</span>
+<span class="hero-sticker two">no slop pls</span>
+<span class="hero-sticker three">evidence!</span>
+<div class="hero-content">
+<div class="hero-eyebrow" data-vi="">L&amp;D · AI · Anime</div>
+<div class="hero-eyebrow" data-en="">L&amp;D · AI · Anime</div>
+<h1 class="hero-title" data-vi="">Readiness debt: khi AI nhanh hơn <em>sự sẵn sàng</em></h1>
+<h1 class="hero-title" data-en="">Readiness debt: when AI outruns <em>readiness</em></h1>
+<p class="hero-sub" data-vi="">AI có thể tạo mười module trong thời gian trước đây chỉ đủ làm một. Nó không tạo thêm mười người để kiểm tra xem mười module đó có tác dụng không. Ba phép ẩn dụ từ My Hero Academia, Hunter x Hunter và Naruto, cho một khoản nợ đang âm thầm tích lũy trong ngành L&amp;D.</p>
+<p class="hero-sub" data-en="">AI can produce ten modules in the time it used to take to make one. It does not produce ten more people to check whether those ten modules actually work. Three anime metaphors for a debt that is quietly building up across L&amp;D.</p>
+<div class="scroll-hint"><span data-vi="">Cuộn để đọc</span><span data-en="">Scroll to read</span><span class="scroll-line"></span></div></div>
+</section>
+
+<div class="article">
+
+<div class="section" id="s-intro">
+<div class="section-label" data-vi="">Khái niệm · Readiness debt</div>
+<div class="section-label" data-en="">Concept · Readiness debt</div>
+<h2 class="section-h2" data-vi="">Readiness debt là gì?</h2>
+<h2 class="section-h2" data-en="">What is readiness debt?</h2>
+
+<p class="body-text" data-vi=""><strong>Readiness debt</strong> là khái niệm được Amy Vidor, chuyên gia về xu hướng học tập tại Synthesia, đưa ra để mô tả một hệ quả đang xuất hiện khi AI được sử dụng ngày càng nhiều trong L&amp;D. Theo khảo sát gần 400 người làm L&amp;D, 84% cho biết họ đang dùng AI để tăng tốc sản xuất content, tuy nhiên tốc độ tạo nội dung lại đang tăng nhanh hơn khả năng xác minh xem những nội dung ấy có thực sự giúp người học thay đổi hành vi hay cải thiện kết quả công việc hay không <a href="https://www.synthesia.io/post/learning-and-development-trends" target="_blank" rel="noopener">(Synthesia, 2026)</a>.</p>
+<p class="body-text" data-en=""><strong>Readiness debt</strong> is a concept coined by Amy Vidor, a learning trends expert at Synthesia, to describe an emerging consequence of AI's growing role in L&amp;D. In a survey of nearly 400 L&amp;D professionals, 84 percent said they are using AI to speed up content production, yet the rate of content creation is now outpacing the organization's ability to verify whether that content actually changes learner behavior or improves job performance <a href="https://www.synthesia.io/post/learning-and-development-trends" target="_blank" rel="noopener">(Synthesia, 2026)</a>.</p>
+
+<p class="body-text" data-vi="">Khoảng cách đó tạo ra một khoản nợ, bởi tổ chức có thể liên tục tạo thêm bài giảng, video, tài liệu và module mới, trong khi năng lực review, đo lường và theo dõi tác động thực tế lại không phát triển kịp theo cùng tốc độ.</p>
+<p class="body-text" data-en="">That gap is what creates the debt. An organization can keep generating new lessons, videos, documents, and modules, while its capacity to review, measure, and track real world impact fails to grow at the same pace.</p>
+
+<p class="body-text" data-vi="">Khoản nợ này không xuất hiện ngay khi AI tạo ra thêm một khóa học, bởi ở thời điểm đó mọi thứ vẫn trông khá tích cực, số lượng content tăng, thời gian sản xuất giảm và hệ thống có thêm nhiều lượt hoàn thành, tuy nhiên đến khi tổ chức cần chứng minh người học đã thực sự làm việc tốt hơn ở điểm nào, không ai còn đủ dữ liệu để trả lời.</p>
+<p class="body-text" data-en="">This debt does not show up the moment AI produces one more course. At that point everything still looks positive: content volume goes up, production time goes down, and completion counts climb. It shows up later, when the organization needs to prove exactly where learners are doing better, and no one has enough data to answer.</p>
+
+<p class="body-text" data-vi="">Để hiểu rõ hơn, hãy cùng Tg bóc tách thật dễ hiểu xem điều gì đang thực sự diễn ra.</p>
+<p class="body-text" data-en="">To make this concrete, let Tg walk through what is actually happening, one anime metaphor at a time.</p>
+
+<div class="diagram-block">
+<svg viewbox="0 0 640 400" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="640" height="400" fill="none"/>
+<rect x="40" y="24" width="560" height="1" fill="rgba(26,23,20,.12)"/>
+<rect x="40" y="94" width="560" height="1" fill="rgba(26,23,20,.12)"/>
+<rect x="40" y="164" width="560" height="1" fill="rgba(26,23,20,.12)"/>
+<rect x="40" y="234" width="560" height="1" fill="rgba(26,23,20,.12)"/>
+<line x1="40" y1="24" x2="40" y2="304" stroke="rgba(26,23,20,.3)" stroke-width="1.5"/>
+<line x1="40" y1="304" x2="600" y2="304" stroke="rgba(26,23,20,.3)" stroke-width="1.5"/>
+<path d="M40,290 C180,260 320,150 520,55" fill="none" stroke="#8B2A1A" stroke-width="3.5"/>
+<path d="M40,290 C180,278 320,260 520,215" fill="none" stroke="#A07830" stroke-width="3.5"/>
+<path d="M40,290 C180,260 320,150 520,55 L520,215 C320,260 180,278 40,290 Z" fill="rgba(139,42,26,.09)"/>
+<circle cx="520" cy="55" r="6" fill="#8B2A1A"/>
+<circle cx="520" cy="215" r="6" fill="#A07830"/>
+<rect x="410" y="132" width="170" height="36" fill="var(--paper-2)" opacity=".92"/>
+<text x="495" y="155" font-family="JetBrains Mono, monospace" font-size="17" font-weight="600" fill="#8B2A1A" text-anchor="middle" letter-spacing=".02em" data-vi="" data-en="">readiness debt</text>
+<text x="30" y="309" font-family="JetBrains Mono, monospace" font-size="13" fill="rgba(26,23,20,.5)" text-anchor="end" data-vi="">0</text>
+<text x="30" y="309" font-family="JetBrains Mono, monospace" font-size="13" fill="rgba(26,23,20,.5)" text-anchor="end" data-en="" style="display:none">0</text>
+<text x="40" y="330" font-family="JetBrains Mono, monospace" font-size="13" fill="rgba(26,23,20,.5)" data-vi="">AI bắt đầu được dùng</text>
+<text x="40" y="330" font-family="JetBrains Mono, monospace" font-size="13" fill="rgba(26,23,20,.5)" data-en="" style="display:none">AI adoption begins</text>
+<text x="600" y="330" font-family="JetBrains Mono, monospace" font-size="13" fill="rgba(26,23,20,.5)" text-anchor="end" data-vi="">hôm nay</text>
+<text x="600" y="330" font-family="JetBrains Mono, monospace" font-size="13" fill="rgba(26,23,20,.5)" text-anchor="end" data-en="" style="display:none">today</text>
+<line x1="40" y1="360" x2="64" y2="360" stroke="#8B2A1A" stroke-width="3.5"/>
+<text x="72" y="365" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--ink-3)" data-vi="">module / video / bài giảng</text>
+<text x="72" y="365" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--ink-3)" data-en="" style="display:none">modules / videos / lessons</text>
+<line x1="40" y1="384" x2="64" y2="384" stroke="#A07830" stroke-width="3.5"/>
+<text x="72" y="389" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--ink-3)" data-vi="">review / đo lường / tác động</text>
+<text x="72" y="389" font-family="JetBrains Mono, monospace" font-size="14" fill="var(--ink-3)" data-en="" style="display:none">review / measurement / impact</text>
+</svg>
+</div>
+<div class="diagram-caption" data-vi="">sơ đồ · khoảng cách giữa tốc độ sản xuất content và năng lực xác minh</div>
+<div class="diagram-caption" data-en="">diagram · the gap between content output speed and verification capacity</div>
+
+</div>
+
+<div class="section" id="s-mha">
+<div class="section-label" data-vi="">Phần 1 · My Hero Academia</div>
+<div class="section-label" data-en="">Part 1 · My Hero Academia</div>
+<h2 class="section-h2" data-vi="">One For All và một cơ thể <em>chưa sẵn sàng</em></h2>
+<h2 class="section-h2" data-en="">One For All and a body <em>not yet ready</em></h2>
+
+<figure class="scene-photo">
+<img src="assets/readiness-debt/mha-deku-all-might-sunset.png" alt="Deku cúi đầu bên cạnh All Might trong ánh hoàng hôn" loading="lazy" decoding="async">
+<span class="photo-sticker">body check</span>
+<figcaption><span data-vi="">My Hero Academia · sức mạnh đến trước năng lực hấp thụ</span><span data-en="">My Hero Academia · power arrives before absorption capacity</span></figcaption>
+</figure>
+
+<div class="power-block mha">
+<div class="power-head">
+<svg class="power-icon" viewbox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<circle cx="32" cy="32" r="30" fill="none" stroke="#3D5A9E" stroke-width="2"/>
+<path d="M32 10 L38 28 L58 28 L42 39 L48 58 L32 46 L16 58 L22 39 L6 28 L26 28 Z" fill="#3D5A9E" opacity=".85"/>
+</svg>
+<div>
+<span class="power-tag" data-vi="">Phép ẩn dụ 1</span>
+<span class="power-tag" data-en="">Metaphor 1</span>
+<div class="power-title" data-vi="">One For All</div>
+<div class="power-title" data-en="">One For All</div>
+<div class="power-sub" data-vi="">Sức mạnh truyền lại · cơ thể chưa kịp thích nghi</div>
+<div class="power-sub" data-en="">Inherited power · a body that has not caught up</div>
+</div>
+</div>
+<div class="power-body">
+
+<p class="body-text" data-vi="">Trong <em>My Hero Academia</em>, All Might là một siêu anh hùng sở hữu năng lực đặc biệt mang tên <strong>One For All</strong>, và ông có thể truyền sức mạnh này cho người kế nhiệm. Người được chọn là Deku, một cậu bé vốn không có siêu năng lực nhưng luôn muốn trở thành anh hùng.</p>
+<p class="body-text" data-en="">In <em>My Hero Academia</em>, All Might is a superhero who carries a special power called <strong>One For All</strong>, and he can pass this power on to a successor. The chosen one is Deku, a boy with no power of his own who has always wanted to become a hero.</p>
+
+<p class="body-text" data-vi="">Deku gần như nhận được một nguồn sức mạnh khổng lồ ngay lập tức, tuy nhiên cơ thể của cậu lại chưa được rèn luyện đủ để chịu nổi sức mạnh ấy, vì vậy mỗi lần sử dụng quá nhiều, cậu có thể gãy tay, gãy chân hoặc tự làm tổn thương chính mình.</p>
+<p class="body-text" data-en="">Deku receives an enormous source of power almost instantly, but his body has not been trained enough to withstand it, so every time he uses too much of it, he can break his arm, break his leg, or injure himself.</p>
+
+<p class="body-text" data-vi="">Đây là hình ảnh khá sát với readiness debt, bởi One For All giống như năng lực sản xuất content mà AI mang lại, sức mạnh này xuất hiện rất nhanh, có thể tạo ra khối lượng công việc lớn và giúp một đội L&amp;D làm được nhiều hơn trước, trong khi cơ thể của Deku lại đại diện cho khả năng hấp thụ của tổ chức, bao gồm năng lực review nội dung, kiểm tra độ chính xác, theo dõi hành vi người học và xác minh xem chương trình có tạo ra kết quả thật hay không.</p>
+<p class="body-text" data-en="">This image is a fairly close fit for readiness debt. One For All is like the content production power AI provides: it arrives fast, it can generate a huge volume of work, and it lets a small L&amp;D team do far more than before. Deku's body represents the organization's absorption capacity, meaning its ability to review content, check accuracy, track learner behavior, and verify whether a program produces real results.</p>
+
+<p class="body-text" data-vi="">AI có thể giúp một đội L&amp;D tạo ra mười module trong khoảng thời gian trước đây chỉ đủ để hoàn thành một module, tuy nhiên AI không đồng thời tạo thêm mười chuyên gia để thẩm định nội dung, mười quản lý để quan sát hành vi hay mười hệ thống dữ liệu để theo dõi kết quả sau đào tạo.</p>
+<p class="body-text" data-en="">AI can help an L&amp;D team produce ten modules in the time it used to take to finish one, but it does not simultaneously produce ten subject matter experts to validate the content, ten managers to observe behavior, or ten data systems to track post training results.</p>
+
+<p class="body-text" data-vi="">Sức mạnh sản xuất tăng lên gần như ngay lập tức, còn cơ thể của tổ chức vẫn cần thời gian để thích nghi, vì vậy vấn đề không nằm ở việc AI có mạnh hay không, mà nằm ở việc tổ chức đã đủ sẵn sàng để sử dụng sức mạnh đó hay chưa.</p>
+<p class="body-text" data-en="">Production power increases almost instantly, while the organization's body still needs time to adapt. So the problem is not whether AI is powerful, it is whether the organization is ready to wield that power yet.</p>
+
+<p class="body-text" data-vi="">Cái giá cũng không được trả ngay tại thời điểm content được tạo ra, mà nó tích tụ dần rồi xuất hiện về sau, dưới dạng những chương trình training tốn kém, những kho nội dung ngày càng lớn và những báo cáo đầy số lượt hoàn thành nhưng không có đủ bằng chứng rằng người học đã thực sự thay đổi.</p>
+<p class="body-text" data-en="">The cost is not paid at the moment the content is created either. It accumulates quietly and surfaces later, as expensive training programs, ever larger content libraries, and reports full of completion counts with no real evidence that learners have actually changed.</p>
+
+</div>
+</div>
+</div>
+
+<div class="section" id="s-hxh">
+<div class="section-label" data-vi="">Phần 2 · Hunter x Hunter</div>
+<div class="section-label" data-en="">Part 2 · Hunter x Hunter</div>
+<h2 class="section-h2" data-vi="">Kỳ thi Hunter và khoảng cách giữa <em>đậu với giỏi</em></h2>
+<h2 class="section-h2" data-en="">The Hunter Exam and the gap between <em>passing and being good</em></h2>
+
+<div class="photo-grid">
+<figure class="scene-photo">
+<img src="assets/readiness-debt/hxh-gon-killua-training.png" alt="Gon và Killua luyện tập trong hẻm núi" loading="lazy" decoding="async">
+<span class="photo-sticker">pass ≠ ready</span>
+<figcaption><span data-vi="">Hunter x Hunter · đậu bài thi chưa phải năng lực thực chiến</span><span data-en="">Hunter x Hunter · passing the test is not field capability</span></figcaption>
+</figure>
+<figure class="scene-photo">
+<img src="assets/readiness-debt/hxh-gon-forest.png" alt="Gon đứng giữa khu rừng sau luyện tập" loading="lazy" decoding="async">
+<span class="photo-sticker">evidence</span>
+<figcaption><span data-vi="">Năng lực chỉ lộ ra khi quay lại môi trường thật</span><span data-en="">Capability only shows up back in the real environment</span></figcaption>
+</figure>
+</div>
+
+<div class="power-block hxh">
+<div class="power-head">
+<svg class="power-icon" viewbox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<circle cx="32" cy="32" r="30" fill="none" stroke="#1D8E5E" stroke-width="2"/>
+<rect x="18" y="16" width="28" height="34" rx="2" fill="none" stroke="#1D8E5E" stroke-width="2"/>
+<path d="M24 30 L30 36 L42 22" fill="none" stroke="#1D8E5E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="22" y1="44" x2="42" y2="44" stroke="#1D8E5E" stroke-width="2"/>
+</svg>
+<div>
+<span class="power-tag" data-vi="">Phép ẩn dụ 2</span>
+<span class="power-tag" data-en="">Metaphor 2</span>
+<div class="power-title" data-vi="">Kỳ thi Hunter</div>
+<div class="power-title" data-en="">The Hunter Exam</div>
+<div class="power-sub" data-vi="">Vượt qua bài thi · không đồng nghĩa sống sót ngoài đời thật</div>
+<div class="power-sub" data-en="">Passing the test · does not mean surviving the real thing</div>
+</div>
+</div>
+<div class="power-body">
+
+<p class="body-text" data-vi="">Trong <em>Hunter x Hunter</em>, Hunter là những người được cấp quyền tiếp cận nhiều đặc quyền đặc biệt, chẳng hạn tự do đi lại, tiếp cận thông tin hiếm và tham gia những nhiệm vụ nguy hiểm, tuy nhiên để trở thành Hunter, ứng viên phải vượt qua một kỳ thi cực kỳ khắc nghiệt với tỷ lệ đậu rất thấp.</p>
+<p class="body-text" data-en="">In <em>Hunter x Hunter</em>, Hunters are people granted access to a range of special privileges, such as freedom of travel, access to rare information, and eligibility for dangerous missions. But to become a Hunter, a candidate must pass an extremely brutal exam with a very low pass rate.</p>
+
+<p class="body-text" data-vi="">Người vượt qua kỳ thi sẽ được công nhận ngay là Hunter chính thức, tuy nhiên việc đậu kỳ thi không đồng nghĩa họ đã đủ năng lực để sinh tồn trong thế giới thật, bởi nhiều nhân vật sau đó vẫn phải tiếp tục luyện tập, còn Nen, một hệ thống năng lực quan trọng trong bộ phim, cũng cần được huấn luyện trong thời gian dài trước khi người sử dụng có thể đối đầu với nguy hiểm thực sự.</p>
+<p class="body-text" data-en="">Whoever passes the exam is immediately recognized as an official Hunter, but passing does not mean they are capable of surviving the real world. Many characters keep training afterward, and Nen, an important power system in the show, also requires a long period of training before a user can face real danger.</p>
+
+<p class="body-text" data-vi="">Khoảng cách giữa việc đậu kỳ thi và việc sống sót ngoài thực tế khá giống với khoảng cách giữa các cấp độ trong mô hình Kirkpatrick, một mô hình thường được dùng để đánh giá hiệu quả đào tạo.</p>
+<p class="body-text" data-en="">The gap between passing the exam and surviving in the field looks a lot like the gap between the levels in the Kirkpatrick model, a framework commonly used to evaluate training effectiveness.</p>
+
+<div class="diagram-block">
+<svg viewbox="0 0 640 320" xmlns="http://www.w3.org/2000/svg">
+<rect x="40" y="220" width="430" height="66" fill="#1D8E5E" opacity=".85"/>
+<rect x="40" y="150" width="430" height="64" fill="#1D8E5E" opacity=".6"/>
+<rect x="40" y="80" width="430" height="64" fill="#8B2A1A" opacity=".55"/>
+<rect x="40" y="14" width="430" height="60" fill="#8B2A1A" opacity=".85"/>
+<text x="62" y="260" font-family="JetBrains Mono, monospace" font-size="18" font-weight="600" fill="#fff" data-vi="">Cấp 1 · Phản ứng</text>
+<text x="62" y="260" font-family="JetBrains Mono, monospace" font-size="18" font-weight="600" fill="#fff" data-en="" style="display:none">Level 1 · Reaction</text>
+<text x="62" y="188" font-family="JetBrains Mono, monospace" font-size="18" font-weight="600" fill="#fff" data-vi="">Cấp 2 · Kiến thức</text>
+<text x="62" y="188" font-family="JetBrains Mono, monospace" font-size="18" font-weight="600" fill="#fff" data-en="" style="display:none">Level 2 · Learning</text>
+<text x="62" y="118" font-family="JetBrains Mono, monospace" font-size="18" font-weight="600" fill="#fff" data-vi="">Cấp 3 · Hành vi</text>
+<text x="62" y="118" font-family="JetBrains Mono, monospace" font-size="18" font-weight="600" fill="#fff" data-en="" style="display:none">Level 3 · Behavior</text>
+<text x="62" y="50" font-family="JetBrains Mono, monospace" font-size="18" font-weight="600" fill="#fff" data-vi="">Cấp 4 · Kết quả</text>
+<text x="62" y="50" font-family="JetBrains Mono, monospace" font-size="18" font-weight="600" fill="#fff" data-en="" style="display:none">Level 4 · Results</text>
+<path d="M486,150 C500,150 500,150 486,150 M486,150 L500,150 L500,214 L486,214" fill="none" stroke="rgba(29,142,94,.7)" stroke-width="2"/>
+<text x="510" y="176" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#1D8E5E" data-vi="">AI tăng tốc</text>
+<text x="510" y="176" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#1D8E5E" data-en="" style="display:none">AI speeds this up</text>
+<text x="510" y="196" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--ink-3)" data-vi=""><tspan x="510" dy="0">quiz, khảo sát,</tspan><tspan x="510" dy="18">tỷ lệ hoàn thành</tspan></text>
+<text x="510" y="196" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--ink-3)" data-en="" style="display:none"><tspan x="510" dy="0">quizzes, surveys,</tspan><tspan x="510" dy="18">completion rate</tspan></text>
+<path d="M486,80 L500,80 L500,144 L486,144" fill="none" stroke="rgba(139,42,26,.7)" stroke-width="2"/>
+<text x="510" y="106" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#8B2A1A" data-vi="">cần thời gian</text>
+<text x="510" y="106" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#8B2A1A" data-en="" style="display:none">needs time</text>
+<text x="510" y="126" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--ink-3)" data-vi=""><tspan x="510" dy="0">con người,</tspan><tspan x="510" dy="18">dữ liệu việc thật</tspan></text>
+<text x="510" y="126" font-family="JetBrains Mono, monospace" font-size="13" fill="var(--ink-3)" data-en="" style="display:none"><tspan x="510" dy="0">people,</tspan><tspan x="510" dy="18">real job data</tspan></text>
+</svg>
+</div>
+<div class="diagram-caption" data-vi="">sơ đồ · bốn cấp độ Kirkpatrick, AI tăng tốc hai cấp dễ đo phía dưới</div>
+<div class="diagram-caption" data-en="">diagram · the four Kirkpatrick levels, AI accelerates the two easy to measure levels at the bottom</div>
+
+<p class="body-text" data-vi="">Cấp độ một đo phản ứng của người học, chẳng hạn họ có hài lòng với khóa học hay không, còn cấp độ hai đo lượng kiến thức hoặc kỹ năng họ tiếp thu ngay sau khi học. Hai cấp độ này tương đối dễ đo, bởi tổ chức có thể sử dụng khảo sát, điểm kiểm tra, tỷ lệ hoàn thành hoặc bài quiz cuối khóa, và chúng khá giống với việc xác nhận rằng một nhân vật đã vượt qua kỳ thi Hunter.</p>
+<p class="body-text" data-en="">Level one measures learner reaction, for example whether they were satisfied with the course, and level two measures the knowledge or skill they picked up right after training. Both are relatively easy to measure, since an organization can rely on surveys, test scores, completion rates, or an end of course quiz, and they are quite similar to simply confirming that a character passed the Hunter Exam.</p>
+
+<p class="body-text" data-vi="">Cấp độ ba đo xem người học có thực sự thay đổi hành vi trong công việc hay không, còn cấp độ bốn đo kết quả mà sự thay đổi đó tạo ra cho tổ chức. Hai cấp độ này khó hơn rất nhiều, bởi tổ chức phải chờ người học quay lại công việc, đối mặt với tình huống thật, áp dụng kiến thức, mắc lỗi, điều chỉnh hành vi và tạo ra kết quả có thể quan sát được.</p>
+<p class="body-text" data-en="">Level three measures whether learners actually change their behavior on the job, and level four measures the results that change produces for the organization. Both are far harder, because the organization has to wait for learners to return to work, face real situations, apply what they learned, make mistakes, adjust, and produce an observable outcome.</p>
+
+<p class="body-text" data-vi="">Khi AI làm tăng mạnh số lượng content, phần dễ đo cũng tăng lên rất nhanh, bởi mỗi module mới đều có thể đi kèm bài quiz, khảo sát phản hồi, tỷ lệ xem video và dữ liệu hoàn thành, tuy nhiên phần khó đo lại không thể tăng theo cùng tốc độ, vì vẫn cần người quản lý quan sát, vẫn cần dữ liệu công việc thực tế và vẫn cần thời gian để xem hành vi có thực sự thay đổi hay không.</p>
+<p class="body-text" data-en="">As AI sharply increases the volume of content, the easy to measure part grows just as fast, since every new module can ship with a quiz, a feedback survey, view rates, and completion data. But the hard to measure part cannot grow at the same speed, because it still needs a manager to observe, real job data, and time to see whether behavior has actually changed.</p>
+
+<p class="body-text" data-vi="">Nói cách khác, AI có thể giúp tổ chức tạo ra hàng trăm “kỳ thi Hunter”, nhưng không bảo đảm những người vượt qua các kỳ thi đó đủ khả năng xử lý công việc thật.</p>
+<p class="body-text" data-en="">In other words, AI can help an organization produce hundreds of "Hunter Exams," but it does not guarantee that the people who pass them can actually handle the real job.</p>
+
+<div class="expert-card">
+<div class="expert-name" data-vi="">Ví dụ thực tế</div>
+<div class="expert-name" data-en="">Real world example</div>
+<p data-vi="">Synthesia dẫn trường hợp một doanh nghiệp trong lĩnh vực y tế thiết kế lại chương trình phát triển quản lý, tuy nhiên khi xem lại phản hồi sau đó, họ phát hiện nhiều quản lý vẫn không xử lý được những cuộc trò chuyện khó, chẳng hạn đưa phản hồi tiêu cực hoặc giải quyết xung đột.</p>
+<p data-en="">Synthesia cites the case of a healthcare organization that redesigned its manager development program. When they later reviewed the feedback, they found that many managers still could not handle difficult conversations, such as delivering negative feedback or resolving conflict.</p>
+<p data-vi="">Chương trình đã được hoàn thành đúng tiến độ, người học có thể cũng đã tham gia đầy đủ và hoàn thành các hoạt động cần thiết, tuy nhiên thay đổi hành vi, tức cấp độ ba trong mô hình Kirkpatrick, lại không xảy ra.</p>
+<p data-en="">The program was delivered on schedule, and learners may well have attended fully and completed every required activity, but the behavior change that level three of the Kirkpatrick model is supposed to capture simply did not happen.</p>
+<p data-vi="">Đây là thời điểm readiness debt bắt đầu hiện hình rõ ràng, bởi tổ chức đã hoàn thành việc cung cấp training nhưng chưa tạo ra năng lực mà chương trình được thiết kế để tạo ra.</p>
+<p data-en="">This is the moment readiness debt becomes visible: the organization finished delivering the training, but never actually built the capability the program was designed to create.</p>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="pullquote">
+<p data-vi="">Việc tạo ra một trăm phân thân không đồng nghĩa Naruto có thể ngay lập tức biến toàn bộ kinh nghiệm đó thành năng lực ổn định.</p>
+<p data-en="">Creating a hundred shadow clones does not mean Naruto can instantly turn all of that experience into stable ability.</p>
+</div>
+
+<div class="section" id="s-naruto">
+<div class="section-label" data-vi="">Phần 3 · Naruto</div>
+<div class="section-label" data-en="">Part 3 · Naruto</div>
+<h2 class="section-h2" data-vi="">Kage Bunshin và giới hạn của việc <em>nhân bản</em></h2>
+<h2 class="section-h2" data-en="">Kage Bunshin and the limits of <em>duplication</em></h2>
+
+<figure class="scene-photo">
+<img src="assets/readiness-debt/naruto-clones.png" alt="Naruto tạo nhiều phân thân trong trận chiến" loading="lazy" decoding="async">
+<span class="photo-sticker">more ≠ learned</span>
+<figcaption><span data-vi="">Naruto · nhân bản nhanh không tự động biến thành năng lực ổn định</span><span data-en="">Naruto · fast duplication does not automatically become stable ability</span></figcaption>
+</figure>
+
+<div class="power-block naruto">
+<div class="power-head">
+<svg class="power-icon" viewbox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<circle cx="32" cy="32" r="30" fill="none" stroke="#C77A1E" stroke-width="2"/>
+<circle cx="20" cy="24" r="6" fill="none" stroke="#C77A1E" stroke-width="2"/>
+<circle cx="44" cy="24" r="6" fill="none" stroke="#C77A1E" stroke-width="2"/>
+<circle cx="32" cy="42" r="9" fill="#C77A1E" opacity=".85"/>
+<path d="M20 30 L27 36" stroke="#C77A1E" stroke-width="2"/>
+<path d="M44 30 L37 36" stroke="#C77A1E" stroke-width="2"/>
+</svg>
+<div>
+<span class="power-tag" data-vi="">Phép ẩn dụ 3</span>
+<span class="power-tag" data-en="">Metaphor 3</span>
+<div class="power-title" data-vi="">Kage Bunshin</div>
+<div class="power-title" data-en="">Kage Bunshin</div>
+<div class="power-sub" data-vi="">Nhân bản dễ dàng · tích hợp kinh nghiệm vẫn cần bản gốc</div>
+<div class="power-sub" data-en="">Easy duplication · integration still needs the original</div>
+</div>
+</div>
+<div class="power-body">
+
+<p class="body-text" data-vi="">Trong <em>Naruto</em>, Kage Bunshin là một kỹ thuật cho phép Naruto tạo ra nhiều phân thân cùng lúc. Những phân thân này có thể hoạt động, chiến đấu hoặc luyện tập độc lập, sau đó khi chúng biến mất, ký ức và kinh nghiệm mà từng phân thân thu được sẽ được trả lại cho Naruto bản gốc.</p>
+<p class="body-text" data-en="">In <em>Naruto</em>, Kage Bunshin is a technique that lets Naruto create many clones of himself at once. Each clone can act, fight, or train independently, and when a clone disappears, the memory and experience it gathered are returned to the original Naruto.</p>
+
+<p class="body-text" data-vi="">Nhờ cơ chế này, Naruto có thể tạo ra hàng trăm phân thân để luyện tập song song, vì vậy trong cùng một khoảng thời gian, cậu có thể tích lũy lượng kinh nghiệm lớn hơn rất nhiều so với một người chỉ luyện tập bằng một cơ thể.</p>
+<p class="body-text" data-en="">Thanks to this mechanic, Naruto can create hundreds of clones to train in parallel, so in the same stretch of time he can accumulate far more experience than someone training with a single body.</p>
+
+<p class="body-text" data-vi="">Nhìn bề ngoài, đây gần như là hình ảnh hoàn hảo cho AI trong L&amp;D, bởi AI cũng cho phép một đội ngũ nhỏ tạo ra nhiều phiên bản content cùng lúc, một outline có thể nhanh chóng được biến thành bài giảng, video, câu hỏi trắc nghiệm, tình huống mô phỏng, bản tóm tắt và tài liệu hướng dẫn.</p>
+<p class="body-text" data-en="">On the surface, this looks like a near perfect image for AI in L&amp;D, since AI also lets a small team produce many versions of content at once. An outline can quickly become a lesson, a video, quiz questions, a simulated scenario, a summary, and a guide.</p>
+
+<p class="body-text" data-vi="">Tuy nhiên, chi tiết quan trọng thường bị bỏ qua là kinh nghiệm chỉ thực sự trở thành của Naruto khi phân thân biến mất và ký ức được trả về cho bản gốc, sau đó chính Naruto vẫn phải xử lý, hấp thụ và tích hợp lượng kinh nghiệm ấy.</p>
+<p class="body-text" data-en="">The detail people usually miss is that the experience only truly belongs to Naruto once a clone disappears and the memory returns to the original. After that, Naruto himself still has to process, absorb, and integrate that experience.</p>
+
+<p class="body-text" data-vi="">Việc tạo ra một trăm phân thân không đồng nghĩa Naruto có thể ngay lập tức biến toàn bộ kinh nghiệm đó thành năng lực ổn định, bởi càng nhiều dữ liệu được đẩy về cùng lúc, cơ thể và tâm trí của bản gốc càng phải chịu áp lực xử lý lớn hơn.</p>
+<p class="body-text" data-en="">Creating a hundred clones does not mean Naruto can instantly turn all of that experience into stable ability, because the more data gets pushed back at once, the more processing pressure the original body and mind have to absorb.</p>
+
+<p class="body-text" data-vi="">Đây chính là sự bất đối xứng nằm ở gốc của readiness debt, bởi AI khiến việc nhân bản content trở nên cực kỳ nhanh và rẻ, trong khi việc tích hợp content đó vào năng lực thật của người học vẫn bị giới hạn bởi thời gian thực hành, cơ hội áp dụng, phản hồi từ môi trường, chất lượng coaching và dữ liệu quan sát hành vi.</p>
+<p class="body-text" data-en="">This is the exact asymmetry at the root of readiness debt. AI makes duplicating content extremely fast and cheap, while integrating that content into a learner's real ability is still bound by practice time, opportunities to apply it, feedback from the environment, coaching quality, and behavioral observation data.</p>
+
+<p class="body-text" data-vi="">Nhân bản nội dung có thể diễn ra trong vài phút, nhưng quá trình để một người hiểu, ghi nhớ, thử nghiệm, mắc lỗi, điều chỉnh và hình thành năng lực vẫn cần thời gian, vì vậy AI có thể rút ngắn phần sản xuất nhưng không thể xóa bỏ phần con người phải thực sự học.</p>
+<p class="body-text" data-en="">Content can be duplicated in a matter of minutes, but the process of a person understanding, remembering, trying, failing, adjusting, and forming real ability still takes time. AI can shorten the production part, but it cannot remove the part where a human being actually has to learn.</p>
+
+<p class="body-text" data-vi="">Nếu tổ chức chỉ tập trung tạo thêm phân thân mà không xây dựng cơ chế đưa kinh nghiệm trở lại bản gốc, số lượng content sẽ tăng lên, còn năng lực thực tế của người học chưa chắc tăng theo.</p>
+<p class="body-text" data-en="">If an organization only focuses on creating more clones without building a mechanism to bring experience back to the original, content volume will keep rising while the learners' real capability may not rise with it.</p>
+
+</div>
+</div>
+</div>
+
+<div class="section" id="s-experts">
+<div class="section-label" data-vi="">Thực hành · Ba nguyên tắc</div>
+<div class="section-label" data-en="">Practice · Three principles</div>
+<h2 class="section-h2" data-vi="">Chuyên gia nói gì về việc <em>tránh lạm dụng</em> AI?</h2>
+<h2 class="section-h2" data-en="">What do experts say about <em>avoiding AI overreach</em>?</h2>
+
+<p class="body-text" data-vi="">Các tổ chức và chuyên gia trong ngành đã đưa ra ba nguyên tắc khá nhất quán, và điểm chung nằm ở chỗ AI nên được sử dụng để mở rộng năng lực của con người, chứ không nên trở thành lý do để loại bỏ các bước xác minh, đánh giá và chịu trách nhiệm.</p>
+<p class="body-text" data-en="">Organizations and experts in the field converge on three fairly consistent principles, and the common thread is that AI should extend human capability, not become a reason to remove verification, evaluation, and accountability.</p>
+
+<div class="guardrail-board">
+<span class="guardrail-sticker one">human check</span>
+<span class="guardrail-sticker two">no blind publish</span>
+<p class="guardrail-intro" data-vi="">Nếu phần trước là ba phép ẩn dụ anime, thì phần này là bản checklist thực chiến: AI có thể tăng tốc đầu ra, nhưng mỗi đầu ra vẫn cần người chịu trách nhiệm, mức review tương xứng rủi ro và bằng chứng từ công việc thật.</p>
+<p class="guardrail-intro" data-en="">If the previous sections were three anime metaphors, this is the practical checklist: AI can accelerate output, but each output still needs accountable humans, risk-matched review, and evidence from real work.</p>
+
+<div class="guardrail-flow">
+<article class="guardrail-card">
+<span class="guardrail-number">01</span>
+<h3 data-vi="">AI làm nháp, người chốt nghĩa</h3>
+<h3 data-en="">AI drafts, humans decide</h3>
+<p data-vi="">Dùng AI để tạo bản đầu tiên, nhưng không bỏ bước tinh chỉnh, cá nhân hóa và kiểm tra độ đúng. Output chỉ thành tri thức khi có người chịu trách nhiệm xác nhận.</p>
+<p data-en="">Use AI for the first draft, but keep refinement, personalization, and accuracy checks. Output becomes knowledge only when someone is accountable for it.</p>
+<span class="guardrail-chip" data-vi="">nháp ≠ xuất bản</span>
+<span class="guardrail-chip" data-en="">draft ≠ publish</span>
+</article>
+<article class="guardrail-card">
+<span class="guardrail-number">02</span>
+<h3 data-vi="">Rủi ro cao, review sâu</h3>
+<h3 data-en="">High risk, deep review</h3>
+<p data-vi="">Nội dung compliance, pháp lý, coaching lãnh đạo, phản hồi hiệu suất hoặc dữ liệu nội bộ không nên được đối xử như một bài blog nháp.</p>
+<p data-en="">Compliance, legal, leadership coaching, performance feedback, or internal-data content should not be treated like a casual draft.</p>
+<span class="guardrail-chip" data-vi="">review theo rủi ro</span>
+<span class="guardrail-chip" data-en="">risk-matched</span>
+</article>
+<article class="guardrail-card">
+<span class="guardrail-number">03</span>
+<h3 data-vi="">Đo học, không chỉ đo tốc độ</h3>
+<h3 data-en="">Measure learning, not speed</h3>
+<p data-vi="">Nếu chỉ đo số module, thời gian tiết kiệm hoặc lượt hoàn thành, AI gần như luôn trông có vẻ thành công. Hãy kéo thước đo về hành vi và kết quả.</p>
+<p data-en="">If you only measure modules, time saved, or completions, AI will almost always look successful. Move the metric back to behavior and outcomes.</p>
+<span class="guardrail-chip" data-vi="">bằng chứng trước</span>
+<span class="guardrail-chip" data-en="">evidence first</span>
+</article>
+</div>
+
+<div class="guardrail-map">
+<div class="guardrail-pipeline">
+<div class="pipe-title" data-vi="">Luồng an toàn tối thiểu</div>
+<div class="pipe-title" data-en="">Minimum safe flow</div>
+<div class="pipe-row">
+<div class="pipe-node" data-vi="">Đầu ra AI</div>
+<div class="pipe-node" data-en="">AI output</div>
+<div class="pipe-arrow">→</div>
+<div class="pipe-node" data-vi="">Người review</div>
+<div class="pipe-node" data-en="">Human review</div>
+<div class="pipe-arrow">→</div>
+<div class="pipe-node" data-vi="">Bằng chứng công việc</div>
+<div class="pipe-node" data-en="">Workplace evidence</div>
+</div>
+</div>
+<div class="risk-stack">
+<div class="risk-title" data-vi="">Đèn cảnh báo</div>
+<div class="risk-title" data-en="">Warning lights</div>
+<div class="risk-list">
+<div class="risk-item"><b data-vi="">Đỏ</b><b data-en="">Red</b><span data-vi="">Có pháp lý, an toàn, sức khỏe, tài chính hoặc dữ liệu nhạy cảm.</span><span data-en="">Legal, safety, health, finance, or sensitive data is involved.</span></div>
+<div class="risk-item"><b data-vi="">Vàng</b><b data-en="">Yellow</b><span data-vi="">Có phán đoán tinh tế, văn hóa nội bộ hoặc tình huống con người phức tạp.</span><span data-en="">Nuanced judgment, internal culture, or complex human situations are involved.</span></div>
+<div class="risk-item"><b data-vi="">Xanh</b><b data-en="">Green</b><span data-vi="">Nội dung thấp rủi ro, có nguồn rõ và dễ sửa sau review.</span><span data-en="">Low-risk content with clear sources and easy post-review correction.</span></div>
+</div>
+</div>
+</div>
+
+<div class="cognitive-card">
+<div class="cognitive-label" data-vi="">Khái niệm liên quan · Cognitive debt</div>
+<div class="cognitive-label" data-en="">Related concept · Cognitive debt</div>
+<p data-vi=""><strong>Cognitive debt</strong> là lời nhắc rằng cái lợi thấy ngay thường che phần chi phí bị đẩy về sau. Với AI trong L&amp;D, chi phí ấy có thể là năng lực đánh giá bị mòn đi, dữ liệu học tập nhiễu hơn, hoặc tổ chức mất dần thói quen hỏi: nội dung này có thật sự tạo năng lực không?</p>
+<p data-en=""><strong>Cognitive debt</strong> is a reminder that immediate convenience can hide costs pushed into the future. In L&amp;D, those costs can include weaker judgment, noisier learning data, or an organization losing the habit of asking whether a piece of content actually builds capability.</p>
+<p data-vi="">Vì vậy, nguyên tắc đi kèm là ghi lại prompt, phiên bản AI, ngày tạo, người review và thay đổi sau review. Truy vết không ngăn mọi lỗi, nhưng giúp tổ chức biết ai đã tạo, ai đã xác minh và quyết định nào đã được đưa ra.</p>
+<p data-en="">So the companion practice is traceability: log the prompt, AI version, creation date, reviewer, and post-review changes. It will not prevent every mistake, but it shows who created, who verified, and what decisions were made.</p>
+</div>
+</div>
+
+<div class="expert-details">
+
+<h3 class="section-h3" data-vi="">Chỉ dùng AI làm bản nháp, con người phải thực hiện bước tích hợp cuối</h3>
+<h3 class="section-h3" data-en="">Use AI only for drafts, humans must own the final integration step</h3>
+
+<p class="body-text" data-vi="">Sau khi làm việc với hơn 200 đội L&amp;D triển khai AI, Workademy khuyến nghị sử dụng AI để tạo bản nháp đầu tiên, bởi cách làm này có thể giúp tiết kiệm từ 60% đến 80% thời gian sản xuất, tuy nhiên phần thời gian tiết kiệm được không đồng nghĩa bước review có thể biến mất, bởi content vẫn cần được con người tinh chỉnh, cá nhân hóa, kiểm tra tính chính xác và xác nhận mức độ phù hợp trước khi đưa vào sử dụng.</p>
+<p class="body-text" data-en="">After working with more than 200 L&amp;D teams deploying AI, Workademy recommends using AI to produce the first draft, since this approach can save between 60 and 80 percent of production time. But saving time does not mean the review step can disappear, because content still needs a human to refine it, personalize it, check it for accuracy, and confirm it is fit for purpose before it goes live.</p>
+
+<p class="body-text" data-vi="">Cornerstone cũng nhấn mạnh rằng mọi content do AI tạo ra đều cần có người review, và đây phải được xem là một yêu cầu bắt buộc thay vì một lựa chọn bổ sung, bởi AI có thể tạo ra khối lượng nội dung rất lớn, nhưng nội dung đó chỉ thực sự trở thành tri thức của tổ chức sau khi có người chịu trách nhiệm xác nhận rằng nó đúng, phù hợp và có thể sử dụng được.</p>
+<p class="body-text" data-en="">Cornerstone likewise stresses that every piece of AI generated content needs a human reviewer, and this should be treated as a mandatory requirement rather than an optional extra. AI can produce a huge volume of content, but that content only becomes real organizational knowledge once someone takes responsibility for confirming it is accurate, appropriate, and usable.</p>
+
+<p class="body-text" data-vi="">Nếu bỏ qua bước này, tổ chức không thực sự sở hữu một hệ thống tri thức, mà chỉ đang sở hữu một kho output được tạo ra với tốc độ cao, trong đó không ai biết chắc phần nào chính xác, phần nào phù hợp và phần nào có thể gây rủi ro.</p>
+<p class="body-text" data-en="">Skip this step, and the organization does not really own a knowledge system, it owns a high speed pile of output where no one can say for certain which parts are accurate, which are appropriate, and which carry risk.</p>
+
+<h3 class="section-h3" data-vi="">Không phải nội dung nào cũng nên giao cho AI</h3>
+<h3 class="section-h3" data-en="">Not every kind of content should be handed to AI</h3>
+
+<p class="body-text" data-vi="">Workademy liệt kê bốn nhóm nội dung cần đặc biệt thận trọng khi sử dụng AI, bao gồm nội dung đòi hỏi chuyên môn sâu và khả năng phán đoán tinh tế, nội dung liên quan đến tuân thủ pháp lý nơi một sai sót nhỏ có thể tạo ra hậu quả lớn, nội dung đặc thù của doanh nghiệp mà mô hình AI không có đủ dữ liệu nội bộ để hiểu chính xác, cùng với những nội dung có yếu tố con người cao như coaching lãnh đạo, phản hồi hiệu suất hoặc xử lý xung đột.</p>
+<p class="body-text" data-en="">Workademy lists four categories of content that call for extra caution with AI: content requiring deep expertise and nuanced judgment, content tied to legal compliance where a small error can carry large consequences, content specific to the business that the AI model lacks the internal data to understand accurately, and content with a high human element, such as leadership coaching, performance feedback, or conflict resolution.</p>
+
+<p class="body-text" data-vi="">Họ dẫn trường hợp một công ty sử dụng AI để soạn khóa học phòng chống quấy rối tình dục, tuy nhiên nội dung được tạo ra lại quá chung chung, thiếu sắc thái pháp lý và không phản ánh được sự khác biệt trong quy định giữa từng bang.</p>
+<p class="body-text" data-en="">They cite the case of a company that used AI to draft a sexual harassment prevention course, only to find the resulting content too generic, missing legal nuance, and failing to reflect how regulations differ from state to state.</p>
+
+<p class="body-text" data-vi="">Đây không chỉ là một lỗi về cách diễn đạt, mà là lỗi về bối cảnh, chuyên môn và trách nhiệm, bởi trong những lĩnh vực có mức độ rủi ro cao, một nội dung nghe có vẻ hợp lý vẫn có thể sai về pháp lý hoặc không phù hợp với tình huống cụ thể.</p>
+<p class="body-text" data-en="">This was not just a wording mistake, it was a failure of context, expertise, and accountability. In high risk domains, content that sounds reasonable can still be legally wrong or a poor fit for the specific situation.</p>
+
+<p class="body-text" data-vi="">ProEdit cũng đề xuất cùng một logic dưới dạng quy trình, theo đó mức độ review phải tương xứng với mức độ rủi ro, vì content nội bộ có rủi ro thấp có thể chỉ cần một lượt biên tập nhẹ, trong khi nội dung dành cho khách hàng, liên quan đến tuân thủ hoặc thuộc lĩnh vực được quản lý chặt phải trải qua quy trình thẩm định nghiêm ngặt hơn nhiều.</p>
+<p class="body-text" data-en="">ProEdit proposes the same logic as a process: the depth of review should match the level of risk. Low risk internal content might only need a light editing pass, while content aimed at customers, tied to compliance, or falling under a heavily regulated domain needs a much stricter vetting process.</p>
+
+<p class="body-text" data-vi="">Không phải kỹ năng nào cũng có thể được kiểm tra bằng một bài thi chuẩn hóa, bởi có những năng lực chỉ lộ ra khi người học phải đối mặt với tình huống thật, chịu áp lực thật và đưa ra quyết định có hậu quả thật, vì vậy nếu công việc yêu cầu khả năng phán đoán, một bài quiz năm câu không thể được xem là bằng chứng đầy đủ cho thấy người học đã sẵn sàng.</p>
+<p class="body-text" data-en="">Not every skill can be checked with a standardized test. Some capabilities only reveal themselves when a learner faces a real situation, under real pressure, making decisions with real consequences. So if a job requires judgment, a five question quiz cannot be treated as sufficient proof that the learner is ready.</p>
+
+<h3 class="section-h3" data-vi="">Đừng đo thành công chỉ bằng tốc độ</h3>
+<h3 class="section-h3" data-en="">Do not measure success by speed alone</h3>
+
+<p class="body-text" data-vi="">Visla liệt kê khá rõ những việc tổ chức cần tránh, bao gồm xuất bản output của AI mà không qua review của con người, sử dụng công cụ chưa được phê duyệt để xử lý dữ liệu nhạy cảm, tạo ra nội dung chung chung thiếu bối cảnh và đánh giá thành công chỉ dựa trên tốc độ sản xuất.</p>
+<p class="body-text" data-en="">Visla spells out fairly clearly what organizations should avoid: publishing AI output without human review, using unapproved tools to handle sensitive data, producing generic content that lacks context, and judging success purely by production speed.</p>
+
+<p class="body-text" data-vi="">Tốc độ có thể là một chỉ số hữu ích, nhưng nó chỉ phản ánh hiệu quả của quá trình tạo content, chứ không phản ánh hiệu quả của quá trình học, bởi một đội L&amp;D có thể giảm thời gian sản xuất khóa học từ bốn tuần xuống còn bốn ngày mà vẫn không tạo ra bất kỳ thay đổi hành vi nào nơi người học.</p>
+<p class="body-text" data-en="">Speed can be a useful metric, but it only reflects the efficiency of content creation, not the efficiency of learning. An L&amp;D team can cut course production time from four weeks to four days and still produce zero behavior change in learners.</p>
+
+<p class="body-text" data-vi="">Nếu tổ chức chỉ đo số lượng module được tạo ra, thời gian tiết kiệm được hoặc số lượt hoàn thành khóa học, AI gần như chắc chắn sẽ trông giống một thành công, tuy nhiên nếu chuyển sang đo khả năng áp dụng, chất lượng quyết định, tần suất sai sót hoặc kết quả công việc, bức tranh có thể hoàn toàn khác.</p>
+<p class="body-text" data-en="">If an organization only measures the number of modules produced, time saved, or completion counts, AI will almost certainly look like a success. But switch to measuring application, decision quality, error frequency, or job outcomes, and the picture can look completely different.</p>
+
+<div class="expert-card">
+<div class="expert-name" data-vi="">Khái niệm liên quan · Cognitive debt</div>
+<div class="expert-name" data-en="">Related concept · Cognitive debt</div>
+<p data-vi="">Một khái niệm liên quan đáng chú ý là <strong>cognitive debt</strong>, được Christopher Dede, nghiên cứu viên cấp cao tại Harvard Graduate School of Education, nêu ra để mô tả nguy cơ xuất hiện khi người dùng liên tục giao toàn bộ phần suy nghĩ cho AI, bởi sự phụ thuộc này có thể dần bào mòn khả năng tư duy phản biện và sáng tạo của chính người sử dụng.</p>
+<p data-en="">A related concept worth noting is <strong>cognitive debt</strong>, put forward by Christopher Dede, a senior research fellow at Harvard Graduate School of Education, to describe the risk that emerges when users keep handing all of their thinking over to AI. That dependence can gradually erode the user's own critical thinking and creative ability.</p>
+<p data-vi="">Readiness debt và cognitive debt không hoàn toàn giống nhau, tuy nhiên chúng có cùng một cơ chế nền tảng, đó là lợi ích xuất hiện ngay trong khi chi phí bị đẩy về tương lai, bởi người dùng nhìn thấy tốc độ, sự tiện lợi và khối lượng output trước, còn sự suy giảm về khả năng đánh giá, khả năng tư duy hoặc mức độ sẵn sàng chỉ lộ ra sau một thời gian dài.</p>
+<p data-en="">Readiness debt and cognitive debt are not identical, but they share the same underlying mechanism: the benefit shows up immediately while the cost is pushed into the future. Users see speed, convenience, and output volume first, while the decline in judgment, thinking ability, or readiness only becomes visible much later.</p>
+<p data-vi="">Một nguyên tắc thực hành quan trọng đi kèm là cần ghi lại prompt đã sử dụng, phiên bản AI, ngày tạo nội dung, người review và những thay đổi được thực hiện sau review, bởi khả năng truy vết không ngăn được mọi sai sót, nhưng nó giúp tổ chức xác định ai đã tạo, ai đã xác minh và quyết định nào đã được đưa ra khi vấn đề xuất hiện.</p>
+<p data-en="">An important accompanying practice is to log the prompt used, the AI version, the date the content was created, who reviewed it, and what changes were made after review. Traceability cannot prevent every mistake, but it lets an organization identify who created something, who verified it, and what decisions were made when a problem surfaces.</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="closing section" id="s-close">
+<div class="section-label" data-vi="">Kết · Ba cặp đối lập, một câu hỏi</div>
+<div class="section-label" data-en="">Closing · Three contrasts, one question</div>
+<h2 class="closing-h2" data-vi="">Tổ chức của bạn đang <em>nhân bản content</em>, hay đang <em>xây năng lực</em>?</h2>
+<h2 class="closing-h2" data-en="">Is your organization <em>duplicating content</em>, or <em>building capability</em>?</h2>
+
+<p class="body-text" data-vi="">Ba câu chuyện anime mà Tg sử dụng đều dẫn về cùng một điểm, đó là sức mạnh xuất hiện nhanh không đồng nghĩa cơ thể đã sẵn sàng sử dụng nó, vượt qua một kỳ thi không đồng nghĩa người học đủ năng lực sinh tồn trong thực tế, còn nhân bản nhanh không đồng nghĩa kinh nghiệm đã được tích hợp ngay vào bản gốc.</p>
+<p class="body-text" data-en="">All three anime stories Tg used lead to the same point: power arriving fast does not mean the body is ready to use it, passing an exam does not mean a learner can survive the real thing, and fast duplication does not mean experience has been integrated into the original.</p>
+
+<p class="body-text" data-vi="">AI đang làm rất tốt phần đầu của từng cặp đối lập ấy, bởi nó tạo ra content nhanh hơn, nhân bản tài liệu dễ hơn và giúp tổ chức triển khai nhiều hoạt động học tập hơn, tuy nhiên phần sau, tức việc xác minh nội dung có chính xác hay không, người học có thực sự thay đổi hành vi hay không và kết quả công việc có được cải thiện hay không, vẫn cần thời gian, con người, dữ liệu và một hệ thống đánh giá đủ nghiêm túc.</p>
+<p class="body-text" data-en="">AI is doing the first half of each of those contrasts extremely well. It creates content faster, duplicates materials more easily, and lets an organization roll out more learning activities. But the second half, verifying whether content is accurate, whether learners actually change behavior, and whether job outcomes improve, still needs time, people, data, and a genuinely rigorous evaluation system.</p>
+
+<p class="body-text" data-vi="">Vấn đề vì thế không phải là tổ chức có nên sử dụng AI trong L&amp;D hay không, mà là tổ chức đang dùng AI để tăng năng lực học tập hay chỉ đang tăng số lượng content.</p>
+<p class="body-text" data-en="">The question, then, is not whether an organization should use AI in L&amp;D. It is whether the organization is using AI to increase learning capability, or simply to increase content volume.</p>
+
+<p class="body-text" data-vi="">Một tổ chức chưa thật sự sẵn sàng không phải là tổ chức thiếu AI, mà là tổ chức có thể tạo ra hàng trăm khóa học mới nhưng không thể trả lời khóa học nào đang thực sự tạo ra giá trị.</p>
+<p class="body-text" data-en="">An organization that is not truly ready is not one that lacks AI. It is one that can produce hundreds of new courses but cannot say which of them is actually creating value.</p>
+
+<div class="outro-sources">
+<h3 data-vi="">Nguồn tham khảo</h3>
+<h3 data-en="">References</h3>
+<ul>
+<li data-vi="">Amy Vidor, Synthesia. <em>5 L&amp;D Trends Shaping 2026 (And How to Act on Them)</em>. <a href="https://www.synthesia.io/post/learning-and-development-trends" target="_blank" rel="noopener">synthesia.io/post/learning-and-development-trends</a></li>
+<li data-en="">Amy Vidor, Synthesia. <em>5 L&amp;D Trends Shaping 2026 (And How to Act on Them)</em>. <a href="https://www.synthesia.io/post/learning-and-development-trends" target="_blank" rel="noopener">synthesia.io/post/learning-and-development-trends</a></li>
+<li data-vi="">Amy Vidor, eLearning Industry. <em>The Growing Readiness Debt In L&amp;D</em>. <a href="https://elearningindustry.com/the-growing-readiness-debt-in-ld" target="_blank" rel="noopener">elearningindustry.com/the-growing-readiness-debt-in-ld</a></li>
+<li data-en="">Amy Vidor, eLearning Industry. <em>The Growing Readiness Debt In L&amp;D</em>. <a href="https://elearningindustry.com/the-growing-readiness-debt-in-ld" target="_blank" rel="noopener">elearningindustry.com/the-growing-readiness-debt-in-ld</a></li>
+<li data-vi="">Synthesia. <em>AI in Learning &amp; Development Report 2026</em>. <a href="https://www.synthesia.io/reports/ai-in-learning-and-development-report-2026" target="_blank" rel="noopener">synthesia.io/reports/ai-in-learning-and-development-report-2026</a></li>
+<li data-en="">Synthesia. <em>AI in Learning &amp; Development Report 2026</em>. <a href="https://www.synthesia.io/reports/ai-in-learning-and-development-report-2026" target="_blank" rel="noopener">synthesia.io/reports/ai-in-learning-and-development-report-2026</a></li>
+<li data-vi="">Kirkpatrick Partners. <em>The Kirkpatrick Model</em>. <a href="https://www.kirkpatrickpartners.com/the-kirkpatrick-model/" target="_blank" rel="noopener">kirkpatrickpartners.com/the-kirkpatrick-model</a></li>
+<li data-en="">Kirkpatrick Partners. <em>The Kirkpatrick Model</em>. <a href="https://www.kirkpatrickpartners.com/the-kirkpatrick-model/" target="_blank" rel="noopener">kirkpatrickpartners.com/the-kirkpatrick-model</a></li>
+<li data-vi="">Paul Denny, Hassan Khosravi, Arto Hellas, Juho Leinonen, Sami Sarsa. <em>Can We Trust AI-Generated Educational Content?</em> arXiv, 2023. <a href="https://arxiv.org/abs/2306.10509" target="_blank" rel="noopener">arxiv.org/abs/2306.10509</a></li>
+<li data-en="">Paul Denny, Hassan Khosravi, Arto Hellas, Juho Leinonen, Sami Sarsa. <em>Can We Trust AI-Generated Educational Content?</em> arXiv, 2023. <a href="https://arxiv.org/abs/2306.10509" target="_blank" rel="noopener">arxiv.org/abs/2306.10509</a></li>
+<li data-vi="">Hannah-Beth Clark và cộng sự. <em>Building Effective Safety Guardrails in AI Education Tools</em>. arXiv, 2025. <a href="https://arxiv.org/abs/2508.05360" target="_blank" rel="noopener">arxiv.org/abs/2508.05360</a></li>
+<li data-en="">Hannah-Beth Clark et al. <em>Building Effective Safety Guardrails in AI Education Tools</em>. arXiv, 2025. <a href="https://arxiv.org/abs/2508.05360" target="_blank" rel="noopener">arxiv.org/abs/2508.05360</a></li>
+</ul>
+</div>
+
+<div class="post-nav">
+<a data-vi="" href="index.html">← Về trang blog</a>
+<a data-en="" href="index.html" style="display:none">← Back to blog</a>
+<a data-vi="" href="contact.html#anonymous-mailbox">Gửi phản hồi →</a>
+<a data-en="" href="contact.html#anonymous-mailbox" style="display:none">Send feedback →</a>
+</div>
+
+</div>
+
+</div>
+
+<p class="copyright-note" data-vi="">© 2026 Bui Tong Giang · Fieldnotes on Learning. Bài viết, hình ảnh, mã demo và cách trình bày thuộc tác giả. Vui lòng không sao chép toàn văn, đăng lại hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý. Khi trích dẫn một phần nội dung, vui lòng ghi rõ nguồn: <a href="https://tellstory-blog.web.app/readiness-debt.html">Fieldnotes on Learning</a>.</p>
+<p class="copyright-note" data-en="" style="display:none">© 2026 Bui Tong Giang · Fieldnotes on Learning. The article, images, demo code, and presentation belong to the author. Please do not reproduce the full text, republish it, or reuse the source code without permission. When quoting a short excerpt, please credit: <a href="https://tellstory-blog.web.app/readiness-debt.html">Fieldnotes on Learning</a>.</p>
+
+<section class="comments-section" data-comments data-post-slug="readiness-debt" data-post-title="Readiness debt: khi AI nhanh hơn sự sẵn sàng" data-comment-lang="vi"></section>
+
+<footer>
+<p class="footer-note" data-vi="">Bài viết này sử dụng My Hero Academia, Hunter x Hunter và Naruto như các lens phân tích L&amp;D, AI và instructional design, không nhằm mục đích thương mại. Nhân vật, hình ảnh và tình tiết thuộc tác giả, studio và nhà xuất bản gốc. Góc nhìn phân tích lý thuyết học tập là của tác giả bài viết.</p>
+<p class="footer-note" data-en="" style="display:none">This article uses My Hero Academia, Hunter x Hunter, and Naruto as lenses for L&amp;D, AI, and instructional design analysis, for non-commercial purposes only. Characters, images, and story materials belong to their original authors, studios, and publishers. The learning theory analysis represents the views of the author of this article.</p>
+<div class="footer-social">
+<a href="https://x.com/eui_tg" rel="noopener" target="_blank">X / Twitter</a>
+<a href="https://tiktok.com/@learningiseverywheree" rel="noopener" target="_blank">TikTok · @learningiseverywheree</a>
+<a href="mailto:buitonggiang0805@gmail.com">Email</a>
+<a href="https://tellstory-blog.web.app/feed.xml">RSS</a>
+</div>
+<p class="footer-copy">
+    © 2026 Bui Tong Giang · Fieldnotes on Learning.<br/>
+    Toàn bộ bài viết, hình ảnh, demo và cách trình bày trên website này thuộc tác giả, vui lòng không sao chép toàn văn hoặc tái sử dụng mã nguồn khi chưa có sự đồng ý.
+  </p>
+</footer>
+
+<script type="module" src="comments.js"></script>
+<script id="tellstory-copy-credit">
+document.addEventListener('copy', function(e) {
+  const selected = window.getSelection().toString();
+  if (!selected || selected.length < 40) return;
+  const credit = "\n\nNguồn: Fieldnotes on Learning · Bui Tong Giang\n" + window.location.href;
+  e.clipboardData.setData('text/plain', selected + credit);
+  e.preventDefault();
+});
+</script>
+<script>
+function setLang(lang) {
+  document.body.classList.toggle('en', lang === 'en');
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.documentElement.lang = lang;
+}
+
+const progress = document.getElementById('progress');
+function updateProgress() {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('resize', updateProgress);
+updateProgress();
+
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+sections.forEach(section => observer.observe(section));
+
+(function(){
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let width, height, particles = [];
+  const colors = ['rgba(158,216,255,', 'rgba(152,231,192,', 'rgba(241,207,115,', 'rgba(246,182,202,'];
+  function resize(){
+    width = canvas.width = canvas.offsetWidth;
+    height = canvas.height = canvas.offsetHeight;
+  }
+  function Particle(){
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.vx = (Math.random() - .5) * .45;
+    this.vy = (Math.random() - .5) * .45;
+    this.r = Math.random() * 1.6 + .45;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.alpha = Math.random() * .5 + .14;
+    this.pulse = Math.random() * Math.PI * 2;
+    this.pulseSpeed = Math.random() * .02 + .006;
+  }
+  Particle.prototype.update = function(){
+    this.x += this.vx;
+    this.y += this.vy;
+    this.pulse += this.pulseSpeed;
+    if (this.x < 0) this.x = width;
+    if (this.x > width) this.x = 0;
+    if (this.y < 0) this.y = height;
+    if (this.y > height) this.y = 0;
+  };
+  Particle.prototype.draw = function(){
+    const alpha = this.alpha * (.72 + .28 * Math.sin(this.pulse));
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color + alpha + ')';
+    ctx.fill();
+  };
+  function init(){
+    resize();
+    particles = [];
+    for (let i = 0; i < 130; i++) particles.push(new Particle());
+  }
+  function drawLines(){
+    const distance = 135;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < distance) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = 'rgba(241,207,115,' + ((1 - d / distance) * .12) + ')';
+          ctx.lineWidth = .5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+  function frame(){
+    ctx.clearRect(0, 0, width, height);
+    drawLines();
+    particles.forEach(particle => { particle.update(); particle.draw(); });
+    requestAnimationFrame(frame);
+  }
+  window.addEventListener('resize', resize);
+  init();
+  frame();
+})();
+</script>
+</body>
+</html>
